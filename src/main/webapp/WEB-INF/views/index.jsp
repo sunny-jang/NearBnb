@@ -21,14 +21,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-<link href="style.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 </head>
 <body>
 <header>
   <div class="row">
     <div class="col-3">
       <h1 class="logo">
-        <a href="#"><img src ="images/logo.png"></a>
+        <a href="#"><img src ="${pageContext.request.contextPath}/resources/images/logo.png"></a>
       </h1>
     </div>
     <div class="col-9 justify-content-end align-self-center">

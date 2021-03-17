@@ -1,0 +1,93 @@
+
+header {
+  padding: 5px 15px !important;
+  box-shadow: 0px 2px 7px #ccc;
+}
+
+footer {
+  padding: 10px 30px;
+  border-top: 1px solid #ccc;
+}
+
+header, footer {
+  height: 10vh;
+}
+
+body {
+  font-family: 'Jua', sans-serif;
+}
+
+section {
+  height: 80vh;
+}
+
+section .row {
+  height: 100%;
+}
+
+a { 
+  color:#222;
+}
+
+a:hover {
+  color:#222;
+}
+
+img {
+  max-width:100%;
+}
+
+.right-menu button {
+  margin: 0px 5px;
+}
+
+.community, .add_room {
+  font-size: 20px;
+}
+
+.btn-primary {
+  background-color: rgb(139, 224, 205);
+  color: #222;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: rgb(76, 166, 146);
+}
+
+
+.btn-secondary {
+  background-color: rgb(190, 190, 190);
+  color: rgb(64, 64, 64);
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: rgb(158, 158, 158);
+}
+
+.nav-item {
+  margin: 0 10px;
+}
+
+.main-left {;
+  height: 100%;
+  padding: 20px;
+  overflow-y: scroll;
+}
+
+.place-item {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.place-image {
+  width: 100%;
+  height: 130px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.group-place {
+  margin-top: 25px;
+}

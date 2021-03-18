@@ -15,6 +15,7 @@ header, footer {
 
 body {
   font-family: 'Jua', sans-serif;
+  font-size: 14px;
 }
 
 section {
@@ -91,3 +92,25 @@ img {
 .group-place {
   margin-top: 25px;
 }
+
+.place-li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+
+.ellipsis2{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
+} 
+
+.ellipsis3{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+} 

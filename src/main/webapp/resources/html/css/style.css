@@ -114,3 +114,8 @@ img {
   -webkit-line-clamp: 3; 
   -webkit-box-orient: vertical;
 } 
+
+.sidebar_menu{
+  float:right;
+  margin-top:20px;
+}

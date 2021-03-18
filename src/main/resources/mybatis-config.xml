@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" /> <!-- 입력 값이 Null일 경우 “”이 아닌 Null로 처리 -->
+	</settings>
+
+	<typeAliases> <!-- Class 별칭을 선언하여 모든 경로를 적어주지 않아도 된다. -->
+		<typeAlias type="com.on.nearbnb.controller.model.vo.Member" alias="Member" />
+	</typeAliases>
+	
+	<!-- 사용하고자 하는 mapper를 등록한다. -->
+	<mappers>
+		<mapper resource="mapper/member-mapper.xml" />
+	</mappers>
+</configuration>

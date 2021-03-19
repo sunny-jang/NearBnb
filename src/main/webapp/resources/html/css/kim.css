@@ -40,6 +40,10 @@
   margin: 10px;
 }
 
+.content-title {
+	font-size: 18px;
+}
+
 .content {
   font-size: 22px;
 }
@@ -56,4 +60,29 @@
 
 #like {
   font-size: 27px;
+}
+
+.place-info {
+  margin: 1em 0;
+}
+
+.payment-content {
+	width: 200px;
+	height: 350px;
+    margin: 15px;
+    padding: 15px;
+    text-align: center;
+    display: inline-block;
+}
+
+.payment-icon {
+	margin-top: 130px;
+}
+
+.payment-text1 {
+	margin-top: 100px;
+}
+
+.payment-text2 {
+	margin-top: 105px;
 }

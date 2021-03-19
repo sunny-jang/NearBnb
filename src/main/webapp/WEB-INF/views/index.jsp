@@ -22,6 +22,9 @@
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+
+<!-- Icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <header>
@@ -35,7 +38,7 @@
       <div class="row justify-content-end">
         <div class="col">
           <div class="d-flex justify-content-end right-menu">
-              <button type="button" class="btn community">커뮤니티</button>
+              <button type="button" class="btn community" onclick="location.href='BoardList.do'">커뮤니티</button>
               <button type="button" class="btn btn-primary">로그인</button>
               <!-- <button type="button" class="btn add_room">내 숙소 등록하기</button> -->
               <button type="button" class="btn btn-secondary" onclick="location.href='UserIns.do'">회원가입</button>

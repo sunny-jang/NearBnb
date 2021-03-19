@@ -1,1 +1,14 @@
 /*홍정은 CSS*/
+.place-li_je {/*임시*/
+    padding: 10px;
+  }
+  
+  .card-item .side-text{
+    position: absolute;
+     top: 45%;
+    right:15px;
+  }
+  .text-price{
+      text-align: end;
+      top: -5px;
+  }

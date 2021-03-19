@@ -112,6 +112,13 @@ img {
   border-bottom: 1px solid #ccc;
 }
 
+.ellipsis1{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; 
+  -webkit-box-orient: vertical;
+} 
 
 .ellipsis2{
   overflow: hidden;
@@ -135,10 +142,26 @@ img {
 }
 
 
+
 .opacity-0 {
   opacity: 0;
 }
 
 .underline {
   text-decoration: underline;
+}
+.card_content{
+  width: 100%;
+  height: 160px;
+  border : 2px solid #ccc;
+  border-radius: 10px;
+}
+.card-item{
+  position: relative;
+}
+.card-item .btn-more{
+  position: absolute;
+  bottom: 0px;
+  left: 15px;
+
 }

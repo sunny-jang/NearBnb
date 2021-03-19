@@ -1,0 +1,52 @@
+.total{
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 20px;
+}
+.boartType1{
+    margin-left: 50px;
+}
+.search{
+    float:right;
+    margin-right: 50px;
+}
+.comT{
+    clear: both;
+    margin: 20px;
+    text-align: center;
+}
+.type{
+    height: 50px;
+}
+.List{
+    height: 40px;
+}
+.boardType2{
+    width: 190px;
+}
+.boardTitle{
+    width: 800px;
+}
+.boardHeart{
+    color: red;
+}
+.boardWriter{
+    width: 190px;
+}
+.boardDate{
+    width: 190px;
+}
+.write{
+    margin-right: 100px;
+    float: right;
+}
+table{
+    margin: 40px;
+}
+table td{
+    text-align: center;
+    color: #333;
+}
+input:focus{
+    outline: none;
+}

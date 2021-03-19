@@ -49,13 +49,23 @@
 <section>
   <div class="container">
     <div class="title">
-      <h1>예약하기</h1>
+      <h1>결제하기</h1>
     </div>
     <hr>
       <div class="row section-left">
         <!-- main-left -->
         <div class="col">
 	      <h2>결제 수단 선택</h2>
+	      <div class="payment-box d-flex justify-content-around">
+	      	<div class="payment-content bg-warning">
+	      	  <i class="fas fa-money-check payment-icon" style="font-size: 25px;"></i>
+	      	  <h5 class="payment-text1">일반 신용카드 결제</h5>
+	      	</div>
+	      	<div class="payment-content bg-warning">
+	      	  <img class="payment-icon" src="images/ico_pay_320.png" />
+	      	  <h5 class="payment-text2">카카오 페이 결제</h5>
+	      	</div>
+	      </div>
         </div>
         <!-- main-right -->
         <div class="col">
@@ -91,12 +101,12 @@
             <div class="place-info">
               <div class="content-title">요금</div>
               <div class="content">￦89,000 × 2박 = ￦178,000</div>
-            </div>            
-            <div class="d-flex justify-content-center align-self-center">
-              <button type="button" class="btn btn-warning btn-lg btn-block">결제하기</button>	
-            </div>
-          </div>        
+            </div>           
+          </div>       
         </div>
+      </div>
+      <div class="d-flex justify-content-center align-self-center">
+        <button type="button" class="btn btn-warning btn-lg">결제확인</button>	
       </div>      
     </div>
 </section>

@@ -1,4 +1,41 @@
-.place-li {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+.image-add-form {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.big-image {
+  width: 100%;
+  height: 500px;
+  background-color: #ccc;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.add-form {
+
+}
+
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid #ccc;
+  width: 100px;
+  height: 100px;
+}
+
+.file-upload input{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+
 }

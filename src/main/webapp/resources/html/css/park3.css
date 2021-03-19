@@ -1,0 +1,17 @@
+.total{
+    margin-left: 18%;
+    margin-right: 18%;
+    margin-top: 60px;
+}
+th, td{
+    padding: 15px;
+}
+.btn1{
+    border: none;
+    border-radius: 5px;
+    height:30px;
+    width: 100px;
+}
+.btn2{
+    background-color: #FFBF00; 
+}

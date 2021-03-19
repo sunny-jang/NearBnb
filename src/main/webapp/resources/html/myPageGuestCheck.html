@@ -19,6 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <link href="css/style.css" rel="stylesheet">
+<link href="css/jehong_css.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -43,10 +44,10 @@
     </div>
   </div>
 </header>
-<!--myPageReservationCheck / 마이페이지_내 숙소 예약현황-->
+<!--myPageGuestCheck / 마이페이지_내 예약 조회페이지-->
 <section>
  
-    <div class="row flex-nowrap">
+    <div class="row ">
       <!--사이드바-->
       <div class="col-2 py-md-5 ">
         <div class="sidebar_menu">
@@ -61,35 +62,38 @@
 
       <!--메인-->
       <main class="col-8 py-md-5 pl-md-4 " >
-        <h1>내 숙소 예약 현황</h1>
+        <h1>내 예약 조회 페이지</h1>
         <hr>
-        <div class="place-list">
-          <div class="place-li ">
-            <a href="#" class="row">
+        <h6 style="color: rgb(206, 0, 0);">※ 모든 숙소의 체크인 시간은 3시 / 체크아웃 시간은 12시 입니다.</h6>
+<!--place-list-->
+        <div class="card_content">
+          <div class="place-li_je">
+            <a class="row">
               <div class="place-image col-2 align-self-center">
                 <div class="place-image" style="background-color: black;"></div>
               </div>
-              <div class="col-10">
-                <span class="place-host">User11님의 숙소</span>
-                <h5 class="place-name ellipsis2">숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름</h5>
-                <p>
-                  게스트이름 : <br>
-                  총 결제금액 : 300000<br>
-                  총 인원수 : 4 명<br>
-                </p>
-                <div class="d-flex justify-content-between">
-                  <div>더보기</div>
-                  <div>30,000 원 / 박</div>
+              <div class="col-8 card-item">
+                <h5 class="place-name ellipsis2 "> 숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름</h5>
+                  <p>총 인원수 : 4 명</p>
+                 
+                  <div class="btn-more" ><!--맨 밑으로 붙일부분-->
+                    <div>상세보기</div>
+                  </div>
+              </div>
+              <div class="col-2 card-item"> 
+                <div class="side-text">
+                  <div >2021년 03월 20일</div>
                 </div>
               </div>
             </a>
-            
           </div>
-          
         </div>
+      <!--/place-list-->
+      <hr>
+      
       </main>
       <!--메인-->
-    </div>
+   
 </section>
 <footer>
   ⓒ 2021 Nearbnb, Inc. All rights reserved <br>

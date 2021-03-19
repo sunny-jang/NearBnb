@@ -22,6 +22,18 @@
 <link href="css/kim.css" rel="stylesheet">
 <!-- font awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script>
+// model checkbox jquery
+$(function(){
+	$('#allcheck').click(function(){
+		if($('#allcheck').prop('checked') == true) {
+			$('input[name=check]').prop('checked', true);
+		} else {
+			$('input[name=check]').prop('checked', false);
+		}
+	});
+});
+</script>
 </head>
 <body>
 <header>
@@ -57,7 +69,7 @@
         <div class="col">
 	      <h2>결제 수단 선택</h2>
 	      <div class="payment-box d-flex justify-content-around">
-	      	<div class="payment-content bg-warning">
+	      	<div class="payment-content bg-warning" data-toggle="modal" data-target="#normalModal">
 	      	  <i class="fas fa-money-check payment-icon" style="font-size: 25px;"></i>
 	      	  <h5 class="payment-text1">일반 신용카드 결제</h5>
 	      	</div>
@@ -109,6 +121,55 @@
         <button type="button" class="btn btn-warning btn-lg">결제확인</button>	
       </div>      
     </div>
+    <!-- normalModal -->
+    <div class="modal fade" id="normalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content container">
+          <div class="modal-header align-self-center mt-2">
+            <h1>일반 신용 결제</h1>
+          </div>
+          <div class="modal-body">
+            <div>
+              <h3>결제 수단</h3>
+            </div>
+            <select class="form-control" >
+              <option>신용카드 또는 체크카드</option>
+            </select>
+            <input type="text" class="form-control mt-2" placeholder="카드번호" />
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="만료일" />
+              <input type="text" class="form-control" placeholder="CVV" />
+            </div>
+            <div class="form-check mt-3">
+              <input type="checkbox" name="check" id="allcheck" class="form-check-input" value=""><h5>전체 동의</h5>
+            </div>
+            <div class="form-check mt-2">
+              &nbsp;&nbsp;<input type="checkbox" name="check" class="form-check-input" value=""><u>숙소이용규칙 및 취소/환불규정 동의</u><span style="font-color: red;">(필수)</span>
+            </div>
+            <div class="form-check mt-2">
+              &nbsp;&nbsp;<input type="checkbox" name="check" class="form-check-input" value=""><u>개인정보 수집 및 이용 동의</u><span style="font-color: red;">(필수)</span>
+            </div>
+            <div class="form-check mt-2">
+              &nbsp;&nbsp;<input type="checkbox" name="check" class="form-check-input" value=""><u>개인정보 제 3자 제공 동의</u><span style="font-color: red;">(필수)</span>
+            </div>  
+            <div class="form-check mt-2">
+              &nbsp;&nbsp;<input type="checkbox" name="check" class="form-check-input" value=""><u>숙소이용규칙 및 취소/환불규정 동의</u><span style="font-color: red;">(필수)</span>
+            </div>
+          </div>
+          <div class="pt-3">
+            <div class="d-flex justify-content-start ml-5">
+      	      <h4>총 결제금액</h4>
+            </div>
+            <div class="d-flex justify-content-end mr-5">
+            	<h1>178,000 원</h1>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center align-self-center m-3">
+        	<button type="button" class="btn btn-warning btn-lg">결제하기</button>	
+          </div>
+        </div>
+      </div>
+    </div>  
 </section>
 <footer>
   ⓒ 2021 Nearbnb, Inc. All rights reserved <br>

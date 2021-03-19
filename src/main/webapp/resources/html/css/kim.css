@@ -40,6 +40,10 @@
   margin: 10px;
 }
 
+.content-title {
+	font-size: 18px;
+}
+
 .content {
   font-size: 22px;
 }
@@ -56,4 +60,8 @@
 
 #like {
   font-size: 27px;
+}
+
+.place-info {
+  margin: 1em 0;
 }

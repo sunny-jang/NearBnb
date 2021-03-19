@@ -1,3 +1,4 @@
+/* 숙소등록 */
 .image-add-form {
   width: 500px;
   margin: 0 auto;
@@ -12,15 +13,6 @@
   background-size: cover;
 }
 
-.add-form {
-
-}
-
-
-.opacity-0 {
-  opacity: 0;
-}
-
 .file-upload {
   display: flex;
   align-items: center;
@@ -29,6 +21,7 @@
   border: 1px solid #ccc;
   width: 100px;
   height: 100px;
+  poiner: 
 }
 
 .file-upload input{
@@ -37,5 +30,16 @@
   position: absolute;
   left: 0;
   top: 0;
-
+  cursor: pointer;
 }
+
+
+/* 아이디찾기 */
+.id-result {
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+}
+
+
+

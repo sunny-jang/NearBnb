@@ -71,6 +71,16 @@ img {
   background-color: rgb(158, 158, 158);
 }
 
+.btn-third {
+  background-color: rgb(251, 209, 87);
+  color: rgb(64, 64, 64);
+  border: none;
+}
+
+.btn-third:hover {
+  background-color: rgb(242, 190, 40)
+}
+
 .nav-item {
   margin: 0 10px;
 }
@@ -122,4 +132,13 @@ img {
 .sidebar_menu{
   float:right;
   margin-top:20px;
+}
+
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.underline {
+  text-decoration: underline;
 }

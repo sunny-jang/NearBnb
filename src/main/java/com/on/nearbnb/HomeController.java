@@ -25,7 +25,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView modelAndView) {
-		modelAndView.setViewName("index");
+		modelAndView.setViewName("home");
 		return modelAndView;
 	}
 	

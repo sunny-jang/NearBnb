@@ -1,0 +1,106 @@
+.total{
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 20px;
+}
+.boartType1{
+    margin-left: 50px;
+}
+.search{
+    float:right;
+    margin-right: 50px;
+}
+.comT{
+    clear: both;
+    margin: 20px;
+    text-align: center;
+}
+.type{
+    height: 50px;
+}
+.List{
+    height: 40px;
+}
+.boardType2{
+    width: 190px;
+}
+.boardTitle{
+    width: 800px;
+}
+.title{
+    width: 898px;
+    height: 48px;
+    border: none;
+    margin-top: 8px;
+}
+.heart{
+    color: red;
+    display: inline;
+    font-size: 30px;
+    background-color: white;
+    border: white;
+}
+.boardWriter{
+    width: 190px;
+}
+.boardDate{
+    width: 190px;
+}
+.write1{
+    margin-right: 170px;
+    float: right;
+    background-color: lightgray;
+    width: 80px;
+    height: 34px;
+}
+.write2{
+    margin-right: 20px;
+    float: right;
+    background-color:#FFBF00;
+    width: 80px;
+    height: 34px;
+}
+.write3{
+    background-color:#FFBF00;
+    width: 80px;
+    height: 34px;
+    margin-right: 180px;
+    float: right;
+}
+.toList{
+    background-color:#FFBF00;
+    width: 80px;
+    height: 34px;
+    float: left;
+    margin-left: 180px;
+}
+.reset{
+    background-color: lightgray;
+    width: 80px;
+    height: 34px;
+    float: left;
+    margin-left: 10px;
+}
+.commentWrt{
+    width: 800px;
+    border: none;
+    outline: none;
+}
+.comment{
+    background-color:#FFBF00;
+    width: 80px;
+    height: 34px;
+    
+}
+table{
+    margin: 40px;
+    border: 1px solid #ccc;
+}
+table td{
+    border: 1px solid #ccc;
+    text-align: center;
+    color: #333;
+}
+input:focus{
+    outline: none;
+}

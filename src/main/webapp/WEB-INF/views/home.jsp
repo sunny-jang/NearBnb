@@ -1,48 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
-<html>
-<head>
-	<title>Home</title>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<link href="${pageContext.request.contextPath }/resources/html/css/style.css" rel="stylesheet">
-</head>
-<body>
-<header>
-  <div class="row">
-    <div class="col-3">
-      <h1 class="logo">
-        <a href="#"><img src ="${pageContext.request.contextPath }/resources/images/logo.png"></a>
-      </h1>
-    </div>
-    <div class="col-9 justify-content-end align-self-center">
-      <div class="row justify-content-end">
-        <div class="col">
-          <div class="d-flex justify-content-end right-menu">
-              <button type="button" class="btn community">커뮤니티</button>
-              <!-- <button type="button" class="btn btn-primary">로그인</button> -->
-              <button type="button" class="btn add_room">내 숙소 등록하기</button>
-              <button type="button" class="btn btn-secondary">회원가입</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
+ <c:set var="context" value="${pageContext.request.contextPath}" />
+<%@ include file="include/header.jsp" %>
 <section>
 <div class="row">
   <div class="col main-left">
@@ -132,9 +92,4 @@
   </div>
 </div>
 </section>
-<footer>
-  ⓒ 2021 Nearbnb, Inc. All rights reserved <br>
-  개인정보 처리방침 | 이용약관 | 변경된 환불 정책 | 회사 세부정보
-</footer>
-</body>
-</html>
+<%@ include file="include/footer.jsp" %>

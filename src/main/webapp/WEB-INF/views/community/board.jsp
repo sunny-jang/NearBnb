@@ -1,34 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="context" value="${pageContext.request.contextPath}/resources" />
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<link href="${context }/html/css/style.css" rel="stylesheet">
-<link href="${context }/html/css/park1.css" rel="stylesheet">
-</head>
-<body>
-<header>
+ <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
-</header>
+<link href="${context}/html/css/park1.css" rel="stylesheet">
 <section>
 <div class="total">
   <h2>커뮤니티</h2>
@@ -48,7 +23,7 @@
     <input type="text" style="margin-left: 10px; height: 20px;">
     <input type="submit" class="btn" value="검색">
   </form>
-  <table class="comT">
+  <table class="comT" style="border: 1px solid black;">
     <tr class="type">
       <td class="boardType2">게시글 종류</td>
       <td class="boardTitle">게시글 제목</td>
@@ -59,7 +34,7 @@
     <tr></tr>
     <tr class="List">
       <td>종류1</td>
-      <td><a href="boardRead.html">제목1</a></td>
+      <td><a href="boardRead.do">제목1</a></td>
       <td>12</td>
       <td>홍길동</td>
       <td>2021-03-18</td>
@@ -75,8 +50,4 @@
 </div>
 <input type="button" class="write btn" onclick="location.href='boardWrite.do'" value="글쓰기" >
 </section>
-<footer>
 <%@ include file="../include/footer.jsp" %>
-</footer>
-</body>
-</html>

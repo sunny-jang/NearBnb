@@ -4,7 +4,7 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
-<section>
+<section style="height: 100vh;">
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
@@ -12,7 +12,7 @@
     <form class="center">
       <table>
         <tr>
-            <td style="width: 300px;">제목</td>
+            <td style="width: 100px;">제목</td>
             <td style="width: 900px; height: 50px;">
                 <h2><input type="text" class="title" placeholder=" 제목"></h2>
             </td>
@@ -45,7 +45,7 @@
       </table>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
       <input type="reset" class="btn reset">
-      <input type="submit" class="write3 btn" onclick="location.href='boardWrite.html'" value="글쓰기">
+      <input type="submit" class="write3 btn" onclick="location.href='boardWrite.do'" value="수정하기">
   </form>
 </center>
 </div>

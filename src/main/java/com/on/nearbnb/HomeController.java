@@ -139,7 +139,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/boardRewrite.do", method = RequestMethod.GET)
 	public ModelAndView boardRewrite(ModelAndView modelAndView) {
-		modelAndView.setViewName("boardRewrite");
+		modelAndView.setViewName("community/boardRewrite");
 		return modelAndView;
 	}
 	

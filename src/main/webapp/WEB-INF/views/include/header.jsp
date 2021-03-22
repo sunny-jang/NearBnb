@@ -33,7 +33,7 @@
       <div class="row justify-content-end">
         <div class="col">
           <div class="d-flex justify-content-end right-menu">
-              <button type="button" class="btn community">커뮤니티</button>
+              <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <!-- <button type="button" class="btn btn-primary">로그인</button> -->
               <button type="button" class="btn add_room">내 숙소 등록하기</button>
               <button type="button" class="btn btn-secondary">회원가입</button>

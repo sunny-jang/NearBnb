@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet"> <!--CDN 링크 -->
-<link href="css/style.css" rel="stylesheet">
-<link href="css/kim.css" rel="stylesheet">
-<!-- font awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="../include/header.jsp" %>
 <script>
 // model checkbox jquery
 $(function(){
@@ -34,30 +13,6 @@ $(function(){
 	});
 });
 </script>
-</head>
-<body>
-<header>
-  <div class="row">
-    <div class="col-3">
-      <h1 class="logo">
-        <a href="#"><img src ="images/logo.png"></a>
-      </h1>
-    </div>
-    <div class="col-9 justify-content-end align-self-center">
-      <div class="row justify-content-end">
-        <div class="col">
-          <div class="d-flex justify-content-end right-menu">
-              <button type="button" class="btn community">커뮤니티</button>
-              <!-- <button type="button" class="btn btn-primary">로그인</button> -->
-              <button type="button" class="btn add_room">내 숙소 등록하기</button>
-              <button type="button" class="btn btn-secondary">회원가입</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
-<!-- section -->
 <section>
   <div class="container">
     <div class="title">
@@ -171,9 +126,4 @@ $(function(){
       </div>
     </div>  
 </section>
-<footer>
-  ⓒ 2021 Nearbnb, Inc. All rights reserved <br>
-  개인정보 처리방침 | 이용약관 | 변경된 환불 정책 | 회사 세부정보
-</footer>
-</body>
-</html>
+<%@ include file="../include/footer.jsp" %>

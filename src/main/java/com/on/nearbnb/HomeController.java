@@ -67,37 +67,37 @@ public class HomeController {
 	
 	@RequestMapping(value = "/signUp.do", method = RequestMethod.GET)
 	public ModelAndView signUp(ModelAndView modelAndView) {
-		modelAndView.setViewName("signUp");
+		modelAndView.setViewName("/member/signUp");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/signIn.do", method = RequestMethod.GET)
 	public ModelAndView signIn(ModelAndView modelAndView) {
-		modelAndView.setViewName("signIn");
+		modelAndView.setViewName("/member/signIn");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/findId.do", method = RequestMethod.GET)
 	public ModelAndView findId(ModelAndView modelAndView) {
-		modelAndView.setViewName("findId");
+		modelAndView.setViewName("/member/findId");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/findIdResult.do", method = RequestMethod.GET)
 	public ModelAndView findIdResult(ModelAndView modelAndView) {
-		modelAndView.setViewName("findIdResult");
+		modelAndView.setViewName("/member/findIdResult");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/findPassword.do", method = RequestMethod.GET)
 	public ModelAndView findPassword(ModelAndView modelAndView) {
-		modelAndView.setViewName("findPassword");
+		modelAndView.setViewName("/member/findPassword");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/sentPasswordEmail.do", method = RequestMethod.GET)
 	public ModelAndView sentPassword(ModelAndView modelAndView) {
-		modelAndView.setViewName("sentPasswordEmail");
+		modelAndView.setViewName("/member/sentPasswordEmail");
 		return modelAndView;
 	}
 	

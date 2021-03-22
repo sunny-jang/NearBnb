@@ -97,25 +97,25 @@ public class HomeController {
 	
 	@RequestMapping(value = "/mypage.do", method = RequestMethod.GET)
 	public ModelAndView mypage(ModelAndView modelAndView) {
-		modelAndView.setViewName("mypage");
+		modelAndView.setViewName("/myPage/myPage");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/myPageHostCheck.do", method = RequestMethod.GET)
 	public ModelAndView myPageHostCheck(ModelAndView modelAndView) {
-		modelAndView.setViewName("myPageHostCheck");
+		modelAndView.setViewName("/myPage/myPageHostCheck");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/myPageHostCalendar.do", method = RequestMethod.GET)
 	public ModelAndView myPageHostCalendar(ModelAndView modelAndView) {
-		modelAndView.setViewName("myPageHostCalendar");
+		modelAndView.setViewName("/myPage/myPageHostCalendar");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/myPageGuestCheck.do", method = RequestMethod.GET)
 	public ModelAndView myPageGuestCheck(ModelAndView modelAndView) {
-		modelAndView.setViewName("myPageGuestCheck");
+		modelAndView.setViewName("/myPage/myPageGuestCheck");
 		return modelAndView;
 	}
 	

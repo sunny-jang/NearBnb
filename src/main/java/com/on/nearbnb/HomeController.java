@@ -31,37 +31,37 @@ public class HomeController {
 	
 	@RequestMapping(value = "/placeAdd.do", method = RequestMethod.GET)
 	public ModelAndView placeAdd(ModelAndView modelAndView) {
-		modelAndView.setViewName("place/placeAdd");
+		modelAndView.setViewName("/place/placeAdd");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/placeList.do", method = RequestMethod.GET)
 	public ModelAndView placeList(ModelAndView modelAndView) {
-		modelAndView.setViewName("place/placeList");
+		modelAndView.setViewName("/place/placeList");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
 	public ModelAndView placeDetail(ModelAndView modelAndView) {
-		modelAndView.setViewName("place/placeDetail");
+		modelAndView.setViewName("/place/placeDetail");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/placeReservation.do", method = RequestMethod.GET)
 	public ModelAndView placeReservation(ModelAndView modelAndView) {
-		modelAndView.setViewName("place/placeReservation");
+		modelAndView.setViewName("/place/placeReservation");
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/placePayment.do", method = RequestMethod.GET)
 	public ModelAndView placePayment(ModelAndView modelAndView) {
-		modelAndView.setViewName("place/placePayment");
+		modelAndView.setViewName("/place/placePayment");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/reservationComplete.do", method = RequestMethod.GET)
 	public ModelAndView reservationComplete(ModelAndView modelAndView) {
-		modelAndView.setViewName("place/reservationComplete");
+		modelAndView.setViewName("/place/reservationComplete");
 		return modelAndView;
 	}
 	

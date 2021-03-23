@@ -21,11 +21,12 @@
       <option value="3">작성자</option>
     </select>
     <input type="text" style="margin-left: 10px; height: 20px;">
-    <input type="submit" class="btn" value="검색">
+    <input type="submit" class="btn" style="font-size: 17px;" value="검색">
   </form>
-  <table class="comT" style="border: 1px solid black;">
+  <center>
+  <table class="comT" style="font-size: 20px;">
     <tr class="type">
-      <td class="boardType2">게시글 종류</td>
+      <td class="boardType2" style="width: 250px;">게시글 종류</td>
       <td class="boardTitle">게시글 제목</td>
       <td class="boardHeart">♥</td>
       <td class="boardWriter">작성자</td>
@@ -47,7 +48,8 @@
       <td>2021-03-18</td>
     </tr>
   </table>
+  </center>
 </div>
-<input type="button" class="write btn" onclick="location.href='boardWrite.do'" value="글쓰기" >
+<input type="button" class="btn write" style="background-color:#FFBF00; height: 34px;" onclick="location.href='boardWrite.do'" value="글쓰기" >
 </section>
 <%@ include file="../include/footer.jsp" %>

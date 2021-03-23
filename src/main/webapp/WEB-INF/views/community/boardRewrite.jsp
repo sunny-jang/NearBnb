@@ -10,11 +10,11 @@
   <hr>
   <center>
     <form class="center">
-      <table>
+      <table style="font-size: 20px;">
         <tr>
             <td style="width: 100px;">제목</td>
             <td style="width: 900px; height: 50px;">
-                <h2><input type="text" class="title" placeholder=" 제목"></h2>
+                <h2><input type="text" class="title" style="margin-top: 17px;" placeholder=" 제목"></h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
                 <select style="border: none;">

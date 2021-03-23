@@ -3,8 +3,11 @@
     margin-right: 60px;
     margin-top: 20px;
 }
+secetion{
+	font-size: 20px;
+}
 .boartType1{
-    margin-left: 50px;
+    margin-left: 350px;
 }
 .search{
     float:right;

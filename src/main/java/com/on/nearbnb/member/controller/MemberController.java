@@ -1,4 +1,4 @@
-package com.on.nearbnb;
+package com.on.nearbnb.member.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -16,9 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class MemberController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.

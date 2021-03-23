@@ -13,6 +13,7 @@ pw <input type="text" name="userPw" /><br>
 name <input type="text" name="userName" /><br>
 phone <input type="text" name="userPhone" /><br>
 email <input type="text" name="userEmail" /><br>
+<input type="submit" value="제발되라" />
 </form>
 
 </body>

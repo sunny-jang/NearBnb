@@ -7,15 +7,13 @@
 		<!-- 원래는 풀 패스를 적어줘야 하지만 mybatis-config.xml에 정의 해뒀으니 괜찮다. -->
 		<!-- ex) type="com.mvcproject.memberController.model.vo.Member" -->
 		<!-- PK는 id태그 이용 -->
-		<id property="id" column="ID"/>
-		<result property="passwd" column="PASSWD"/>
-		<result property="name" column="NAME"/>
-		<result property="email" column="EMAIL"/>
-		<result property="gender" column="GENDER"/>
-		<result property="age" column="AGE"/>
-		<result property="phone" column="PHONE"/>
-		<result property="address" column="ADDRESS"/>
-		<result property="enrollDate" column="ENROLL_DATE"/>
+		<id property="userId" column="U_ID"/>
+		<result property="userPw" column="USER_PW"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="userPhone" column="USER_PHONE"/>
+		<result property="userEmail" column="USER_EMAIL"/>
+		<result property="userRole" column="USER_ROLE"/>
+		<result property="userRegdate" column="USER_REGDATE"/>
 	</resultMap>
 	
 	<!-- member table의 모든 데이터 select -->
@@ -23,5 +21,9 @@
 	<select id="selectMemberAll" resultMap="resultMember"> 
 		SELECT * FROM MEMBER
 	</select>
+	
+	<insert id="insertMember" parameterType="Member">
+		INSERT INTO MEMBER VALUES(#{userId}, #{userPw}, #{userName}, #{userPhone}, #{userEmail}, DEFAULT, DEFAULT)
+	</insert>
 	
 </mapper>

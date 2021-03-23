@@ -1,8 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
+<script>
+	$(function() {
+		$("input[name=imageUpload]").on("change", function() {
+			var file = $(this)[0].files[0];
+            var formData = new FormData();
+            formData.append("image", file);
+            console.log(formData)
+            console.log(formData.entries().next())
+            
+            console.log(formData.get("images"))
+
+			$.ajax({
+				url: 'addFile.do',
+				method: 'post',
+				data: new FormData($("#addForm")[0]),
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					console.log(data);
+				},
+				error: function(error) {
+					console.log();
+				}
+			})
+		})
+	});
+</script>
 <section class="row justify-content-center m-0">
-  <form action="" class="col-8">
+  <form action="" class="col-8" enctype="multipart/form-data" id="addForm" accept-charset="utf-8">
     <h2 class="mt-3 mb-3">
       이름님이 호스팅하는 아파트
     </h2>
@@ -14,25 +41,25 @@
               <div class="file-upload">
                 <a href="#">
                   <i class="fa fa-camera" style="font-size: 25px;"></i>
-                  <input type="file" class="opacity-0">
+                  <input type="file" class="opacity-0" name="imageUpload">
                 </a>
               </div>
               <div class="file-upload">
                 <a href="#">
                   <i class="fa fa-camera" style="font-size: 25px;"></i>
-                  <input type="file" class="opacity-0">
+                  <input type="file" class="opacity-0" name="imageUpload">
                 </a>
               </div>
               <div class="file-upload">
                 <a href="#">
                    <i class="fa fa-camera" style="font-size: 25px;"></i>
-                  <input type="file" class="opacity-0">
+                  <input type="file" class="opacity-0" name="imageUpload">
                 </a>
               </div>
               <div class="file-upload">
                 <a href="#">
                   <i class="fa fa-camera" style="font-size: 25px;"></i>
-                  <input type="file" class="opacity-0">
+                  <input type="file" class="opacity-0" name="imageUpload">
                 </a>
               </div>
               

@@ -56,6 +56,11 @@ public class Member {
 		this.userRegdate = userRegdate;
 	}
 	
+	@Override
+	public String toString() {
+		return "Member [userId=" + userId + ", userPw=" + userPw + ", userName=" + userName + ", userPhone=" + userPhone
+				+ ", userEmail=" + userEmail + ", userRole=" + userRole + ", userRegdate=" + userRegdate + "]";
+	}
 	
 
 }

@@ -26,7 +26,7 @@
   <div class="row">
     <div class="col-3">
       <h1 class="logo">
-        <a href="#"><img src ="${context}/html/images/logo.png"></a>
+        <a href="index.do"><img src ="${context}/html/images/logo.png"></a>
       </h1>
     </div>
     <div class="col-9 justify-content-end align-self-center">

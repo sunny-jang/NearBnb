@@ -10,11 +10,11 @@
   <hr>
   <center>
     <form class="center">
-      <table>
+      <table style="font-size: 20px;">
         <tr>
             <td>제목</td>
             <td style="width: 800px; height: 50px;">
-                <h2><input type="text" class="title" placeholder=" 제목"></h2>
+                <h2><input type="text" class="title" style="margin-top: 17px;"placeholder=" 제목" readonly></h2>
             </td>
             <td style="width: 100px;">
               <input type="button" value="♥"  class="heart">
@@ -48,7 +48,7 @@
         </tr>
         <tr>
           <td>
-            댓글 작성자
+            댓글
           </td>
           <td colspan="3" style="height: 45px;">
             댓글 내역

@@ -8,13 +8,13 @@
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
-  <center>
+  <center style="font-size: 23px;">
     <form class="center">
       <table>
         <tr>
             <td style="width: 300px;">제목</td>
             <td style="width: 900px; height: 50px;">
-                <h2><input type="text" class="title" placeholder=" 제목"></h2>
+                <h2><input type="text" class="title" style="margin-top: 17px;" placeholder=" 제목"></h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
                 <select style="border: none;">

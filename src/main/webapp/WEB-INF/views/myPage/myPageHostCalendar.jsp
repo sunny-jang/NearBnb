@@ -37,17 +37,7 @@
 <section>
  
   <div class="row flex-nowrap">
-    <!--사이드바-->
-    <div class="col-3 py-md-5 ">
-      <div class="sidebar_menu">
-       <h2>마이페이지</h2>
-       <a href="#"><h5>- 내 예약 조회</h5></a>
-       <a href="#"><h5>- 내 숙소 예약 현황</h5></a>
-        <a href="#"><h5>- 회원수정 / 탈퇴</h5></a>
-      </div>
-     
-    </div>
-    <!--사이드바 끝-->
+      <%@ include file="../include/sidemenu.jsp" %>
     <!--메인-->
     <main class="col-8 py-md-5 pl-md-4 " >
       <h1>내 숙소 예약 현황</h1>

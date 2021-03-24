@@ -17,9 +17,13 @@ public class BoardServiceImpl implements BoardService {
 	// 게시판 목록 조회
 	@Override
 	public List<Board> selectBoardList(){
-		System.out.println("서비스");
-		System.out.println(boardDao.selectBoardList());
 		return boardDao.selectBoardList();
+	}
+	
+	// 게시글 상세 조회
+	@Override
+	public Board selectBoardOne(int boardCodeSeq) {
+		return boardDao.selectBoardOne(boardCodeSeq);
 	}
 	
 	// 게시글 등록하기
@@ -33,5 +37,7 @@ public class BoardServiceImpl implements BoardService {
 	public int updateBoard(Board board) {
 		return boardDao.updateBoard(board);
 	}
+
+	
 
 }

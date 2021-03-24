@@ -9,6 +9,9 @@ public interface BoardService {
 	// 게시글 목록 조회
 	public List<Board> selectBoardList();
 	
+	// 게시글 상세 조회
+	public Board selectBoardOne(int boardCodeSeq);
+	
 	// 게시글 등록하기
 	public int insertBoard(Board board);
 	

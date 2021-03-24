@@ -9,4 +9,9 @@
 		BOARD_SEQ.NEXTVAL, #{userId}, #{boardTitle}, #{boardContent},
 		#{boardType}, SYSDATE, 0, 0)
 </insert>
+
+<!-- 게시글 수정하기 -->
+<!-- <update id="updateBoard" parameterType="Board">
+</update> -->
+
 </mapper>

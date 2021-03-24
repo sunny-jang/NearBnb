@@ -1,6 +1,11 @@
 package com.on.nearbnb.board.controller;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,22 +26,31 @@ public class BoardController {
 	// 게시판 목록 조회
 	@RequestMapping(value = "board.do", method = RequestMethod.GET)
 	public ModelAndView boardListService(ModelAndView modelAndView) {
-		System.out.println("컨트롤러");
 		List<Board> boardList = boardService.selectBoardList();
-		System.out.println(boardList);
 		modelAndView.addObject("boardList", boardList);
 		modelAndView.setViewName("community/board");
 		
 		return modelAndView;
 	}
 	
+	// 게시글 상세 조회
+	@RequestMapping(value = "boadSelectOneCon.do", method = RequestMethod.GET)
+	public ModelAndView boardSelectOneService(int boardCodeSeq, ModelAndView modelAndView) {
+		Board board = boardService.selectBoardOne(boardCodeSeq);
+		modelAndView.addObject("board", board);
+		modelAndView.setViewName("community/boardRead");
+		
+		return modelAndView;
+		
+	}
+	
 	// 게시글 등록하기
 	@RequestMapping(value = "boardWriteCon.do", method = RequestMethod.POST)
-	public ModelAndView boardInsertService(Board board, ModelAndView modelAndView) {
+	public ModelAndView boardInsertService(Board board, ModelAndView modelAndView) throws ServletException, IOException {
+		boardService.insertBoard(board);
 		
-		int result = boardService.insertBoard(board);
-		
-		modelAndView.addObject("result", result);
+		List<Board> boardList = boardService.selectBoardList();
+		modelAndView.addObject("boardList", boardList);
 		modelAndView.setViewName("community/board");
 		
 		return modelAndView;
@@ -46,9 +60,10 @@ public class BoardController {
 	@RequestMapping(value = "boardUpdateCon.do", method = RequestMethod.POST)
 	public ModelAndView boardUpdateService(Board board, ModelAndView modelAndView) {
 		
-		int result = boardService.updateBoard(board);
+		boardService.updateBoard(board);
 		
-		modelAndView.addObject("result", result);
+		List<Board> boardList = boardService.selectBoardList();
+		modelAndView.addObject("boardList", boardList);
 		modelAndView.setViewName("community/board");
 		
 		return modelAndView;

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
+<jsp:useBean id="today" class="java.util.Date" />
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park1.css" rel="stylesheet">
@@ -45,10 +47,11 @@
     		<c:otherwise>
 			    <tr class="List">
 			      <td>${board.boardType }</td>
-			      <td><a href="boardRead.do">${board.boardTitle }</a></td>
+			      <td><a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }">${board.boardTitle }</a></td>
 			      <td>${board.boardThumb }</td>
 			      <td>${board.userId }</td>
-			      <td>${board.boardDate }</td>
+			      <td><fmt:formatDate value="${board.boardDate }" type="DATE" dateStyle="MEDIUM"/></td>
+			      <%-- <td>${date }</td> --%>
 			    </tr>
 		    </c:otherwise>
 	    </c:choose>

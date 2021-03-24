@@ -20,6 +20,12 @@ public class BoardDao {
 		return boardList;
 	}
 	
+	// 게시글 상세 조회
+	public Board selectBoardOne(int boardCodeSeq) {
+		Board board = sqlSession.selectOne("Board.selectBoardOne", boardCodeSeq);
+		return board;
+	}
+	
 	// 게시글 등록하기
 	public int insertBoard(Board board) {
 		int cnt = sqlSession.insert("Board.insertBoard", board);

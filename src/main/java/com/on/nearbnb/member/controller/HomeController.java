@@ -125,11 +125,11 @@ public class HomeController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/board.do", method = RequestMethod.GET)
-	public ModelAndView board(ModelAndView modelAndView) {
-		modelAndView.setViewName("community/board");
-		return modelAndView;
-	}
+//	@RequestMapping(value = "/board.do", method = RequestMethod.GET)
+//	public ModelAndView board(ModelAndView modelAndView) {
+//		modelAndView.setViewName("community/board");
+//		return modelAndView;
+//	}
 	
 	@RequestMapping(value = "/boardRead.do", method = RequestMethod.GET)
 	public ModelAndView boardRead(ModelAndView modelAndView) {

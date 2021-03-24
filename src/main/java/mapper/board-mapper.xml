@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN:"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Board">
+<resultMap id="resultBoard" type="Board">
+	<!-- prop 는 필드명, column 은 DB 컬럼 명 -->
+	<id property="boardCodeSeq" column="BOARD_CODE_SEQ"/>
+	<result  property="userId" column="USER_ID" />
+	<result property="boardTitle" column="BOARD_TITLE" />
+	<result property="boardContent" column="BOARD_CONTENT" />
+	<result property="boardType" column="BOARD_TYPE" />
+	<result property="boardDate" column="BOARD_DATE"/>
+	<result property="boardThumb" column="BOARD_THUMB" />
+	<result property="boardCount" column="BOARD_COUNT" />
+</resultMap>
+
+<!-- 게시글 목록 조회 -->
+<select id="selectBoardList" parameterType="Board" resultType="Board" resultMap="resultBoard">
+SELECT * FROM BOARD
+</select>
 
 <!-- 게시글 등록하기 -->
 <insert id="insertBoard"  parameterType="Board">
@@ -11,7 +27,11 @@
 </insert>
 
 <!-- 게시글 수정하기 -->
-<!-- <update id="updateBoard" parameterType="Board">
-</update> -->
+<update id="updateBoard" parameterType="Board">
+	UPDATE BOARD SET BOARD_TITLE=#{boardTitle}, BOARD_CONTENT=#{boardContent},
+		BOARD_TYPE=#{boardType}, WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+</update>
+
+
 
 </mapper>

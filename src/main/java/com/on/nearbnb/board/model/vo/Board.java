@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Board {
 
+	private int boardCodeSeq;
 	private String userId;
 	private String boardTitle;
 	private String boardContent;
@@ -15,6 +16,8 @@ public class Board {
 	private int boardThumb;
 	private int boardCount;
 	
+	public int getBoardCodeSeq() {		return boardCodeSeq;	}
+	public void setBoardCodeSeq(int boardCodeSeq) {		this.boardCodeSeq = boardCodeSeq;	}
 	public String getUserId() {		return userId;	}
 	public void setUserId(String userId) {		this.userId = userId;	}
 	public String getBoardTitle() {		return boardTitle;	}

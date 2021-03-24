@@ -9,7 +9,7 @@
   <h2>커뮤니티</h2>
   <hr>
   <center>
-    <form class="center">
+    <form class="center" action="boardUpdateCon.do" method="post">
       <table style="font-size: 20px;">
         <tr>
             <td>제목</td>

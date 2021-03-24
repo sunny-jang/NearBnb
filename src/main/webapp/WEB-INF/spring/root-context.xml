@@ -32,9 +32,9 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@49.247.26.104:1521:xe" />
-		<property name="username" value="team04" />
-		<property name="password" value="joyking" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="ST02" />
+		<property name="password" value="ST02" />
 	</bean>
 	<beans:bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -69,12 +69,12 @@
 		<aop:advisor pointcut-ref="txAdvisePointCut"
 			advice-ref="txAdvice" />
 	</aop:config> -->
-	<aop:config proxy-target-class="true">
-		<!-- <aop:pointcut id="daoMethod"
-			expression="execution(* com.on..*Impl.*(..)))" /> -->
+<!-- 	<aop:config proxy-target-class="true">
+		<aop:pointcut id="daoMethod"
+			expression="execution(* com.on..*Impl.*(..)))" />
 	<aop:pointcut id="daoMethod"
 			expression="execution(* com.on..*Impl.*(..)))" />			
 		<aop:advisor id="transactionAdvisor"
 			pointcut-ref="daoMethod" advice-ref="txAdvice" />
-	</aop:config>
+	</aop:config> -->
 </beans>

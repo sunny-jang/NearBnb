@@ -9,15 +9,15 @@
   <h2>커뮤니티</h2>
   <hr>
   <center style="font-size: 23px;">
-    <form class="center">
+    <form class="center" action="boardWriteCon.do" method="post">
       <table>
         <tr>
             <td style="width: 300px;">제목</td>
             <td style="width: 900px; height: 50px;">
-                <h2><input type="text" class="title" style="margin-top: 17px;" placeholder=" 제목"></h2>
+                <h2><input type="text" class="title" style="margin-top: 17px;" placeholder=" 제목" name="boardTitle"></h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
-                <select style="border: none;">
+                <select style="border: none;" name="boardType">
                     <option value="1">종류</option>
                     <option value="2">추천</option>
                     <option value="3">주변시설</option>
@@ -38,7 +38,7 @@
                 글 내용
             </td>
             <td colspan="2">
-                <textarea style="width: 100%;">
+                <textarea style="width: 100%;" name="boardContent">
                 </textarea>
             </td>
         </tr>

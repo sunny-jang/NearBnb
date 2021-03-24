@@ -30,5 +30,16 @@ public class MemberController {
 		modelAndView.setViewName("member/test");		
 		return modelAndView;
 	}
+	
+	@RequestMapping(value = "/memberIns.do", method = RequestMethod.POST)
+	public ModelAndView insertMember(Member member, ModelAndView modelAndView) throws Exception {
+		int cnt = memberService.insertMember(member);
+		if(cnt == 1) {
+			modelAndView.setViewName("member/memberInsComplete");
+		} else {
+			modelAndView.setViewName("member/memberErrorPage");
+		}
+		return modelAndView;
+	}
 
 }

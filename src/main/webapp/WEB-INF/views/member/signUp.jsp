@@ -9,7 +9,7 @@
         <h2>회원가입</h2>
         <hr>
         <center>
-            <form>
+            <form action="memberIns.do" method="POST">
                 <table style="width: 600px;">
                     <tr>
                         <th>

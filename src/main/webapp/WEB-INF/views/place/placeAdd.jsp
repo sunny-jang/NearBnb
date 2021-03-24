@@ -1,25 +1,73 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c94691936a8b9eaab5061c790ac82c96&libraries=services,clusterer,drawing"></script>
+ <c:set var="context" value="${pageContext.request.contextPath}" />
 <script>
 	$(function() {
+		
+		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+		var options = { //지도를 생성할 때 필요한 기본 옵션
+			center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+			level: 3 //지도의 레벨(확대, 축소 정도)
+		};
+
+		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+		
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+		$(".find-address").on("click", function() {
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+
+			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+			        // 결과값으로 받은 위치를 마커로 표시합니다
+			        var marker = new kakao.maps.Marker({
+			            map: map,
+			            position: coords
+			        });
+
+			        // 인포윈도우로 장소에 대한 설명을 표시합니다
+			        var infowindow = new kakao.maps.InfoWindow({
+			            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+			        });
+			        infowindow.open(map, marker);
+
+			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			        map.setCenter(coords);
+			    } 
+			});    
+		})
+		
+		
+		
 		$("input[name=imageUpload]").on("change", function() {
-			var file = $(this)[0].files[0];
+			var _this = $(this);
+			console.log(_this)
+			var file = _this[0].files[0];
             var formData = new FormData();
             formData.append("image", file);
-            console.log(formData)
-            console.log(formData.entries().next())
+        
             
-            console.log(formData.get("images"))
+            console.log(new FormData($("#addForm")[0]).entries().next())
+            
+            console.log(formData.entries().next())
 
 			$.ajax({
-				url: 'addFile.do',
-				method: 'post',
-				data: new FormData($("#addForm")[0]),
+				url: 'addFile',
+				method: 'POST',
+				data: formData,
 				processData: false,
 				contentType: false,
 				success: function(data) {
-					console.log(data);
+					_this.closest("div").css("background-image", "url(/nearbnb/resources/html/images/"+data+")");
+					$(".big-image").css("background-image", "url(/nearbnb/resources/html/images/"+data+")");
+					
 				},
 				error: function(error) {
 					console.log();
@@ -41,13 +89,13 @@
               <div class="file-upload">
                 <a href="#">
                   <i class="fa fa-camera" style="font-size: 25px;"></i>
-                  <input type="file" class="opacity-0" name="imageUpload">
+                  <input type="file" class="opacity-0 aa" name="imageUpload">
                 </a>
               </div>
               <div class="file-upload">
                 <a href="#">
                   <i class="fa fa-camera" style="font-size: 25px;"></i>
-                  <input type="file" class="opacity-0" name="imageUpload">
+                  <input type="file" class="opacity-0 bb" name="imageUpload">
                 </a>
               </div>
               <div class="file-upload">
@@ -67,7 +115,7 @@
           </div>
 
           <div class="show-map mt-3 justify-content-center row">
-            <a href="https://map.kakao.com/?urlX=496065&urlY=1129583&urlLevel=3&map_type=TYPE_MAP&map_hybrid=false" target="_blank"><img width="500" height="500" src="https://map2.daum.net/map/mapservice?FORMAT=PNG&SCALE=2.5&MX=496065&MY=1129583&S=0&IW=504&IH=310&LANG=0&COORDSTM=WCONGNAMUL&logo=kakao_logo" style="border:1px solid #ccc"></a><div class="hide" style="overflow:hidden;padding:7px 11px;border:1px solid #dfdfdf;border-color:rgba(0,0,0,.1);border-radius:0 0 2px 2px;background-color:#f9f9f9;width:482px;"><strong style="float: left;"><img src="//t1.daumcdn.net/localimg/localimages/07/2018/pc/common/logo_kakaomap.png" width="72" height="16" alt="카카오맵"></strong><div style="float: right;position:relative"><a style="font-size:12px;text-decoration:none;float:left;height:15px;padding-top:1px;line-height:15px;color:#000" target="_blank" href="https://map.kakao.com/?urlX=496065&urlY=1129583&urlLevel=3&map_type=TYPE_MAP&map_hybrid=false">지도 크게 보기</a></div></div>
+          <div id="map" style="width:500px;height:400px;"></div>
           </div>
          
       </div>
@@ -83,7 +131,7 @@
               <i class="fa fa-address-card-o pr-2" style="font-size:24px"></i>주소
             </div>
             <div class="w-50">
-              <input type="text" placeholder="주소를 입력해주세요." name="" class="w-100 p-2 mb-2">
+              <input type="text" placeholder="주소를 입력해주세요." name="" class="w-100 p-2 mb-2"><button type="button" class="btn btn-primary find-address">등록하기</button>
               <input type="text" placeholder="상세 주소를 입력해주세요." name="" class="w-100 p-2">
             </div>
             

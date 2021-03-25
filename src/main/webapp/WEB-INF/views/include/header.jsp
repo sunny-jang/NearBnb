@@ -36,7 +36,7 @@
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <!-- <button type="button" class="btn btn-primary">로그인</button> -->
               <button type="button" class="btn add_room">내 숙소 등록하기</button>
-              <button type="button" class="btn btn-secondary">회원가입</button>
+              <button type="button" class="btn btn-secondary" onclick="location.href='signUp.do'">회원가입</button>
           </div>
         </div>
       </div>

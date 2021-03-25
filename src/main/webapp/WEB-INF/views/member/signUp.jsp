@@ -13,6 +13,9 @@
 		var checkPhone = false;
 		var checkEmail = false;
 		var checkAuthentication = false;
+		// 인증번호 저장용
+		var saveNum;
+		
 		// 아이디 중복&유효성 검사
 		$('#checkId').click(function(){
 			var userId = $('#userId').val();
@@ -42,7 +45,7 @@
 			var userPw = $('#userPw').val();
 			var pwCheck = RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\,.<>\/?]).{8,20}$/);
 			if(pwCheck.test(userPw) == false) {
-				$('#alertPw').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">8~20자의 영문 대소문자와 숫자, 특수문자만 사용가능합니다.</td>').css('color','red');
+				$('#alertPw').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">8~20자의 영문 대소문자와 숫자, 특수문자가 하나이상 포함되어야 합니다.</td>').css('color','red');
 				checkPw = false;
 			} else {
 				$('#alertPw').html('');
@@ -96,7 +99,68 @@
 				checkEmail = true;
 			}
 		});
-	});
+		// 인증메일 보내기
+		$('#authButton').click(function(){
+			var userEmail = $('#userEmail').val();
+			$.ajax({
+				url : 'authNum.do',
+				type : 'POST',
+				data : { authNum : userEmail },
+				success : function(data) {
+					alert('해당 이메일로 인증 메일이 발송되었습니다.');
+					saveNum = data;
+					console.log(saveNum);
+				},
+				error : function(request, status, error){}
+			});
+		});
+		// 인증번호 검증
+		$('#checkAuthNum').click(function(){
+			var authNum = $('#authNum').val();
+			if(authNum != saveNum) {
+				$('#alertAuth').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">인증번호가 일치하지 않습니다.</td>').css('color','red');
+				checkAuthentication = false;
+			} else {
+				$('#alertAuth').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">인증되었습니다.</td>').css('color','green');
+				checkAuthentication = true;
+			}
+		});		
+		// 각 항목 null 체크 및 중복, 인증했는지 확인
+		$('form').submit(function(){
+			if(checkId == false) {
+				alert('아이디를 입력후 중복확인을 해주세요.');
+				return false;
+			}
+			if(checkPw == false) {
+				alert('비밀번호를 입력해주세요');
+				return false;
+			}
+			if(checkPwCheck == false) {
+				alert('비밀번호 확인을 해주세요.');
+				return false;
+			}
+			if(checkName == false) {
+				alert('이름을 입력해주세요.');
+				return false;
+			}
+			if(checkPhone == false) {
+				alert('전화번호를 입력해주세요.');
+				return false;
+			}
+			if(checkEmail == false) {
+				alert('이메일을 입력해주세요');
+				return false;
+			}
+			if(checkAuthentication == false) {
+				alert('인증번호를 확인해주세요.');
+				return false;
+			}
+			if($('#authCheckbox').is(":checked") == false) {
+				alert('개인정보 처리방침 동의체크를 해주세요.');
+				return false;
+			}
+		});
+	});	
 </script>
 <section>
     <div class="total">
@@ -177,11 +241,14 @@
                     <tr>
                         <th></th>
                         <td>
-                            <input type="email" style="width: 350px;" placeholder=" 인증번호" class="p-2">
+                            <input type="text" style="width: 350px;" id="authNum" placeholder=" 인증번호" class="p-2">
                         </td>
                         <td>
-                            <input type="button" class="btn1" value="인증번호 확인">
+                            <input type="button" class="btn1" id="checkAuthNum" value="인증번호 확인">
                         </td>
+                    </tr>
+                    <tr id="alertAuth">
+                    
                     </tr>
                     <tr>
                         <td colspan="3">
@@ -231,7 +298,7 @@
                     </tr>                        
                     <tr>
                         <td colspan="3">
-                            <input type="checkbox" style="float: right;"><p style="float: right;">개인정보 처리방침에 동의합니다 &nbsp;</p>
+                            <input type="checkbox" id="authCheckbox" style="float: right;"><p style="float: right;">개인정보 처리방침에 동의합니다 &nbsp;</p>
                         </td>
                     </tr>
                     <tr>

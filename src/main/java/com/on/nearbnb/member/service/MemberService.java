@@ -10,6 +10,8 @@ public interface MemberService {
 	
 	public Member selectMember(String userId) throws Exception;
 	
+	public String authEmail(String userEmail) throws Exception;
+	
 	public int insertMember(Member member) throws Exception;
  
 }

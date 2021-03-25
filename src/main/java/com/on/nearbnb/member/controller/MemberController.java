@@ -56,6 +56,13 @@ public class MemberController {
 		}
 	}
 	
+	@RequestMapping(value="authNum.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String authNum(@RequestParam("authNum") String userEmail) throws Exception {
+		String authNum = memberService.authEmail(userEmail);
+		return authNum;
+	}
+	
 	@RequestMapping(value = "/memberIns.do", method = RequestMethod.POST)
 	public ModelAndView insertMember(Member member, ModelAndView modelAndView) throws Exception {
 		System.out.println(member);

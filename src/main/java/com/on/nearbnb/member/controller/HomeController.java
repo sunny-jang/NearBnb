@@ -63,19 +63,7 @@ public class HomeController {
 	public ModelAndView reservationComplete(ModelAndView modelAndView) {
 		modelAndView.setViewName("/place/reservationComplete");
 		return modelAndView;
-	}
-	
-	@RequestMapping(value = "/signUp.do", method = RequestMethod.GET)
-	public ModelAndView signUp(ModelAndView modelAndView) {
-		modelAndView.setViewName("/member/signUp");
-		return modelAndView;
-	}
-	
-	@RequestMapping(value = "/signIn.do", method = RequestMethod.GET)
-	public ModelAndView signIn(ModelAndView modelAndView) {
-		modelAndView.setViewName("/member/signIn");
-		return modelAndView;
-	}
+	}	
 	
 	@RequestMapping(value = "/findId.do", method = RequestMethod.GET)
 	public ModelAndView findId(ModelAndView modelAndView) {

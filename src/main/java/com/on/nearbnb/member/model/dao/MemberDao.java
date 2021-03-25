@@ -21,6 +21,11 @@ public class MemberDao {
 		return memberList;
 	}
 	
+	public Member selectMember(String userId) throws Exception {
+		Member member = sqlSession.selectOne("Member.selectMember", userId);
+		return member;
+	}
+	
 	public int insertMember(Member member) throws Exception {
 		int cnt = sqlSession.insert("Member.insertMember", member);
 		return cnt;

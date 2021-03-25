@@ -4,6 +4,40 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <link href="${context}/html/css/park3.css" rel="stylesheet">
 <%@ include file="../include/header.jsp" %>
+<script>
+	$(function(){
+		var checkId = false;
+		var checkPw = false;
+		// 아이디 중복&유효성 검사
+		$('#checkId').click(function(){
+			var userId = $('#userId').val();
+			var idCheck = RegExp(/^[A-Za-z0-9]{8,12}$/);
+			if(idCheck.test(userId) == false) {
+				$('#alertId').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">8~12자의 영문 대소문자와 숫자만 사용가능합니다.</td>').css('color','red');
+			} else {
+				$.ajax({
+					url : 'idCheck.do',
+					type: 'GET',
+					data : {idCheck : userId},
+					success : function(data) {
+						if(data == 0) {
+							$('#alertId').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">해당 아이디는 현재 사용중입니다.</td>').css('color','red');
+							checkId = false;
+						} else {
+							$('#alertId').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">사용가능한 아이디입니다.</td>').css('color','green');
+							checkId = true;
+						}
+					},
+					error : function(request, status, error){}
+				});
+			}
+		});
+		$('#userPw').focusout(function(){
+			var userPw = $('#userPw').val();
+			var pwCheck = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\,.<>\/?]).{8,20}$/);
+		});
+	});
+</script>
 <section>
     <div class="total">
         <h2>회원가입</h2>
@@ -16,19 +50,25 @@
                             아이디
                         </th>
                         <td>
-                            <input type="text" style="width: 350px;" placeholder=" 아이디" class="p-2">
+                            <input type="text" style="width: 350px;" id="userId" name="userId" placeholder=" 8~12자의 영문 대소문자와 숫자" class="p-2">
                         </td>
                         <td>
-                            <input type="button" class="btn1" value="중복확인" >
+                            <input type="button" id="checkId" class="btn1" value="중복확인" >
                         </td>
+                    </tr>
+                    <tr id="alertId">
+                    	                    	
                     </tr>
                     <tr>
                         <th>
                             비밀번호
                         </th>
                         <td>
-                            <input type="password" style="width: 350px;" placeholder=" 비밀번호" class="p-2">
+                            <input type="password" style="width: 350px;" id="userPw" name="userPw" placeholder=" 8~20자의 영문 대소문자와 숫자, 특수문자" class="p-2">
                         </td>
+                    </tr>
+                    <tr id="alertPw">
+                    		
                     </tr>
                     <tr>
                         <th>
@@ -43,7 +83,7 @@
                             이름
                         </th>
                         <td>
-                            <input type="text" style="width: 350px;" placeholder=" 이름" class="p-2">
+                            <input type="text" style="width: 350px;" name="userName" placeholder=" 이름" class="p-2">
                         </td>
                     </tr>
                     <tr>
@@ -51,7 +91,7 @@
                             전화번호
                         </th>
                         <td>
-                            <input type="text" style="width: 350px;" placeholder=" 01000000000" class="p-2">
+                            <input type="text" style="width: 350px;" name="userPhone" placeholder=" 01000000000" class="p-2">
                         </td>
                     </tr>
                     <tr>
@@ -59,7 +99,7 @@
                             이메일
                         </th>
                         <td>
-                            <input type="email" style="width: 350px;" placeholder=" 이메일@이메일주소.com" class="p-2">
+                            <input type="email" style="width: 350px;" name="userEmail" placeholder=" 이메일@이메일주소.com" class="p-2">
                         </td>
                         <td>
                             <input type="button" class="btn1" value="이메일 인증">

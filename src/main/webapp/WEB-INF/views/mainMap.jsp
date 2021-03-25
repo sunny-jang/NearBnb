@@ -19,9 +19,12 @@
 			var options = {
 				center: new kakao.maps.LatLng(latitude, longitude), //지도 중심좌표
 				level: 3
+				
+			
 			};
 
 			var map = new kakao.maps.Map(container, options);//지도생성
+			
 			
 			// 주소-좌표 변환 
 			var geocoder = new kakao.maps.services.Geocoder();
@@ -59,14 +62,11 @@
 	</script>
 </head>
 <body>
-	<div id="map" style="width:500px;height:400px;"></div>
+	<div id="map" style="width:100%;height:100%;"></div>
 	
 	<div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-    <div class="hAddr">
-        <span class="title">지도중심기준 행정동 주소정보</span>
-        <span id="centerAddr"></span>
-    </div>
+   
 </div>
 </body>
 </html>

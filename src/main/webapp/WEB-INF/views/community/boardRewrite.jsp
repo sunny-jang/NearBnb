@@ -4,20 +4,32 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
+<script>
+	$(function(){
+		$('#check').on('submit', function(){
+			var boardType = $('#boardType').val();
+			if(boardType == '종류'){
+				alert('게시글의 종류를 선택해주세요.');
+			}else{
+				return true;
+			}
+		});
+	});
+</script>
 <section style="height: 100vh;">
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
   <center>
-    <form class="center">
+    <form class="center" action="boardUpdateCon.do" method="post" id="check">
       <table style="font-size: 20px;">
         <tr>
             <td style="width: 100px;">제목</td>
             <td style="width: 900px; height: 50px;">
-                <h2><input type="text" class="title" style="margin-top: 17px;" placeholder=" 제목" value="${board.boardTitle }"></h2>
+                <h2><input type="text" class="title" style="margin-top: 17px;" name="boardTitle" value="${board.boardTitle }"></h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
-                <select style="border: none;">
+                <select style="border: none;" name="boardType" id="boardType">
                     <c:choose>
 						<c:when test="${board.boardType eq '종류' }">
 							<option value="종류" selected>종류</option>
@@ -60,13 +72,14 @@
                 글 내용
             </td>
             <td colspan="2">
-                <textarea style="width: 100%;">${board.boardContent }</textarea>
+                <textarea style="width: 100%;" name="boardContent">${board.boardContent }</textarea>
+                <input type="text" name="boardCodeSeq" value="${board.boardCodeSeq }" style="display: none;"/>
             </td>
         </tr>
       </table>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
       <input type="reset" class="btn reset">
-      <input type="submit" class="write3 btn" onclick="location.href='boardWrite.do'" value="수정하기">
+      <input type="submit" class="write3 btn" value="수정하기">
   </form>
 </center>
 </div>

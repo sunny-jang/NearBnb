@@ -51,7 +51,6 @@
 			      <td>${board.boardThumb }</td>
 			      <td>${board.userId }</td>
 			      <td><fmt:formatDate value="${board.boardDate }" type="DATE" dateStyle="MEDIUM"/></td>
-			      <%-- <td>${date }</td> --%>
 			    </tr>
 		    </c:otherwise>
 	    </c:choose>

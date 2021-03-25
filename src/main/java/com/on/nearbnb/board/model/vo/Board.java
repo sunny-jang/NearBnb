@@ -9,6 +9,7 @@ public class Board {
 
 	private int boardCodeSeq;
 	private String userId;
+	private String userPw;
 	private String boardTitle;
 	private String boardContent;
 	private String boardType;
@@ -20,6 +21,8 @@ public class Board {
 	public void setBoardCodeSeq(int boardCodeSeq) {		this.boardCodeSeq = boardCodeSeq;	}
 	public String getUserId() {		return userId;	}
 	public void setUserId(String userId) {		this.userId = userId;	}
+	public String getUserPw() {		return userPw;	}
+	public void setUserPw(String userPw) {		this.userPw = userPw;	}
 	public String getBoardTitle() {		return boardTitle;	}
 	public void setBoardTitle(String boardTitle) {		this.boardTitle = boardTitle;	}
 	public String getBoardContent() {		return boardContent;	}

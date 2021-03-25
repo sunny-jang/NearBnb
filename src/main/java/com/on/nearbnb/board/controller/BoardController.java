@@ -45,6 +45,12 @@ public class BoardController {
 		return modelAndView;
 	}
 	
+//	// 게시글 추천 기능
+//	@RequestMapping(value = "thumb.do", method = RequestMethod.POST)
+//	public ModelAndView boardThumbsService(int boardCodeSeq, int thumbs, ModelAndView modelAndView) {
+//		
+//	}
+	
 	// 게시글 등록하기
 	@RequestMapping(value = "boardWriteCon.do", method = RequestMethod.POST)
 	public ModelAndView boardInsertService(Board board, ModelAndView modelAndView) throws ServletException, IOException {
@@ -59,8 +65,8 @@ public class BoardController {
 	}
 	
 	// 게시글 수정 페이지
-	@RequestMapping(value = "boardRewrite.do", method = RequestMethod.GET)
-	public ModelAndView boardRewriteService(int boardCodeSeq, ModelAndView modelAndView) {
+	@RequestMapping(value = "boardUpdateProCon.do", method = RequestMethod.GET)
+	public ModelAndView boardUpdateProService(int boardCodeSeq, ModelAndView modelAndView) {
 		Board board = boardService.selectBoardOne(boardCodeSeq);
 		modelAndView.addObject("board", board);
 		modelAndView.setViewName("community/boardRewrite");
@@ -72,7 +78,6 @@ public class BoardController {
 	// 게시글 수정하기
 	@RequestMapping(value = "boardUpdateCon.do", method = RequestMethod.POST)
 	public ModelAndView boardUpdateService(Board board, ModelAndView modelAndView) {
-		
 		boardService.updateBoard(board);
 		
 		// 목록 돌아감
@@ -83,4 +88,27 @@ public class BoardController {
 		return modelAndView;
 	}
 	
+	// 게시글 삭제하기
+	@RequestMapping(value = "boardDeleteProCon.do", method = RequestMethod.GET)
+	public ModelAndView boardDeleteProCon(int boardCodeSeq, ModelAndView modelAndView) {
+		
+		Board board = boardService.selectBoardOne(boardCodeSeq);
+		
+		modelAndView.addObject("board", board);
+		modelAndView.setViewName("community/boardDelete");
+		
+		return modelAndView;
+	}
+	
+	// 게시글 삭제하기
+	@RequestMapping(value = "boardDeleteCon.do", method = RequestMethod.POST)
+	public ModelAndView boardDeleteCon(Board board, ModelAndView modelAndView) {
+		boardService.deleteBoard(board);
+		
+		List<Board> boardList = boardService.selectBoardList();
+		modelAndView.addObject("boardList", boardList);
+		modelAndView.setViewName("community/board");
+		
+		return modelAndView;
+	}
 }

@@ -34,9 +34,12 @@
 <!-- 게시글 수정하기 -->
 <update id="updateBoard" parameterType="Board">
 	UPDATE BOARD SET BOARD_TITLE=#{boardTitle}, BOARD_CONTENT=#{boardContent},
-		BOARD_TYPE=#{boardType}, WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+		BOARD_TYPE=#{boardType} WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
 </update>
 
-
+<!-- 게시글 삭제하기 -->
+<delete id="deleteBoard" parameterType="Board">
+	DELETE FROM BOARD WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+</delete>
 
 </mapper>

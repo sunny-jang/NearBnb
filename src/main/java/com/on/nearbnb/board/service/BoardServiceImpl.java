@@ -37,6 +37,12 @@ public class BoardServiceImpl implements BoardService {
 	public int updateBoard(Board board) {
 		return boardDao.updateBoard(board);
 	}
+	
+	// 게시글 삭제하기
+	@Override
+	public int deleteBoard(Board board) {
+		return boardDao.deleteBoard(board);
+	}
 
 	
 

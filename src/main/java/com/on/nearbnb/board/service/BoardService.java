@@ -18,6 +18,9 @@ public interface BoardService {
 	// 게시글 수정하기
 	public int updateBoard(Board board);
 	
+	// 게시글 삭제하기
+	public int deleteBoard(Board board);
+	
 //	public int totalCount();
 //	public List<Board> selectList(int startPage, int limit);
 //	public List<Board> selectSearch(String keyword);

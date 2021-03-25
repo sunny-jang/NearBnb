@@ -7,14 +7,11 @@
 <script>
 	$(function(){
 		$('#check').on('submit', function(){
-			alert('냠냠');
 			var boardType = $('#boardType').val();
-			alert(boardType);
 			if(boardType == '종류'){
-				alert('게시글의 종류를 선택해주세요.')
-				return false;
+				alert('게시글의 종류를 선택해주세요.');
+				return "";
 			}else{
-				alert('냠냠2');
 				return true;
 			}
 		});

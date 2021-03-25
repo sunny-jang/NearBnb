@@ -37,4 +37,10 @@ public class BoardDao {
 		int cnt = sqlSession.update("Board.updateBoard", board);
 		return cnt;
 	}
+	
+	// 게시글 삭제하기
+	public int deleteBoard(Board board) {
+		int cnt = sqlSession.delete("Board.deleteBoard", board);
+		return cnt;
+	}
 }

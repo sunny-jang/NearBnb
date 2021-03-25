@@ -4,6 +4,22 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
+<!-- <script>
+	$(function(){
+		$('#thumb').on('click', function(){
+			$.ajax({
+				url : '/NearBnb/thumb.do',
+				date : {
+					var thumbs : ${board.boardThumb }
+				},
+				dataType : 'json',
+				success: function(data){
+					
+				}
+			});
+		});
+	});
+</script> -->
 <section style="height: 100vh;">
 <div class="total">
   <h2>커뮤니티</h2>
@@ -17,7 +33,7 @@
                 <div class="title" style="margin-top: 30px; text-align: left;"><h2>${board.boardTitle }</h2></div>
             </td>
             <td style="width: 100px;">
-              <input type="button" value="♥"  class="heart">
+              <input type="button" value="♥"  class="heart" id="thumb">
               <h2 style="display: inline;">${board.boardThumb }</h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
@@ -76,8 +92,8 @@
       </table>
       <div>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
-      <input type="button" class="write1 btn" onclick="location.href='#'" value="삭제">
-      <input type="button" class="write2 btn" onclick="location.href='boardRewrite.do?boardCodeSeq=${board.boardCodeSeq }'" value="수정">
+      <input type="button" class="write1 btn" onclick="location.href='boardDeleteProCon.do?boardCodeSeq=${board.boardCodeSeq }'" value="삭제">
+      <input type="button" class="write2 btn" onclick="location.href='boardUpdateProCon.do?boardCodeSeq=${board.boardCodeSeq }'" value="수정">
       </div>
   </form>
 </center>

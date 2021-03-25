@@ -132,10 +132,10 @@ public class HomeController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/boardRewrite.do", method = RequestMethod.GET)
-	public ModelAndView boardRewrite(ModelAndView modelAndView) {
-		modelAndView.setViewName("community/boardRewrite");
-		return modelAndView;
-	}
+//	@RequestMapping(value = "/boardRewrite.do", method = RequestMethod.GET)
+//	public ModelAndView boardRewrite(ModelAndView modelAndView) {
+//		modelAndView.setViewName("community/boardRewrite");
+//		return modelAndView;
+//	}
 	
 }

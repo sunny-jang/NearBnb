@@ -14,14 +14,36 @@
         <tr>
             <td style="width: 100px;">제목</td>
             <td style="width: 900px; height: 50px;">
-                <h2><input type="text" class="title" style="margin-top: 17px;" placeholder=" 제목"></h2>
+                <h2><input type="text" class="title" style="margin-top: 17px;" placeholder=" 제목" value="${board.boardTitle }"></h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
                 <select style="border: none;">
-                    <option value="1">종류</option>
-                    <option value="2">추천</option>
-                    <option value="3">주변시설</option>
-                    <option value="4">문의</option>
+                    <c:choose>
+						<c:when test="${board.boardType eq '종류' }">
+							<option value="종류" selected>종류</option>
+							<option value="추천">추천</option>
+                    		<option value="주변시설">주변시설</option>
+                    		<option value="문의">문의</option>
+						</c:when>
+						<c:when test="${board.boardType eq '추천' }">
+							<option value="종류">종류</option>
+							<option value="추천" selected>추천</option>
+                    		<option value="주변시설">주변시설</option>
+                    		<option value="문의">문의</option>
+						</c:when>
+						<c:when test="${board.boardType eq '주변시설' }">
+							<option value="종류">종류</option>
+							<option value="추천">추천</option>
+                    		<option value="주변시설" selected>주변시설</option>
+                    		<option value="문의">문의</option>
+						</c:when>
+						<c:otherwise>
+							<option value="종류">종류</option>
+							<option value="추천">추천</option>
+                    		<option value="주변시설">주변시설</option>
+                    		<option value="문의" selected>문의</option>
+						</c:otherwise>
+					</c:choose>
                 </select>
             </td>
         </tr>
@@ -38,7 +60,7 @@
                 글 내용
             </td>
             <td colspan="2">
-                <textarea style="width: 100%;"></textarea>
+                <textarea style="width: 100%;">${board.boardContent }</textarea>
             </td>
         </tr>
       </table>

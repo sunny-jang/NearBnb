@@ -23,6 +23,7 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
 	public ModelAndView home(ModelAndView modelAndView) {
 		modelAndView.setViewName("home");

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+    navigator.geolocation.getCurrentPosition((position) => {
+        let latitude = position.coords.latitude;//위도
+        let longitude = position.coords.longitude;//경도
+        console.log('latitude',latitude);
+        console.log('longitude',longitude);
+});
+ 
+    </script>
+</head>
+<body>
+   
+</body>
+</html>

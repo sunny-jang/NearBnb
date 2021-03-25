@@ -23,6 +23,8 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 	
+//	private String boardListAgain = "redirect:/board.do/";
+	
 	// 게시판 목록 조회
 	@RequestMapping(value = "board.do", method = RequestMethod.GET)
 	public ModelAndView boardListService(ModelAndView modelAndView) {
@@ -41,7 +43,6 @@ public class BoardController {
 		modelAndView.setViewName("community/boardRead");
 		
 		return modelAndView;
-		
 	}
 	
 	// 게시글 등록하기
@@ -49,6 +50,7 @@ public class BoardController {
 	public ModelAndView boardInsertService(Board board, ModelAndView modelAndView) throws ServletException, IOException {
 		boardService.insertBoard(board);
 		
+		// 목록 돌아감
 		List<Board> boardList = boardService.selectBoardList();
 		modelAndView.addObject("boardList", boardList);
 		modelAndView.setViewName("community/board");
@@ -56,12 +58,24 @@ public class BoardController {
 		return modelAndView;
 	}
 	
+	// 게시글 수정 페이지
+	@RequestMapping(value = "boardRewrite.do", method = RequestMethod.GET)
+	public ModelAndView boardRewriteService(int boardCodeSeq, ModelAndView modelAndView) {
+		Board board = boardService.selectBoardOne(boardCodeSeq);
+		modelAndView.addObject("board", board);
+		modelAndView.setViewName("community/boardRewrite");
+		
+		return modelAndView;
+	}
+	
+	
 	// 게시글 수정하기
 	@RequestMapping(value = "boardUpdateCon.do", method = RequestMethod.POST)
 	public ModelAndView boardUpdateService(Board board, ModelAndView modelAndView) {
 		
 		boardService.updateBoard(board);
 		
+		// 목록 돌아감
 		List<Board> boardList = boardService.selectBoardList();
 		modelAndView.addObject("boardList", boardList);
 		modelAndView.setViewName("community/board");

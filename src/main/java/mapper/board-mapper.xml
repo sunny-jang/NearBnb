@@ -27,7 +27,7 @@
 <!-- 게시글 등록하기 -->
 <insert id="insertBoard"  parameterType="Board">
 	INSERT INTO BOARD VALUES(
-		BOARD_SEQ.NEXTVAL, 1234, #{boardTitle}, #{boardContent},
+		BOARD_SEQ.NEXTVAL, #{userId}, #{boardTitle}, #{boardContent},
 		#{boardType}, SYSDATE, 0, 0)
 </insert>
 

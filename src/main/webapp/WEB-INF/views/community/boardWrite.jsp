@@ -4,12 +4,28 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
+<script>
+	$(function(){
+		$('#check').on('submit', function(){
+			alert('냠냠');
+			var boardType = $('#boardType').val();
+			alert(boardType);
+			if(boardType == '종류'){
+				alert('게시글의 종류를 선택해주세요.')
+				return false;
+			}else{
+				alert('냠냠2');
+				return true;
+			}
+		});
+	});
+</script>
 <section>
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
   <center style="font-size: 23px;">
-    <form class="center" action="boardWriteCon.do" method="post">
+    <form class="center" action="boardWriteCon.do" method="post" id="check">
       <table>
         <tr>
             <td style="width: 300px;">제목</td>
@@ -17,7 +33,7 @@
                 <h2><input type="text" class="title" style="margin-top: 20px;" placeholder=" 제목" name="boardTitle"></h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
-                <select style="border: none;" name="boardType">
+                <select style="border: none;" name="boardType" id="boardType">
                     <option value="종류">종류</option>
                     <option value="추천">추천</option>
                     <option value="주변시설">주변시설</option>

@@ -36,6 +36,27 @@
 		<property name="username" value="team04" />
 		<property name="password" value="joyking" />
 	</bean>
+	
+	<!-- 메일 -->
+   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+       <property name="host" value="smtp.naver.com" />
+       <property name="port" value="465" />
+       <property name="username" value="zordstyle" />
+       <property name="password" value="1U4S6N7E2B8Z" />
+       <property name="defaultEncoding" value="utf-8" />
+       <property name="javaMailProperties">
+       		<props>
+       			<prop key="mail.debug">true</prop>
+       			<prop key="mail.smtp.starttls.enable">true</prop>
+       			<prop key="mail.smtp.ssl.enable">true</prop>
+       			<prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+       			<prop key="mail.smtp.auth">true</prop>
+       			<prop key="mail.smtps.ssl.trust">*</prop>
+       			<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSockeyFactory</prop>
+       		</props>
+       </property>
+   </bean>
+   
 	<beans:bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />

@@ -38,8 +38,7 @@
                 글 내용
             </td>
             <td colspan="2">
-                <textarea style="width: 100%;">
-                </textarea>
+                <textarea style="width: 100%;"></textarea>
             </td>
         </tr>
       </table>

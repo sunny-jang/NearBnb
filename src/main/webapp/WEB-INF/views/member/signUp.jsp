@@ -4,46 +4,149 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <link href="${context}/html/css/park3.css" rel="stylesheet">
 <%@ include file="../include/header.jsp" %>
+<script>
+	$(function(){
+		var checkId = false;
+		var checkPw = false;
+		var checkPwCheck = false;
+		var checkName = false;
+		var checkPhone = false;
+		var checkEmail = false;
+		var checkAuthentication = false;
+		// 아이디 중복&유효성 검사
+		$('#checkId').click(function(){
+			var userId = $('#userId').val();
+			var idCheck = RegExp(/^[A-Za-z0-9]{8,12}$/);
+			if(idCheck.test(userId) == false) {
+				$('#alertId').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">8~12자의 영문 대소문자와 숫자만 사용가능합니다.</td>').css('color','red');
+			} else {
+				$.ajax({
+					url : 'idCheck.do',
+					type: 'GET',
+					data : {idCheck : userId},
+					success : function(data) {
+						if(data == 0) {
+							$('#alertId').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">해당 아이디는 현재 사용중입니다.</td>').css('color','red');
+							checkId = false;
+						} else {
+							$('#alertId').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">사용가능한 아이디입니다.</td>').css('color','green');
+							checkId = true;
+						}
+					},
+					error : function(request, status, error){}
+				});
+			}
+		});
+		// 비밀번호 유효성 검사
+		$('#userPw').focusout(function(){
+			var userPw = $('#userPw').val();
+			var pwCheck = RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\,.<>\/?]).{8,20}$/);
+			if(pwCheck.test(userPw) == false) {
+				$('#alertPw').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">8~20자의 영문 대소문자와 숫자, 특수문자만 사용가능합니다.</td>').css('color','red');
+				checkPw = false;
+			} else {
+				$('#alertPw').html('');
+				checkPw = true;
+			}
+		});
+		// 비밀번호 중복 검사
+		$('#userPwCheck').focusout(function(){
+			var userPw = $('#userPw').val();
+			var userPwCheck = $('#userPwCheck').val();
+			if(userPw != userPwCheck) {
+				$('#alertPwCheck').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">비밀번호를 다시 확인해주세요.</td>').css('color','red');
+				checkPwCheck = false;
+			} else {
+				$('#alertPwCheck').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">비밀번호가 일치합니다.</td>').css('color','green');
+				checkPwCheck = true;
+			}
+		});
+		// 이름 입력 검사
+		$('#userName').focusout(function(){
+			var userName = $('#userName').val();
+			if(userName == "") {
+				checkName = false;
+			} else {
+				checkName = true;
+			}
+		});
+		// 전화번호 유효성 검사
+		$('#userPhone').focusout(function(){
+			var userPhone = $('#userPhone').val();
+			var phoneCheck = RegExp(/^01[0179][0-9]{7,8}$/);
+			if(phoneCheck.test(userPhone) == false) {
+				$('#alertPhone').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">다시 입력해주세요.</td>').css('color','red');
+				checkPhone = false;
+			} else {
+				$('#alertPhone').html("");
+				checkPhone = true;
+			}
+		});
+		// 이메일 유효성 검사
+		$('#userEmail').focusout(function(){
+			var userEmail = $('#userEmail').val();
+			var emailCheck = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
+			if(emailCheck.test(userEmail) == false) {
+				$('#alertEmail').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">이메일 형식을 다시 확인해주세요.</td>').css('color','red');
+				$('#authButton').attr('disabled', true);
+				checkEmail = false;
+			} else {
+				$('#alertEmail').html("");
+				$('#authButton').attr('disabled', false);
+				checkEmail = true;
+			}
+		});
+	});
+</script>
 <section>
     <div class="total">
         <h2>회원가입</h2>
         <hr>
         <center>
-            <form>
+            <form action="memberIns.do" method="POST">
                 <table style="width: 600px;">
                     <tr>
                         <th>
                             아이디
                         </th>
                         <td>
-                            <input type="text" style="width: 350px;" placeholder=" 아이디" class="p-2">
+                            <input type="text" style="width: 350px;" id="userId" name="userId" placeholder=" 8~12자의 영문 대소문자와 숫자" class="p-2">
                         </td>
                         <td>
-                            <input type="button" class="btn1" value="중복확인" >
+                            <input type="button" id="checkId" class="btn1" value="중복확인" >
                         </td>
+                    </tr>
+                    <tr id="alertId">
+                    	                    	
                     </tr>
                     <tr>
                         <th>
                             비밀번호
                         </th>
                         <td>
-                            <input type="password" style="width: 350px;" placeholder=" 비밀번호" class="p-2">
+                            <input type="password" style="width: 350px;" id="userPw" name="userPw" placeholder=" 8~20자의 영문 대소문자와 숫자, 특수문자" class="p-2">
                         </td>
+                    </tr>
+                    <tr id="alertPw">
+                    		
                     </tr>
                     <tr>
                         <th>
                             비밀번호 확인
                         </th>
                         <td>
-                            <input type="password" style="width: 350px;" placeholder=" 비밀번호 확인" class="p-2">
+                            <input type="password" style="width: 350px;" id="userPwCheck" placeholder=" 비밀번호 확인" class="p-2">
                         </td>
+                    </tr>
+                    <tr id="alertPwCheck">
+                    		
                     </tr>
                     <tr>
                         <th>
                             이름
                         </th>
                         <td>
-                            <input type="text" style="width: 350px;" placeholder=" 이름" class="p-2">
+                            <input type="text" style="width: 350px;" id="userName" name="userName" placeholder=" 이름" class="p-2">
                         </td>
                     </tr>
                     <tr>
@@ -51,19 +154,25 @@
                             전화번호
                         </th>
                         <td>
-                            <input type="text" style="width: 350px;" placeholder=" 01000000000" class="p-2">
+                            <input type="text" style="width: 350px;" id="userPhone" name="userPhone" placeholder=" 01000000000" class="p-2">
                         </td>
+                    </tr>
+                    <tr id="alertPhone">
+                    	
                     </tr>
                     <tr>
                         <th>
                             이메일
                         </th>
                         <td>
-                            <input type="email" style="width: 350px;" placeholder=" 이메일@이메일주소.com" class="p-2">
+                            <input type="email" style="width: 350px;" id="userEmail" name="userEmail" placeholder=" 이메일@이메일주소.com" class="p-2">
                         </td>
                         <td>
-                            <input type="button" class="btn1" value="이메일 인증">
+                            <input type="button" class="btn1" id="authButton" value="이메일 인증" disabled="true">
                         </td>
+                    </tr>
+                    <tr id="alertEmail">
+                    	
                     </tr>
                     <tr>
                         <th></th>

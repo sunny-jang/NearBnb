@@ -69,12 +69,12 @@
 		<aop:advisor pointcut-ref="txAdvisePointCut"
 			advice-ref="txAdvice" />
 	</aop:config> -->
-	<aop:config proxy-target-class="true">
-		<!-- <aop:pointcut id="daoMethod"
-			expression="execution(* com.on..*Impl.*(..)))" /> -->
+<!-- 	<aop:config proxy-target-class="true">
+		<aop:pointcut id="daoMethod"
+			expression="execution(* com.on..*Impl.*(..)))" />
 	<aop:pointcut id="daoMethod"
 			expression="execution(* com.on..*Impl.*(..)))" />			
 		<aop:advisor id="transactionAdvisor"
 			pointcut-ref="daoMethod" advice-ref="txAdvice" />
-	</aop:config>
+	</aop:config> -->
 </beans>

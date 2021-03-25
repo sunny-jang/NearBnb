@@ -9,23 +9,46 @@
   <h2>커뮤니티</h2>
   <hr>
   <center>
-    <form class="center">
+    <form class="center" action="boardUpdateCon.do" method="post">
       <table style="font-size: 20px;">
+      	<c:set var="board" value="${board}" scope="page"/>
         <tr>
             <td>제목</td>
             <td style="width: 800px; height: 50px;">
-                <h2><input type="text" class="title" style="margin-top: 17px;"placeholder=" 제목" readonly></h2>
+                <div class="title" style="margin-top: 30px; text-align: left;"><h2>${board.boardTitle }</h2></div>
             </td>
             <td style="width: 100px;">
               <input type="button" value="♥"  class="heart">
-              <h2 style="display: inline;">12</h2>
+              <h2 style="display: inline;">${board.boardThumb }</h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
                 <select style="border: none;">
-                    <option value="1">종류</option>
-                    <option value="2">추천</option>
-                    <option value="3">주변시설</option>
-                    <option value="4">문의</option>
+                	<c:choose>
+						<c:when test="${board.boardType eq '1' }">
+							<option value="1" checked>종류</option>
+							<option value="2">추천</option>
+                    		<option value="3">주변시설</option>
+                    		<option value="4">문의</option>
+						</c:when>
+						<c:when test="${board.boardType eq '2' }">
+							<option value="1">종류</option>
+							<option value="2" checked>추천</option>
+                    		<option value="3">주변시설</option>
+                    		<option value="4">문의</option>
+						</c:when>
+						<c:when test="${board.boardType eq '3' }">
+							<option value="1">종류</option>
+							<option value="2">추천</option>
+                    		<option value="3" checked>주변시설</option>
+                    		<option value="4">문의</option>
+						</c:when>
+						<c:otherwise>
+							<option value="1">종류</option>
+							<option value="2">추천</option>
+                    		<option value="3">주변시설</option>
+                    		<option value="4" checked>문의</option>
+						</c:otherwise>
+					</c:choose>
                 </select>
             </td>
         </tr>
@@ -42,8 +65,9 @@
                 글 내용
             </td>
             <td colspan="3">
-                <textarea style="width: 100%;">
-                </textarea>
+            	<br>
+				<div style="width: 100%; text-align: left;">&nbsp;${board.boardContent }</div>
+				<br>
             </td>
         </tr>
         <tr>

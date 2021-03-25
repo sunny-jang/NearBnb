@@ -22,6 +22,11 @@
 		SELECT * FROM MEMBER
 	</select>
 	
+	<!-- member table에서 하나만 가져오는 select -->
+	<select id="selectMember" parameterType="Member" resultMap="resultMember">
+		SELECT * FROM MEMBER WHERE U_ID = #{userId}
+	</select>
+	
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO MEMBER VALUES(#{userId}, #{userPw}, #{userName}, #{userPhone}, #{userEmail}, DEFAULT, DEFAULT)
 	</insert>

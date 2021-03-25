@@ -19,11 +19,19 @@ public class MemberServiceImpl implements MemberService{
 		List<Member> memberList = memberDao.selectMemberAll();
 		return memberList;
 	}
+	
+	@Override
+	public Member selectMember(String userId) throws Exception {
+		Member member = memberDao.selectMember(userId);
+		return member;
+	}
 
 	@Override
 	public int insertMember(Member member) throws Exception {
 		int cnt = memberDao.insertMember(member);
 		return cnt;
 	}
+
+	
 
 }

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
+<jsp:useBean id="today" class="java.util.Date" />
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park1.css" rel="stylesheet">
@@ -33,20 +35,30 @@
       <td class="boardDate">작성일</td>
     </tr>
     <tr></tr>
-    <tr class="List">
-      <td>종류1</td>
-      <td><a href="boardRead.do">제목1</a></td>
-      <td>12</td>
-      <td>홍길동</td>
-      <td>2021-03-18</td>
-    </tr>
-    <tr>
-      <td>종류2</td>
-      <td><a href="#">제목2</a></td>
-      <td>9</td>
-      <td>고길동</td>
-      <td>2021-03-18</td>
-    </tr>
+    <c:forEach var="board" items="${boardList}">
+    	<c:choose>
+    		<c:when test="${board.boardCodeSeq eq null }">
+    			<tr>
+    				<td colspan="5">
+    					게시글이 없습니다
+    				</td>
+    			</tr>
+    		</c:when>
+    		<c:otherwise>
+			    <tr class="List">
+			      <td>${board.boardType }</td>
+			      <td><a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }">${board.boardTitle }</a></td>
+			      <td>${board.boardThumb }</td>
+			      <td>${board.userId }</td>
+			      <td><fmt:formatDate value="${board.boardDate }" type="DATE" dateStyle="MEDIUM"/></td>
+			      <%-- <td>${date }</td> --%>
+			    </tr>
+		    </c:otherwise>
+	    </c:choose>
+    </c:forEach>
+    
+    
+    
   </table>
   </center>
 </div>

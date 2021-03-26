@@ -4,9 +4,10 @@
 <mapper namespace="Place">
 	<resultMap type="Place" id="resultPlace">
 		<id property="placeId" column="P_CODE_SEQ" />
+		<result property="uId" column="U_ID"/>
 		<result property="placeName" column="PLACE_NAME"/>
-		<result property="placeaddress" column="PLACE_ADDRESS"/>
-		<result property="placeaddressDetail" column="PLACE_ADDRESS_DETAIL"/>
+		<result property="placeAddress" column="PLACE_ADDRESS"/>
+		<result property="placeAddressDetail" column="PLACE_ADDRESS_DETAIL"/>
 		<result property="maxGuest" column="PLACE_LIMIT_PERSON"/>
 		<result property="placeType" column="PLACE_TYPE"/>
 		<result property="placePrice" column="PLACE_PRICE"/>
@@ -16,6 +17,10 @@
 		<result property="placeCloseDate" column="PLACE_CLOSE_DATE"/>
 		<result property="placeDesc" column="PLACE_INFO"/>
 	</resultMap>
+	
+	<select id="selectPlace" resultMap="resultPlace" parameterType="Integer">
+		SELECT * FROM PLACE WHERE P_CODE_SEQ = #{pId}
+	</select>
 	
 	<insert id="insertPlace" parameterType="Place">
 		<selectKey keyProperty="placeId" resultType="int" order="BEFORE">

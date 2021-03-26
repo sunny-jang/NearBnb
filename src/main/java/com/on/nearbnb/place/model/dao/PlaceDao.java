@@ -14,6 +14,9 @@ public class PlaceDao {
 	
 	public int insertPlace(Place place) {
 		return sqlSession.insert("insertPlace", place);
-		
+	}
+	
+	public Place selectPlace(Integer pId) {
+		return sqlSession.selectOne("selectPlace", pId);
 	}
 }

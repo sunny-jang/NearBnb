@@ -43,6 +43,16 @@ public class PlaceController {
 		return imageName;
 	}
 	
+	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
+	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
+		Place place= placeService.selectPlace(pId);
+		
+		modelAndView.addObject("place", place);
+		
+		modelAndView.setViewName("/place/placeDetail");
+		return modelAndView;
+	}
+	
 	@RequestMapping(value="/placeAdd.do", method=RequestMethod.POST)
 	public String addPlace(MultipartHttpServletRequest files, Place place, PlacePoint placePoint, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
 		List<MultipartFile> images = files.getFiles("imageUpload");
@@ -79,7 +89,7 @@ public class PlaceController {
 			}
 		}
 		return placeFiles;
-		
 	}
+	
 
 }

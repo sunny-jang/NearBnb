@@ -26,7 +26,7 @@
 		PLACE_TYPE, PLACE_PRICE, USER_PHONE,
 		 PLACE_KAKAO_LINK, PLACE_OPEN_DATE,
 		  PLACE_CLOSE_DATE, PLACE_INFO)
-		 VALUES(#{placeId},'test', #{placeName}, #{placeAddress}, #{placeaddressDetail}, 
+		 VALUES(#{placeId}, #{uId}, #{placeName}, #{placeAddress}, #{placeaddressDetail}, 
 		 #{maxGuest}, #{placeType}, #{placePrice}, 
 		 #{hostPhone}, #{placeKakaoLink}, #{placeOpenDate},
 		  #{placeCloseDate}, #{placeDesc})

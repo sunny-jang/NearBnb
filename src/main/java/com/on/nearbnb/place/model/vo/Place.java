@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Place {
 	private Integer placeId;
+	private String uId;
 	private String placeName;
 	private String placeAddress;
 	private String placeaddressDetail;
@@ -18,6 +19,12 @@ public class Place {
 	
 	
 	
+	public String getuId() {
+		return uId;
+	}
+	public void setuId(String uId) {
+		this.uId = uId;
+	}
 	public Integer getPlaceId() {
 		return placeId;
 	}

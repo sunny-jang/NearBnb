@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,10 +50,11 @@ public class PlaceController {
 		
 		/* Coords coords = getCoords(request); */
 		List<PlaceFile> placeFiles = makeFileList(images, path);
+		HttpSession session = request.getSession();
+		String uId = (String) session.getAttribute("userId");
+		System.out.println(uId);
 		
-		System.out.println(placeFiles.toString());
-		
-		System.out.println(place.toString());
+		place.setuId(uId);
 		placeService.insertPlace(place, placePoint, placeFiles);
 		
 		place = null;

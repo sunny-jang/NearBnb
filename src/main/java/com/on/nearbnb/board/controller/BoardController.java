@@ -43,7 +43,7 @@ public class BoardController {
 			// 게시글 목록
 			modelAndView.addObject("boardList", boardService.selectBoardList(currentPage, 15));
 
-			// 페이지 단
+			// 페이지
 			modelAndView.addObject("currentPage", currentPage);
 			modelAndView.addObject("maxPage", maxPage);
 			

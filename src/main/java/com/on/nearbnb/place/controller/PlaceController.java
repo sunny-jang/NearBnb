@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.file.model.vo.PlaceFile;
-import com.on.nearbnb.place.model.vo.Coords;
+import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.service.PlaceService;
 
@@ -44,32 +44,22 @@ public class PlaceController {
 	
 	@RequestMapping(value="/placeAdd.do", method=RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView addPlace(MultipartHttpServletRequest files, Place place, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
+	public ModelAndView addPlace(MultipartHttpServletRequest files, Place place, PlacePoint placePoint, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
 		List<MultipartFile> images = files.getFiles("imageUpload");
 		String path = files.getSession().getServletContext().getRealPath("resources")+"\\html\\images\\";
 		
 		/* Coords coords = getCoords(request); */
 		List<PlaceFile> placeFiles = makeFileList(images, path);
 		
-		
 		System.out.println(placeFiles.toString());
 		
 		System.out.println(place.toString());
-		placeService.insertPlace(place);
+		placeService.insertPlace(place, placePoint, placeFiles);
 		modelAndView.setViewName("/place/placeAdd");
 		
 		return modelAndView;
 	}
-	
-	public Coords getCoords(HttpServletRequest request) {
-		Double latitude = new Double(request.getParameter("latitude"));
-		Double longitude = new Double(request.getParameter("longitude"));
-		
-		Coords coords = new Coords(latitude, longitude);
-		System.out.println(coords.toString());
-		return coords;
-	}
-	
+
 	public List<PlaceFile> makeFileList(List<MultipartFile> images, String path) {
 		List<PlaceFile> placeFiles = new ArrayList<PlaceFile>();
 		

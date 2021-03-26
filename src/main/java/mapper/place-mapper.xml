@@ -3,6 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Place">
 	<resultMap type="Place" id="resultPlace">
+		<id property="placeId" column="P_CODE_SEQ" />
 		<result property="placeName" column="PLACE_NAME"/>
 		<result property="placeaddress" column="PLACE_ADDRESS"/>
 		<result property="placeaddressDetail" column="PLACE_ADDRESS_DETAIL"/>
@@ -17,12 +18,15 @@
 	</resultMap>
 	
 	<insert id="insertPlace" parameterType="Place">
+		<selectKey keyProperty="placeId" resultType="int" order="BEFORE">
+			select PLACE_SEQ.NEXTVAL from dual
+		</selectKey>
 		INSERT INTO PLACE(P_CODE_SEQ,U_ID, PLACE_NAME, PLACE_ADDRESS,
 		 PLACE_ADDRESS_DETAIL, PLACE_LIMIT_PERSON,
 		PLACE_TYPE, PLACE_PRICE, USER_PHONE,
 		 PLACE_KAKAO_LINK, PLACE_OPEN_DATE,
 		  PLACE_CLOSE_DATE, PLACE_INFO)
-		 VALUES(4,'test', #{placeName}, #{placeAddress}, #{placeaddressDetail}, 
+		 VALUES(#{placeId},'test', #{placeName}, #{placeAddress}, #{placeaddressDetail}, 
 		 #{maxGuest}, #{placeType}, #{placePrice}, 
 		 #{hostPhone}, #{placeKakaoLink}, #{placeOpenDate},
 		  #{placeCloseDate}, #{placeDesc})

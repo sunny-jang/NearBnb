@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN:"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PlaceFile">
+	
+	<resultMap type="PlaceFile" id="resultPlaceFile">
+		<result property="fileChangedName" column="KEY"/>
+		<result property="fileOriginalName" column="PFILE_ORIGINAL_NAME"/>
+		<result property="filePath" column="PFILE_PATH"/>
+	</resultMap>
+	
+	
+	<insert id="insertPlaceFile" parameterType="java.util.List">
+		INSERT INTO PLACE_IMGFILE
+		<foreach collection="list" item="PlaceFile" separator=" UNION ALL ">
+            SELECT #{PlaceFile.fileChangedName},
+            #{PlaceFile.placeId},
+            #{PlaceFile.fileOriginalName},
+            #{PlaceFile.filePath} FROM DUAL
+       </foreach>
+	</insert>
+	
+</mapper>

@@ -1,9 +1,20 @@
 package com.on.nearbnb.place.model.vo;
 
-public class Coords {
+public class PlacePoint {
+	
+	private Integer placeId;
+	
 	private double latitude;
 	private double longitude;
 	
+	
+	
+	public Integer getPlaceId() {
+		return placeId;
+	}
+	public void setPlaceId(Integer placeId) {
+		this.placeId = placeId;
+	}
 	public double getLatitude() {
 		return latitude;
 	}
@@ -17,11 +28,11 @@ public class Coords {
 		this.longitude = longitude;
 	}
 	
-	public Coords() {
+	public PlacePoint() {
 	}
 	
 	
-	public Coords(double latitude, double longitude) {
+	public PlacePoint(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}

@@ -3,6 +3,7 @@ package com.on.nearbnb.place.model.vo;
 import java.util.Date;
 
 public class Place {
+	private Integer placeId;
 	private String placeName;
 	private String placeAddress;
 	private String placeaddressDetail;
@@ -17,6 +18,12 @@ public class Place {
 	
 	
 	
+	public Integer getPlaceId() {
+		return placeId;
+	}
+	public void setPlaceId(Integer placeId) {
+		this.placeId = placeId;
+	}
 	public String getPlacePrice() {
 		return placePrice;
 	}

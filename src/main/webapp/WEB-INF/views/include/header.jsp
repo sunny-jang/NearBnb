@@ -36,7 +36,7 @@
         <c:if test="${empty userId}">
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
-              <button type="button" class="btn add_room">내 숙소 등록하기</button>
+              <button type="button" class="btn add_room" onclick="alert('로그인 후 이용 가능합니다.')">내 숙소 등록하기</button>
               <button type="button" class="btn btn-primary" onclick="location.href='signIn.do'">로그인</button>
               <button type="button" class="btn btn-secondary" onclick="location.href='signUp.do'">회원가입</button>
           </div>

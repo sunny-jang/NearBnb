@@ -27,14 +27,14 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public List<Member> selectMemberAll() throws Exception {
-		List<Member> memberList = memberDao.selectMemberAll();
+		List<Member> memberList = memberDao.selectMember();
 		return memberList;
-	}
-	
+	}	
+
 	@Override
-	public Member selectMember(String userId) throws Exception {
-		Member member = memberDao.selectMember(userId);
-		return member;
+	public Member selectMember(Member member) throws Exception {
+		Member m = memberDao.selectMember(member);
+		return m;
 	}
 
 	@Override

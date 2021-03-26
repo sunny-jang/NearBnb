@@ -18,13 +18,21 @@
 	
 	<!-- member table의 모든 데이터 select -->
 	<!-- resultMap을 쓰지 않을 경우 resultType="Member" 지정 필요 -->
-	<select id="selectMemberAll" resultMap="resultMember"> 
+	<!-- <select id="selectMemberAll" resultMap="resultMember"> 
 		SELECT * FROM MEMBER
-	</select>
+	</select> -->
 	
-	<!-- member table에서 하나만 가져오는 select -->
+	<!-- member table 조회 통합 쿼리 -->
 	<select id="selectMember" parameterType="Member" resultMap="resultMember">
-		SELECT * FROM MEMBER WHERE U_ID = #{userId}
+		SELECT * FROM MEMBER
+		<where>			
+			<if test="userId != null">
+				U_ID = #{userId}
+			</if>
+			<if test="userName != null and userEmail != null">
+				USER_NAME = #{userName} AND USER_EMAIL = #{userEmail}
+			</if>		
+		</where>
 	</select>
 	
 	<insert id="insertMember" parameterType="Member">

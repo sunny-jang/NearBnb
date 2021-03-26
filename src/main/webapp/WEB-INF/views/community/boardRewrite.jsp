@@ -4,9 +4,13 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
+
+<!-- SmartEditor2 라이브러리 --> 
+<script type="text/javascript" src="${context}/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+
 <script>
 	$(function(){
-		$('#check').on('submit', function(){
+		$('#frm').on('submit', function(){
 			var boardType = $('#boardType').val();
 			if(boardType == '종류'){
 				alert('게시글의 종류를 선택해주세요.');
@@ -21,7 +25,7 @@
   <h2>커뮤니티</h2>
   <hr>
   <center>
-    <form class="center" action="boardUpdateCon.do" method="post" id="check">
+    <form class="center" action="boardUpdateCon.do" method="post" id="frm">
       <table style="font-size: 20px;">
         <tr>
             <td style="width: 100px;">제목</td>
@@ -72,16 +76,44 @@
                 글 내용
             </td>
             <td colspan="2">
-                <textarea style="width: 100%;" name="boardContent">${board.boardContent }</textarea>
+                <textarea id="smartEditor" name="boardContent" style="width: 100%; height: 412px;">${board.boardContent }</textarea>
                 <input type="text" name="boardCodeSeq" value="${board.boardCodeSeq }" style="display: none;"/>
             </td>
         </tr>
       </table>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
       <input type="reset" class="btn reset">
-      <input type="submit" class="write3 btn" value="수정하기">
+      <input type="submit" id="save" class="write3 btn" value="수정하기">
   </form>
 </center>
 </div>
 </section>
+<script type="text/javascript">
+	var oEditors = [];
+	$(function(){
+		nhn.husky.EZCreator.createInIFrame({
+			oAppRef: oEditors,
+			elPlaceHolder: "smartEditor", //textarea에서 지정한 id와 일치해야 합니다. 
+			//SmartEditor2Skin.html 파일이 존재하는 경로
+			sSkinURI: "${context}/editor/SmartEditor2Skin.html",
+			htParams : {
+				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+				bUseToolbar : true,
+				// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+				bUseVerticalResizer : true,
+				// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+				bUseModeChanger : true,
+				fOnBeforeUnload : function(){
+				}
+			}, 
+			fCreator: "createSEditor2"
+		});
+			
+		//저장버튼 클릭시 form 전송
+		$("#save").click(function(){
+		oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []);
+		$("#frm").submit();
+	});    
+});
+</script>
 <%@ include file="../include/footer.jsp" %>

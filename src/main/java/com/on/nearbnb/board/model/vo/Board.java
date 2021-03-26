@@ -14,7 +14,6 @@ public class Board {
 	private String boardContent;
 	private String boardType;
 	private Date boardDate;
-	private int boardThumb;
 	private int boardCount;
 	
 	public int getBoardCodeSeq() {		return boardCodeSeq;	}
@@ -31,8 +30,6 @@ public class Board {
 	public void setBoardType(String boardType) {		this.boardType = boardType;	}
 	public Date getBoardDate() {		return boardDate;	}
 	public void setBoardDate(Date boardDate) {		this.boardDate = boardDate;	}
-	public int getBoardThumb() {		return boardThumb;	}
-	public void setBoardThumb(int boardThumb) {		this.boardThumb = boardThumb;	}
 	public int getBoardCount() {		return boardCount;	}
 	public void setBoardCount(int boardCount) {		this.boardCount = boardCount;	}
 	

@@ -3,11 +3,18 @@ package com.on.nearbnb.board.service;
 import java.util.List;
 
 import com.on.nearbnb.board.model.vo.Board;
+import com.on.nearbnb.board.model.vo.BoardThumb;
 
 public interface BoardService {
 	
 	// 게시글 목록 조회
-	public List<Board> selectBoardList();
+	public List<Board> selectBoardList(int startPage, int endPage);
+	
+	// 게시글 전체 글 개수 조회
+	public int boardListCount();
+
+	// 게시글 추천 조회
+	public BoardThumb selectBoardThumb(int boardCodeSeq);
 	
 	// 게시글 상세 조회
 	public Board selectBoardOne(int boardCodeSeq);

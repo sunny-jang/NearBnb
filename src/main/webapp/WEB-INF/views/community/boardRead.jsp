@@ -10,7 +10,7 @@
 			$.ajax({
 				url : '/NearBnb/thumb.do',
 				date : {
-					var thumbs : ${board.boardThumb }
+					var thumbs : ${boardThumb.boardThumb }
 				},
 				dataType : 'json',
 				success: function(data){
@@ -33,8 +33,8 @@
                 <div class="title" style="margin-top: 30px; text-align: left;"><h2>${board.boardTitle }</h2></div>
             </td>
             <td style="width: 100px;">
-              <input type="button" value="♥"  class="heart" id="thumb">
-              <h2 style="display: inline;">${board.boardThumb }</h2>
+              <input type="button" value="♥" class="heart" id="thumb">
+              <h2 style="display: inline;">${boardThumb.boardThumb }</h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
                 <div style="width: 100px;">

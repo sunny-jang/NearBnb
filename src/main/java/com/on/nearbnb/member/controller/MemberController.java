@@ -2,6 +2,9 @@ package com.on.nearbnb.member.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,7 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	
+	// 테스트 컨트롤러
 	@RequestMapping(value = "/testInsert.do", method = RequestMethod.GET)
 	public ModelAndView test(Member member, ModelAndView modelAndView) throws Exception {		
 		int cnt = memberService.insertMember(member);
@@ -33,18 +37,21 @@ public class MemberController {
 		return modelAndView;
 	}
 	
+	// 회원가입 페이지 이동
 	@RequestMapping(value = "/signUp.do", method = RequestMethod.GET)
 	public ModelAndView signUp(ModelAndView modelAndView) {
 		modelAndView.setViewName("/member/signUp");
 		return modelAndView;
 	}
 	
+	// 로그인 페이지 이동
 	@RequestMapping(value = "/signIn.do", method = RequestMethod.GET)
 	public ModelAndView signIn(ModelAndView modelAndView) {
 		modelAndView.setViewName("/member/signIn");
 		return modelAndView;
 	}
 	
+	// 아이디 중복확인 ajax
 	@RequestMapping(value="idCheck.do", method=RequestMethod.GET)
 	@ResponseBody
 	public String idCheck(@RequestParam("idCheck") String userId) throws Exception {
@@ -56,6 +63,7 @@ public class MemberController {
 		}
 	}
 	
+	// 이메일 인증번호 전송
 	@RequestMapping(value="authNum.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String authNum(@RequestParam("authNum") String userEmail) throws Exception {
@@ -63,6 +71,7 @@ public class MemberController {
 		return authNum;
 	}
 	
+	// 회원 가입 정보 DB 저장 및 회원가입 완료
 	@RequestMapping(value = "/memberIns.do", method = RequestMethod.POST)
 	public ModelAndView insertMember(Member member, ModelAndView modelAndView) throws Exception {
 		System.out.println(member);
@@ -72,6 +81,36 @@ public class MemberController {
 		} else {
 			modelAndView.setViewName("member/memberErrorPage");
 		}
+		return modelAndView;
+	}
+	
+	// 로그인 검증
+	@RequestMapping(value="login.do", method = RequestMethod.POST)
+	public ModelAndView login(@RequestParam("userId") String userId, @RequestParam("userPw") String userPw,
+			HttpServletRequest request, ModelAndView modelAndView) throws Exception {
+		HttpSession session = request.getSession();
+		Member member = memberService.selectMember(userId);
+		if(member == null) {
+			modelAndView.setViewName("member/memberLoginError");
+		} else {
+			if((member.getUserPw()).equals(userPw)) {
+				session.setAttribute("userId", userId);
+				modelAndView.setViewName("redirect:index.do");				
+			} else {
+				modelAndView.setViewName("member/memberLoginError");
+			}
+		}
+		return modelAndView;
+	}
+	
+	// 로그아웃
+	@RequestMapping(value="signOut.do", method=RequestMethod.GET)
+	public ModelAndView signOut(HttpServletRequest request, ModelAndView modelAndView) throws Exception {
+		
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		modelAndView.setViewName("redirect:index.do");
 		return modelAndView;
 	}
 

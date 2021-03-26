@@ -3,9 +3,11 @@ package com.on.nearbnb.place.model.vo;
 import java.util.Date;
 
 public class Place {
+	private Integer placeId;
+	private String uId;
 	private String placeName;
 	private String placeAddress;
-	private String placeaddressDetail;
+	private String placeAddressDetail;
 	private String maxGuest;
 	private String placeType;
 	private String placePrice;
@@ -15,8 +17,18 @@ public class Place {
 	private String placeCloseDate;
 	private String placeDesc;
 	
-	
-	
+	public String getuId() {
+		return uId;
+	}
+	public void setuId(String uId) {
+		this.uId = uId;
+	}
+	public Integer getPlaceId() {
+		return placeId;
+	}
+	public void setPlaceId(Integer placeId) {
+		this.placeId = placeId;
+	}
 	public String getPlacePrice() {
 		return placePrice;
 	}
@@ -35,11 +47,11 @@ public class Place {
 	public void setPlaceAddress(String placeaddress) {
 		this.placeAddress = placeaddress;
 	}
-	public String getPlaceaddressDetail() {
-		return placeaddressDetail;
+	public String getPlaceAddressDetail() {
+		return placeAddressDetail;
 	}
-	public void setPlaceaddressDetail(String placeaddressDetail) {
-		this.placeaddressDetail = placeaddressDetail;
+	public void setPlaceAddressDetail(String placeAddressDetail) {
+		this.placeAddressDetail = placeAddressDetail;
 	}
 	public String getMaxGuest() {
 		return maxGuest;
@@ -86,12 +98,10 @@ public class Place {
 	
 	@Override
 	public String toString() {
-		return "Place [placeName=" + placeName + ", placeaddress=" + placeAddress + ", placeaddressDetail="
-				+ placeaddressDetail + ", maxGuest=" + maxGuest + ", placeType=" + placeType + ", hostPhone="
-				+ hostPhone + ", hostKakaoLink=" + placeKakaoLink + ", placeOpenDate=" + placeOpenDate
-				+ ", placeCloseDate=" + placeCloseDate + ", placeDesc=" + placeDesc + "]";
+		return "Place [placeId=" + placeId + ", uId=" + uId + ", placeName=" + placeName + ", placeAddress="
+				+ placeAddress + ", placeAddressDetail=" + placeAddressDetail + ", maxGuest=" + maxGuest
+				+ ", placeType=" + placeType + ", placePrice=" + placePrice + ", hostPhone=" + hostPhone
+				+ ", placeKakaoLink=" + placeKakaoLink + ", placeOpenDate=" + placeOpenDate + ", placeCloseDate="
+				+ placeCloseDate + ", placeDesc=" + placeDesc + "]";
 	}
-	
-	
-	
 }

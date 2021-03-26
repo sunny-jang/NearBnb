@@ -26,7 +26,7 @@
 				$.ajax({
 					url : 'idCheck.do',
 					type: 'GET',
-					data : {idCheck : userId},
+					data : {"userId" : userId},
 					success : function(data) {
 						if(data == 0) {
 							$('#alertId').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">해당 아이디는 현재 사용중입니다.</td>').css('color','red');

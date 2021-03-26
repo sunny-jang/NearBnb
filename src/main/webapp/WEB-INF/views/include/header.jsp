@@ -32,12 +32,24 @@
     <div class="col-9 justify-content-end align-self-center">
       <div class="row justify-content-end">
         <div class="col">
+        <!-- 비로그인 상태일 때 -->
+        <c:if test="${empty userId}">
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
-              <!-- <button type="button" class="btn btn-primary">로그인</button> -->
-              <button type="button" class="btn add_room">내 숙소 등록하기</button>
+              <button type="button" class="btn add_room" onclick="alert('로그인 후 이용 가능합니다.')">내 숙소 등록하기</button>
+              <button type="button" class="btn btn-primary" onclick="location.href='signIn.do'">로그인</button>
               <button type="button" class="btn btn-secondary" onclick="location.href='signUp.do'">회원가입</button>
           </div>
+        </c:if>
+        <!-- 로그인 상태일 때 -->
+        <c:if test="${not empty userId}">
+          <div class="d-flex justify-content-end right-menu">
+              <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
+              <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
+              <button type="button" class="btn btn-primary" onclick="location.href='myPage.do'">마이페이지</button>
+              <button type="button" class="btn btn-secondary" onclick="location.href='signOut.do'">로그아웃</button>
+          </div>
+        </c:if>
         </div>
       </div>
     </div>

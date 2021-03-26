@@ -1,6 +1,7 @@
 package com.on.nearbnb.file.model.vo;
 
 public class PlaceFile {
+	private Integer placeId;
 	private String fileOriginalName;
 	private String fileChangedName;
 	private String filePath;
@@ -12,6 +13,15 @@ public class PlaceFile {
 		this.fileChangedName = fileChangedName;
 		this.filePath = filePath;
 	}
+	
+	public Integer getPlaceId() {
+		return placeId;
+	}
+
+	public void setPlaceId(Integer placeId) {
+		this.placeId = placeId;
+	}
+
 	public String getFileChangedName() {
 		return fileChangedName;
 	}

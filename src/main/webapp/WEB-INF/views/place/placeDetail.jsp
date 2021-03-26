@@ -4,7 +4,7 @@
 <section>
   <div class="container">
     <div class="title align-self-center">
-      <h1>나는바다가좋다..(풀오션뷰☆해변3분☆넷플릭스) 영진해변 도깨비 BTS 주문진 강릉 사천</h1>
+      <h1>${place.placeName}</h1>
     </div>
     <hr>
       <div class="row section-left">
@@ -24,26 +24,26 @@
         <!-- main-right -->
         <div class="col">
           <div class="d-flex justify-content-between">
-            <h2>&nbsp;종호님이 호스팅하는 아파트</h2>
+            <h2>&nbsp;${place.uId}님이 호스팅하는 아파트</h2>
             <div class="profile" style="background-color: black;"></div>
           </div>
           <hr>
           <div class="content-box">
             <div class="d-flex justify-content-start align-self-center">
               <i class='far fa-address-card icon'></i>&nbsp;
-              <div class="content">주소들어가는 곳</div>
+              <div class="content">${place.placeAddress} ${place.placeAddressDetail} </div>
             </div>
             <div class="d-flex justify-content-start align-self-center">
               <i class='fas fa-user-friends icon'></i>&nbsp;
-              <div class="content">최대인원 들어가는 곳</div>
+              <div class="content">${place.maxGuest} 명</div>
             </div>
             <div class="d-flex justify-content-start align-self-center">
               <i class='fas fa-home icon'></i>&nbsp;
-              <div class="content">숙소 유형 들어가는 곳</div>
+              <div class="content">${place.placeType}</div>
             </div>
             <div class="d-flex justify-content-start align-self-center">
               <i class='fas fa-money-check icon'></i>&nbsp;
-              <div class="content">금액 * 숙박일 들어가는 곳</div>
+              <div class="content">${place.placePrice} / 박</div>
             </div>
             <div class="d-flex justify-content-start align-self-center">
               <i class='fas fa-phone icon'></i>&nbsp;

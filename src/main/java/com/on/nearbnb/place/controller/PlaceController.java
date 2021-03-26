@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.file.model.vo.PlaceFile;
-import com.on.nearbnb.place.model.vo.Coords;
+import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.service.PlaceService;
 
@@ -42,34 +43,37 @@ public class PlaceController {
 		return imageName;
 	}
 	
+	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
+	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
+		Place place= placeService.selectPlace(pId);
+		
+		modelAndView.addObject("place", place);
+		
+		modelAndView.setViewName("/place/placeDetail");
+		return modelAndView;
+	}
+	
 	@RequestMapping(value="/placeAdd.do", method=RequestMethod.POST)
-	@ResponseBody
-	public ModelAndView addPlace(MultipartHttpServletRequest files, Place place, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
+	public String addPlace(MultipartHttpServletRequest files, Place place, PlacePoint placePoint, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
 		List<MultipartFile> images = files.getFiles("imageUpload");
 		String path = files.getSession().getServletContext().getRealPath("resources")+"\\html\\images\\";
 		
 		/* Coords coords = getCoords(request); */
 		List<PlaceFile> placeFiles = makeFileList(images, path);
+		HttpSession session = request.getSession();
+		String uId = (String) session.getAttribute("userId");
+		System.out.println(uId);
 		
+		place.setuId(uId);
+		placeService.insertPlace(place, placePoint, placeFiles);
 		
-		System.out.println(placeFiles.toString());
+		place = null;
+		placePoint = null;
+		files = null;
 		
-		System.out.println(place.toString());
-		placeService.insertPlace(place);
-		modelAndView.setViewName("/place/placeAdd");
-		
-		return modelAndView;
+		return "redirect:index.do";
 	}
-	
-	public Coords getCoords(HttpServletRequest request) {
-		Double latitude = new Double(request.getParameter("latitude"));
-		Double longitude = new Double(request.getParameter("longitude"));
-		
-		Coords coords = new Coords(latitude, longitude);
-		System.out.println(coords.toString());
-		return coords;
-	}
-	
+
 	public List<PlaceFile> makeFileList(List<MultipartFile> images, String path) {
 		List<PlaceFile> placeFiles = new ArrayList<PlaceFile>();
 		
@@ -85,7 +89,7 @@ public class PlaceController {
 			}
 		}
 		return placeFiles;
-		
 	}
+	
 
 }

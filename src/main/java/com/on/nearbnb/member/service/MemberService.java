@@ -8,10 +8,11 @@ public interface MemberService {
 	
 	public List<Member> selectMemberAll() throws Exception;
 	
-	public Member selectMember(String userId) throws Exception;
+	// id 찾기용
+	public Member selectMember(Member member) throws Exception;
 	
 	public String authEmail(String userEmail) throws Exception;
 	
-	public int insertMember(Member member) throws Exception;
+	public int insertMember(Member member) throws Exception;	
  
 }

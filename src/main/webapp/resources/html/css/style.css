@@ -101,6 +101,7 @@ img {
   height: 130px;
   background-size: cover;
   background-repeat: no-repeat;
+  background-color: black;
 }
 
 .group-place {

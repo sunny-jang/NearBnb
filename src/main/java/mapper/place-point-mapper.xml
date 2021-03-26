@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN:"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PlacePoint">
+	
+	<resultMap type="PlacePoint" id="resultPlacePoint">
+		<result property="latitude" column="LATITUDE"/>
+		<result property="longitude" column="PLACE_ADDRESS"/>
+		
+	</resultMap>
+	
+	<insert id="insertPlacePoint" parameterType="PlacePoint">
+		INSERT INTO PLACE_POINT VALUES(#{placeId}, #{latitude}, #{longitude})
+	</insert>
+
+</mapper>

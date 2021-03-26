@@ -42,11 +42,6 @@ public class HomeController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
-	public ModelAndView placeDetail(ModelAndView modelAndView) {
-		modelAndView.setViewName("/place/placeDetail");
-		return modelAndView;
-	}
 	
 	@RequestMapping(value = "/placeReservation.do", method = RequestMethod.GET)
 	public ModelAndView placeReservation(ModelAndView modelAndView) {
@@ -65,30 +60,6 @@ public class HomeController {
 		modelAndView.setViewName("/place/reservationComplete");
 		return modelAndView;
 	}	
-	
-	@RequestMapping(value = "/findId.do", method = RequestMethod.GET)
-	public ModelAndView findId(ModelAndView modelAndView) {
-		modelAndView.setViewName("/member/findId");
-		return modelAndView;
-	}
-	
-	@RequestMapping(value = "/findIdResult.do", method = RequestMethod.GET)
-	public ModelAndView findIdResult(ModelAndView modelAndView) {
-		modelAndView.setViewName("/member/findIdResult");
-		return modelAndView;
-	}
-	
-	@RequestMapping(value = "/findPassword.do", method = RequestMethod.GET)
-	public ModelAndView findPassword(ModelAndView modelAndView) {
-		modelAndView.setViewName("/member/findPassword");
-		return modelAndView;
-	}
-	
-	@RequestMapping(value = "/sentPasswordEmail.do", method = RequestMethod.GET)
-	public ModelAndView sentPassword(ModelAndView modelAndView) {
-		modelAndView.setViewName("/member/sentPasswordEmail");
-		return modelAndView;
-	}
 	
 	@RequestMapping(value = "/mypage.do", method = RequestMethod.GET)
 	public ModelAndView mypage(ModelAndView modelAndView) {

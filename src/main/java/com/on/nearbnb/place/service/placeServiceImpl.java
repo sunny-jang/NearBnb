@@ -43,4 +43,9 @@ public class placeServiceImpl implements PlaceService {
 		// TODO Auto-generated method stub
 		return pPointDao.insertPlacePoint(placePoint);
 	}
+
+	@Override
+	public Place selectPlace(Integer pId) {
+		return pDao.selectPlace(pId);
+	}
 }

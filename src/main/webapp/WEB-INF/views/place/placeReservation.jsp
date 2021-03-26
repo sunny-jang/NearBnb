@@ -9,6 +9,11 @@
       var d = date.getDate();
       var m = date.getMonth();
       var y = date.getFullYear();
+      var oDate = $("#openDate").text().substr(0,10);
+      var cDate = $("#closeDate").text().substr(0,10);
+      
+      console.log(oDate);
+      
   
       $('#calendar').fullCalendar({
         header : {
@@ -17,16 +22,22 @@
           right : 'next'
         },
         editable : true,
+        eventDurationEditable : true,
+        eventAllow: function(allDay, draggedEvent) {
+        	alert("test");
+        },
         events: [
           {
-            title: 'All Day Event',
-            start: '2021-03-20'
+            title:"가능날짜",
+            start: oDate,
+            end: cDate,
           },
+          
           {
-            title: 'All Day Event',
-            start: '2021-03-10',
-            end: '2021-03-15'
-          },
+              title:"선택날짜",
+              start: '2021-03-29',
+              end: '2021-03-30',
+            },
         ]
       });
     });
@@ -56,30 +67,34 @@
             <h2>&nbsp;예약 정보</h2>
           </div>
           <div class="place-li">
-          <a href="#" class="row">
+          <div class="row">
             <div class="place-image col-4 align-self-center">
-              <div class="place-image" style="background-color: black;"></div>
+              <div class="place-image"></div>
             </div>
             <div class="col-8">
-              <span class="place-host">User11님의 숙소</span>
-              <h5 class="place-name ellipsis2">숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름</h5>
-              <span class="place-option">최대인원 4명 . 숙소 유형 아파트</span>
-              <p class="place-des ellipsis2">여름휴가 간 동안 집이 비어서 올리게 되었습니다~ 깨끗하게 써주실 분 찾습니다~^^* 주실 분 찾습니다~^^* 주실 분 찾습니다~^^* .....</p>
+              <span class="place-host">${place.uId} 님의 숙소</span>
+              <h5 class="place-name ellipsis2">${place.placeName}</h5>
+              <span class="place-option">최대인원 ${place.maxGuest}명 . 숙소 유형 ${place.placeType}</span>
+              <p class="place-des ellipsis2">${place.placeDesc}</p>
               <div class="d-flex justify-content-between">
-                <div>16 <i class="fa fa-heart"></i></div>
-                <div>30,000 원 / 박</div>
+                <div>${place.placeThumb} <i class="fa fa-heart"></i></div>
+                <div>${place.placePrice} 원 / 박</div>
               </div>
             </div>
-          </a>          
+          </div>          
           </div>
           <div class="content-box">
             <div class="place-info">
               <div class="content-title">날짜</div>
-              <div class="content">21-03-17 ~ 21-03-19</div>
+              <div class="content" style="height:0px; font-size:0px">
+             	 <span id="openDate">${place.placeOpenDate}</span>
+              	 <span id="closeDate">${place.placeCloseDate}</span>
+              </div>
+              <div class="content">${place.placeOpenDate}dd ~ ${place.placeOpenDate}</div>
             </div>
             <div class="place-info">
               <div class="content-title">게스트</div>
-              <div class="content">게스트 4명</div>
+              <div class="content">게스트 <span id="selectedGuest">4</span>명</div>
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>

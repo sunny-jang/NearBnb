@@ -43,8 +43,7 @@ public class PlaceController {
 	}
 	
 	@RequestMapping(value="/placeAdd.do", method=RequestMethod.POST)
-	@ResponseBody
-	public ModelAndView addPlace(MultipartHttpServletRequest files, Place place, PlacePoint placePoint, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
+	public String addPlace(MultipartHttpServletRequest files, Place place, PlacePoint placePoint, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
 		List<MultipartFile> images = files.getFiles("imageUpload");
 		String path = files.getSession().getServletContext().getRealPath("resources")+"\\html\\images\\";
 		
@@ -55,9 +54,12 @@ public class PlaceController {
 		
 		System.out.println(place.toString());
 		placeService.insertPlace(place, placePoint, placeFiles);
-		modelAndView.setViewName("/place/placeAdd");
 		
-		return modelAndView;
+		place = null;
+		placePoint = null;
+		files = null;
+		
+		return "redirect:index.do";
 	}
 
 	public List<PlaceFile> makeFileList(List<MultipartFile> images, String path) {

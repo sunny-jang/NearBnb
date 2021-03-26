@@ -6,7 +6,7 @@
 <section>
 <div class="row">
   <div class="col main-left">
-    <h2>현재 위치의 숙소${userId}</h2>
+    <h2>현재 위치의 숙소</h2>
     <span>예약하기 전에 코로나19 관련 여행 제한 사항을 확인하세요.</span>
 
     <div class="group-place">

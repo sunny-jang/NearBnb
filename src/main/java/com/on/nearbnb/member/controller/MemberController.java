@@ -95,7 +95,7 @@ public class MemberController {
 		} else {
 			if((member.getUserPw()).equals(userPw)) {
 				session.setAttribute("userId", userId);
-				modelAndView.setViewName("member/memberLoginComplete");				
+				modelAndView.setViewName("redirect:index.do");				
 			} else {
 				modelAndView.setViewName("member/memberLoginError");
 			}
@@ -103,5 +103,15 @@ public class MemberController {
 		return modelAndView;
 	}
 	
+	// 로그아웃
+	@RequestMapping(value="signOut.do", method=RequestMethod.GET)
+	public ModelAndView signOut(HttpServletRequest request, ModelAndView modelAndView) throws Exception {
+		
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		modelAndView.setViewName("redirect:index.do");
+		return modelAndView;
+	}
 
 }

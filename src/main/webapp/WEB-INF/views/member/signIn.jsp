@@ -25,7 +25,7 @@
 	    <div class="col d-flex flex-column align-items-center justify-content-center">
 	      <h2 class="mb-5">로그인</h2>
 	     	 <input type="text" id="userId" name="userId" placeholder="아이디" class=" p-2" style="width: 300px;"><br>
-	    	 <input type="text" id="userPw" name="userPw" placeholder="비밀번호" class="p-2" style="width: 300px;">
+	    	 <input type="password" id="userPw" name="userPw" placeholder="비밀번호" class="p-2" style="width: 300px;">
 	  
 	   	   	 <div class="mt-4">아이디 또는 비밀번호를 잊으셨나요?</div>
 	    	   <div>

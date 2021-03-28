@@ -97,4 +97,10 @@ public class MemberServiceImpl implements MemberService{
 		return cnt;
 	}
 
+	@Override
+	public int updateMember(Member member) throws Exception {
+		int cnt = memberDao.updateMember(member);
+		return cnt;
+	}
+
 }

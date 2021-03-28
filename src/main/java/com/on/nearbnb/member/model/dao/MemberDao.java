@@ -35,5 +35,10 @@ public class MemberDao {
 		int cnt = sqlSession.insert("Member.insertMember", member);
 		return cnt;
 	}
+	
+	public int updateMember(Member member) throws Exception {
+		int cnt = sqlSession.update("Member.updateMember", member);
+		return cnt;
+	}
 
 }

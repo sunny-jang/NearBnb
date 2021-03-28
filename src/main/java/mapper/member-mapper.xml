@@ -25,18 +25,28 @@
 	<!-- member table 조회 통합 쿼리 -->
 	<select id="selectMember" parameterType="Member" resultMap="resultMember">
 		SELECT * FROM MEMBER
-		<where>			
-			<if test="userId != null">
-				U_ID = #{userId}
-			</if>
-			<if test="userName != null and userEmail != null">
-				USER_NAME = #{userName} AND USER_EMAIL = #{userEmail}
-			</if>		
+		<where>
+			<choose>
+				<when test="userName != null and userEmail != null">
+					USER_NAME = #{userName} AND USER_EMAIL = #{userEmail}
+				</when>
+				<when test="userId != null and userEmail != null">
+					U_ID = #{userId} AND USER_EMAIL = #{userEmail}
+				</when>	
+				<when test="userId != null">
+					U_ID = #{userId}
+				</when>
+				<otherwise></otherwise>
+			</choose>	
 		</where>
 	</select>
 	
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO MEMBER VALUES(#{userId}, #{userPw}, #{userName}, #{userPhone}, #{userEmail}, DEFAULT, DEFAULT)
 	</insert>
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER SET USER_PW = #{userPw} WHERE U_ID = #{userId}
+	</update>
 	
 </mapper>

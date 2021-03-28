@@ -42,14 +42,14 @@ public class MemberController {
 	
 	// 회원가입 페이지 이동
 	@RequestMapping(value = "/signUp.do", method = RequestMethod.GET)
-	public ModelAndView signUp(ModelAndView modelAndView) {
+	public ModelAndView signUp(ModelAndView modelAndView) throws Exception {
 		modelAndView.setViewName("/member/signUp");
 		return modelAndView;
 	}
 	
 	// 로그인 페이지 이동
 	@RequestMapping(value = "/signIn.do", method = RequestMethod.GET)
-	public ModelAndView signIn(ModelAndView modelAndView) {
+	public ModelAndView signIn(ModelAndView modelAndView) throws Exception {
 		modelAndView.setViewName("/member/signIn");
 		return modelAndView;
 	}
@@ -121,8 +121,8 @@ public class MemberController {
 	
 	// 아이디 찾기
 	@RequestMapping(value = "/findId.do", method = RequestMethod.GET)
-	public ModelAndView findId(ModelAndView modelAndView) {
-		modelAndView.setViewName("/member/findId");
+	public ModelAndView findId(ModelAndView modelAndView) throws Exception {
+		modelAndView.setViewName("member/findId");
 		return modelAndView;
 	}
 	
@@ -138,15 +138,41 @@ public class MemberController {
 	
 	// 비밀번호 찾기
 	@RequestMapping(value = "/findPassword.do", method = RequestMethod.GET)
-	public ModelAndView findPassword(ModelAndView modelAndView) {
-		modelAndView.setViewName("/member/findPassword");
+	public ModelAndView findPassword(ModelAndView modelAndView) throws Exception {
+		modelAndView.setViewName("member/findPassword");
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/sentPasswordEmail.do", method = RequestMethod.GET)
-	public ModelAndView sentPassword(ModelAndView modelAndView) {
-		modelAndView.setViewName("/member/sentPasswordEmail");
+	@RequestMapping(value = "/findPwAction.do", method = RequestMethod.POST)
+	public ModelAndView findPwAction(Member member, ModelAndView modelAndView) throws Exception {
+		System.out.println(member);
+		Member m = memberService.selectMember(member);
+		System.out.println(m);
+		if(m != null) {
+			String authNum = memberService.authEmail(m.getUserEmail());
+			modelAndView.addObject("userId", m.getUserId());
+			modelAndView.addObject("authKey", authNum);
+			modelAndView.setViewName("member/findPasswordAuth");
+		} else {
+			modelAndView.setViewName("member/findPasswordError");
+		}
 		return modelAndView;
 	}
+	
+	@RequestMapping(value = "/changePassword.do", method = RequestMethod.POST)
+	public ModelAndView findPasswordAuth(@RequestParam("userId") String userId, ModelAndView modelAndView) throws Exception {
+		modelAndView.addObject("userId", userId);
+		modelAndView.setViewName("member/changePassword");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/changePwAction.do", method = RequestMethod.POST)
+	public ModelAndView changePwAction(Member member, ModelAndView modelAndView) throws Exception {
+		int cnt = memberService.updateMember(member);
+		if(cnt == 1) {
+			modelAndView.setViewName("member/changePwComplete");
+		}
+		return modelAndView;
+	}	
 	
 }

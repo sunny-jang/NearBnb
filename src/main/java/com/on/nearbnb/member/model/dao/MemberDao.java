@@ -16,14 +16,19 @@ public class MemberDao {
 	
 	public MemberDao() {}
 	
-	public List<Member> selectMemberAll() throws Exception {
-		List<Member> memberList = sqlSession.selectList("Member.selectMemberAll");
+	public List<Member> selectMember() throws Exception {
+		List<Member> memberList = sqlSession.selectList("Member.selectMember");
 		return memberList;
 	}
 	
-	public Member selectMember(String userId) throws Exception {
-		Member member = sqlSession.selectOne("Member.selectMember", userId);
-		return member;
+//	public Member selectMember(String userId) throws Exception {
+//		Member member = sqlSession.selectOne("Member.selectMember", userId);
+//		return member;
+//	}
+	
+	public Member selectMember(Member member) throws Exception {
+		Member memberResult = sqlSession.selectOne("Member.selectMember", member);
+		return memberResult;
 	}
 	
 	public int insertMember(Member member) throws Exception {

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.on.nearbnb.board.model.dao.BoardDao;
 import com.on.nearbnb.board.model.vo.Board;
+import com.on.nearbnb.board.model.vo.BoardThumb;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -16,8 +17,20 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 게시판 목록 조회
 	@Override
-	public List<Board> selectBoardList(){
-		return boardDao.selectBoardList();
+	public List<Board> selectBoardList(int startPage, int endPage){
+		return boardDao.selectBoardList(startPage, endPage);
+	}
+	
+	// 게시글 전체 글 개수 조회
+	@Override
+	public int boardListCount() {
+		return boardDao.boardListCount();
+	}
+	
+	// 게시판 추천 조회
+	@Override
+	public BoardThumb selectBoardThumb(int boardCodeSeq) {
+		return boardDao.selectBoardThumb(boardCodeSeq);
 	}
 	
 	// 게시글 상세 조회
@@ -43,7 +56,5 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteBoard(Board board) {
 		return boardDao.deleteBoard(board);
 	}
-
-	
 
 }

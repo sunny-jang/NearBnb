@@ -19,6 +19,8 @@
 	});
 </script>
 <section style="height: 100vh;">
+<input type="password" id="beforePw" value="${board.userPw }" style="display: none;">
+<input type="password" name="boardCodeSeq" value="${board.boardCodeSeq }" style="display: none;">
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
@@ -36,7 +38,6 @@
             </td>
         </tr>
       </table>
-      <input type="password" id="beforePw" value="${board.userPw }" style="display: none;">
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
       <input type="reset" class="btn reset">
       <input type="submit" class="write3 btn" onclick="return confirm('게시글을 삭제하시겠습니까?')" value="삭제하기">

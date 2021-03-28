@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.on.nearbnb.board.model.vo.Board;
+import com.on.nearbnb.board.model.vo.BoardPage;
+import com.on.nearbnb.board.model.vo.BoardThumb;
 
 @Repository
 public class BoardDao {
@@ -15,9 +17,24 @@ public class BoardDao {
 	private SqlSession sqlSession;
 	
 	// 게시글 목록 조회
-	public List<Board> selectBoardList(){
-		List<Board> boardList = sqlSession.selectList("Board.selectBoardList");
+	public List<Board> selectBoardList(int startPage, int endPage){
+		int startRow = (startPage - 1) * endPage;
+		BoardPage boardPage = new BoardPage();
+		boardPage.setStartPage(startRow+1);
+		boardPage.setEndPage(startRow+15);
+		List<Board> boardList = sqlSession.selectList("Board.selectBoardList", boardPage);
 		return boardList;
+	}
+	
+	// 게시글 전체 글 개수 조회
+	public int boardListCount() {
+		return sqlSession.selectOne("Board.boardListCount");
+	}
+	
+	// 게시글 추천 조회
+	public BoardThumb selectBoardThumb(int boardCodeSeq) {
+		BoardThumb boardThumb = sqlSession.selectOne("Board.selectBoardThumb", boardCodeSeq);
+		return boardThumb;
 	}
 	
 	// 게시글 상세 조회

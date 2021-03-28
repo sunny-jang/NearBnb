@@ -29,8 +29,8 @@
 	  
 	   	   	 <div class="mt-4">아이디 또는 비밀번호를 잊으셨나요?</div>
 	    	   <div>
-	        	<a class="underline" href="#">아이디 찾기</a> / 
-	        	<a class="underline" href="#">비밀번호 찾기</a>
+	        	<a class="underline" href="findId.do">아이디 찾기</a> / 
+	        	<a class="underline" href="findPassword.do">비밀번호 찾기</a>
 	     	   </div>
 	  
 		      <div class="btn-group-vertical mt-3">

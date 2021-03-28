@@ -9,6 +9,8 @@
 	<typeAliases> <!-- Class 별칭을 선언하여 모든 경로를 적어주지 않아도 된다. -->
 		<typeAlias type="com.on.nearbnb.member.model.vo.Member" alias="Member" />
 		<typeAlias type="com.on.nearbnb.board.model.vo.Board" alias="Board" />
+		<typeAlias type="com.on.nearbnb.board.model.vo.BoardThumb" alias="BoardThumb" />
+		<typeAlias type="com.on.nearbnb.board.model.vo.BoardPage" alias="BoardPage" />
 		<typeAlias type="com.on.nearbnb.place.model.vo.Place" alias="Place" />
 		<typeAlias type="com.on.nearbnb.place.model.vo.PlacePoint" alias="PlaceFile" />
 		<typeAlias type="com.on.nearbnb.file.model.vo.PlaceFile" alias="PlacePoint" />

@@ -7,20 +7,6 @@
 
 <!-- SmartEditor2 라이브러리 --> 
 <script type="text/javascript" src="${context}/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
-
-<script>
-	$(function(){
-		$('#check').on('submit', function(){
-			var boardType = $('#boardType').val();
-			if(boardType == '종류'){
-				alert('게시글의 종류를 선택해주세요.');
-				return "";
-			}else{
-				return true;
-			}
-		});
-	});
-</script>
 <section>
 <div class="total">
   <h2>커뮤니티</h2>
@@ -31,7 +17,7 @@
         <tr>
             <td style="width: 300px;">제목</td>
             <td style="width: 900px; height: 50px;">
-                <h2><input type="text" class="title" style="margin-top: 20px;" placeholder=" 제목" name="boardTitle"></h2>
+                <h2><input type="text" class="title" style="margin-top: 20px;" placeholder=" 제목" name="boardTitle" id="boardTitle"></h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
                 <select style="border: none;" name="boardType" id="boardType">
@@ -60,7 +46,7 @@
         </tr>
       </table>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
-      <input type="reset" class="btn reset">
+      <input type="reset" class="btn reset" id="reset">
       <input type="submit" class="write3 btn" id="save" value="글쓰기">
   </form>
 </center>
@@ -86,12 +72,41 @@
 			}, 
 			fCreator: "createSEditor2"
 		});
-			
-		//저장버튼 클릭시 form 전송
+		
+//		// 리셋버튼 클릭 시
+//		$("#reset").click(function(){
+//			document.getElementById("smartEditor").value = "apple";
+//			oEditors.getById["smartEditor"].exec("FOCUS");
+//		});
+		
+		// 저장버튼 클릭 시 form 전송
 		$("#save").click(function(){
 		oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []);
-		$("#frm").submit();
-	});    
+		var selcatd = $("#boardType > option:selected").val();
+		var title = $("#boardTitle").val();
+		var content = document.getElementById("smartEditor").value;
+
+		if (selcatd == "종류") {
+			alert("카테고리를 선택해주세요.");
+			return false;
+		}
+		if (title == null || title == "") {
+			alert("제목을 입력해주세요.");
+			$("#boardTitle").focus();
+			return false;
+		}
+		if(content == "" || content == null || content == '&nbsp;' || content == '<br>' || content == '<br/>' || content == '<p>&nbsp;</p>'){
+			alert("본문을 작성해주세요.");
+			oEditors.getById["smartEditor"].exec("FOCUS");
+			return false;
+		}
+		var result = confirm(selcatd+" 글을 작성 하시겠습니까?");
+		if(result){
+			$("#frm").submit();
+		}else{
+			return false;
+		}
+	});
 });
 </script>
 <%@ include file="../include/footer.jsp" %>

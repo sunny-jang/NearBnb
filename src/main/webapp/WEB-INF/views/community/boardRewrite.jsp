@@ -30,17 +30,11 @@
         <tr>
             <td style="width: 100px;">제목</td>
             <td style="width: 900px; height: 50px;">
-                <h2><input type="text" class="title" style="margin-top: 17px;" name="boardTitle" value="${board.boardTitle }"></h2>
+                <h2><input type="text" class="title" style="margin-top: 17px;" name="boardTitle" id="boardTitle" value="${board.boardTitle }"></h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
                 <select style="border: none;" name="boardType" id="boardType">
                     <c:choose>
-						<c:when test="${board.boardType eq '종류' }">
-							<option value="종류" selected>종류</option>
-							<option value="추천">추천</option>
-                    		<option value="주변시설">주변시설</option>
-                    		<option value="문의">문의</option>
-						</c:when>
 						<c:when test="${board.boardType eq '추천' }">
 							<option value="종류">종류</option>
 							<option value="추천" selected>추천</option>
@@ -77,7 +71,7 @@
             </td>
             <td colspan="2">
                 <textarea id="smartEditor" name="boardContent" style="width: 100%; height: 412px;">${board.boardContent }</textarea>
-                <input type="text" name="boardCodeSeq" value="${board.boardCodeSeq }" style="display: none;"/>
+                <input type="hidden" name="boardCodeSeq" value="${board.boardCodeSeq }" />
             </td>
         </tr>
       </table>
@@ -109,11 +103,34 @@
 			fCreator: "createSEditor2"
 		});
 			
-		//저장버튼 클릭시 form 전송
+		// 저장버튼 클릭 시 form 전송
 		$("#save").click(function(){
 		oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []);
-		$("#frm").submit();
-	});    
+		var selcatd = $("#boardType > option:selected").val();
+		var title = $("#boardTitle").val();
+		var content = document.getElementById("smartEditor").value;
+
+		if (selcatd == "종류") {
+			alert("카테고리를 선택해주세요.");
+			return false;
+		}
+		if (title == null || title == "") {
+			alert("제목을 입력해주세요.");
+			$("#boardTitle").focus();
+			return false;
+		}
+		if(content == "" || content == null || content == '&nbsp;' || content == '<br>' || content == '<br/>' || content == '<p>&nbsp;</p>'){
+			alert("본문을 작성해주세요.");
+			oEditors.getById["smartEditor"].exec("FOCUS");
+			return false;
+		}
+		var result = confirm("글을 수정 하시겠습니까?");
+		if(result){
+			$("#frm").submit();
+		}else{
+			return false;
+		}
+	});
 });
 </script>
 <%@ include file="../include/footer.jsp" %>

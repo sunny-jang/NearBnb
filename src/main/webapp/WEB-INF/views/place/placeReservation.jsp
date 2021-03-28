@@ -1,35 +1,97 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
-<script type='text/javascript'>
-  //켈린더
-    $(document).ready(function() {
-  
-      var date = new Date();
-      var d = date.getDate();
-      var m = date.getMonth();
-      var y = date.getFullYear();
-  
-      $('#calendar').fullCalendar({
-        header : {
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="context" value="${pageContext.request.contextPath}" />
+<link href='${context}/resources/html/css/calendar.css' rel='stylesheet' />
+<script src='${context}/resources/html/js/fullcalendar.js'></script>
+<script src='${context}/resources/html/js/interaction.js'></script>
+<script src='${context}/resources/html/js/daygrid.js'></script>
+<script src='${context}/resources/html/js/timegrid.js'></script>
+<script src='${context}/resources/html/js/ko.js'></script>
+ <script src="${context}/resources/html/js/dateController.js"></script>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+	  
+	var oDate = $("#openDate").text().substring(0,10);
+	var cDate = $("#closeDate").text().substring(0,10);
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      locale:'ko',
+      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+      header : {
           left : 'prev',
           center : 'title',
           right : 'next'
         },
-        editable : true,
-        events: [
-          {
-            title: 'All Day Event',
-            start: '2021-03-20'
-          },
-          {
-            title: 'All Day Event',
-            start: '2021-03-10',
-            end: '2021-03-15'
-          },
-        ]
-      });
+      navLinks: true, // can click day/week names to navigate views
+      selectable: true,
+      selectMirror: true,
+      select: function(arg) {
+    	var date = new PlaceDate();
+    	var event_ = calendar.getEventById('book');
+    	
+    	// 이미 이벤트가 만들어져있으면 삭제
+    	if(event_) {
+    		event_.remove();
+    	}
+    	
+    	//날짜 데이터를 스트링으로 변환
+    	argS = date.getDateFormat(arg.start);
+    	argE = date.getDateFormat(arg.end);
+    	
+    	// 이벤트 셋업
+    	event_ = {
+		    id: 'book',
+	        title: "예약 날짜",
+	        start: arg.start,
+	        end: arg.end,
+	        allDay: arg.allDay,
+	        color: 'orange'
+	      };
+    	
+    	// 예약 가능날짜 사이에 있는지 여부
+    	if(oDate <= argS && cDate >= argE) {
+    		
+    		calendar.addEvent(event_);
+    	        calendar.unselect()
+    	}else {
+    		alert("예약 가능 날짜 안에서 선택해주세요.")
+    	}
+    	
+    	$("#checkIn").html(argS);
+    	$("#checkOut").html(argE);
+      },
+      eventLimit: true, // allow "more" link when too many events
+      events: [
+        {
+          title: '예약 가능 날짜',
+          start: oDate,
+          end: cDate
+        },
+      ],
+      local:'ko',
+      eventDurationEditable: true
     });
+    
+    function init() {
+    	$("#checkIn").text(oDate);
+    	$("#checkOut").text(oDate);
+    	calendar.render();
+    }
+    
+    init();
+
+    
+    
+    $("#selectGuest").on("change", function() {
+    	$("#selectedGuest").text($(this).val())
+    })
+  });
+
 </script>
 <section>
   <div class="container">
@@ -43,11 +105,10 @@
 	      <h2>날짜선택</h2>        
           <div id='calendar' style='margin: 0px 0px 1em; font-size: 13px'></div>
           <h2>인원</h2>
-          <select class="form-control" style="margin: 0px 0px 1em">
-          	<option>1</option>
-          	<option>2</option>
-          	<option>3</option>
-          	<option>4</option>
+          <select class="form-control" style="margin: 0px 0px 1em" id="selectGuest">
+          	<c:forEach var="i" begin="1" end="${place.maxGuest}">
+          		<option value="${i}">${i}</option>
+          	</c:forEach>
           </select>
         </div>
         <!-- main-right -->
@@ -56,34 +117,39 @@
             <h2>&nbsp;예약 정보</h2>
           </div>
           <div class="place-li">
-          <a href="#" class="row">
+          <div class="row">
             <div class="place-image col-4 align-self-center">
-              <div class="place-image" style="background-color: black;"></div>
+              <div class="place-image"></div>
             </div>
             <div class="col-8">
-              <span class="place-host">User11님의 숙소</span>
-              <h5 class="place-name ellipsis2">숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름</h5>
-              <span class="place-option">최대인원 4명 . 숙소 유형 아파트</span>
-              <p class="place-des ellipsis2">여름휴가 간 동안 집이 비어서 올리게 되었습니다~ 깨끗하게 써주실 분 찾습니다~^^* 주실 분 찾습니다~^^* 주실 분 찾습니다~^^* .....</p>
+              <span class="place-host">${place.uId} 님의 숙소</span>
+              <h5 class="place-name ellipsis2">${place.placeName}</h5>
+              <span class="place-option">최대인원 ${place.maxGuest}명 . 숙소 유형 ${place.placeType}</span>
+              <p class="place-des ellipsis2">${place.placeDesc}</p>
               <div class="d-flex justify-content-between">
-                <div>16 <i class="fa fa-heart"></i></div>
-                <div>30,000 원 / 박</div>
+                <div>${place.placeThumb} <i class="fa fa-heart"></i></div>
+                <div>${place.placePrice} 원 / 박</div>
               </div>
             </div>
-          </a>          
+          </div>          
           </div>
           <div class="content-box">
             <div class="place-info">
               <div class="content-title">날짜</div>
-              <div class="content">21-03-17 ~ 21-03-19</div>
+              <div class="content" style="height:0px; font-size:0px">
+             	 <span id="openDate">${place.placeOpenDate}</span>
+              	 <span id="closeDate">${place.placeCloseDate}</span>
+              </div>
+              <div class="content">
+              	<span id="checkIn">${place.placeOpenDate}</span> ~ <span id="checkOut">${place.placeOpenDate}</span></div>
             </div>
             <div class="place-info">
               <div class="content-title">게스트</div>
-              <div class="content">게스트 4명</div>
+              <div class="content">게스트 <span id="selectedGuest">1</span>명</div>
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>
-              <div class="content">￦89,000 × 2박 = ￦178,000</div>
+              <div class="content">￦${place.placePrice} × 2박 = ￦<span id="totalPrice">178,000</span></div>
             </div>            
             <div class="d-flex justify-content-center align-self-center">
               <button type="button" class="btn btn-warning btn-lg btn-block">결제하기</button>	

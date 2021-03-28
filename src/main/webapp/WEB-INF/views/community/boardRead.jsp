@@ -4,28 +4,68 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
-<!-- <script>
+<script>
 	$(function(){
 		$('#thumb').on('click', function(){
-			$.ajax({
-				url : '/NearBnb/thumb.do',
-				date : {
-					var thumbs : ${boardThumb.boardThumb }
-				},
-				dataType : 'json',
-				success: function(data){
-					
-				}
-			});
+			// alert($('#boardCodeSeq').val());
+			// alert("${userId}");
+			if("${userId}" == ""){
+				alert('로그인이 필요한 서비스입니다.');
+			}else{
+				$.ajax({
+					url : 'boardAjaxThumbsUp.do',
+					data : {
+						boardCodeSeq : $('#boardCodeSeq').val(),
+						userId : "${userId}"
+					},
+					type : 'GET',
+					dataType : 'json',
+					success: function(data){
+						if(data.heart == 'unSignIn'){
+							alert('로그인이 필요한 서비스입니다.');
+						}
+ 						if(data.heart == 'notThumbsUp'){
+							$('#thumb').html("♡");
+						}
+ 						if(data.heart == 'thumbsUp'){
+							$('#thumb').html("♥");
+						}
+						$('#maxThumb').html(data.maxThumb);
+					},
+					error: function(request, status, error){
+						alert("code : " + request.status + "\n"
+								+ "message : " + request.responseText + "\n"
+								+ "error : " + error);
+					}
+				});
+			}
+		});
+		$('#rewrite').on('click', function(){
+			if("${userId}" == ""){
+				alert('로그인이 필요한 서비스입니다.');
+				$(location).attr("href", "signIn.do");
+			}else if($('#userId').val() != "${sessionScope.userId}"){
+				alert('수정 권한이 없습니다.');
+			}
+		});
+		$('#delete').on('click', function(){
+			if("${userId}" == ""){
+				alert('로그인이 필요한 서비스입니다.');
+				$(location).attr("href", "signIn.do");
+			}else if($('#userId').val() != "${sessionScope.userId}"){
+				alert('삭제 권한이 없습니다.');
+			}
 		});
 	});
-</script> -->
+</script>
 <section style="height: 100vh;">
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
   <center>
     <form class="center" action="boardUpdateCon.do" method="post">
+      <input type="hidden" name="boardCodeSeq" id="boardCodeSeq" value="${board.boardCodeSeq }" />
+      <input type="hidden" name="userId" id="userId" value="${board.userId }" />
       <table style="font-size: 20px;">
         <tr>
             <td>제목</td>
@@ -33,8 +73,18 @@
                 <div class="title" style="margin-top: 30px; text-align: left;"><h2>${board.boardTitle }</h2></div>
             </td>
             <td style="width: 100px;">
-              <input type="button" value="♥" class="heart" id="thumb">
-              <h2 style="display: inline;">${boardThumb.boardThumb }</h2>
+              <c:choose>
+                <c:when test="${heart eq 'unSignIn' }">
+              	  <button type="button" class="heart" id="thumb">♡</button>
+              	</c:when>
+              	<c:when test="${heart eq 'notThumbsUp' }">
+              	  <button type="button" class="heart" id="thumb">♡</button>
+              	</c:when>
+              	<c:otherwise>
+              	  <button type="button" class="heart" id="thumb">♥</button>
+              	</c:otherwise>
+              </c:choose>
+              <h2 style="display: inline;" id="maxThumb">${thumbs }</h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
                 <div style="width: 100px;">
@@ -92,8 +142,8 @@
       </table>
       <div>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
-      <input type="button" class="write1 btn" onclick="location.href='boardDeleteProCon.do?boardCodeSeq=${board.boardCodeSeq }'" value="삭제">
-      <input type="button" class="write2 btn" onclick="location.href='boardUpdateProCon.do?boardCodeSeq=${board.boardCodeSeq }'" value="수정">
+      <a href="boardDeleteCon.do?boardCodeSeq=${board.boardCodeSeq }" id="delete" class="write1 btn" onclick="return confirm('정말 삭제 하시겠습니까?')">삭제</a>
+      <input type="button" class="write2 btn" id="rewrite" onclick="location.href='boardUpdateProCon.do?boardCodeSeq=${board.boardCodeSeq }'" value="수정">
       </div>
   </form>
 </center>

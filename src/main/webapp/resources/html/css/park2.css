@@ -21,6 +21,10 @@
 .List{
     height: 40px;
 }
+.bestList{
+	font-size: 1px;
+	background-color: black;
+}
 .boardType2{
     width: 190px;
 }

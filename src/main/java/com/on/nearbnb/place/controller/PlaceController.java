@@ -91,5 +91,14 @@ public class PlaceController {
 		return placeFiles;
 	}
 	
+	
+	@RequestMapping(value = "/placeReservation.do", method = RequestMethod.GET)
+	public ModelAndView placeReservation(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
+		Place place= placeService.selectPlace(pId);
+		
+		modelAndView.addObject("place", place);
+		modelAndView.setViewName("/place/placeReservation");
+		return modelAndView;
+	}
 
 }

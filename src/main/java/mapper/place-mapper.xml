@@ -16,6 +16,7 @@
 		<result property="placeOpenDate" column="PLACE_OPEN_DATE"/>
 		<result property="placeCloseDate" column="PLACE_CLOSE_DATE"/>
 		<result property="placeDesc" column="PLACE_INFO"/>
+		<result property="placeThumb" column="PLACE_THUMB"/>
 	</resultMap>
 	
 	<select id="selectPlace" resultMap="resultPlace" parameterType="Integer">

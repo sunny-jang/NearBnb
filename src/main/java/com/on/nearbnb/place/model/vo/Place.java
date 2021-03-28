@@ -16,7 +16,14 @@ public class Place {
 	private String placeOpenDate;
 	private String placeCloseDate;
 	private String placeDesc;
+	private String placeThumb;
 	
+	public String getPlaceThumb() {
+		return placeThumb;
+	}
+	public void setPlaceThumb(String placeThumb) {
+		this.placeThumb = placeThumb;
+	}
 	public String getuId() {
 		return uId;
 	}

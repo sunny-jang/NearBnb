@@ -1,99 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta charset='utf-8' />
+<link href='css/calendar.css' rel='stylesheet' />
+<script src='js/fullcalendar.js'></script>
+<script src='js/interaction.js'></script>
+<script src='js/daygrid.js'></script>
+<script src='js/timegrid.js'></script>
+<script src='js/ko.js'></script>
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script>
 
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
 
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="css/style.css" rel="stylesheet">
-<link href="css/jang.css" rel="stylesheet">
-<link href="css/calender.css" rel="stylesheet">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery.min.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<script type='text/javascript' src='js/fullcalendar.min.js'></script>
-
-<script type='text/javascript'>
-  //켈린더
-    $(document).ready(function() {
-  
-      var date = new Date();
-      var d = date.getDate();
-      var m = date.getMonth();
-      var y = date.getFullYear();
-  
-      $('#calendar').fullCalendar({
-        header : {
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      locale:'ko',
+      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+      header : {
           left : 'prev',
           center : 'title',
           right : 'next'
         },
-        editable : true,
-        events: [
-          {
-            title: 'All Day Event',
-            start: '2021-03-20'
-          },
-          {
-            title: 'All Day Event',
-            start: '2021-03-10',
-            end: '2021-03-15'
-          },
-        ]
-      });
+      defaultDate: '2020-02-12',
+      navLinks: true, // can click day/week names to navigate views
+      selectable: true,
+      selectMirror: true,
+      select: function(arg) {
+        calendar.addEvent({
+          title: "예약 날짜",
+          start: arg.start,
+          end: arg.end,
+          allDay: arg.allDay
+        });
+        calendar.unselect()
+      },
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+      events: [
+        {
+          title: '예약 가능 날짜',
+          start: '2020-02-07',
+          end: '2020-02-10'
+        },
+      ],
+      local:'ko'
     });
-  </script>
+
+    calendar.render();
+  });
+
+</script>
+<style>
+
+  body {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+
+  #calendar {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+</style>
 </head>
 <body>
-<header>
-  <div class="row">
-    <div class="col-3">
-      <h1 class="logo">
-        <a href="#"><img src ="images/logo.png"></a>
-      </h1>
-    </div>
-    <div class="col-9 justify-content-end align-self-center">
-      <div class="row justify-content-end">
-        <div class="col">
-          <div class="d-flex justify-content-end right-menu">
-              <button type="button" class="btn community">커뮤니티</button>
-              <!-- <button type="button" class="btn btn-primary">로그인</button> -->
-              <button type="button" class="btn add_room">내 숙소 등록하기</button>
-              <button type="button" class="btn btn-secondary">회원가입</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
+  <div id='calendar'></div>
 
-
-<section>
-  <!--달력 부분 -->
-  <div class="row">
-    <div class="col-6">
-      <div id='calendar' style='margin: 3em 0; font-size: 13px'></div>
-
-    </div>
-  </div>
-</section>
-<footer>
-  ⓒ 2021 Nearbnb, Inc. All rights reserved <br>
-  개인정보 처리방침 | 이용약관 | 변경된 환불 정책 | 회사 세부정보
-</footer>
 </body>
 </html>

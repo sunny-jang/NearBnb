@@ -6,6 +6,16 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park1.css" rel="stylesheet">
+<script>
+	$(function(){
+		$('#boardWrite').on('click', function(){
+			if("${userId}" == ""){
+				alert('로그인이 필요한 서비스입니다.');
+				$(location).attr("href", "signIn.do");
+			}
+		});
+	});
+</script>
 <section>
 <div class="total">
   <h2>커뮤니티</h2>
@@ -26,6 +36,7 @@
     <input type="submit" class="btn" style="font-size: 17px;" value="검색">
   </form>
 	<center>
+		<input type="hidden" name="userId" id="userId" value="${board.userId }" />
 		<table class="comT" style="font-size: 20px;">
 		    <tr class="type">
 		      <td class="boardType2" style="width: 250px;">게시글 종류</td>
@@ -43,11 +54,20 @@
 				</tr>
 			</c:if>
 		 	<c:if test="${boardListCount ne 0 }">
+		 		<c:forEach var="bestBoard" items="${bestList }">
+					<tr class="List" style="background-color: #FFFFAA; border-bottom: 1px solid rgb(251,248,167);">
+						<td>${bestBoard.boardType }</td>
+						<td><a href="boadSelectOneCon.do?boardCodeSeq=${bestBoard.boardCodeSeq }">${bestBoard.boardTitle }</a></td>
+						<td>${bestBoard.thumbsCnt }</td>
+						<td>${bestBoard.userId }</td>
+						<td><fmt:formatDate value="${bestBoard.boardDate }" type="DATE" dateStyle="MEDIUM"/></td>
+					</tr>
+				</c:forEach>
 		 		<c:forEach var="board" items="${boardList }">
-					<tr class="List">
+					<tr class="List" style="border-bottom: 1px solid rgb(251,248,167);">
 						<td>${board.boardType }</td>
 						<td><a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }">${board.boardTitle }</a></td>
-						<%-- <td>${boardThumb.boardThumb }</td> --%>
+						<td>${board.thumbsCnt }</td>
 						<td>${board.userId }</td>
 						<td><fmt:formatDate value="${board.boardDate }" type="DATE" dateStyle="MEDIUM"/></td>
 					</tr>
@@ -62,7 +82,7 @@
 						<c:url var="boardList" value="board.do">
 							<c:param name="page" value="${currentPage-1}" />
 						</c:url>
-						<a href="${boardList}">[이전]</a>
+						<a href="${boardList}">이전</a>
 					</c:if>
 					<!-- 끝 페이지 번호 처리 -->
 					<c:set var="maxPage" value="${maxPage}" />
@@ -78,19 +98,18 @@
 						</c:if>
 					</c:forEach>
 					<c:if test="${currentPage >= maxPage}">
-						[다음]
 					</c:if>
 					<c:if test="${currentPage < maxPage}">
 						<c:url var="boardListEND" value="board.do">
 							<c:param name="page" value="${currentPage+1}" />
 						</c:url>
-						<a href="${boardListEND}">[다음]</a>
+						<a href="${boardListEND}">다음</a>
 					</c:if>
 				</td>
 			</tr>
 		</table>
 	</center>
 </div>
-<input type="button" class="btn write" style="background-color:#FFBF00; height: 34px;" onclick="location.href='boardWrite.do'" value="글쓰기" >
+<input type="button" class="btn write" id="boardWrite" style="background-color:#FFBF00; height: 34px;" onclick="location.href='boardWrite.do'" value="글쓰기" >
 </section>
 <%@ include file="../include/footer.jsp" %>

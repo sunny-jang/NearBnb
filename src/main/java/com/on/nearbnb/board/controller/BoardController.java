@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +28,7 @@ public class BoardController {
 	
 //	private String boardListAgain = "redirect:/board.do/";
 	
-	// 게시판 목록 조회
+	// 게시판 목록 조회, 베스트 게시글 5개 조회
 	@RequestMapping(value = "board.do", method = RequestMethod.GET)
 	public ModelAndView boardListService(@RequestParam(name = "page", defaultValue = "1") int page,
 			ModelAndView modelAndView) {
@@ -38,11 +40,14 @@ public class BoardController {
 			int boardListCount = boardService.boardListCount();
 			
 			// 마지막 페이지
-			int maxPage = (int) ((double) boardListCount / 15 + 1);
+			int maxPage = (int) ((double) boardListCount / 15 + 0.99);
+			
+			// 베스트 게시글 5개 조회
+			modelAndView.addObject("bestList",boardService.selectBestList());
 			
 			// 게시글 목록
 			modelAndView.addObject("boardList", boardService.selectBoardList(currentPage, 15));
-
+			
 			// 페이지
 			modelAndView.addObject("currentPage", currentPage);
 			modelAndView.addObject("maxPage", maxPage);
@@ -60,49 +65,72 @@ public class BoardController {
 	
 	// 게시글 상세 조회
 	@RequestMapping(value = "boadSelectOneCon.do", method = RequestMethod.GET)
-	public ModelAndView boardSelectOneService(int boardCodeSeq,
+	public ModelAndView boardSelectOneService(int boardCodeSeq, HttpServletRequest request,
 			ModelAndView modelAndView) {
 
+		// 게시글과 총 추천 수 가져오기
 		Board board = boardService.selectBoardOne(boardCodeSeq);
+		int thumbs = boardService.boardThumbCount(boardCodeSeq);
 
-		BoardThumb boardThumb = boardService.selectBoardThumb(boardCodeSeq);
+		try {
+			// 세션 및 객체 선언
+			HttpSession session = request.getSession();
+			BoardThumb boardThumb = new BoardThumb();
+			
+			// 추천 기능의 사전 작업
+			boardThumb.setBoardCodeSeq(boardCodeSeq);
+			String userId =(String) session.getAttribute("userId");
+			boardThumb.setUserId(userId);
 
-		modelAndView.addObject("boardThumb", boardThumb);
+			if(userId == null) {
+				// 로그인 하지 않은 경우
+				modelAndView.addObject("heart","unSignIn");
+			}else if(boardService.selectBoardThumb(boardThumb) == null) {
+				// 해당 게시글을 추천하지 않은 경우
+				modelAndView.addObject("heart","notThumbsUp");
+			}else {
+				// 해당 게시글을 이미 추천한 경우
+				modelAndView.addObject("heart","thumbsUp");
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		modelAndView.addObject("thumbs", thumbs);
 		modelAndView.addObject("board", board);
 		modelAndView.setViewName("community/boardRead");
 		
 		return modelAndView;
 	}
 	
-//	// 게시글 추천 기능
-//	@RequestMapping(value = "thumb.do", method = RequestMethod.POST)
-//	public ModelAndView boardThumbsService(int boardCodeSeq, int thumbs, ModelAndView modelAndView) {
-//		
-//	}
-	
-	// 게시글 등록하기
+	// 게시글 등록
 	@RequestMapping(value = "boardWriteCon.do", method = RequestMethod.POST)
-	public ModelAndView boardInsertService(Board board, ModelAndView modelAndView) throws ServletException, IOException {
+	public String boardInsertService(Board board, HttpServletRequest request, ModelAndView modelAndView) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		board.setUserId((String) session.getAttribute("userId"));
 		boardService.insertBoard(board);
-		
-		// 목록 돌아감
-		modelAndView.setViewName("community/board");
-		
-		return modelAndView;
+
+		// 상세 조회 돌아감
+		return "redirect:/board.do";
 	}
 	
 	// 게시글 수정 페이지
 	@RequestMapping(value = "boardUpdateProCon.do", method = RequestMethod.GET)
-	public ModelAndView boardUpdateProService(int boardCodeSeq, ModelAndView modelAndView) {
+	public ModelAndView boardUpdateProService(int boardCodeSeq, HttpServletRequest request, ModelAndView modelAndView) throws IOException {
+		
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
 		Board board = boardService.selectBoardOne(boardCodeSeq);
 		modelAndView.addObject("board", board);
-		modelAndView.setViewName("community/boardRewrite");
-		
+		if(userId.equals(board.getUserId())) {
+			modelAndView.setViewName("community/boardRewrite");
+			return modelAndView;
+		}else {
+			modelAndView.setViewName("redirect:/boadSelectOneCon.do?boardCodeSeq="+boardCodeSeq);
+		}
 		return modelAndView;
 	}
 	
-	
-	// 게시글 수정하기
+	// 게시글 수정
 	@RequestMapping(value = "boardUpdateCon.do", method = RequestMethod.POST)
 	public String boardUpdateService(Board board, ModelAndView modelAndView) {
 		boardService.updateBoard(board);
@@ -111,24 +139,24 @@ public class BoardController {
 		return "redirect:/board.do";	
 	}
 	
-	// 게시글 삭제하기
-	@RequestMapping(value = "boardDeleteProCon.do", method = RequestMethod.GET)
-	public ModelAndView boardDeleteProCon(int boardCodeSeq, ModelAndView modelAndView) {
-		
+	// 게시글 삭제
+	@RequestMapping(value = "boardDeleteCon.do", method = RequestMethod.GET)
+	public ModelAndView boardDeleteCon(int boardCodeSeq, HttpServletRequest request, ModelAndView modelAndView) {
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
 		Board board = boardService.selectBoardOne(boardCodeSeq);
-		
 		modelAndView.addObject("board", board);
-		modelAndView.setViewName("community/boardDelete");
 		
+		if(userId.equals(board.getUserId())) {
+			boardService.deleteBoard(boardCodeSeq);
+			boardService.deleteBoardThumbAll(boardCodeSeq);
+			modelAndView.setViewName("redirect:/board.do");
+			return modelAndView;
+		}else {
+			modelAndView.setViewName("redirect:/boadSelectOneCon.do?boardCodeSeq="+boardCodeSeq);
+		}
 		return modelAndView;
 	}
 	
-	// 게시글 삭제하기
-	@RequestMapping(value = "boardDeleteCon.do", method = RequestMethod.POST)
-	public String boardDeleteCon(Board board, ModelAndView modelAndView) {
-		boardService.deleteBoard(board);
-		
-		// 목록 돌아감
-		return "redirect:/board.do";
-	}
+	
 }

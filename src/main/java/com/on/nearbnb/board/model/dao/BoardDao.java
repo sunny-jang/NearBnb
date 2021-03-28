@@ -31,10 +31,15 @@ public class BoardDao {
 		return sqlSession.selectOne("Board.boardListCount");
 	}
 	
-	// 게시글 추천 조회
-	public BoardThumb selectBoardThumb(int boardCodeSeq) {
-		BoardThumb boardThumb = sqlSession.selectOne("Board.selectBoardThumb", boardCodeSeq);
-		return boardThumb;
+	// 베스트 게시글 5개 조회
+	public List<Board> selectBestList(){
+		List<Board> bestList = sqlSession.selectList("Board.selectBestList");
+		return bestList;
+	}
+	
+	// 게시글 추천 개수 조회
+	public int boardThumbCount(int boardCodeSeq) {
+		return sqlSession.selectOne("Board.boardThumbCount", boardCodeSeq);
 	}
 	
 	// 게시글 상세 조회
@@ -43,21 +48,47 @@ public class BoardDao {
 		return board;
 	}
 	
-	// 게시글 등록하기
+	// 게시글 등록
 	public int insertBoard(Board board) {
 		int cnt = sqlSession.insert("Board.insertBoard", board);
 		return cnt;
 	}
 	
-	// 게시글 수정하기
+	// 게시글 추천
+	public int insertBoardThumb(BoardThumb boardThumb) {
+		int cnt = sqlSession.insert("Board.insertBoardThumb", boardThumb);
+		return cnt;
+	}
+	
+	// 게시글 추천 취소
+	public int deleteBoardThumb(BoardThumb boardThumb) {
+		int cnt = sqlSession.delete("Board.deleteBoardThumb", boardThumb);
+		return cnt;
+	}
+	
+	// 게시글 추천 조회
+	public BoardThumb selectBoardThumb(BoardThumb boardThumb) {
+		return sqlSession.selectOne("Board.selectBoardThumb", boardThumb);
+	}
+	
+	// 게시글 추천 취소
+	
+	
+	// 게시글 수정
 	public int updateBoard(Board board) {
 		int cnt = sqlSession.update("Board.updateBoard", board);
 		return cnt;
 	}
 	
-	// 게시글 삭제하기
-	public int deleteBoard(Board board) {
-		int cnt = sqlSession.delete("Board.deleteBoard", board);
+	// 게시글 삭제
+	public int deleteBoard(int boardCodeSeq) {
+		int cnt = sqlSession.delete("Board.deleteBoard", boardCodeSeq);
+		return cnt;
+	}
+	
+	// 게시글 추천 삭제
+	public int deleteBoardThumbAll(int boardCodeSeq) {
+		int cnt = sqlSession.delete("Board.deleteBoardThumbAll", boardCodeSeq);
 		return cnt;
 	}
 }

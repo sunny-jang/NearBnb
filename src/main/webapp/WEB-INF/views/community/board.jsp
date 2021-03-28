@@ -84,7 +84,7 @@
 						</c:url>
 						<a href="${boardList}">이전</a>
 					</c:if>
-					<!-- 끝 페이지 번호 처리 -->
+					<!-- 번호 처리 -->
 					<c:set var="maxPage" value="${maxPage}" />
 					<c:forEach var="endPage" begin="${startPage+1}" end="${maxPage}">
 						<c:if test="${endPage eq currentPage}">
@@ -97,6 +97,7 @@
 							<a href="${boardListCheck}">${endPage}</a>
 						</c:if>
 					</c:forEach>
+					<!-- 끝 페이지 번호 처리 -->
 					<c:if test="${currentPage >= maxPage}">
 					</c:if>
 					<c:if test="${currentPage < maxPage}">

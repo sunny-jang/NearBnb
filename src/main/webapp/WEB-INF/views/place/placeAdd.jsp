@@ -41,19 +41,6 @@ var date = new PlaceDate();
 			var formData = new FormData($("#addForm")[0]);
 			var latitude = $("input[name=latitude]").val();
 			var longitude = $("input[name=longitude]").val();
-			
-			
-			 /* $.ajax({
-				url: 'placeAdd.do',
-				method: 'post',
-				processData: false,
-				contentType: false,
-				data: formData,
-				success: function(data) {
-					console.log("성공");
-					location.href="placeList.do"
-				}
-			})  */
 		})
 	});
 

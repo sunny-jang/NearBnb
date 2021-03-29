@@ -20,4 +20,8 @@
        </foreach>
 	</insert>
 	
+	<select id="selectFiles" parameterType="Integer" resultMap="resultPlaceFile">
+		SELECT * FROM PLACE_IMGFILE WHERE P_CODE_SEQ = #{pId}
+	</select>
+	
 </mapper>

@@ -22,6 +22,9 @@ public class PlaceFileDao {
 			file.setPlaceId(placeId);
 		}
 		return sqlSession.insert("insertPlaceFile", placeFile);
-		
+	}
+	
+	public List<PlaceFile> selectFiles(Integer pId) {
+		return sqlSession.selectList("selectFiles", pId);
 	}
 }

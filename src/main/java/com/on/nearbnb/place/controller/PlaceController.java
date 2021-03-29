@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.file.model.vo.PlaceFile;
+import com.on.nearbnb.file.service.PlaceFileService;
 import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.service.PlaceService;
@@ -28,6 +29,9 @@ public class PlaceController {
 	
 	@Autowired
 	private PlaceService placeService;
+	
+	@Autowired
+	private PlaceFileService placeFileService;
 	
 	@RequestMapping(value="/addFile", method=RequestMethod.POST)
 	@ResponseBody
@@ -79,7 +83,7 @@ public class PlaceController {
 		
 		for(MultipartFile image : images) {
 			String fileName = image.getOriginalFilename();
-			String fileChangedName = fileName+new java.util.Date().getTime();
+			String fileChangedName = new java.util.Date().getTime() + fileName;
 			String _path = path;
 					
 			
@@ -94,7 +98,10 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/placeReservation.do", method = RequestMethod.GET)
 	public ModelAndView placeReservation(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
-		Place place= placeService.selectPlace(pId);
+		Place place = placeService.selectPlace(pId);
+		List<PlaceFile> files = placeFileService.selectFiles(pId);
+		
+		modelAndView.addObject("sImage",files.get(0).getFileOriginalName());
 		
 		modelAndView.addObject("place", place);
 		modelAndView.setViewName("/place/placeReservation");

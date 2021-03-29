@@ -1,5 +1,6 @@
 package com.on.nearbnb.file.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class PlaceFileServiceImpl implements PlaceFileService {
 	@Override
 	public int insertPlaceFile(List<PlaceFile> placeFile, Integer placeId) {
 		return pFileDao.insertPlaceFile(placeFile, placeId);
+	}
+
+	@Override
+	public List<PlaceFile> selectFiles(Integer pId) {
+		return pFileDao.selectFiles(pId);
 	}
 	
 }

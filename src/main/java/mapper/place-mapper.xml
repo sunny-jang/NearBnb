@@ -24,7 +24,7 @@
 	</select>
 	
 	<insert id="insertPlace" parameterType="Place">
-		<selectKey keyProperty="placeId" resultType="int" order="BEFORE">
+		<selectKey keyProperty="placeId" resultType="Integer" order="BEFORE">
 			select PLACE_SEQ.NEXTVAL from dual
 		</selectKey>
 		INSERT INTO PLACE(P_CODE_SEQ,U_ID, PLACE_NAME, PLACE_ADDRESS,

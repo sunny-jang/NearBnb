@@ -208,4 +208,19 @@ ORDER BY A.boardCodeSeq DESC
 	DELETE FROM BOARD_THUMB WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
 </delete>
 
+<!-- 댓글 조회 -->
+<select id="selectBoardCommentList" parameterType="int" resultType="BoardComment">
+	SELECT * FROM B_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+</select>
+
+<!-- 해당 게시글 댓글 개수 조회 -->
+<select id="selectBoardCommentCount" parameterType="int" resultType="int">
+	SELECT COUNT(*) cnt FROM B_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+</select>
+
+<!-- 댓글 작성 -->
+<insert id="insertBoardComment" parameterType="BoardComment">
+	INSERT INTO B_COMMENT VALUES(#{commentCodeSeq}, #{boardCodeSeq}, #{userId}, #{commentContent}, #{commentDate})
+</insert>
+
 </mapper>

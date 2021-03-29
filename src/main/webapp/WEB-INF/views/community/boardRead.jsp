@@ -40,6 +40,7 @@
 				});
 			}
 		});
+		
 		$('#rewrite').on('click', function(){
 			if("${userId}" == ""){
 				alert('로그인이 필요한 서비스입니다.');
@@ -48,12 +49,22 @@
 				alert('수정 권한이 없습니다.');
 			}
 		});
+		
 		$('#delete').on('click', function(){
 			if("${userId}" == ""){
 				alert('로그인이 필요한 서비스입니다.');
 				$(location).attr("href", "signIn.do");
 			}else if($('#userId').val() != "${sessionScope.userId}"){
 				alert('삭제 권한이 없습니다.');
+			}
+		});
+		
+		$('#commentIns').on('click', function(){
+			if("${userId}" == ""){
+				alert('로그인이 필요한 서비스입니다.');
+				$(location).attr("href", "signIn.do");
+			}else {
+				document.location.href = "boardCommentInsert.do";
 			}
 		});
 	});
@@ -65,7 +76,7 @@
   <center>
     <form class="center" action="boardUpdateCon.do" method="post">
       <input type="hidden" name="boardCodeSeq" id="boardCodeSeq" value="${board.boardCodeSeq }" />
-      <input type="hidden" name="userId" id="userId" value="${board.userId }" />
+      <input type="hidden" name="userId" id="userId" value="${sessionScope.userId }" />
       <table style="font-size: 20px;">
         <tr>
             <td>제목</td>
@@ -127,16 +138,38 @@
           <td>
             댓글
           </td>
-          <td colspan="3" style="height: 45px;">
+          <td colspan="3" style="height: 45px; padding-right: 80px;">
             댓글 내역
           </td>
         </tr>
+        <c:if test="${comments eq 0 }">
+        <tr>
+          <td colspan="5">
+첫 댓글을 남겨주세요!
+          </td>
+        </tr>
+        </c:if>
+        <c:if test="${comments ne 0 }">
+          <c:forEach var="boardComment" items="${boardComment }">
+          <tr>
+            <td>
+              ${boardComment.userId }
+            </td>
+            <td>
+              ${boardComment.commentContent }
+            </td>
+            <td>
+              <fmt:formatDate value="${boardComment.commentDate }" type="DATE" dateStyle="MEDIUM" name="commentDate"/>
+            </td>
+          </tr>
+          </c:forEach>
+        </c:if>
         <tr>
           <td colspan="2">
-            <input type="text" class="commentWrt" placeholder="댓글 작성">
+            <input type="text" class="commentWrt" name="commentContent" placeholder="댓글 작성">
           </td>
           <td colspan="2">
-            <input type="button" class="btn commentBtn" value="댓글달기">
+            <input type="button" class="btn commentBtn" id="commentIns" value="댓글달기">
           </td>
         </tr>
       </table>

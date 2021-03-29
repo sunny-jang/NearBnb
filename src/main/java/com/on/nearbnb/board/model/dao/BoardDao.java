@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.on.nearbnb.board.model.vo.Board;
+import com.on.nearbnb.board.model.vo.BoardComment;
 import com.on.nearbnb.board.model.vo.BoardPage;
 import com.on.nearbnb.board.model.vo.BoardThumb;
 
@@ -82,9 +83,6 @@ public class BoardDao {
 		return sqlSession.selectOne("Board.selectBoardThumb", boardThumb);
 	}
 	
-	// 게시글 추천 취소
-	
-	
 	// 게시글 수정
 	public int updateBoard(Board board) {
 		int cnt = sqlSession.update("Board.updateBoard", board);
@@ -100,6 +98,24 @@ public class BoardDao {
 	// 게시글 추천 삭제
 	public int deleteBoardThumbAll(int boardCodeSeq) {
 		int cnt = sqlSession.delete("Board.deleteBoardThumbAll", boardCodeSeq);
+		return cnt;
+	}
+	
+	// 댓글 조회
+	public List<BoardComment> selectBoardCommentList(int boardCodeSeq){
+		List<BoardComment> boardComment = sqlSession.selectList("Board.selectBoardCommentList", boardCodeSeq);
+		return boardComment;
+	}
+	
+	// 해당 게시글 댓글 개수 조회
+	public int selectBoardCommentCount(int boardCodeSeq) {
+		int cnt = sqlSession.selectOne("Board.selectBoardCommentCount", boardCodeSeq);
+		return cnt;
+	}
+	
+	// 댓글 작성
+	public int insertBoardComment(BoardComment boardComment) {
+		int cnt = sqlSession.insert("Board.insertBoardComment", boardComment);
 		return cnt;
 	}
 }

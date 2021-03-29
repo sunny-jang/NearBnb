@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.on.nearbnb.board.model.vo.Board;
+import com.on.nearbnb.board.model.vo.BoardComment;
 import com.on.nearbnb.board.model.vo.BoardThumb;
 
 public interface BoardService {
@@ -50,7 +51,12 @@ public interface BoardService {
 	// 게시글 추천 삭제
 	public int deleteBoardThumbAll(int boardCodeSeq);
 	
-//	public int totalCount();
-//	public List<Board> selectList(int startPage, int limit);
-//	public List<Board> selectSearch(String keyword);
+	// 댓글 조회
+	public List<BoardComment> selectBoardCommentList(int boardCodeSeq);
+	
+	// 해당 게시글 댓글 개수 조회
+	public int selectBoardCommentCount(int boardCodeSeq);
+	
+	// 댓글 작성
+	public int insertBoardComment(BoardComment boardComment);
 }

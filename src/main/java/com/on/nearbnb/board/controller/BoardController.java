@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.board.model.vo.Board;
+import com.on.nearbnb.board.model.vo.BoardComment;
 import com.on.nearbnb.board.model.vo.BoardThumb;
 import com.on.nearbnb.board.service.BoardService;
 
@@ -96,9 +97,13 @@ public class BoardController {
 	public ModelAndView boardSelectOneService(int boardCodeSeq, HttpServletRequest request,
 			ModelAndView modelAndView) {
 
-		// 게시글과 총 추천 수 가져오기
+		// 게시글과 총 추천 수, 댓글 가져오기
 		Board board = boardService.selectBoardOne(boardCodeSeq);
 		int thumbs = boardService.boardThumbCount(boardCodeSeq);
+		int boardComments = boardService.selectBoardCommentCount(boardCodeSeq);
+		
+		// 댓글 가져오기
+		List<BoardComment> boardComment = new ArrayList<BoardComment>();
 
 		try {
 			// 세션 및 객체 선언
@@ -110,6 +115,12 @@ public class BoardController {
 			String userId =(String) session.getAttribute("userId");
 			boardThumb.setUserId(userId);
 
+			// 해당 게시글 댓글 조회
+			if(boardComments != 0) {
+				boardComment = boardService.selectBoardCommentList(boardCodeSeq);
+				modelAndView.addObject("boardComment", boardComment);
+			}
+			
 			if(userId == null) {
 				// 로그인 하지 않은 경우
 				modelAndView.addObject("heart","unSignIn");
@@ -123,6 +134,7 @@ public class BoardController {
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
+		modelAndView.addObject("comments",boardComments);
 		modelAndView.addObject("thumbs", thumbs);
 		modelAndView.addObject("board", board);
 		modelAndView.setViewName("community/boardRead");
@@ -184,6 +196,19 @@ public class BoardController {
 			modelAndView.setViewName("redirect:/boadSelectOneCon.do?boardCodeSeq="+boardCodeSeq);
 		}
 		return modelAndView;
+	}
+	
+	// 댓글 작성
+	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.GET)
+	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, ModelAndView modelAndView) {
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		System.out.println(userId);
+		if(!userId.equals("noOne")) {
+			boardService.insertBoardComment(boardComment);
+			return "redirect:/boadSelectOneCon.do";
+		}
+		return "redirect:/boadSelectOneCon.do";
 	}
 	
 	

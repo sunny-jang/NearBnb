@@ -51,8 +51,8 @@ public class Place {
 	public String getPlaceAddress() {
 		return placeAddress;
 	}
-	public void setPlaceAddress(String placeaddress) {
-		this.placeAddress = placeaddress;
+	public void setPlaceAddress(String placeAddress) {
+		this.placeAddress = placeAddress;
 	}
 	public String getPlaceAddressDetail() {
 		return placeAddressDetail;

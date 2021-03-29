@@ -49,19 +49,26 @@ ORDER BY A.boardCodeSeq DESC
 </select>
 
 <!-- 게시글 전체 글 개수 조회 -->
-<select id="boardListCount" resultType="_int">
+<select id="boardListCount" parameterType="Board" resultType="_int">
 	SELECT COUNT(*) cnt FROM BOARD
+		<where>
+			<choose>
+				<when test="boardType == '전체' or boardType == null">
+				</when>
+				<when test="boardType != '전체'">
+					BOARD_TYPE = #{boardType}
+				</when>
+			</choose>	
+		</where>
 </select>
 
 <!-- 베스트 게시글 5개 조회 -->
 <select id="selectBestList" resultType="Board">
 <![CDATA[
-SELECT 
-A.*, 
-DECODE(B.thumbCnt, null, 0, B.thumbCnt) AS thumbsCnt
-FROM (
-    SELECT ROWNUM 
-        RNUM, 
+SELECT ROWNUM, C.* FROM
+(SELECT  A.*, DECODE(B.thumbCnt, null, 0, B.thumbCnt) AS thumbsCnt
+    FROM 
+    (SELECT
         BOARD_CODE_SEQ as boardCodeSeq, 
         USER_ID userId, 
         BOARD_TITLE boardTitle,
@@ -70,18 +77,86 @@ FROM (
         BOARD_DATE boardDate, 
         BOARD_COUNT boardCount
     FROM BOARD 
+    )A
+    LEFT OUTER JOIN
+    (SELECT
+        BOARD_CODE_SEQ,
+        COUNT(*) AS THUMBCNT
+        FROM BOARD_THUMB
+        GROUP BY BOARD_CODE_SEQ
+        ) B
+    ON (boardCodeSeq = B.BOARD_CODE_SEQ)
+    ORDER BY thumbsCnt DESC) C
+    WHERE ROWNUM <= 5
+]]>
+</select>
+
+<!-- 게시글 검색 -->
+<select id="boardSearch" parameterType="hashmap" resultType="Board">
+SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt
+FROM (
+    SELECT ROWNUM RNUM, 
+        BOARD_CODE_SEQ as boardCodeSeq, 
+        USER_ID userId, 
+        BOARD_TITLE boardTitle,
+		BOARD_CONTENT boardContent, 
+        BOARD_TYPE boardType, 
+        BOARD_DATE boardDate, 
+        BOARD_COUNT boardCount
+    FROM BOARD 
+        ORDER BY BOARD_CODE_SEQ DESC
     )A,
     (SELECT
         BOARD_CODE_SEQ, 
-        COUNT(*) AS THUMBCNT
+        COUNT(*) AS THUMBSCNT
     FROM BOARD_THUMB
-    GROUP BY BOARD_CODE_SEQ
-    ORDER BY THUMBCNT DESC) B
+    GROUP BY BOARD_CODE_SEQ) B
 WHERE 
 A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
-AND RNUM <= 5
-]]>
+<choose>
+		<when test="boardType == '제목'">
+			AND A.boardTitle like '%'||#{boardContent}||'%'
+		</when>
+		<when test="boardType == '작성자'">
+			AND A.userId like '%'||#{boardContent}||'%'
+		</when>
+</choose>	
+ORDER BY A.boardCodeSeq DESC
 </select>
+
+<!-- 게시글 분류 -->
+<select id="boardTypeSearch" parameterType="Board" resultType="Board">
+
+SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt
+FROM (
+    SELECT ROWNUM RNUM, 
+        BOARD_CODE_SEQ as boardCodeSeq, 
+        USER_ID userId, 
+        BOARD_TITLE boardTitle,
+		BOARD_CONTENT boardContent, 
+        BOARD_TYPE boardType, 
+        BOARD_DATE boardDate, 
+        BOARD_COUNT boardCount
+    FROM BOARD 
+        ORDER BY BOARD_CODE_SEQ DESC
+    )A,
+    (SELECT
+        BOARD_CODE_SEQ, 
+        COUNT(*) AS THUMBSCNT
+    FROM BOARD_THUMB
+    GROUP BY BOARD_CODE_SEQ) B
+WHERE 
+A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
+	<choose>
+		<when test="boardType == '전체' or boardType == null">
+		</when>
+		<otherwise>
+			AND A.boardType = #{boardType}
+		</otherwise>
+	</choose>	
+ORDER BY A.boardCodeSeq DESC
+</select>
+
 
 <!-- 게시글 추천 개수 조회 -->
 <select id="boardThumbCount" parameterType="int" resultType="_int">

@@ -2,6 +2,7 @@ package com.on.nearbnb.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -31,13 +32,14 @@ public class BoardController {
 	// 게시판 목록 조회, 베스트 게시글 5개 조회
 	@RequestMapping(value = "board.do", method = RequestMethod.GET)
 	public ModelAndView boardListService(@RequestParam(name = "page", defaultValue = "1") int page,
+			Board board,
 			ModelAndView modelAndView) {
 		try {		
 			// 현재 페이지
 			int currentPage = page;
 			
 			// 게시글 전체 글 개수 조회
-			int boardListCount = boardService.boardListCount();
+			int boardListCount = boardService.boardListCount(board);
 			
 			// 마지막 페이지
 			int maxPage = (int) ((double) boardListCount / 15 + 0.99);
@@ -62,6 +64,32 @@ public class BoardController {
 		
 		return modelAndView;
 	}
+	
+	// 검색 후 출력
+	@RequestMapping(value = "printBoardAjaxSearch.do", method = RequestMethod.GET)
+	public ModelAndView boardAjaxType(String boardType, String boardContent, HashMap searchMap, ModelAndView modelAndView) {
+		try {
+			searchMap.put("boardType", boardType);
+			searchMap.put("boardContent", boardContent);
+			
+			// 조회 결과 확인
+			modelAndView.addObject("check", searchMap.get("boardContent"));
+			
+			// 베스트 게시글 5개 조회
+			modelAndView.addObject("bestList",boardService.selectBestList());
+			
+			// 검색 결과
+			modelAndView.addObject("boardList", boardService.searchBoard(searchMap));
+			
+			modelAndView.setViewName("community/board");
+			return modelAndView;
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		modelAndView.setViewName("redirect:/board.do");
+		return modelAndView;
+	}
+		
 	
 	// 게시글 상세 조회
 	@RequestMapping(value = "boadSelectOneCon.do", method = RequestMethod.GET)

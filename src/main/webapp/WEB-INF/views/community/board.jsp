@@ -14,30 +14,93 @@
 				$(location).attr("href", "signIn.do");
 			}
 		});
+		
+		// 게시글 검색
+ 		$('#searchBtn').on('click', function(){
+			var searchType = $("#boardSearchType > option:selected").val();
+			var searchData = $("#boardSearch").val();
+			if(searchType == "전체" || searchType == ""){
+				alert('카테고리를 선택해주세요.');
+			}else if(searchData == ""){
+				alert('검색어를 입력해주세요.')
+			}else{
+				document.location.href = "printBoardAjaxSearch.do?boardType=" + searchType + "&boardContent="+searchData;
+			}
+		});
+		
+		// 게시글 분류
+		$('#boardType').on('change',function(){
+			var boardType = $("#boardType > option:selected").val();
+			$.ajax({
+				url : 'boardAjaxType.do',
+				data : {
+					boardType : boardType
+				},
+				type : 'get',
+				dataType : 'json',
+				success: function(data){
+					document.location.href = "printBoardAjaxType.do?boardType=" + boardType;
+				},
+				error: function(request, status, error){
+					alert("code : " + request.status + "\n"
+							+ "message : " + request.responseText + "\n"
+							+ "error : " + error);
+				}
+			});
+		});
 	});
 </script>
 <section>
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
-  <select class="boartType1">
-    <option value="1">게시글 전체</option>
-    <option value="2">추천</option>
-    <option value="3">주변시설</option>
-    <option value="3">문의</option>
+  <select class="boartType1" id="boardType" name="boardType">
+    <c:choose>
+		<c:when test="${board.boardType eq '추천' }">
+			<option value="전체">전체</option>
+			<option value="추천" selected>추천</option>
+            <option value="주변시설">주변시설</option>
+           	<option value="문의">문의</option>
+		</c:when>
+		<c:when test="${board.boardType eq '주변시설' }">
+			<option value="전체">전체</option>
+			<option value="추천">추천</option>
+        	<option value="주변시설" selected>주변시설</option>
+        	<option value="문의">문의</option>
+		</c:when>
+		<c:when test="${board.boardType eq '문의' }">
+			<option value="전체">전체</option>
+			<option value="추천">추천</option>
+        	<option value="주변시설">주변시설</option>
+        	<option value="문의" selected>문의</option>
+		</c:when>
+		<c:otherwise>
+			<option value="전체" selected>전체</option>
+			<option value="추천">추천</option>
+          	<option value="주변시설">주변시설</option>
+         	<option value="문의">문의</option>
+		</c:otherwise>
+	</c:choose>
   </select>
-  <form class="search">
-    <select id="boardSearch">
-      <option value="1">전체</option>
-      <option value="2">제목</option>
-      <option value="3">작성자</option>
+  <div class="search">
+    <select id="boardSearchType" name="boardSearchType">
+      <option value="전체">전체</option>
+      <option value="제목">제목</option>
+      <option value="작성자">작성자</option>
     </select>
-    <input type="text" style="margin-left: 10px; height: 20px;">
-    <input type="submit" class="btn" style="font-size: 17px;" value="검색">
-  </form>
+    <input type="text" id="boardSearch" name="boardSearch" style="margin-left: 10px; height: 20px;">
+    <input type="button"id="searchBtn" class="btn" style="font-size: 17px;" value="검색">
+  </div>
 	<center>
 		<input type="hidden" name="userId" id="userId" value="${board.userId }" />
 		<table class="comT" style="font-size: 20px;">
+			<c:if test="${check ne null }">
+				<tr>
+					<th colspan="5" style="text-align: left; color: tomato; padding-left: 50px;">
+						"${check }" 의 검색 결과
+					</th>
+				</tr>
+			</c:if>
 		    <tr class="type">
 		      <td class="boardType2" style="width: 250px;">게시글 종류</td>
 		      <td class="boardTitle">게시글 제목</td>
@@ -64,7 +127,7 @@
 					</tr>
 				</c:forEach>
 		 		<c:forEach var="board" items="${boardList }">
-					<tr class="List" style="border-bottom: 1px solid rgb(251,248,167);">
+					<tr class="List" id="List" style="border-bottom: 1px solid rgb(251,248,167);">
 						<td>${board.boardType }</td>
 						<td><a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }">${board.boardTitle }</a></td>
 						<td>${board.thumbsCnt }</td>

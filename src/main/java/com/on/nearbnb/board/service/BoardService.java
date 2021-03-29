@@ -1,5 +1,6 @@
 package com.on.nearbnb.board.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.on.nearbnb.board.model.vo.Board;
@@ -11,10 +12,16 @@ public interface BoardService {
 	public List<Board> selectBoardList(int startPage, int endPage);
 	
 	// 게시글 전체 글 개수 조회
-	public int boardListCount();
+	public int boardListCount(Board board);
 	
 	// 베스트 게시글 5개 조회
 	public List<Board> selectBestList();
+	
+	// 게시글 검색
+	public List<Board> searchBoard(HashMap searchMap);
+	
+	// 게시글 분류
+	public List<Board> searchBoardType(Board board);
 
 	// 게시글 추천 개수 조회
 	public int boardThumbCount(int boardCodeSeq);

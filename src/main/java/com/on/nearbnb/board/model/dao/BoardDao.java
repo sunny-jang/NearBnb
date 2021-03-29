@@ -1,5 +1,6 @@
 package com.on.nearbnb.board.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -27,8 +28,8 @@ public class BoardDao {
 	}
 	
 	// 게시글 전체 글 개수 조회
-	public int boardListCount() {
-		return sqlSession.selectOne("Board.boardListCount");
+	public int boardListCount(Board board) {
+		return sqlSession.selectOne("Board.boardListCount", board);
 	}
 	
 	// 베스트 게시글 5개 조회
@@ -37,6 +38,16 @@ public class BoardDao {
 		return bestList;
 	}
 	
+	// 게시글 검색
+	public List<Board> searchBoard(HashMap searchMap){
+		return sqlSession.selectList("Board.boardSearch", searchMap);
+	}
+	
+	// 게시글 분류
+	public List<Board> searchBoardType(Board board){
+		return sqlSession.selectList("Board.boardTypeSearch", board);
+	}
+		
 	// 게시글 추천 개수 조회
 	public int boardThumbCount(int boardCodeSeq) {
 		return sqlSession.selectOne("Board.boardThumbCount", boardCodeSeq);

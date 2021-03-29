@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8"/>
-	<title>Kakao map</title>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9072d526bef7d3c82b707cf7fe1c375f&libraries=LIBRARY,services"></script>
+<meta charset="utf-8" />
+<title>Kakao map</title>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9072d526bef7d3c82b707cf7fe1c375f&libraries=LIBRARY,services"></script>
 
 <script>
 	 navigator.geolocation.getCurrentPosition((position) => {
@@ -19,13 +20,11 @@
 			var options = {
 				center: new kakao.maps.LatLng(latitude, longitude), //지도 중심좌표
 				level: 3
-				
-			
 			};
 
 			var map = new kakao.maps.Map(container, options);//지도생성
 			
-			
+				
 			// 주소-좌표 변환 
 			var geocoder = new kakao.maps.services.Geocoder();
 
@@ -46,27 +45,41 @@
 			function displayCenterInfo(result, status) {
 			    if (status === kakao.maps.services.Status.OK) {
 			        var infoDiv = document.getElementById('centerAddr');
-
+			       var mapPoint;
 			        for(var i = 0; i < result.length; i++) {
 			            // 행정동의 region_type 값은 'H' 이므로
 			            if (result[i].region_type === 'H') {
 			                infoDiv.innerHTML = result[i].address_name;
+			                mapPoint = result[i].address_name;
 			                break;
 			            }
+			        }		      
+			    }  
+			   
+			    const arr1 = mapPoint.split(" ");
+			    console.log(arr1[0]); // ["Still", "waters", "run", "deep."]
+			    
+			    $.ajax({
+			        url:"centerPoint.do",
+			        type:'POST',
+			        data: {'area1' : arr1[0] , 'area2' : arr1[1]},
+			        success:function(data){
+			        	 console.log('완료');
 			        }
-			    }    
-			}
+			});
+		}
 	});
-	 
+	
 
 	</script>
 </head>
 <body>
-	<div id="map" style="width:100%;height:100%;"></div>
-	
+	<div id="map" style="width: 100%; height: 100%;"></div>
+
 	<div class="map_wrap">
-    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-   
-</div>
+		<div id="map"
+			style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+
+	</div>
 </body>
 </html>

@@ -8,12 +8,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MapController {
 
-	@RequestMapping(value = "/maptest.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.GET)
 	public ModelAndView maptest(ModelAndView modelAndView) {
-		modelAndView.setViewName("maptest");
 		
 		
+		modelAndView.setViewName("mainMap");
 		return modelAndView;
 	}
 	
+	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.POST)
+	public ModelAndView area(ModelAndView modelAndView) {
+		
+		
+		modelAndView.setViewName("mainMap");
+		return modelAndView;
+	}
 }

@@ -1,5 +1,7 @@
 package com.on.nearbnb.mypage.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.member.model.vo.Member;
 import com.on.nearbnb.member.service.MemberService;
+import com.on.nearbnb.place.model.vo.Place;
+import com.on.nearbnb.place.service.PlaceService;
 
 @Controller
 public class MyPageController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	PlaceService placeService;
 	
 	@RequestMapping(value="/myPage.do", method=RequestMethod.GET)
 	public ModelAndView myPage(ModelAndView modelAndView) throws Exception {
@@ -70,7 +77,10 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value = "/myPageHostCheck.do", method = RequestMethod.GET)
-	public ModelAndView myPageHostCheck(ModelAndView modelAndView) {
+	public ModelAndView myPageHostCheck(HttpSession session, ModelAndView modelAndView) {
+		String uId = (String)session.getAttribute("userId");
+		List<Place> placeList = placeService.selectPlaceById(uId);
+		modelAndView.addObject("placeList", placeList);
 		modelAndView.setViewName("myPage/myPageHostCheck");
 		return modelAndView;
 	}

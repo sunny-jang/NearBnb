@@ -23,6 +23,10 @@
 		SELECT * FROM PLACE WHERE P_CODE_SEQ = #{pId}
 	</select>
 	
+	<select id="selectPlaceById" resultMap="resultPlace" parameterType="String">
+		SELECT * FROM PLACE WHERE U_ID = #{uId}
+	</select>
+	
 	<insert id="insertPlace" parameterType="Place">
 		<selectKey keyProperty="placeId" resultType="Integer" order="BEFORE">
 			select PLACE_SEQ.NEXTVAL from dual

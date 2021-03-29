@@ -2,6 +2,9 @@ package com.on.nearbnb.board.model.vo;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class BoardComment {
 
 	private int commentCodeSeq;

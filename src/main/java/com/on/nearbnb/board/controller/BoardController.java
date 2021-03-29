@@ -203,12 +203,12 @@ public class BoardController {
 	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, ModelAndView modelAndView) {
 		HttpSession session = request.getSession();
 		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
-		System.out.println(userId);
+		boardComment.setUserId(userId);
 		if(!userId.equals("noOne")) {
 			boardService.insertBoardComment(boardComment);
-			return "redirect:/boadSelectOneCon.do";
+			return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardComment.getBoardCodeSeq();
 		}
-		return "redirect:/boadSelectOneCon.do";
+		return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardComment.getBoardCodeSeq();
 	}
 	
 	

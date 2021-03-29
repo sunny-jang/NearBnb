@@ -62,10 +62,13 @@
    	        calendar.unselect();
    	     	var price = $("#placePrice").text();
    	     	
-   	        $("#checkIn").html(argS);
-   	       	$("#checkOut").html(argE);
-   	       	$("#dateDiff").html(dateDiff);
-   	       	$("#totalPrice").html(price * dateDiff);
+   	         $("#checkIn").html(argS);
+   	       	 $("#checkOut").html(argE);
+   	       	 $("#dateDiff").html(dateDiff);
+	   	     $("#totalPrice").html(price * dateDiff);
+	   	     
+	   	     localStorage.dateDiff = $("#dateDiff").text();
+	   	     localStorage.totalPrice = $("#totalPrice").text();
     	}else {
     		alert("예약 가능 날짜 안에서 선택해주세요.")
     	}
@@ -100,8 +103,8 @@
 	  var object = {
 		  uId : $("input[name=uId]").val(),
 		  pId : $("input[name=pId]").val(),
-		  bCheckIn : $("#checkIn").text(),
-		  bCheckOut : $("#checkOut").text(),
+		  bookCheckIn : $("#checkIn").text(),
+		  bookCheckOut : $("#checkOut").text(),
 		  bookPerson : $("#selectGuest").val(),
 		  bookPayPrice : $("#totalPrice").text(),
 	  }
@@ -114,42 +117,17 @@
 		  i.setAttribute('type',"text");
 		  i.setAttribute('name',key);
 		  i.setAttribute('value',object[key]);
+		  f.append(i);
 	  }
 	  
+	  
 	  if(calendar.getEventById('book')) {
-		  console.log('1개 이상');
+		  document.body.appendChild(f);
+		  f.submit();
 	  }else {
-		  console.log(calendar.getEvents())
+		  alert('날짜를 선택해주세요.');
 	  }
   });
-    
-    function postBookInfo() {
-	  var f = document.createElement("form");
-	  var object = {
-		  uId : $("input[name=uId]").val(),
-		  pId : $("input[name=pId]").val(),
-		  bCheckIn : $("#checkIn").text(),
-		  bCheckOut : $("#checkOut").text(),
-		  bookPerson : $("#selectGuest").val(),
-		  bookPayPrice : $("#totalPrice").text(),
-	  }
-	  
-	  f.setAttribute("method", 'post')
-	  f.setAttribute("action", 'placePayment.do')
-	  
-	  for(key in object) {
-		  var i = document.createElement("input");
-		  i.setAttribute('type',"text");
-		  i.setAttribute('name',key);
-		  i.setAttribute('value',object[key]);
-	  }
-	  
-	  if(calendar.getEventById('book')) {
-		  console.log('1개 이상');
-	  }else {
-		  console.log(calendar.getEvents())
-	  }
-  }
 });
 </script>
 <section>

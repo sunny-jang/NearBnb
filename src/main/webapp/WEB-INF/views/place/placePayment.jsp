@@ -11,7 +11,14 @@ $(function(){
 			$('input[name=check]').prop('checked', false);
 		}
 	});
+	
+	$("#dateDiff").text(localStorage.dateDiff);
+	$("#totalPrice").text(localStorage.totalPrice);
 });
+
+(function() {
+	
+})()
 </script>
 <section>
   <div class="container">
@@ -45,13 +52,13 @@ $(function(){
               <div class="place-image" style="background-color: black;"></div>
             </div>
             <div class="col-8">
-              <span class="place-host">User11님의 숙소</span>
-              <h5 class="place-name ellipsis2">숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름</h5>
-              <span class="place-option">최대인원 4명 . 숙소 유형 아파트</span>
-              <p class="place-des ellipsis2">여름휴가 간 동안 집이 비어서 올리게 되었습니다~ 깨끗하게 써주실 분 찾습니다~^^* 주실 분 찾습니다~^^* 주실 분 찾습니다~^^* .....</p>
+              <span class="place-host">${place.uId}님의 숙소</span>
+              <h5 class="place-name ellipsis2">${place.placeName}</h5>
+              <span class="place-option">최대인원 ${place.maxGuest}명 . 숙소 유형 ${place.placeType}</span>
+              <p class="place-des ellipsis2">${place.placeDesc}</p>
               <div class="d-flex justify-content-between">
-                <div>16 <i class="fa fa-heart"></i></div>
-                <div>30,000 원 / 박</div>
+                <div>${place.placeThumb} <i class="fa fa-heart"></i></div>
+                <div>${place.placePrice} 원 / 박</div>
               </div>
             </div>
           </a>          
@@ -59,15 +66,15 @@ $(function(){
           <div class="content-box">
             <div class="place-info">
               <div class="content-title">날짜</div>
-              <div class="content">21-03-17 ~ 21-03-19</div>
+              <div class="content">${book.bookCheckIn} ~ ${book.bookCheckOut}</div>
             </div>
             <div class="place-info">
               <div class="content-title">게스트</div>
-              <div class="content">게스트 4명</div>
+              <div class="content">게스트 ${book.bookPerson}명</div>
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>
-              <div class="content">￦89,000 × 2박 = ￦178,000</div>
+              <div class="content">￦${place.placePrice} × <span id="dateDiff"></span>박 = <span id="totalPrice"></span></div>
             </div>           
           </div>       
         </div>

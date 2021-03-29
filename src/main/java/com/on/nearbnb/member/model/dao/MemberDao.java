@@ -31,6 +31,11 @@ public class MemberDao {
 		return memberResult;
 	}
 	
+	public Member selectMember(String userId) throws Exception {
+		Member member = sqlSession.selectOne("Member.selectMemberStr", userId);
+		return member;
+	}
+	
 	public int insertMember(Member member) throws Exception {
 		int cnt = sqlSession.insert("Member.insertMember", member);
 		return cnt;
@@ -38,6 +43,11 @@ public class MemberDao {
 	
 	public int updateMember(Member member) throws Exception {
 		int cnt = sqlSession.update("Member.updateMember", member);
+		return cnt;
+	}
+	
+	public int deleteMember(String userId) throws Exception {
+		int cnt = sqlSession.delete("Member.deleteMember", userId);
 		return cnt;
 	}
 

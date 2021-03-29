@@ -22,7 +22,7 @@
 		SELECT * FROM MEMBER
 	</select> -->
 	
-	<!-- member table 조회 통합 쿼리 -->
+	<!-- member table type member -->
 	<select id="selectMember" parameterType="Member" resultMap="resultMember">
 		SELECT * FROM MEMBER
 		<where>
@@ -41,12 +41,32 @@
 		</where>
 	</select>
 	
+	<!-- member table type String -->
+	<select id="selectMemberStr" parameterType="String" resultMap="resultMember">
+		SELECT * FROM MEMBER WHERE U_ID = #{userId}
+	</select>
+	
 	<insert id="insertMember" parameterType="Member">
 		INSERT INTO MEMBER VALUES(#{userId}, #{userPw}, #{userName}, #{userPhone}, #{userEmail}, DEFAULT, DEFAULT)
 	</insert>
 	
 	<update id="updateMember" parameterType="Member">
-		UPDATE MEMBER SET USER_PW = #{userPw} WHERE U_ID = #{userId}
+		UPDATE MEMBER
+		<set>
+			<if test="userEmail == null and userPhone == null">
+				USER_PW = #{userPw}
+			</if>
+			<if test="userPw == ''">
+				USER_PHONE = #{userPhone}, USER_EMAIL = #{userEmail}
+			</if>
+			<if test="userPw != ''">
+				USER_PW = #{userPw}, USER_PHONE = #{userPhone}, USER_EMAIL = #{userEmail}
+			</if>
+		</set>
+		WHERE U_ID = #{userId}
 	</update>
 	
+	<delete id="deleteMember" parameterType="String">	
+		DELETE FROM MEMBER WHERE U_ID = #{userId}
+	</delete>
 </mapper>

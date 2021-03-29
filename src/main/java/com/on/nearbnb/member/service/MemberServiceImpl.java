@@ -36,6 +36,12 @@ public class MemberServiceImpl implements MemberService{
 		Member m = memberDao.selectMember(member);
 		return m;
 	}
+	
+	@Override
+	public Member selectMemberStr(String userId) throws Exception {
+		Member m = memberDao.selectMember(userId);
+		return m;
+	}
 
 	@Override
 	public String authEmail(String userEmail) throws Exception {
@@ -100,6 +106,12 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int updateMember(Member member) throws Exception {
 		int cnt = memberDao.updateMember(member);
+		return cnt;
+	}
+
+	@Override
+	public int deleteMember(String userId) throws Exception {
+		int cnt = memberDao.deleteMember(userId);
 		return cnt;
 	}
 

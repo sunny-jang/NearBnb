@@ -46,7 +46,7 @@
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
-              <button type="button" class="btn btn-primary" onclick="location.href='myPage.do'">마이페이지</button>
+              <button type="button" class="btn btn-primary" onclick="location.href='myPagePwCheck.do'">마이페이지</button>
               <button type="button" class="btn btn-secondary" onclick="location.href='signOut.do'">로그아웃</button>
           </div>
         </c:if>

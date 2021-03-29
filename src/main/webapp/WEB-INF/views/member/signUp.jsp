@@ -304,7 +304,7 @@
                     <tr>
                         <td></td>
                         <td align="center">
-                            <input type="submit" value="회원가입" class="btn btn2">
+                            <input type="submit" value="회원가입" class="btn btn-third">
                         </td>
                         <td></td>
                     </tr>

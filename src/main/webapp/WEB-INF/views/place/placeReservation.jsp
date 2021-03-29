@@ -12,7 +12,6 @@
  <script src="${context}/resources/html/js/dateController.js"></script>
 
 <script>
-
   document.addEventListener('DOMContentLoaded', function() {
 	  
 	var oDate = $("#openDate").text().substring(0,10);
@@ -39,6 +38,9 @@
     		event_.remove();
     	}
     	
+    	// 예약기간 구함
+    	var dateDiff = date.getDateDiff(arg.start, arg.end);
+    	
     	//날짜 데이터를 스트링으로 변환
     	argS = date.getDateFormat(arg.start);
     	argE = date.getDateFormat(arg.end);
@@ -55,15 +57,19 @@
     	
     	// 예약 가능날짜 사이에 있는지 여부
     	if(oDate <= argS && cDate >= argE) {
-    		
+    		alert('예약날짜는 '+ argS +' ~ ' + argE +'입니다.\n체크아웃은 12pm 입니다.');
     		calendar.addEvent(event_);
-    	        calendar.unselect()
+   	        calendar.unselect();
+   	     	var price = $("#placePrice").text();
+   	     	
+   	        $("#checkIn").html(argS);
+   	       	$("#checkOut").html(argE);
+   	       	$("#dateDiff").html(dateDiff);
+   	       	$("#totalPrice").html(price * dateDiff);
     	}else {
     		alert("예약 가능 날짜 안에서 선택해주세요.")
     	}
-    	
-    	$("#checkIn").html(argS);
-    	$("#checkOut").html(argE);
+   		
       },
       eventLimit: true, // allow "more" link when too many events
       events: [
@@ -84,14 +90,67 @@
     }
     
     init();
-
-    
     
     $("#selectGuest").on("change", function() {
     	$("#selectedGuest").text($(this).val())
     })
+    
+    $("#postBookInfo").on("click", function() {
+	  var f = document.createElement("form");
+	  var object = {
+		  uId : $("input[name=uId]").val(),
+		  pId : $("input[name=pId]").val(),
+		  bCheckIn : $("#checkIn").text(),
+		  bCheckOut : $("#checkOut").text(),
+		  bookPerson : $("#selectGuest").val(),
+		  bookPayPrice : $("#totalPrice").text(),
+	  }
+	  
+	  f.setAttribute("method", 'post')
+	  f.setAttribute("action", 'placePayment.do')
+	  
+	  for(key in object) {
+		  var i = document.createElement("input");
+		  i.setAttribute('type',"text");
+		  i.setAttribute('name',key);
+		  i.setAttribute('value',object[key]);
+	  }
+	  
+	  if(calendar.getEventById('book')) {
+		  console.log('1개 이상');
+	  }else {
+		  console.log(calendar.getEvents())
+	  }
   });
-
+    
+    function postBookInfo() {
+	  var f = document.createElement("form");
+	  var object = {
+		  uId : $("input[name=uId]").val(),
+		  pId : $("input[name=pId]").val(),
+		  bCheckIn : $("#checkIn").text(),
+		  bCheckOut : $("#checkOut").text(),
+		  bookPerson : $("#selectGuest").val(),
+		  bookPayPrice : $("#totalPrice").text(),
+	  }
+	  
+	  f.setAttribute("method", 'post')
+	  f.setAttribute("action", 'placePayment.do')
+	  
+	  for(key in object) {
+		  var i = document.createElement("input");
+		  i.setAttribute('type',"text");
+		  i.setAttribute('name',key);
+		  i.setAttribute('value',object[key]);
+	  }
+	  
+	  if(calendar.getEventById('book')) {
+		  console.log('1개 이상');
+	  }else {
+		  console.log(calendar.getEvents())
+	  }
+  }
+});
 </script>
 <section>
   <div class="container">
@@ -118,8 +177,9 @@
           </div>
           <div class="place-li">
           <div class="row">
-            <div class="place-image col-4 align-self-center">
-              <div class="place-image"></div>
+            <div class="place-image col-4 align-self-center" style="background-image: url(/nearbnb/resources/html/images/${sImage})">
+            <input type="hidden" name="uId" value="${userId}">
+            <input type="hidden" name="pId" value="${place.placeId }">
             </div>
             <div class="col-8">
               <span class="place-host">${place.uId} 님의 숙소</span>
@@ -128,7 +188,7 @@
               <p class="place-des ellipsis2">${place.placeDesc}</p>
               <div class="d-flex justify-content-between">
                 <div>${place.placeThumb} <i class="fa fa-heart"></i></div>
-                <div>${place.placePrice} 원 / 박</div>
+                <div><span id="placePrice">${place.placePrice}</span> 원 / 박</div>
               </div>
             </div>
           </div>          
@@ -149,10 +209,10 @@
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>
-              <div class="content">￦${place.placePrice} × 2박 = ￦<span id="totalPrice">178,000</span></div>
+              <div class="content">￦${place.placePrice} × <span id="dateDiff">1</span>박 = ￦<span id="totalPrice">${place.placePrice}</span></div>
             </div>            
             <div class="d-flex justify-content-center align-self-center">
-              <button type="button" class="btn btn-warning btn-lg btn-block">결제하기</button>	
+              <button type="button" class="btn btn-warning btn-lg btn-block" id="postBookInfo">결제하기</button>	
             </div>
           </div>        
         </div>

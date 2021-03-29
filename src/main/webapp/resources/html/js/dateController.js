@@ -43,5 +43,11 @@ class PlaceDate {
 		
 		return yyyy_mm_dd;
 	}
+	
+	getDateDiff(start, end) {
+    	var dateDiff = Math.ceil((end.getTime()- start.getTime())/(1000*3600*24));
+    	
+    	return dateDiff;
+	}
 
 }

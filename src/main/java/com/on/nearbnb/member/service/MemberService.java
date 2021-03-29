@@ -11,10 +11,14 @@ public interface MemberService {
 	// id 찾기용
 	public Member selectMember(Member member) throws Exception;
 	
+	public Member selectMemberStr(String userId) throws Exception;
+	
 	public String authEmail(String userEmail) throws Exception;
 	
 	public int insertMember(Member member) throws Exception;
 	
 	public int updateMember(Member member) throws Exception;
+	
+	public int deleteMember(String userId) throws Exception;
  
 }

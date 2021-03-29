@@ -11,8 +11,8 @@
           <h1>마이페이지</h1>
           <hr>
           <div class="card-deck">
-            <a class="card bg-primary pt-3 pb-3" href="#">
-            <div >
+            <a class="card bg-primary pt-3 pb-3" href="myPageEditUser.do">
+            <div>
               <div class="card-body text-center">
                 <div class="circle_bg">
                   <i class="fa fa-cogs" style="font-size: 80px;"></i>
@@ -21,7 +21,7 @@
               </div>
             </div>
           </a>
-            <a class="card bg-primary pt-3 pb-3" href="#">
+            <a class="card bg-primary pt-3 pb-3" href="myPageGuestCheck.do">
             <div >
               <div class="card-body text-center">
                 <div class="circle_bg">
@@ -31,7 +31,7 @@
               </div>
             </div>
           </a>
-            <a class="card bg-primary pt-3 pb-3" href="#">
+            <a class="card bg-primary pt-3 pb-3" href="myPageHostCheck.do">
             <div>
               <div class="card-body text-center">
                 <div class="circle_bg">

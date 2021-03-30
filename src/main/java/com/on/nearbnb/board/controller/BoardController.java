@@ -198,18 +198,5 @@ public class BoardController {
 		return modelAndView;
 	}
 	
-	// 댓글 작성
-	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.GET)
-	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, ModelAndView modelAndView) {
-		HttpSession session = request.getSession();
-		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
-		boardComment.setUserId(userId);
-		if(!userId.equals("noOne")) {
-			boardService.insertBoardComment(boardComment);
-			return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardComment.getBoardCodeSeq();
-		}
-		return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardComment.getBoardCodeSeq();
-	}
-	
 	
 }

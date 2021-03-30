@@ -106,8 +106,11 @@ var date = new PlaceDate();
               <i class="fa fa-address-card-o pr-2" style="font-size:24px"></i>주소
             </div>
             <div class="w-50">
-              <input type="text" placeholder="주소를 입력해주세요." name="placeAddress" id="address" class="w-75 p-2 mb-2" required>
-              <button type="button" class="btn btn-primary find-address p-1 pt-2 pb-2" style="box-sizing:border-box">지도에 표시</button>
+            	<div class="d-flex">
+            		<input type="text" placeholder="주소를 입력해주세요." name="placeAddress" id="address" class="w-75 p-2 mb-2 col-9" required>
+              		<button type="button" class="btn btn-primary find-address p-1 pt-2 pb-2 w-25 mb-2 col" style="box-sizing:border-box; font-size: 14px">지도에 표시</button>
+            	</div>
+              
               <input type="text" placeholder="상세 주소를 입력해주세요." name="placeAddressDetail" class="w-100 p-2" required>
               <input type="hidden" name="latitude" class="w-100 p-2" required>
               <input type="hidden" name="longitude" class="w-100 p-2" required>

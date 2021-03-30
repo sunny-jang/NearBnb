@@ -70,7 +70,7 @@
 		});
 	});
 </script>
-<section style="height: 100vh;">
+<section style="height: 130vh; overflow:hidden">
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>

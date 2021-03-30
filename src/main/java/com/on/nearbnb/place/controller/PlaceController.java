@@ -3,6 +3,7 @@ package com.on.nearbnb.place.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,13 +38,13 @@ public class PlaceController {
 	@ResponseBody
 	public String addFile(MultipartHttpServletRequest files, HttpServletRequest request) throws Exception {
 		MultipartFile image = files.getFile("image");
-		String imageName = image.getOriginalFilename();
+		String imageName = new java.util.Date().getTime() + image.getOriginalFilename();
 		String path = request.getSession().getServletContext().getRealPath("resources") +"\\html\\images\\" + imageName;
 		File file = new File(path);
 		
 		image.transferTo(file);
 		
-		System.out.println(path);
+		System.out.println(imageName);
 		return imageName;
 	}
 	
@@ -61,12 +62,13 @@ public class PlaceController {
 	public String addPlace(MultipartHttpServletRequest files, Place place, PlacePoint placePoint, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
 		List<MultipartFile> images = files.getFiles("imageUpload");
 		String path = files.getSession().getServletContext().getRealPath("resources")+"\\html\\images\\";
+		String[] changedImages = files.getParameterValues("changedImages");
 		
 		/* Coords coords = getCoords(request); */
-		List<PlaceFile> placeFiles = makeFileList(images, path);
+		List<PlaceFile> placeFiles = makeFileList(images,changedImages, path);
+		System.out.println(placeFiles.toString());
 		HttpSession session = request.getSession();
 		String uId = (String) session.getAttribute("userId");
-		System.out.println(uId);
 		
 		place.setuId(uId);
 		placeService.insertPlace(place, placePoint, placeFiles);
@@ -78,12 +80,13 @@ public class PlaceController {
 		return "redirect:index.do";
 	}
 
-	public List<PlaceFile> makeFileList(List<MultipartFile> images, String path) {
+	public List<PlaceFile> makeFileList(List<MultipartFile> images,String[] changedImages, String path) {
 		List<PlaceFile> placeFiles = new ArrayList<PlaceFile>();
 		
-		for(MultipartFile image : images) {
-			String fileName = image.getOriginalFilename();
-			String fileChangedName = new java.util.Date().getTime() + fileName;
+		for(int i = 0; i<changedImages.length; i++) {
+			String fileName = images.get(i).getOriginalFilename();
+			String fileChangedName = changedImages[i];
+			System.out.println("fileChangedName : " + fileChangedName);
 			String _path = path;
 					
 			
@@ -92,6 +95,7 @@ public class PlaceController {
 				placeFiles.add(file);
 			}
 		}
+		
 		return placeFiles;
 	}
 	
@@ -101,11 +105,11 @@ public class PlaceController {
 		Place place = placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);
 		
-		modelAndView.addObject("sImage",files.get(0).getFileOriginalName());
+		modelAndView.addObject("sImage",files.get(0).getFileChangedName());
 		
 		modelAndView.addObject("place", place);
 		modelAndView.setViewName("/place/placeReservation");
-		return modelAndView;
+		return modelAndView;	
 	}
 
 }

@@ -30,6 +30,12 @@ var date = new PlaceDate();
 					_this.closest("div").css("background-image", "url(/nearbnb/resources/html/images/"+data+")");
 					$(".big-image").css("background-image", "url(/nearbnb/resources/html/images/"+data+")");
 					
+					var i = document.createElement("input");
+					i.setAttribute("type","hidden");
+					i.setAttribute("name","changedImages");
+					console.log(data);
+					i.setAttribute("value",data);
+					$("#addForm").append(i);
 				},
 				error: function(error) {
 					console.log();
@@ -112,7 +118,7 @@ var date = new PlaceDate();
             <div>
               <i class="fa fa-users pr-2" style="font-size:24px"></i>최대 인원수 지정
             </div>
-            <input type="number" placeholder="ex) 4" name="maxGuest" class="w-50 p-2" required>
+            <input type="number" placeholder="ex) 4" name="maxGuest" class="w-50 p-2" required min="1">
           </div>
           <div class="d-flex justify-content-between mb-3 align-items-center">
             <div>
@@ -134,7 +140,7 @@ var date = new PlaceDate();
             <div>
               <i class="fa fa-phone pr-2" style="font-size:24px"></i>비상 연락망
             </div>
-            <input type="text" placeholder="ex) 010-2222-3333" name="hostPhone" class="w-50 p-2" required>
+            <input type="text" placeholder="ex) 01022223333" name="hostPhone" class="w-50 p-2" required>
           </div>
           <div class="d-flex justify-content-between mb-3 align-items-center">
             <div>

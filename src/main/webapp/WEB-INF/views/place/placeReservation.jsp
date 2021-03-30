@@ -167,7 +167,7 @@
               <div class="d-flex justify-content-between">
                 <div>${place.placeThumb} <i class="fa fa-heart"></i></div>
                 <div><span id="placePrice">${place.placePrice}</span> 원 / 박</div>
-              </div>
+              </div> 
             </div>
           </div>          
           </div>

@@ -15,18 +15,17 @@
 	<!--myPageHostCheck / 마이페이지_내 숙소 예약현황-->
 	<section>
 		<div class="row flex-nowrap">
-			   <%@ include file="../include/sidemenu.jsp" %>
+			<%@ include file="../include/sidemenu.jsp" %>
 			<!--메인-->
 			<main class="col-8 py-md-5 pl-md-4 ">
 				<h1>내 숙소 예약 현황</h1>
-				<input type="hidden" id="sessionId" value="${userId}" />
 				<hr>
-				<c:forEach var="p" items="${placeList}">
+				<c:forEach var="p" items="${placeList}" varStatus="status">
 				<div class="card_content">
 					<div class="place-li_je pt-2">
 						<a href="#" class="row justify-content-center">
-							<div class="place-image col-2 align-self-center">
-								<div class="place-image" style="background-color: black;"></div>
+							<div class="place-image col-2 align-self-center" style="background-image: url(/nearbnb/resources/html/images/${thumbnail[status.index]})">
+								
 							</div>
 							<div class="col-9">
 								<div class="d-flex justify-content-between">

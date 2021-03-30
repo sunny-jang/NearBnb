@@ -7,8 +7,7 @@
 		<result property="fileChangedName" column="KEY"/>
 		<result property="fileOriginalName" column="PFILE_ORIGINAL_NAME"/>
 		<result property="filePath" column="PFILE_PATH"/>
-	</resultMap>
-	
+	</resultMap>	
 	
 	<insert id="insertPlaceFile" parameterType="java.util.List">
 		INSERT INTO PLACE_IMGFILE

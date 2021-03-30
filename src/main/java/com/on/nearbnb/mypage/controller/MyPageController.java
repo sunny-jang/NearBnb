@@ -1,5 +1,6 @@
 package com.on.nearbnb.mypage.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.on.nearbnb.file.model.vo.PlaceFile;
+import com.on.nearbnb.file.service.PlaceFileService;
 import com.on.nearbnb.member.model.vo.Member;
 import com.on.nearbnb.member.service.MemberService;
 import com.on.nearbnb.place.model.vo.Place;
@@ -23,6 +26,9 @@ public class MyPageController {
 	
 	@Autowired
 	PlaceService placeService;
+	
+	@Autowired
+	PlaceFileService placeFileService;
 	
 	@RequestMapping(value="/myPage.do", method=RequestMethod.GET)
 	public ModelAndView myPage(ModelAndView modelAndView) throws Exception {
@@ -78,9 +84,15 @@ public class MyPageController {
 	
 	@RequestMapping(value = "/myPageHostCheck.do", method = RequestMethod.GET)
 	public ModelAndView myPageHostCheck(HttpSession session, ModelAndView modelAndView) {
-		String uId = (String)session.getAttribute("userId");
+		String uId = (String)session.getAttribute("userId");		
 		List<Place> placeList = placeService.selectPlaceById(uId);
+		List<String> thumbnail = new ArrayList<>();
+		for(Place p : placeList) {
+			List<PlaceFile> files = placeFileService.selectFiles(p.getPlaceId());
+			thumbnail.add(files.get(0).getFileOriginalName());
+		}		
 		modelAndView.addObject("placeList", placeList);
+		modelAndView.addObject("thumbnail", thumbnail);
 		modelAndView.setViewName("myPage/myPageHostCheck");
 		return modelAndView;
 	}

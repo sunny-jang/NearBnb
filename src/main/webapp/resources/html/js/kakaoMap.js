@@ -14,7 +14,9 @@ $(function() {
 	var geocoder = new kakao.maps.services.Geocoder();
 	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
 	var mapTypeControl = new kakao.maps.MapTypeControl();
-
+	var marker = new kakao.maps.Marker({map: map});
+	var infowindow =  new kakao.maps.InfoWindow({map: map})
+	infowindow.open(map, marker);
 
 	function initLocation() {
 		
@@ -24,11 +26,9 @@ $(function() {
 			var longitude = position.coords.longitude;
 			var coords = new kakao.maps.LatLng(latitude, longitude);
 			
-			
-			var marker = new kakao.maps.Marker({
-				map: map,
-				position: coords
-			});
+			infowindow.setPosition(coords);
+			infowindow.setContent('<div style="width:150px;text-align:center;padding:6px 0; margin-bottom: -2px">현재 위치</div>')
+			marker.setPosition(coords);
 			
 			//지도 생성 및 객체 리턴
 			map.setCenter(coords);
@@ -53,33 +53,23 @@ $(function() {
 	$(".find-address").on("click", function() {
 		// 주소로 좌표를 검색합니다
 		var address = $("#address").val();
-		geocoder.addressSearch(address, function(result, status) {
-
+		
 			// 정상적으로 검색이 완료됐으면  
+			geocoder.addressSearch(address, function(result, status) {
 				if (status === kakao.maps.services.Status.OK) {
-				
 				latitude = result[0].y;
 				longitude = result[0].x;
 				var coords = new kakao.maps.LatLng(latitude, longitude);
 
-				// 결과값으로 받은 위치를 마커로 표시합니다
-				var marker = new kakao.maps.Marker({
-					map: map,
-					position: coords
-				});
-
-				// 인포윈도우로 장소에 대한 설명을 표시합니다
-				var infowindow = new kakao.maps.InfoWindow({
-					content: '<div style="width:150px;text-align:center;padding:6px 0;">숙소 위치</div>'
-				});
-				
-				infowindow.open(map, marker);
-
+				marker.setPosition(coords);
+				infowindow.setPosition(coords);
+				infowindow.setContent('<div style="width:150px;text-align:center;padding:6px 0; margin-bottom: -2px">숙소 위치</div>');
+				infowindow.setAltitude(30);
 				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 				map.setCenter(coords);
 			} else {
 				alert("정확한 주소를 적어주시고 지도상의 마커를 확인해주세요\nex) 인천광역시 연희로 42번길 ");
 			}
-		});    
+		});
 	})
 });

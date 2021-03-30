@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
@@ -40,6 +41,7 @@
 				});
 			}
 		});
+		
 		$('#rewrite').on('click', function(){
 			if("${userId}" == ""){
 				alert('로그인이 필요한 서비스입니다.');
@@ -48,12 +50,22 @@
 				alert('수정 권한이 없습니다.');
 			}
 		});
+		
 		$('#delete').on('click', function(){
 			if("${userId}" == ""){
 				alert('로그인이 필요한 서비스입니다.');
 				$(location).attr("href", "signIn.do");
 			}else if($('#userId').val() != "${sessionScope.userId}"){
 				alert('삭제 권한이 없습니다.');
+			}
+		});
+		
+		$('#commentIns').on('click', function(){
+			if("${userId}" == ""){
+				alert('로그인이 필요한 서비스입니다.');
+				$(location).attr("href", "signIn.do");
+			}else {
+				document.location.href = "boardCommentInsert.do";
 			}
 		});
 	});
@@ -63,12 +75,12 @@
   <h2>커뮤니티</h2>
   <hr>
   <center>
-    <form class="center" action="boardUpdateCon.do" method="post">
+  	<form action="boardCommentInsert.do" method="get">
       <input type="hidden" name="boardCodeSeq" id="boardCodeSeq" value="${board.boardCodeSeq }" />
-      <input type="hidden" name="userId" id="userId" value="${board.userId }" />
+      <input type="hidden" name="userId" id="userId" value="${sessionScope.userId }" />
       <table style="font-size: 20px;">
         <tr>
-            <td>제목</td>
+            <td style="width: 150px;">제목</td>
             <td style="width: 800px; height: 50px;">
                 <div class="title" style="margin-top: 30px; text-align: left;"><h2>${board.boardTitle }</h2></div>
             </td>
@@ -114,7 +126,7 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td style="height: 472px;">
                 글 내용
             </td>
             <td colspan="3">
@@ -123,29 +135,49 @@
 				<br>
             </td>
         </tr>
+        
+        <c:if test="${comments eq 0 }">
         <tr>
-          <td>
-            댓글
-          </td>
-          <td colspan="3" style="height: 45px;">
-            댓글 내역
+          <td colspan="5">
+첫 댓글을 남겨주세요!
           </td>
         </tr>
+        </c:if>
+        <c:if test="${comments ne 0 }">
+          <tr>
+            <td colspan="4" style="height: 45px;">
+           	  댓글
+            </td>
+          </tr>
+          <c:forEach var="bC" items="${boardComment }">
+          <tr>
+            <td style="height: 35px;">
+              ${bC.userId }
+            </td>
+            <td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3">
+              ${bC.commentContent }<br>
+              <p style="font-size: 11px; color: #BEBEBE;">
+              	<fmt:formatDate value="${bC.commentDate}" pattern="YYYY-MM-dd hh:mm" /> 
+              </p>
+            </td>
+          </tr>
+          </c:forEach>
+        </c:if>
         <tr>
           <td colspan="2">
-            <input type="text" class="commentWrt" placeholder="댓글 작성">
+            <input type="text" class="commentWrt" name="commentContent" placeholder="댓글 작성">
           </td>
           <td colspan="2">
-            <input type="button" class="btn commentBtn" value="댓글달기">
+            <input type="submit" class="btn commentBtn" id="commentIns" value="댓글달기">
           </td>
         </tr>
       </table>
-      <div>
+      </form>
+  <div>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
       <a href="boardDeleteCon.do?boardCodeSeq=${board.boardCodeSeq }" id="delete" class="write1 btn" onclick="return confirm('정말 삭제 하시겠습니까?')">삭제</a>
       <input type="button" class="write2 btn" id="rewrite" onclick="location.href='boardUpdateProCon.do?boardCodeSeq=${board.boardCodeSeq }'" value="수정">
-      </div>
-  </form>
+  </div>
 </center>
 </div>
 

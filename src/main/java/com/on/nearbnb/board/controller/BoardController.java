@@ -2,6 +2,7 @@ package com.on.nearbnb.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.board.model.vo.Board;
+import com.on.nearbnb.board.model.vo.BoardComment;
 import com.on.nearbnb.board.model.vo.BoardThumb;
 import com.on.nearbnb.board.service.BoardService;
 
@@ -31,13 +33,14 @@ public class BoardController {
 	// 게시판 목록 조회, 베스트 게시글 5개 조회
 	@RequestMapping(value = "board.do", method = RequestMethod.GET)
 	public ModelAndView boardListService(@RequestParam(name = "page", defaultValue = "1") int page,
+			Board board,
 			ModelAndView modelAndView) {
 		try {		
 			// 현재 페이지
 			int currentPage = page;
 			
 			// 게시글 전체 글 개수 조회
-			int boardListCount = boardService.boardListCount();
+			int boardListCount = boardService.boardListCount(board);
 			
 			// 마지막 페이지
 			int maxPage = (int) ((double) boardListCount / 15 + 0.99);
@@ -63,14 +66,44 @@ public class BoardController {
 		return modelAndView;
 	}
 	
+	// 검색 후 출력
+	@RequestMapping(value = "printBoardAjaxSearch.do", method = RequestMethod.GET)
+	public ModelAndView boardAjaxType(String boardType, String boardContent, HashMap searchMap, ModelAndView modelAndView) {
+		try {
+			searchMap.put("boardType", boardType);
+			searchMap.put("boardContent", boardContent);
+			
+			// 조회 결과 확인
+			modelAndView.addObject("check", searchMap.get("boardContent"));
+			
+			// 베스트 게시글 5개 조회
+			modelAndView.addObject("bestList",boardService.selectBestList());
+			
+			// 검색 결과
+			modelAndView.addObject("boardList", boardService.searchBoard(searchMap));
+			
+			modelAndView.setViewName("community/board");
+			return modelAndView;
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		modelAndView.setViewName("redirect:/board.do");
+		return modelAndView;
+	}
+		
+	
 	// 게시글 상세 조회
 	@RequestMapping(value = "boadSelectOneCon.do", method = RequestMethod.GET)
 	public ModelAndView boardSelectOneService(int boardCodeSeq, HttpServletRequest request,
 			ModelAndView modelAndView) {
 
-		// 게시글과 총 추천 수 가져오기
+		// 게시글과 총 추천 수, 댓글 가져오기
 		Board board = boardService.selectBoardOne(boardCodeSeq);
 		int thumbs = boardService.boardThumbCount(boardCodeSeq);
+		int boardComments = boardService.selectBoardCommentCount(boardCodeSeq);
+		
+		// 댓글 가져오기
+		List<BoardComment> boardComment = new ArrayList<BoardComment>();
 
 		try {
 			// 세션 및 객체 선언
@@ -82,6 +115,12 @@ public class BoardController {
 			String userId =(String) session.getAttribute("userId");
 			boardThumb.setUserId(userId);
 
+			// 해당 게시글 댓글 조회
+			if(boardComments != 0) {
+				boardComment = boardService.selectBoardCommentList(boardCodeSeq);
+				modelAndView.addObject("boardComment", boardComment);
+			}
+			
 			if(userId == null) {
 				// 로그인 하지 않은 경우
 				modelAndView.addObject("heart","unSignIn");
@@ -95,6 +134,7 @@ public class BoardController {
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
+		modelAndView.addObject("comments",boardComments);
 		modelAndView.addObject("thumbs", thumbs);
 		modelAndView.addObject("board", board);
 		modelAndView.setViewName("community/boardRead");
@@ -156,6 +196,19 @@ public class BoardController {
 			modelAndView.setViewName("redirect:/boadSelectOneCon.do?boardCodeSeq="+boardCodeSeq);
 		}
 		return modelAndView;
+	}
+	
+	// 댓글 작성
+	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.GET)
+	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, ModelAndView modelAndView) {
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		boardComment.setUserId(userId);
+		if(!userId.equals("noOne")) {
+			boardService.insertBoardComment(boardComment);
+			return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardComment.getBoardCodeSeq();
+		}
+		return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardComment.getBoardCodeSeq();
 	}
 	
 	

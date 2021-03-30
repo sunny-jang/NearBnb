@@ -1,5 +1,6 @@
 package com.on.nearbnb.board.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.on.nearbnb.board.model.dao.BoardDao;
 import com.on.nearbnb.board.model.vo.Board;
+import com.on.nearbnb.board.model.vo.BoardComment;
 import com.on.nearbnb.board.model.vo.BoardThumb;
 
 @Service
@@ -23,14 +25,26 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 게시글 전체 글 개수 조회
 	@Override
-	public int boardListCount() {
-		return boardDao.boardListCount();
+	public int boardListCount(Board board) {
+		return boardDao.boardListCount(board);
 	}
 	
 	// 베스트 게시글 5개 조회
 	@Override
 	public List<Board> selectBestList(){
 		return boardDao.selectBestList();
+	}
+	
+	// 게시글 검색
+	@Override
+	public List<Board> searchBoard(HashMap searchMap){
+		return boardDao.searchBoard(searchMap);
+	}
+	
+	// 게시글 분류
+	@Override
+	public List<Board> searchBoardType(Board board){
+		return boardDao.searchBoardType(board);
 	}
 	
 	// 게시판 추천 개수 조회
@@ -85,6 +99,24 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int deleteBoardThumbAll(int boardCodeSeq) {
 		return boardDao.deleteBoardThumbAll(boardCodeSeq);
+	}
+	
+	// 댓글 조회
+	@Override
+	public List<BoardComment> selectBoardCommentList(int boardCodeSeq){
+		return boardDao.selectBoardCommentList(boardCodeSeq);
+	}
+	
+	// 해당 게시글 댓글 개수 조회
+	@Override
+	public int selectBoardCommentCount(int boardCodeSeq) {
+		return boardDao.selectBoardCommentCount(boardCodeSeq);
+	}
+	
+	// 댓글 작성
+	@Override
+	public int insertBoardComment(BoardComment boardComment) {
+		return boardDao.insertBoardComment(boardComment);
 	}
 
 }

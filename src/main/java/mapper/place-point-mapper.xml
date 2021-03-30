@@ -12,5 +12,8 @@
 	<insert id="insertPlacePoint" parameterType="PlacePoint">
 		INSERT INTO PLACE_POINT VALUES(#{placeId}, #{latitude}, #{longitude})
 	</insert>
-
+	
+	<select id = "selectPlacePoint" parameterType="double">
+		
+	</select>
 </mapper>

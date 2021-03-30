@@ -22,7 +22,7 @@ $(function() {
 			navigator.geolocation.getCurrentPosition(function(position) {
 			var latitude = position.coords.latitude;
 			var longitude = position.coords.longitude;
-			var coords = new kakao.maps.LatLng(latitude, longitude);
+			var coords = new kakao.maps.LatLng(latitude, longitude);//x,y좌표값
 			
 			
 			var marker = new kakao.maps.Marker({

@@ -114,5 +114,23 @@ public class PlaceController {
 		modelAndView.setViewName("/place/placeReservation");
 		return modelAndView;	
 	}
+	
+	@RequestMapping(value = "/kakaoPayTestPage.do", method=RequestMethod.GET)
+	public ModelAndView kakaoPayTestPage(ModelAndView modelAndView) throws Exception {
+		modelAndView.setViewName("place/kakaoPayTest");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/kakaoPayComplete.do", method=RequestMethod.GET)
+	public ModelAndView kakaoPayComplete(ModelAndView modelAndView) throws Exception {
+		modelAndView.setViewName("place/kakaoPayComplete");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/kakaoPay.do")
+	@ResponseBody
+	public String kakaoPayTest() throws Exception {		
+		return placeService.kakaoPay();
+	}
 
 }

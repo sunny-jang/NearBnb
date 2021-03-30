@@ -1,17 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <link href="${context}/html/css/park3.css" rel="stylesheet">
 <%@ include file="../include/header.jsp" %>
-<script>
-	$(function(){
-		var userId = $('#sessionId').val();
-		$.ajax({
-			url : 
-		});
-	});
-</script>
 	<!--myPageHostCheck / 마이페이지_내 숙소 예약현황-->
 	<section>
 		<div class="row flex-nowrap">
@@ -30,7 +23,7 @@
 							<div class="col-9">
 								<div class="d-flex justify-content-between">
 									<span class="place-host">${p.uId}님의 숙소 </span>
-									<div>${p.placePrice} 원 / 박</div>
+									<div><fmt:formatNumber value="${p.placePrice}" /> 원 / 박</div>
 								</div>
 								<h5 class="place-name ellipsis1">${p.placeName}</h5>
 								<p>

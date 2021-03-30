@@ -89,7 +89,7 @@ public class MyPageController {
 		List<String> thumbnail = new ArrayList<>();
 		for(Place p : placeList) {
 			List<PlaceFile> files = placeFileService.selectFiles(p.getPlaceId());
-			thumbnail.add(files.get(0).getFileOriginalName());
+			thumbnail.add(files.get(0).getFileChangedName());
 		}		
 		modelAndView.addObject("placeList", placeList);
 		modelAndView.addObject("thumbnail", thumbnail);

@@ -14,6 +14,9 @@ $(function(){
 	
 	$("#dateDiff").text(localStorage.dateDiff);
 	$("#totalPrice").text(localStorage.totalPrice);
+	
+	
+	
 });
 
 (function() {
@@ -35,7 +38,7 @@ $(function(){
 	      	  <i class="fas fa-money-check payment-icon" style="font-size: 25px;"></i>
 	      	  <h5 class="payment-text1">일반 신용카드 결제</h5>
 	      	</div>
-	      	<div class="payment-content bg-warning" onclick="index.do">
+	      	<div class="payment-content bg-warning" id="kakaoPay">
 	      	  <img class="payment-icon" src="${context}/html/images/ico_pay_320.png" />
 	      	  <h5 class="payment-text2">카카오 페이 결제</h5>
 	      	</div>

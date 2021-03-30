@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <link href='${context}/resources/html/css/calendar.css' rel='stylesheet' />
 <script src='${context}/resources/html/js/fullcalendar.js'></script>
@@ -65,7 +66,7 @@
    	         $("#checkIn").html(argS);
    	       	 $("#checkOut").html(argE);
    	       	 $("#dateDiff").html(dateDiff);
-	   	     $("#totalPrice").html(price * dateDiff);
+	   	     $("#totalPrice").html(price * dataDiff);
 	   	     
 	   	     localStorage.dateDiff = $("#dateDiff").text();
 	   	     localStorage.totalPrice = $("#totalPrice").text();
@@ -166,7 +167,7 @@
               <p class="place-des ellipsis2">${place.placeDesc}</p>
               <div class="d-flex justify-content-between">
                 <div>${place.placeThumb} <i class="fa fa-heart"></i></div>
-                <div><span id="placePrice">${place.placePrice}</span> 원 / 박</div>
+                <div><span id="placePrice"><fmt:formatNumber value="${place.placePrice}" /></span> 원 / 박</div>
               </div> 
             </div>
           </div>          
@@ -187,7 +188,7 @@
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>
-              <div class="content">￦${place.placePrice} × <span id="dateDiff">1</span>박 = ￦<span id="totalPrice">${place.placePrice}</span></div>
+              <div class="content">￦ <fmt:formatNumber value="${place.placePrice}" /> × <span id="dateDiff">1</span>박 = ￦<span id="totalPrice">${place.placePrice}</span></div>
             </div>            
             <div class="d-flex justify-content-center align-self-center">
               <button type="button" class="btn btn-warning btn-lg btn-block" id="postBookInfo">결제하기</button>	

@@ -47,10 +47,10 @@ public class placeServiceImpl implements PlaceService {
 	@Override
 	public Place selectPlace(Integer pId) {
 		return pDao.selectPlace(pId);
-	}
+	}	
 
 	@Override
 	public List<Place> selectPlaceById(String uId) {		
 		return pDao.selectPlaceById(uId);
-	}
+	}	
 }

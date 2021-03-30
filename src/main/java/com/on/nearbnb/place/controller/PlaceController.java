@@ -38,8 +38,10 @@ public class PlaceController {
 	@ResponseBody
 	public String addFile(MultipartHttpServletRequest files, HttpServletRequest request) throws Exception {
 		MultipartFile image = files.getFile("image");
+
 		String imageName = new java.util.Date().getTime() + image.getOriginalFilename();
 		String path = request.getSession().getServletContext().getRealPath("resources") +"\\html\\images\\" + imageName;
+
 		File file = new File(path);
 		
 		image.transferTo(file);
@@ -102,9 +104,10 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/placeReservation.do", method = RequestMethod.GET)
 	public ModelAndView placeReservation(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
+		// System.out.println(pId);
 		Place place = placeService.selectPlace(pId);
-		List<PlaceFile> files = placeFileService.selectFiles(pId);
-		
+		List<PlaceFile> files = placeFileService.selectFiles(pId);		
+
 		modelAndView.addObject("sImage",files.get(0).getFileChangedName());
 		
 		modelAndView.addObject("place", place);

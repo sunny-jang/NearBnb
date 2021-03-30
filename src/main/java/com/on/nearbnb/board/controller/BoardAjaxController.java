@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.board.model.vo.Board;
+import com.on.nearbnb.board.model.vo.BoardComment;
 import com.on.nearbnb.board.model.vo.BoardThumb;
 import com.on.nearbnb.board.service.BoardService;
 
@@ -142,4 +143,5 @@ public class BoardAjaxController {
 	}
 	
 
+	
 }

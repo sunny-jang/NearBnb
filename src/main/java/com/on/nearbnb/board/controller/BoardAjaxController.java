@@ -143,19 +143,5 @@ public class BoardAjaxController {
 	}
 	
 
-	// 댓글 작성
-	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.POST)
-	@ResponseBody
-	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, ModelAndView modelAndView) {
-		HttpSession session = request.getSession();
-		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
-		boardComment.setUserId(userId);
-		JSONObject jsonData = new JSONObject();
-		
-		if(!userId.equals("noOne")) {
-			boardService.insertBoardComment(boardComment);
-			return jsonData.toJSONString();
-		}
-		return jsonData.toJSONString();
-	}
+	
 }

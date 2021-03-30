@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -198,5 +200,18 @@ public class BoardController {
 		return modelAndView;
 	}
 	
+	// 댓글 작성
+	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.GET)
+	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, ModelAndView modelAndView) {
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		boardComment.setUserId(userId);
+		if(!userId.equals("noOne")) {
+			boardService.insertBoardComment(boardComment);
+		}else {
+			return "redirect:/signIn.do";
+		}
+		return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardComment.getBoardCodeSeq();
+	}
 	
 }

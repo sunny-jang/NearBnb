@@ -42,37 +42,6 @@
 			}
 		});
 		
-		$('#commentIns').on('click', function(){
-			// Ajax로 폼 넘기기
-			var commentForm = $('#commentForm')[0];
-			var commentData = new FormData(commentForm);
-			$("#commentIns").prop("disabled", true);
-			if("${userId}" == ""){
-				alert('로그인이 필요한 서비스입니다.');
-				$(location).attr("href", "signIn.do");
-			}else {
-				$.ajax({
-					url : "boardCommentInsert.do",
-					enctype: 'multipart/form-data',
-					data: commentData,
-		            processData: false,
-		            contentType: false,
-		            cache: false,
-					data : commentData,
-					type : 'POST',
-					dataType : 'json',
-					success : function(data){
-						$("#commentIns").prop("disabled", false);
-					},
-					error: function(request, status, error){
-						alert("code : " + request.status + "\n"
-								+ "message : " + request.responseText + "\n"
-								+ "error : " + error);
-					}
-				});
-			}
-		});
-		
 		$('#rewrite').on('click', function(){
 			if("${userId}" == ""){
 				alert('로그인이 필요한 서비스입니다.');
@@ -90,14 +59,23 @@
 				alert('삭제 권한이 없습니다.');
 			}
 		});
+		
+		$('#commentIns').on('click', function(){
+			if("${userId}" == ""){
+				alert('로그인이 필요한 서비스입니다.');
+				$(location).attr("href", "signIn.do");
+			}else {
+				document.location.href = "boardCommentInsert.do";
+			}
+		});
 	});
 </script>
-<section style="height: 100vh;">
+<section style="height: 130vh; overflow:hidden">
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
   <center>
-  	<form method="get" id="commentForm">
+  	<form action="boardCommentInsert.do" method="get">
       <input type="hidden" name="boardCodeSeq" id="boardCodeSeq" value="${board.boardCodeSeq }" />
       <input type="hidden" name="userId" id="userId" value="${sessionScope.userId }" />
       <table style="font-size: 20px;">
@@ -172,7 +150,7 @@
             </td>
           </tr>
           <c:forEach var="bC" items="${boardComment }">
-          <tr >
+          <tr>
             <td style="height: 35px;">
               ${bC.userId }
             </td>
@@ -187,7 +165,7 @@
         </c:if>
         <tr>
           <td colspan="2">
-            <input type="text" class="commentWrt" name="commentContent" id="commentContent" placeholder="댓글 작성">
+            <input type="text" class="commentWrt" name="commentContent" placeholder="댓글 작성">
           </td>
           <td colspan="2">
             <input type="submit" class="btn commentBtn" id="commentIns" value="댓글달기">

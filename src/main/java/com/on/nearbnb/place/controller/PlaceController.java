@@ -125,7 +125,6 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/kakaoPayComplete.do", method=RequestMethod.GET)
 	public ModelAndView kakaoPayComplete(ModelAndView modelAndView) throws Exception {
-		
 		modelAndView.setViewName("place/kakaoPayComplete");
 		return modelAndView;
 	}

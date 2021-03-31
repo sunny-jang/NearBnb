@@ -38,6 +38,7 @@ public class MainPageController {
 	
 	List<PlacePoint> resultpoint = placeService.searchPlacePoint(searchpoint);
 	System.out.println(resultpoint.get(0).toString());
+
 	System.out.println(resultpoint.get(0).getPlaceId());
 	
 	JSONObject jsonData = new JSONObject();

@@ -79,7 +79,6 @@ public class placeServiceImpl implements PlaceService {
 		String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&"
 				+ "partner_user_id=partner_user_id&item_name="+itemName+"&quantity=1&total_amount="+totalPrice+"&vat_amount="+vat+"&tax_free_amount=0&"
 				+ "approval_url=http://localhost:8181/nearbnb/kakaoPayComplete.do&fail_url=http://localhost:8181/nearbnb/index.do&cancel_url=http://localhost:8181/nearbnb/kakaoPayCancel.do";
-		System.out.println(param);
 		OutputStream ops = conn.getOutputStream(); // 파라미터를 실제로 서버로 전달하기 위한 역할, connection을 통해 뭔가를 줄 수 있게 됨.
 		DataOutputStream dops = new DataOutputStream(ops); // 데이터 주는 역할
 		dops.writeBytes(param); // 데이터를 줄 때 byte형태로 전달해야 하는데, byte로 형변환 하는 역할

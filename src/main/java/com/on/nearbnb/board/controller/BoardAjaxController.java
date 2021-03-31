@@ -144,51 +144,51 @@ public class BoardAjaxController {
 		return modelAndView;
 	}
 	
-	// 댓글 작성
-	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.POST)
-	@ResponseBody
-	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-		HttpSession session = request.getSession();
-		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
-		
-		boardComment.setUserId(userId);
-		JSONObject jsonData = new JSONObject();
-		
-		JSONArray jsonArray = new JSONArray();
-		if(!userId.equals("noOne")){
-			try {
-				response.setCharacterEncoding("UTF-8");
-				request.setCharacterEncoding("UTF-8");
-				// 댓글 등록
-				boardService.insertBoardComment(boardComment);
-				// 댓글 개수 가져오기
-				int boardCommentCnt = boardService.selectBoardCommentCount(boardComment.getBoardCodeSeq());
-				// 댓글 가져오기
-				List<BoardComment> boardCommentList = new ArrayList<BoardComment>();
-				boardCommentList = boardService.selectBoardCommentList(boardComment.getBoardCodeSeq());
-				jsonData.put("commentListCnt",boardCommentCnt);
-
-				// 날짜 형식용
-				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-				
-				for(int i = 0; i < boardCommentCnt; i++) {
-					JSONObject jsonData2 = new JSONObject();
-					jsonData2.put("userId", boardCommentList.get(i).getUserId());
-					jsonData2.put("commentContent", boardCommentList.get(i).getCommentContent());
-					String ftDate = ft.format(boardCommentList.get(i).getCommentDate());
-					jsonData2.put("commentDate",ftDate);
-					jsonArray.add(jsonData2);
-				}
-
-				jsonData.put("commentList", jsonArray);
-
-				return jsonData.toJSONString();
-			}catch(Exception e) {
-				System.out.println(e.getMessage());
-			}
-		}
-		return jsonData.toJSONString();
-	}
+//	// 댓글 작성
+//	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.POST)
+//	@ResponseBody
+//	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
+//		HttpSession session = request.getSession();
+//		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+//		
+//		boardComment.setUserId(userId);
+//		JSONObject jsonData = new JSONObject();
+//		
+//		JSONArray jsonArray = new JSONArray();
+//		if(!userId.equals("noOne")){
+//			try {
+//				response.setCharacterEncoding("UTF-8");
+//				request.setCharacterEncoding("UTF-8");
+//				// 댓글 등록
+//				boardService.insertBoardComment(boardComment);
+//				// 댓글 개수 가져오기
+//				int boardCommentCnt = boardService.selectBoardCommentCount(boardComment.getBoardCodeSeq());
+//				// 댓글 가져오기
+//				List<BoardComment> boardCommentList = new ArrayList<BoardComment>();
+//				boardCommentList = boardService.selectBoardCommentList(boardComment.getBoardCodeSeq());
+//				jsonData.put("commentListCnt",boardCommentCnt);
+//
+//				// 날짜 형식용
+//				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+//				
+//				for(int i = 0; i < boardCommentCnt; i++) {
+//					JSONObject jsonData2 = new JSONObject();
+//					jsonData2.put("userId", boardCommentList.get(i).getUserId());
+//					jsonData2.put("commentContent", boardCommentList.get(i).getCommentContent());
+//					String ftDate = ft.format(boardCommentList.get(i).getCommentDate());
+//					jsonData2.put("commentDate",ftDate);
+//					jsonArray.add(jsonData2);
+//				}
+//
+//				jsonData.put("commentList", jsonArray);
+//
+//				return jsonData.toJSONString();
+//			}catch(Exception e) {
+//				System.out.println(e.getMessage());
+//			}
+//		}
+//		return jsonData.toJSONString();
+//	}
 
 	
 }

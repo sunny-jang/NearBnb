@@ -24,9 +24,8 @@ class PlaceDate {
 	
 	// min 날짜를 설정
 	setMinDate(date) {
-		var date_ = date;
+		var date_ = new Date();
 			date_.setDate(date.getDate()+1)
-		console.log(date_)
 		var nextDate = this.getDateFormat(date_)
 		
 		$("input[name=placeCloseDate]").attr("min", nextDate);

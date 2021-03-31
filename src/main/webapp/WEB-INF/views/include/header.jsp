@@ -15,8 +15,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script type='text/javascript' src='${context}/html/js/fullcalendar.min.js'></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="${context}/html/css/style.css" rel="stylesheet">
+<link href="${context}/html/css/calender.css" rel="stylesheet">
 
 </head>
 <body>

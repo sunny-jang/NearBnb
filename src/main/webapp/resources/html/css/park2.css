@@ -114,3 +114,9 @@ input:focus{
 	background-color: white;
 	color: lightgray;
 }
+#delCmt{
+	background-color: white;
+	color : lightgray;
+	border: none;
+	float:right;
+}

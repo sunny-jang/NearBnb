@@ -19,6 +19,7 @@ border: none;
 }
 </style>
 <script>
+// 댓글 수정
 function boardCommentUpdate(index){
 	$('.viewContent'+index.value).css("display", "none");
 	$('.hideContent'+index.value).css("display", "inline");
@@ -49,12 +50,14 @@ function boardCommentUpdate(index){
 	});
 }
 
+// 게시글 추천
 $(function(){
 	$('#thumb').on('click', function(){
 		// alert($('#boardCodeSeq').val());
 		// alert("${userId}");
 		if("${userId}" == ""){
 			alert('로그인이 필요한 서비스입니다.');
+			$(location).attr("href", "signIn.do");
 		}else{
 			$.ajax({
 				url : 'boardAjaxThumbsUp.do',
@@ -162,6 +165,13 @@ $(function(){
 		}
 	});
 	
+	//댓글 달기
+	$('#commentIns').on('click', function(){
+		if("${userId}" == ""){
+			alert('로그인이 필요한 서비스입니다.');
+			$(location).attr("href", "signIn.do");
+		}
+	});
 	
 	// 댓글 삭제
 	$('.delComment').on('click', function(){

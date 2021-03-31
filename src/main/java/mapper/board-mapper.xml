@@ -237,7 +237,7 @@ ORDER BY A.boardCodeSeq DESC
 
 <!-- 댓글 리스트 조회 -->
 <select id="selectBoardCommentList" parameterType="int" resultType="BoardComment" resultMap="resultBoardComment">
-	SELECT * FROM BOARD_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq} ORDER BY COMMENT_CODE_SEQ DESC
+	SELECT * FROM BOARD_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq} ORDER BY COMMENT_CODE_SEQ ASC
 </select>
 
 <!-- 해당 게시글 댓글 개수 조회 -->

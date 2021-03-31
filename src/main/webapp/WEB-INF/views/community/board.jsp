@@ -166,7 +166,7 @@
 						<c:url var="boardList" value="board.do">
 							<c:param name="page" value="${currentPage-1}" />
 						</c:url>
-						<a href="${boardList}">이전</a>
+						<a href="${boardList}"><b>< 이전</b></a>
 					</c:if>
 					<!-- 번호 처리 -->
 					<c:set var="maxPage" value="${maxPage}" />
@@ -188,7 +188,7 @@
 						<c:url var="boardListEND" value="board.do">
 							<c:param name="page" value="${currentPage+1}" />
 						</c:url>
-						<a href="${boardListEND}">다음</a>
+						<a href="${boardListEND}"><b>다음 ></b></a>
 					</c:if>
 				</td>
 			</tr>

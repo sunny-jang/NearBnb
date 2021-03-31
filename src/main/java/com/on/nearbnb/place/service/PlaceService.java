@@ -15,4 +15,5 @@ public interface PlaceService {
 	public int insertPlacePoint(PlacePoint placePoint);
 	public Place selectPlace(Integer pId);
 	public List<Place> selectPlaceById(String uId);
+	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint);
 }

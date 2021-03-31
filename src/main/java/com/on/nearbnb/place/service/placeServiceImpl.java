@@ -53,4 +53,10 @@ public class placeServiceImpl implements PlaceService {
 	public List<Place> selectPlaceById(String uId) {		
 		return pDao.selectPlaceById(uId);
 	}	
+	
+	@Override
+	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint){
+		System.out.println("서비스임플도착");
+		return pPointDao.searchPlacePoint(searchpoint);
+	}
 }

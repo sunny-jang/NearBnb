@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.place.model.dao.PlacePointDao;
+import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.service.PlaceService;
 
 @Controller
@@ -22,15 +23,19 @@ public class MainPageController {
 	PlaceService placeService;
 	
 	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.POST)
-	public ModelAndView area(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude,
-			ModelAndView modelAndView) {
-	System.out.println("위도 : "+latitude);
-	System.out.println("경도 : "+longitude);
+	public ModelAndView searchPlacePoint(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude,
+			 HttpServletRequest request, ModelAndView modelAndView) {
 	
-		
-	//	List<PlacePoint> pointList = placeService.
-		
-		
+	PlacePoint searchpoint= new PlacePoint();
+	searchpoint.setLatitude(latitude);
+	searchpoint.setLongitude(longitude);
+	
+	System.out.println("위도 getLatitude : "+searchpoint.getLatitude());
+	System.out.println("경도 getLongitude : "+searchpoint.getLongitude());
+	
+	List<PlacePoint> resultpoint = placeService.searchPlacePoint(searchpoint);
+	System.out.println(resultpoint.get(0).toString());
+		modelAndView.addObject("resultpoint", resultpoint);
 		modelAndView.setViewName("mainMap");
 		return modelAndView;
 	}

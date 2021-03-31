@@ -115,7 +115,7 @@ SELECT ROWNUM, D.* FROM
 
 <!-- 게시글 검색 -->
 <select id="boardSearch" parameterType="hashmap" resultType="Board">
-SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt
+SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt, DECODE(C.COMMENTCNT, NULL, 0, C.COMMENTCNT) AS commentCnt
 FROM (
     SELECT ROWNUM RNUM, 
         BOARD_CODE_SEQ as boardCodeSeq, 
@@ -132,9 +132,16 @@ FROM (
         BOARD_CODE_SEQ, 
         COUNT(*) AS THUMBSCNT
     FROM BOARD_THUMB
-    GROUP BY BOARD_CODE_SEQ) B
+    GROUP BY BOARD_CODE_SEQ) B,
+    (SELECT
+        BOARD_CODE_SEQ,
+        COUNT(*) AS COMMENTCNT
+    FROM BOARD_COMMENT
+    GROUP BY BOARD_CODE_SEQ) C
 WHERE 
 A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
+AND
+A.boardCodeSeq = C.BOARD_CODE_SEQ(+)
 <choose>
 		<when test="boardType == '제목'">
 			AND A.boardTitle like '%'||#{boardContent}||'%'
@@ -149,7 +156,7 @@ ORDER BY A.boardCodeSeq DESC
 <!-- 게시글 분류 -->
 <select id="boardTypeSearch" parameterType="Board" resultType="Board">
 
-SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt
+SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt, DECODE(C.COMMENTCNT, NULL, 0, C.COMMENTCNT) AS commentCnt
 FROM (
     SELECT ROWNUM RNUM, 
         BOARD_CODE_SEQ as boardCodeSeq, 
@@ -166,9 +173,16 @@ FROM (
         BOARD_CODE_SEQ, 
         COUNT(*) AS THUMBSCNT
     FROM BOARD_THUMB
-    GROUP BY BOARD_CODE_SEQ) B
+    GROUP BY BOARD_CODE_SEQ) B,
+    (SELECT
+        BOARD_CODE_SEQ,
+        COUNT(*) AS COMMENTCNT
+    FROM BOARD_COMMENT
+    GROUP BY BOARD_CODE_SEQ) C
 WHERE 
 A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
+AND
+A.boardCodeSeq = C.BOARD_CODE_SEQ(+)
 	<choose>
 		<when test="boardType == '전체' or boardType == null">
 		</when>

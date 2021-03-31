@@ -51,7 +51,7 @@ public interface BoardService {
 	// 게시글 추천 삭제
 	public int deleteBoardThumbAll(int boardCodeSeq);
 	
-	// 댓글 조회
+	// 댓글 리스트 조회
 	public List<BoardComment> selectBoardCommentList(int boardCodeSeq);
 	
 	// 해당 게시글 댓글 개수 조회
@@ -63,6 +63,9 @@ public interface BoardService {
 	// 댓글 삭제
 	public int deleteBoardComment(int commentCodeSeq);
 	
-	// 댓글 작성자 조회
-	public String selectCommentOwner(int commentCodeSeq);
+	// 댓글 변경
+	public int updateBoardComment(BoardComment boardComment);
+	
+	// 댓글 조회
+	public BoardComment selectComment(int commentCodeSeq);
 }

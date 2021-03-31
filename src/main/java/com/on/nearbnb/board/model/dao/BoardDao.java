@@ -101,7 +101,7 @@ public class BoardDao {
 		return cnt;
 	}
 	
-	// 댓글 조회
+	// 댓글 리스트 조회
 	public List<BoardComment> selectBoardCommentList(int boardCodeSeq){
 		List<BoardComment> boardComment = sqlSession.selectList("Board.selectBoardCommentList", boardCodeSeq);
 		return boardComment;
@@ -125,9 +125,16 @@ public class BoardDao {
 		return cnt;
 	}
 	
-	// 댓글 작성자 조회
-	public String selectCommentOwner(int commentCodeSeq) {
-		String userId = sqlSession.selectOne("Board.selectCommentOwner", commentCodeSeq);
-		return userId;
+	// 댓글 변경
+	public int updateBoardComment(BoardComment boardComment) {
+		int cnt = sqlSession.update("Board.updateBoardComment", boardComment);
+		return cnt;
+	}
+	
+	
+	// 댓글 조회
+	public BoardComment selectComment(int commentCodeSeq) {
+		BoardComment boardComment = sqlSession.selectOne("Board.selectComment", commentCodeSeq);
+		return boardComment;
 	}
 }

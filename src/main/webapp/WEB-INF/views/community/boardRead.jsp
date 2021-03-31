@@ -19,6 +19,35 @@ border: none;
 }
 </style>
 <script>
+function boardCommentUpdate(index){
+	$('.viewContent'+index.value).css("display", "none");
+	$('.hideContent'+index.value).css("display", "inline");
+	$('.reBtn'+index.value).on('click', function(){
+		var reCommentCode = $('#commentCodeSeq'+index.value).val();
+		var reCommentContent = $('.reContent'+index.value).val();
+
+ 		$.ajax({
+ 			url : 'boardCommentAjaxUpdate.do',
+ 			cache: false,
+			data : {
+				reCode : reCommentCode,
+				reContent : reCommentContent
+			},
+			type : 'POST',
+			dataType : 'json',
+			success : function(data){
+				$('.hideContent'+index.value).css("display", "none");
+				$('.viewContent'+index.value).html(data.reC);
+				$('.viewContent'+index.value).css("display", "inline");
+			},
+			error: function(request, status, error){
+				alert("code : " + request.status + "\n"
+						+ "message : " + request.responseText + "\n"
+						+ "error : " + error);
+			}
+		});
+	});
+}
 
 $(function(){
 	$('#thumb').on('click', function(){
@@ -133,11 +162,6 @@ $(function(){
 		}
 	});
 	
-	// 댓글 수정
-	$('.updComment').on('click', function(){
-		$('#viewContent').css("display", "none");
-		$('#hideContent').css("display", "inline");
-	});
 	
 	// 댓글 삭제
 	$('.delComment').on('click', function(){
@@ -148,8 +172,6 @@ $(function(){
 			alert('삭제 권한이 없습니다.');
 		}
 	});
-	
-	
 });
 </script>
 <section>
@@ -230,29 +252,33 @@ $(function(){
         </tr>
         </c:if>
         <c:if test="${comments ne 0 }">
-          <c:forEach var="bC" items="${boardComment }">
+          <c:forEach var="bC" items="${boardComment }" varStatus="status">
           <tr class = "cmtTr">
           	<input type="hidden" name="userId" id="commentId" value="${bC.userId }">
             <td style="height: 35px;" class="userId" id="commentId">
             ${bC.userId }
             </td>
             <td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3" class="commentContent">
-              <input type="hidden" name="commentCodeSeq" id="commentCodeSeq" value="${bC.commentCodeSeq }">
-
+              <input type="hidden" name="commentCodeSeq" id="commentCodeSeq${status.index}" value="${bC.commentCodeSeq }">
+              <input type="hidden" name="currentComment${status.index }" id="commentCodeSeq" value="${status.index }">
               <c:choose>
               	<c:when test="${sessionScope.userId eq bC.userId }">
+              	
 		            <a href="boardCommentDelete.do?commentCodeSeq=${bC.commentCodeSeq }&boardCodeSeq=${board.boardCodeSeq }"
 		              	 class="delComment" onclick="return confirm('정말 삭제 하시겠습니까?')">
 		              	 x
 		            </a>
-              		<input type="button" class="updComment" value="∴">
+		            
+              		<input type="button" class="updComment" value="∴" onclick="boardCommentUpdate(currentComment${status.index})">
               	</c:when>
               	<c:otherwise>
               	</c:otherwise>
               </c:choose>
-              <input type="text" value="${bC.commentContent }" style="display:none;" class="hideContent">
-              <input type="text" value="${bC.commentContent }" style="border: none; outline: none;" class="viewContent" readonly>
-
+              <h5 class="viewContent${status.index}">${bC.commentContent }</h5>
+              <div style="display:none;" class="hideContent${status.index}">
+              	<input type="button" class="write2 btn reBtn${status.index}" value="댓글 수정">
+              	<input type="text" value="${bC.commentContent }" style="width: 450px; height: 30px;" class="reContent${status.index}">
+              </div>
               <p style="font-size: 11px; color: #BEBEBE;" class="commentDate">
               	<fmt:formatDate value="${bC.commentDate}" pattern="YYYY-MM-dd hh:mm" /> 
               </p>

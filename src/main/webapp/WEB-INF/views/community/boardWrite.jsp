@@ -46,7 +46,6 @@
         </tr>
       </table>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
-      <input type="reset" class="btn reset" id="reset">
       <input type="submit" class="write3 btn" id="save" value="글쓰기">
   </form>
 </center>

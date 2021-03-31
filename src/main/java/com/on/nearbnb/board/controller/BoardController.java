@@ -217,10 +217,10 @@ public class BoardController {
 	
 	// 댓글 삭제
 	@RequestMapping(value = "boardCommentDelete.do", method = RequestMethod.GET)
-	public String boardCommentDelete(int commentCodeSeq, HttpServletRequest request, int boardCodeSeq) {
+	public String boardCommentDelete(int commentCodeSeq, int boardCodeSeq, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
-		String commentOwner = boardService.selectCommentOwner(commentCodeSeq);
+		String commentOwner = boardService.selectComment(commentCodeSeq).getUserId();
 		
 		if(commentOwner.equals(userId)) {
 			boardService.deleteBoardComment(commentCodeSeq);

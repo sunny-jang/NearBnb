@@ -190,5 +190,23 @@ public class BoardAjaxController {
 //		return jsonData.toJSONString();
 //	}
 
-	
+	// 댓글 수정
+	@RequestMapping(value = "boardCommentAjaxUpdate.do", method = RequestMethod.POST)
+	public void boardCommentUpdate(BoardComment boardComment,int reCode, String reContent,HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		String reWriteContent = "default";
+		JSONObject jsonData= new JSONObject();
+		try {
+			boardComment.setCommentCodeSeq(reCode);
+			boardComment.setCommentContent(reContent);
+
+			boardService.updateBoardComment(boardComment);
+			reWriteContent = boardService.selectComment(reCode).getCommentContent();
+			jsonData.put("reC", reWriteContent);
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		response.getWriter().append(jsonData.toJSONString());
+	}
 }

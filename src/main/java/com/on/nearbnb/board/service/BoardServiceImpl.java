@@ -125,9 +125,15 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.deleteBoardComment(commentCodeSeq);
 	}
 	
-	// 댓글 작성자 조회
+	// 댓글 변경
 	@Override
-	public String selectCommentOwner(int commentCodeSeq) {
-		return boardDao.selectCommentOwner(commentCodeSeq);
+	public int updateBoardComment(BoardComment boardComment) {
+		return boardDao.updateBoardComment(boardComment);
+	}
+	
+	// 댓글 조회
+	@Override
+	public BoardComment selectComment(int commentCodeSeq) {
+		return boardDao.selectComment(commentCodeSeq);
 	}
 }

@@ -15,8 +15,8 @@
 	</insert>
 	
 	<select id = "searchPlacePoint" resultMap ="resultPlacePoint" resultType="PlacePoint" parameterType="PlacePoint">
-		SELECT  P_CODE_SEQ as placeId, LATITUDE as latitude, LONGITUDE as longitude  FROM PLACE_POINT 
+		SELECT *  FROM PLACE_POINT 
 		WHERE( LATITUDE BETWEEN #{latitude}-0.1 AND #{latitude}+0.1 )
-		AND(LONGITUDE BETWEEN #{longitude}-0.1 AND #{longitude}+0.1);
+		AND(LONGITUDE BETWEEN #{longitude}-0.1 AND #{longitude}+0.1)
 	</select>
 </mapper>

@@ -125,6 +125,7 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/kakaoPayComplete.do", method=RequestMethod.GET)
 	public ModelAndView kakaoPayComplete(ModelAndView modelAndView) throws Exception {
+		
 		modelAndView.setViewName("place/kakaoPayComplete");
 		return modelAndView;
 	}
@@ -132,7 +133,7 @@ public class PlaceController {
 	@RequestMapping(value = "/kakaoPayCancel.do", method=RequestMethod.GET)
 	public ModelAndView kakaoPayCancel(ModelAndView modelAndView) throws Exception {
 		
-		modelAndView.setViewName("place/kakaoPayComplete");
+		modelAndView.setViewName("place/kakaoPayCancel");
 		return modelAndView;
 	}
 	

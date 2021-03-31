@@ -41,7 +41,7 @@ $(function(){
 			dataType: 'json',
 			success : function(data) {				
 				 var msg = data.next_redirect_pc_url;
-				 window.open(msg);
+				 location.href = msg;
 			}, error : function(error) {
 				alert(error);
 			}			

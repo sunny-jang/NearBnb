@@ -66,6 +66,8 @@ $(function() {
 				infowindow.setContent('<div style="width:150px;text-align:center;padding:6px 0; margin-bottom: -2px">숙소 위치</div>');
 				infowindow.setAltitude(30);
 				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+				$("input[name=latitude]").val(latitude);
+				$("input[name=longitude]").val(longitude);
 				map.setCenter(coords);
 			} else {
 				alert("정확한 주소를 적어주시고 지도상의 마커를 확인해주세요\nex) 인천광역시 연희로 42번길 ");

@@ -43,6 +43,9 @@
     background-color: white;
     border: white;
 }
+#heart:focus{
+	outline: none;
+}
 .boardWriter{
     width: 190px;
 }
@@ -105,4 +108,9 @@ table td{
 }
 input:focus{
     outline: none;
+}
+#deleteBtn{
+	float: right;
+	background-color: white;
+	color: lightgray;
 }

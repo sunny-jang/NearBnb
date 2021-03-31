@@ -86,7 +86,7 @@ public class MyPageController {
 	public ModelAndView myPageHostCheck(HttpSession session, ModelAndView modelAndView) {
 		String uId = (String)session.getAttribute("userId");		
 		List<Place> placeList = placeService.selectPlaceById(uId);
-		List<String> thumbnail = new ArrayList<>();
+		List<String> thumbnail = new ArrayList<String>();
 		for(Place p : placeList) {
 			List<PlaceFile> files = placeFileService.selectFiles(p.getPlaceId());
 			thumbnail.add(files.get(0).getFileOriginalName());

@@ -36,6 +36,7 @@ public class MainPageController {
 	
 	List<PlacePoint> resultpoint = placeService.searchPlacePoint(searchpoint);
 	System.out.println(resultpoint.get(0).toString());
+	System.out.println(resultpoint.get(0).getPlaceId());
 		modelAndView.addObject("resultpoint", resultpoint);
 		modelAndView.setViewName("mainMap");
 		return modelAndView;

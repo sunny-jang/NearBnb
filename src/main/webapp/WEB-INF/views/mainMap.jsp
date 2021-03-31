@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,9 +59,16 @@
 				},
 				success : function(data) {
 					console.log("success");
+					searchPoint();
 				}
 			});
 		}
+		
+		function searchPoint(){
+			List<PlacePoint> resultpoint = (List<PlacePoint>) request.getAttribute("resultpoint");
+			console.log(resultpoint.get(0).toString);
+		}
+		
 		
 		//현재 위치값 불러오는 함수
 		function initLocation() {

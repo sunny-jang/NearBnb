@@ -126,7 +126,7 @@ function afterInsertComment(data){
 		});
 	});
 </script>
-<section style="height: 100vh;">
+<section>
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
@@ -174,7 +174,7 @@ function afterInsertComment(data){
             </td>
         </tr>
         <tr>
-            <td style="width: 80px;">
+            <td style="width: 80px;">ㅇ
                 첨부파일
             </td>
             <td colspan="3" style="text-align: left;">

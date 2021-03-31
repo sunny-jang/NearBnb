@@ -18,7 +18,7 @@ public interface PlaceService {
 
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint);
 
-	
-	public String kakaoPay() throws Exception;
+	public String kakaoPay(String placeName, String totalPrice) throws Exception;
+
 
 }

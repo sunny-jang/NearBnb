@@ -119,4 +119,15 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.insertBoardComment(boardComment);
 	}
 
+	// 댓글 삭제
+	@Override
+	public int deleteBoardComment(int commentCodeSeq) {
+		return boardDao.deleteBoardComment(commentCodeSeq);
+	}
+	
+	// 댓글 작성자 조회
+	@Override
+	public String selectCommentOwner(int commentCodeSeq) {
+		return boardDao.selectCommentOwner(commentCodeSeq);
+	}
 }

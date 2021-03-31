@@ -118,4 +118,16 @@ public class BoardDao {
 		int cnt = sqlSession.insert("Board.insertBoardComment", boardComment);
 		return cnt;
 	}
+	
+	// 댓글 삭제
+	public int deleteBoardComment(int commentCodeSeq) {
+		int cnt = sqlSession.delete("Board.deleteBoardComment", commentCodeSeq);
+		return cnt;
+	}
+	
+	// 댓글 작성자 조회
+	public String selectCommentOwner(int commentCodeSeq) {
+		String userId = sqlSession.selectOne("Board.selectCommentOwner", commentCodeSeq);
+		return userId;
+	}
 }

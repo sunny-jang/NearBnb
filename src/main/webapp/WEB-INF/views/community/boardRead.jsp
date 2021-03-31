@@ -5,127 +5,161 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
+<style>
+.delComment{
+background-color: white;
+color : lightgray;
+float:right;"
+}
+.updComment{
+background-color: white;
+color : lightgray;
+float:right;
+border: none;
+}
+</style>
 <script>
 
-//댓글 단 후 
-function afterInsertComment(data){
-	var tableEle = $(".asd");
-	$(".cmtTr").remove();
-	var trStr
-	for(var i = 0; i <  data.commentListCnt ; i++ ){
-		trStr += '<tr class = "cmtTr">'
-        	 	  + '<td style="height: 35px;">' + data.commentList[i].userId + '</td>'
-        		  + '<td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3">' 
-        		  + data.commentList[i].commentContent + '<br>'
-          		  + '<p style="font-size: 11px; color: #BEBEBE;">'
-        		  + data.commentList[i].commentDate
-          		  + '</p>'
-        		  + '</td>'
-      		      + '</tr>';
-	}
-	tableEle.after(trStr);
-	$("#commentIns").prop("disabled", false);
-}
-
-	$(function(){
-		$('#thumb').on('click', function(){
-			// alert($('#boardCodeSeq').val());
-			// alert("${userId}");
-			if("${userId}" == ""){
-				alert('로그인이 필요한 서비스입니다.');
-			}else{
-				$.ajax({
-					url : 'boardAjaxThumbsUp.do',
-					data : {
-						boardCodeSeq : $('#boardCodeSeq').val(),
-						userId : "${userId}"
-					},
-					type : 'GET',
-					dataType : 'json',
-					success: function(data){
-						if(data.heart == 'unSignIn'){
-							alert('로그인이 필요한 서비스입니다.');
-						}
- 						if(data.heart == 'notThumbsUp'){
-							$('#thumb').html("♡");
-						}
- 						if(data.heart == 'thumbsUp'){
-							$('#thumb').html("♥");
-						}
-						$('#maxThumb').html(data.maxThumb);
-					},
-					error: function(request, status, error){
-						alert("code : " + request.status + "\n"
-								+ "message : " + request.responseText + "\n"
-								+ "error : " + error);
+$(function(){
+	$('#thumb').on('click', function(){
+		// alert($('#boardCodeSeq').val());
+		// alert("${userId}");
+		if("${userId}" == ""){
+			alert('로그인이 필요한 서비스입니다.');
+		}else{
+			$.ajax({
+				url : 'boardAjaxThumbsUp.do',
+				data : {
+					boardCodeSeq : $('#boardCodeSeq').val(),
+					userId : "${userId}"
+				},
+				type : 'GET',
+				dataType : 'json',
+				success: function(data){
+					if(data.heart == 'unSignIn'){
+						alert('로그인이 필요한 서비스입니다.');
 					}
-				});
-			}
-		});
-		
-		//댓글달기
-		$('#commentIns').on('click', function(){
-			// Ajax로 폼 넘기기
-			var commentForm = $('#commentForm')[0];
-			var commentData = new FormData(commentForm);
-			$("#commentIns").prop("disabled", true);
-			if("${userId}" == ""){
-				alert('로그인이 필요한 서비스입니다.');
-				$(location).attr("href", "signIn.do");
-			}else {
-				$.ajax({
-					url : "boardCommentInsert.do",
-					enctype: 'multipart/form-data',
-					data: commentData,
-		            processData: false,
-		            contentType: false,
-		            cache: false,
-					data : commentData,
-					type : 'POST',
-					dataType : 'json',
-					success : function(data){
-						var data = JSON.stringify(data);
-						data = JSON.parse(data);
-						afterInsertComment(data);
-					},
-					error: function(request, status, error){
-						alert("code : " + request.status + "\n"
-								+ "message : " + request.responseText + "\n"
-								+ "error : " + error);
+						if(data.heart == 'notThumbsUp'){
+						$('#thumb').html("♡");
 					}
-				});
-			}
-		});
-		
-		// 게시글 수정
-		$('#rewrite').on('click', function(){
-			if("${userId}" == ""){
-				alert('로그인이 필요한 서비스입니다.');
-				$(location).attr("href", "signIn.do");
-			}else if($('#userId').val() != "${sessionScope.userId}"){
-				alert('수정 권한이 없습니다.');
-			}
-		});
-		
-		// 게시글 삭제
-		$('#delete').on('click', function(){
-			if("${userId}" == ""){
-				alert('로그인이 필요한 서비스입니다.');
-				$(location).attr("href", "signIn.do");
-			}else if($('#userId').val() != "${sessionScope.userId}"){
-				alert('삭제 권한이 없습니다.');
-			}
-		});
+						if(data.heart == 'thumbsUp'){
+						$('#thumb').html("♥");
+					}
+					$('#maxThumb').html(data.maxThumb);
+				},
+				error: function(request, status, error){
+					alert("code : " + request.status + "\n"
+							+ "message : " + request.responseText + "\n"
+							+ "error : " + error);
+				}
+			});
+		}
 	});
+	
+	//댓글달기
+	/* $('#commentIns').on('click', function(){
+		// Ajax로 폼 넘기기
+		var commentForm = $('#commentForm')[0];
+		var commentData = new FormData(commentForm);
+		$("#commentIns").prop("disabled", true);
+		if("${userId}" == ""){
+			alert('로그인이 필요한 서비스입니다.');
+			$(location).attr("href", "signIn.do");
+		}else {
+			$.ajax({
+				url : "boardCommentInsert.do",
+				enctype: 'multipart/form-data',
+				data: commentData,
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+				data : commentData,
+				type : 'POST',
+				dataType : 'json',
+				success : function(data){
+					var data = JSON.stringify(data);
+					data = JSON.parse(data);
+					afterInsertComment(data);
+				},
+				error: function(request, status, error){
+					alert("code : " + request.status + "\n"
+							+ "message : " + request.responseText + "\n"
+							+ "error : " + error);
+				}
+			});
+		}
+	}); */
+	
+	//댓글 단 후 
+	/* function afterInsertComment(data){
+		var tableEle = $(".commentBoard");
+		$(".cmtTr").remove();
+		var trStr;
+		for(var i = 0; i <  data.commentListCnt ; i++ ){
+			trStr += '<tr class = "cmtTr">'
+					  + '<input type="hidden" name="commentCodeSeq" value="${bC.commentCodeSeq }">'
+	        	 	  + '<td style="height: 35px;">' + data.commentList[i].userId + '</td>'
+	        		  + '<td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3">'
+	        		  + '<input type="button" style="background-color: white; color : lightgray; float:right;" class="delComment" value="x">'
+	        		  + data.commentList[i].commentContent + '<br>'
+	          		  + '<p style="font-size: 11px; color: #BEBEBE;">'
+	        		  + data.commentList[i].commentDate
+	          		  + '</p>'
+	        		  + '</td>'
+	      		      + '</tr>';
+		}
+		tableEle.after(trStr);
+		$("#commentIns").prop("disabled", false);
+	} */
+	
+	// 게시글 수정
+	$('#rewrite').on('click', function(){
+		if("${userId}" == ""){
+			alert('로그인이 필요한 서비스입니다.');
+			$(location).attr("href", "signIn.do");
+		}else if($('#userId').val() != "${sessionScope.userId}"){
+			alert('수정 권한이 없습니다.');
+		}
+	});
+	
+	// 게시글 삭제
+	$('#delete').on('click', function(){
+		
+		if("${userId}" == ""){
+			alert('로그인이 필요한 서비스입니다.');
+			$(location).attr("href", "signIn.do");
+		}else if($('#userId').val() != "${sessionScope.userId}"){
+			alert('삭제 권한이 없습니다.');
+		}
+	});
+	
+	// 댓글 수정
+	$('.updComment').on('click', function(){
+		$('#viewContent').css("display", "none");
+		$('#hideContent').css("display", "inline");
+	});
+	
+	// 댓글 삭제
+	$('.delComment').on('click', function(){
+		if("${userId}" == ""){
+			alert('로그인이 필요한 서비스입니다.');
+			$(location).attr("href", "signIn.do");
+		}else if($('#commentId').val() != "${sessionScope.userId}"){
+			alert('삭제 권한이 없습니다.');
+		}
+	});
+	
+	
+});
 </script>
 <section>
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
   <center>
-  	<form method="get" id="commentForm">
+  	<form method="get" id="commentForm" action="boardCommentInsert.do">
       <input type="hidden" name="boardCodeSeq" id="boardCodeSeq" value="${board.boardCodeSeq }" />
-      <input type="hidden" name="userId" id="userId" value="${sessionScope.userId }" />
+      <input type="hidden" name="userId" id="userId" value="${board.userId }" />
       <table style="font-size: 20px;" id="tableEle">
         <tr>
             <td style="width: 150px;">제목</td>
@@ -183,27 +217,42 @@ function afterInsertComment(data){
 				<br>
             </td>
         </tr>
-        
-        <c:if test="${comments eq 0 }">
-        <tr>
-          <td colspan="5">
-첫 댓글을 남겨주세요!
-          </td>
-        </tr>
-        </c:if>
-        <c:if test="${comments ne 0 }">
-          <tr class="asd">
+        <tr class="commentBoard">
             <td colspan="4" style="height: 45px;">
            	  댓글
             </td>
           </tr>
+        <c:if test="${comments eq 0 }">
+        <tr class="cmtTr">
+          <td colspan="5">
+			첫 댓글을 남겨주세요!
+          </td>
+        </tr>
+        </c:if>
+        <c:if test="${comments ne 0 }">
           <c:forEach var="bC" items="${boardComment }">
           <tr class = "cmtTr">
-            <td style="height: 35px;" class="userId">
-              ${bC.userId }
+          	<input type="hidden" name="userId" id="commentId" value="${bC.userId }">
+            <td style="height: 35px;" class="userId" id="commentId">
+            ${bC.userId }
             </td>
             <td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3" class="commentContent">
-              ${bC.commentContent }<br>
+              <input type="hidden" name="commentCodeSeq" id="commentCodeSeq" value="${bC.commentCodeSeq }">
+
+              <c:choose>
+              	<c:when test="${sessionScope.userId eq bC.userId }">
+		            <a href="boardCommentDelete.do?commentCodeSeq=${bC.commentCodeSeq }&boardCodeSeq=${board.boardCodeSeq }"
+		              	 class="delComment" onclick="return confirm('정말 삭제 하시겠습니까?')">
+		              	 x
+		            </a>
+              		<input type="button" class="updComment" value="∴">
+              	</c:when>
+              	<c:otherwise>
+              	</c:otherwise>
+              </c:choose>
+              <input type="text" value="${bC.commentContent }" style="display:none;" class="hideContent">
+              <input type="text" value="${bC.commentContent }" style="border: none; outline: none;" class="viewContent" readonly>
+
               <p style="font-size: 11px; color: #BEBEBE;" class="commentDate">
               	<fmt:formatDate value="${bC.commentDate}" pattern="YYYY-MM-dd hh:mm" /> 
               </p>
@@ -223,7 +272,7 @@ function afterInsertComment(data){
       </form>
   <div>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
-      <a href="boardDeleteCon.do?boardCodeSeq=${board.boardCodeSeq }" id="delete" class="write1 btn" onclick="return confirm('정말 삭제 하시겠습니까?')">삭제</a>
+      <input type="button" id="delete" class="write1 btn" onclick="boardDeleteCon.do?boardCodeSeq=${board.boardCodeSeq }"  value="삭제">
       <input type="button" class="write2 btn" id="rewrite" onclick="location.href='boardUpdateProCon.do?boardCodeSeq=${board.boardCodeSeq }'" value="수정">
   </div>
 </center>

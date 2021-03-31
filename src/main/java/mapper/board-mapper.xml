@@ -219,7 +219,7 @@ ORDER BY A.boardCodeSeq DESC
 
 <!-- 댓글 조회 -->
 <select id="selectBoardCommentList" parameterType="int" resultType="BoardComment" resultMap="resultBoardComment">
-	SELECT * FROM BOARD_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+	SELECT * FROM BOARD_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq} ORDER BY COMMENT_CODE_SEQ DESC
 </select>
 
 <!-- 해당 게시글 댓글 개수 조회 -->
@@ -231,5 +231,15 @@ ORDER BY A.boardCodeSeq DESC
 <insert id="insertBoardComment" parameterType="BoardComment">
 	INSERT INTO BOARD_COMMENT VALUES(COMMENT_SEQ.NEXTVAL, #{boardCodeSeq}, #{userId}, #{commentContent}, SYSDATE)
 </insert>
+
+<!-- 댓글 삭제 -->
+<delete id="deleteBoardComment" parameterType="BoardComment">
+	DELETE FROM BOARD_COMMENT WHERE COMMENT_CODE_SEQ=#{commentCodeSeq}
+</delete>
+
+<!-- 댓글 작성자 조회 -->
+<select id="selectCommentOwner" parameterType="int" resultType="string">
+	SELECT USER_ID FROM BOARD_COMMENT WHERE COMMENT_CODE_SEQ=#{commentCodeSeq}
+</select>
 
 </mapper>

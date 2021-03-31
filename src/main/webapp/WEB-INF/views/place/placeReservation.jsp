@@ -66,9 +66,6 @@
    	       	 $("#checkOut").html(argE);
    	       	 $("#dateDiff").html(dateDiff);
 	   	     $("#totalPrice").html(price * dateDiff);
-	   	     
-	   	     localStorage.dateDiff = $("#dateDiff").text();
-	   	     localStorage.totalPrice = $("#totalPrice").text();
     	}else {
     		alert("예약 가능 날짜 안에서 선택해주세요.")
     	}
@@ -99,31 +96,24 @@
     })
     
     $("#postBookInfo").on("click", function() {
-	  var f = document.createElement("form");
-	  var object = {
-		  uId : $("input[name=uId]").val(),
-		  pId : $("input[name=pId]").val(),
-		  bookCheckIn : $("#checkIn").text(),
-		  bookCheckOut : $("#checkOut").text(),
-		  bookPerson : $("#selectGuest").val(),
-		  bookPayPrice : $("#totalPrice").text(),
+	    var f = document.createElement("form");
+	    var object = {
+			  uId : $("input[name=uId]").val(),
+			  pId : $("input[name=pId]").val(),
+			  bookCheckIn : $("#checkIn").text(),
+			  bookCheckOut : $("#checkOut").text(),
+			  bookPerson : $("#selectGuest").val(),
+			  bookPayPrice : $("#totalPrice").text(),
+			  dateDiff : $("#dateDiff").text(),
+	    	  totalPrice : $("#totalPrice").text(),
+	    	  imagePath : $("#placeImage").css("background-image"),
 	  }
-	  
-	  f.setAttribute("method", 'post')
-	  f.setAttribute("action", 'placePayment.do')
-	  
-	  for(key in object) {
-		  var i = document.createElement("input");
-		  i.setAttribute('type',"text");
-		  i.setAttribute('name',key);
-		  i.setAttribute('value',object[key]);
-		  f.append(i);
-	  }
-	  
-	  
+	    
+	  localStorage.bookInfo = JSON.stringify(object);
+	    
 	  if(calendar.getEventById('book')) {
 		  document.body.appendChild(f);
-		  f.submit();
+		  location.href="placePayment.do?pId="+object.pId;
 	  }else {
 		  alert('날짜를 선택해주세요.');
 	  }
@@ -155,7 +145,7 @@
           </div>
           <div class="place-li">
           <div class="row">
-            <div class="place-image col-4 align-self-center" style="background-image: url(/nearbnb/resources/html/images/${sImage})">
+            <div class="place-image col-4 align-self-center" id="placeImage" style="background-image: url(/nearbnb/resources/html/images/${sImage})">
             <input type="hidden" name="uId" value="${userId}">
             <input type="hidden" name="pId" value="${place.placeId }">
             </div>

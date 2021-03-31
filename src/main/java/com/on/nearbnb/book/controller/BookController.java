@@ -19,13 +19,11 @@ public class BookController {
 	@Autowired
 	PlaceService placeService;
 	
-	@RequestMapping(value = "/placePayment.do", method = RequestMethod.POST)
-	public ModelAndView placePayment(Book book, ModelAndView modelAndView) {
-		Integer pId = Integer.parseInt(book.getpId());
+	@RequestMapping(value = "/placePayment.do", method = RequestMethod.GET)
+	public ModelAndView placePayment(Integer pId, ModelAndView modelAndView) {
 		Place place = placeService.selectPlace(pId);
 		
 		modelAndView.addObject("place", place);
-		modelAndView.addObject("book", book);
 		modelAndView.setViewName("/place/placePayment");
 		return modelAndView;
 	}

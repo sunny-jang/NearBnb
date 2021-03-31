@@ -104,7 +104,6 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/placeReservation.do", method = RequestMethod.GET)
 	public ModelAndView placeReservation(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
-		// System.out.println(pId);
 		Place place = placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);		
 

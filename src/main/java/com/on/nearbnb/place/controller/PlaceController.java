@@ -1,6 +1,7 @@
 package com.on.nearbnb.place.controller;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -127,12 +128,19 @@ public class PlaceController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value = "/kakaoPayCancel.do", method=RequestMethod.GET)
+	public ModelAndView kakaoPayCancel(ModelAndView modelAndView) throws Exception {
+		
+		modelAndView.setViewName("place/kakaoPayComplete");
+		return modelAndView;
+	}
+	
 	@RequestMapping(value = "/kakaoPay.do")
 	@ResponseBody
-	public String kakaoPayTest(String itemName, String totalPrice) throws Exception {
-		System.out.println(itemName);
+	public String kakaoPayTest(String placeName, String totalPrice) throws Exception {		
+		System.out.println(placeName);
 		System.out.println(totalPrice);
-		return placeService.kakaoPay(itemName, totalPrice);
+		return placeService.kakaoPay(placeName, totalPrice);
 	}
 
 }

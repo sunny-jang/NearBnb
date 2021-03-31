@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <script>
 // model checkbox jquery
 $(function(){
 	var object = JSON.parse(localStorage.bookInfo);
 	var placeName = '<c:out value="${place.placeName}" />';	
-	console.log(object);
+	var totalPrice = (object.totalPrice).replace(',', ''); 
+	console.log(totalPrice);
 	init();
+	
+	
 	
 	$('#allcheck').click(function(){
 		if($('#allcheck').prop('checked') == true) {
@@ -30,7 +34,7 @@ $(function(){
 	$('#kakaoPay').click(function(){
 		$.ajax({
 			url : 'kakaoPay.do',
-			data : {'itemName' : placeName, 'totalPrice' : '100000'},
+			data : {'placeName' : placeName, 'totalPrice' : totalPrice},
 			dataType: 'json',
 			success : function(data) {				
 				 var msg = data.next_redirect_pc_url;
@@ -80,7 +84,7 @@ $(function(){
               <p class="place-des ellipsis2">${place.placeDesc}</p>
               <div class="d-flex justify-content-between">
                 <div>${place.placeThumb} <i class="fa fa-heart"></i></div>
-                <div>${place.placePrice} 원 / 박</div>
+                <div><fmt:formatNumber value="${place.placePrice}" /> 원 / 박</div>
               </div>
             </div>
           </a>          
@@ -96,7 +100,7 @@ $(function(){
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>
-              <div class="content">￦${place.placePrice} × <span id="dateDiff"></span>박 = <span id="totalPrice"></span></div>
+              <div class="content">￦&nbsp;<fmt:formatNumber value="${place.placePrice}" /> × <span id="dateDiff"></span>박 = ￦&nbsp;<span id="totalPrice"></span></div>
             </div>           
           </div>       
         </div>

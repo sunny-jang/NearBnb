@@ -14,6 +14,8 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+	function numberWithCommas(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
 	  
 	var oDate = $("#openDate").text().substring(0,10);
 	var cDate = $("#closeDate").text().substring(0,10);
@@ -62,11 +64,12 @@
     		calendar.addEvent(event_);
    	        calendar.unselect();
    	     	var price = $("#placePrice").text();
+   	     	var value = '<c:out value="${place.placePrice}" />';   	     	
    	     	
    	         $("#checkIn").html(argS);
    	       	 $("#checkOut").html(argE);
    	       	 $("#dateDiff").html(dateDiff);
-	   	     $("#totalPrice").html(price * dateDiff);
+	   	     $("#totalPrice").html(numberWithCommas(value * dateDiff));
     	}else {
     		alert("예약 가능 날짜 안에서 선택해주세요.")
     	}
@@ -178,7 +181,7 @@
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>
-              <div class="content">￦ <fmt:formatNumber value="${place.placePrice}" /> × <span id="dateDiff">1</span>박 = ￦<span id="totalPrice">${place.placePrice}</span></div>
+              <div class="content">￦ <fmt:formatNumber value="${place.placePrice}" /> × <span id="dateDiff">1</span>박 = ￦&nbsp;<span id="totalPrice"></span></div>
             </div>            
             <div class="d-flex justify-content-center align-self-center">
               <button type="button" class="btn btn-warning btn-lg btn-block" id="postBookInfo">결제하기</button>	

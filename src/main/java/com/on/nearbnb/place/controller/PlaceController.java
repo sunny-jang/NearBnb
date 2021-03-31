@@ -122,14 +122,17 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/kakaoPayComplete.do", method=RequestMethod.GET)
 	public ModelAndView kakaoPayComplete(ModelAndView modelAndView) throws Exception {
+		
 		modelAndView.setViewName("place/kakaoPayComplete");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/kakaoPay.do")
 	@ResponseBody
-	public String kakaoPayTest() throws Exception {		
-		return placeService.kakaoPay();
+	public String kakaoPayTest(String itemName, String totalPrice) throws Exception {
+		System.out.println(itemName);
+		System.out.println(totalPrice);
+		return placeService.kakaoPay(itemName, totalPrice);
 	}
 
 }

@@ -16,5 +16,5 @@ public interface PlaceService {
 	public Place selectPlace(Integer pId);
 	public List<Place> selectPlaceById(String uId);
 	
-	public String kakaoPay() throws Exception;
+	public String kakaoPay(String itemName, String placeName) throws Exception;
 }

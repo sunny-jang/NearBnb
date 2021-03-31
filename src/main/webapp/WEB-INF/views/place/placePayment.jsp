@@ -4,6 +4,9 @@
 <script>
 // model checkbox jquery
 $(function(){
+	var object = JSON.parse(localStorage.bookInfo);
+	var placeName = '<c:out value="${place.placeName}" />';	
+	console.log(object);
 	init();
 	
 	$('#allcheck').click(function(){
@@ -15,7 +18,6 @@ $(function(){
 	});
 	
 	function init() {
-		var object = JSON.parse(localStorage.bookInfo);
 		
 		$("#placeImage").css("background-image",object.imagePath);
 		$("#checkIn").text(object.bookCheckIn);
@@ -24,6 +26,20 @@ $(function(){
 		$("#dateDiff").text(object.dateDiff);
 		$("#totalPrice").text(object.totalPrice);
 	}
+	
+	$('#kakaoPay').click(function(){
+		$.ajax({
+			url : 'kakaoPay.do',
+			data : {'itemName' : placeName, 'totalPrice' : '100000'},
+			dataType: 'json',
+			success : function(data) {				
+				 var msg = data.next_redirect_pc_url;
+				 window.open(msg);
+			}, error : function(error) {
+				alert(error);
+			}			
+		});
+	});
 });
 </script>
 <section>
@@ -59,7 +75,7 @@ $(function(){
             </div>
             <div class="col-8">
               <span class="place-host">${place.uId}님의 숙소</span>
-              <h5 class="place-name ellipsis2">${place.placeName}</h5>
+              <h5 class="place-name ellipsis2" id="placeName">${place.placeName}</h5>
               <span class="place-option">최대인원 ${place.maxGuest}명 . 숙소 유형 ${place.placeType}</span>
               <p class="place-des ellipsis2">${place.placeDesc}</p>
               <div class="d-flex justify-content-between">
@@ -72,11 +88,11 @@ $(function(){
           <div class="content-box">
             <div class="place-info">
               <div class="content-title">날짜</div>
-              <div class="content"><span id="checkIn">${book.bookCheckIn}</span> ~ <span id="checkOut">${book.bookCheckOut}</span></div>
+              <div class="content"><span id="checkIn"></span> ~ <span id="checkOut"></span></div>
             </div>
             <div class="place-info">
               <div class="content-title">게스트</div>
-              <div class="content">게스트 <span id="bookPerson">${book.bookPerson}</span>명</div>
+              <div class="content">게스트 <span id="bookPerson"></span>명</div>
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>

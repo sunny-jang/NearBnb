@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <link href='${context}/resources/html/css/calendar.css' rel='stylesheet' />
 <script src='${context}/resources/html/js/fullcalendar.js'></script>
@@ -66,9 +67,6 @@
    	       	 $("#checkOut").html(argE);
    	       	 $("#dateDiff").html(dateDiff);
 	   	     $("#totalPrice").html(price * dateDiff);
-	   	     
-	   	     localStorage.dateDiff = $("#dateDiff").text();
-	   	     localStorage.totalPrice = $("#totalPrice").text();
     	}else {
     		alert("예약 가능 날짜 안에서 선택해주세요.")
     	}
@@ -99,31 +97,24 @@
     })
     
     $("#postBookInfo").on("click", function() {
-	  var f = document.createElement("form");
-	  var object = {
-		  uId : $("input[name=uId]").val(),
-		  pId : $("input[name=pId]").val(),
-		  bookCheckIn : $("#checkIn").text(),
-		  bookCheckOut : $("#checkOut").text(),
-		  bookPerson : $("#selectGuest").val(),
-		  bookPayPrice : $("#totalPrice").text(),
+	    var f = document.createElement("form");
+	    var object = {
+			  uId : $("input[name=uId]").val(),
+			  pId : $("input[name=pId]").val(),
+			  bookCheckIn : $("#checkIn").text(),
+			  bookCheckOut : $("#checkOut").text(),
+			  bookPerson : $("#selectGuest").val(),
+			  bookPayPrice : $("#totalPrice").text(),
+			  dateDiff : $("#dateDiff").text(),
+	    	  totalPrice : $("#totalPrice").text(),
+	    	  imagePath : $("#placeImage").css("background-image"),
 	  }
-	  
-	  f.setAttribute("method", 'post')
-	  f.setAttribute("action", 'placePayment.do')
-	  
-	  for(key in object) {
-		  var i = document.createElement("input");
-		  i.setAttribute('type',"text");
-		  i.setAttribute('name',key);
-		  i.setAttribute('value',object[key]);
-		  f.append(i);
-	  }
-	  
-	  
+	    
+	  localStorage.bookInfo = JSON.stringify(object);
+	    
 	  if(calendar.getEventById('book')) {
 		  document.body.appendChild(f);
-		  f.submit();
+		  location.href="placePayment.do?pId="+object.pId;
 	  }else {
 		  alert('날짜를 선택해주세요.');
 	  }
@@ -155,7 +146,7 @@
           </div>
           <div class="place-li">
           <div class="row">
-            <div class="place-image col-4 align-self-center" style="background-image: url(/nearbnb/resources/html/images/${sImage})">
+            <div class="place-image col-4 align-self-center" id="placeImage" style="background-image: url(/nearbnb/resources/html/images/${sImage})">
             <input type="hidden" name="uId" value="${userId}">
             <input type="hidden" name="pId" value="${place.placeId }">
             </div>
@@ -166,7 +157,7 @@
               <p class="place-des ellipsis2">${place.placeDesc}</p>
               <div class="d-flex justify-content-between">
                 <div>${place.placeThumb} <i class="fa fa-heart"></i></div>
-                <div><span id="placePrice">${place.placePrice}</span> 원 / 박</div>
+                <div><span id="placePrice"><fmt:formatNumber value="${place.placePrice}" /></span> 원 / 박</div>
               </div> 
             </div>
           </div>          
@@ -187,7 +178,7 @@
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>
-              <div class="content">￦${place.placePrice} × <span id="dateDiff">1</span>박 = ￦<span id="totalPrice">${place.placePrice}</span></div>
+              <div class="content">￦ <fmt:formatNumber value="${place.placePrice}" /> × <span id="dateDiff">1</span>박 = ￦<span id="totalPrice">${place.placePrice}</span></div>
             </div>            
             <div class="d-flex justify-content-center align-self-center">
               <button type="button" class="btn btn-warning btn-lg btn-block" id="postBookInfo">결제하기</button>	

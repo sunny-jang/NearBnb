@@ -6,6 +6,35 @@
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
 <script>
+
+//댓글 단 후 
+function afterInsertComment(data){
+	var tableEle = $("#tableEle");
+	$(".cmtTr").remove();
+	for(var i = 0; i <  data.commentListCnt ; i++ ){
+		var trStr = '<tr class = "cmtTr">'
+        	 	  + '<td style="height: 35px;">' + data.commentList[i].userId + '</td>'
+        		  + '<td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3">' 
+        		  + data.commentList[i].commentContent + '<br>'
+          		  + '<p style="font-size: 11px; color: #BEBEBE;">'
+        		  + data.commentList[i].commentDate
+          		  + '</p>'
+        		  + '</td>'
+      		      + '</tr>';
+        tableEle.append(trStr);
+	}
+	var trBtn = '<tr class = "cmtTr">'
+		  + '<td colspan="2">'
+		  + '<input type="text" class="commentWrt" name="commentContent" id="commentContent" placeholder="댓글 작성">'
+		  + '</td>'
+		  + '<td colspan="2">'
+		  + '<input type="submit" class="btn commentBtn" id="commentIns" value="댓글달기">'
+		  + '</td>'
+		  + '</tr>';
+	tableEle.append(trBtn);
+	$("#commentIns").prop("disabled", false);
+}
+
 	$(function(){
 		$('#thumb').on('click', function(){
 			// alert($('#boardCodeSeq').val());
@@ -42,6 +71,41 @@
 			}
 		});
 		
+		//댓글달기
+		$('#commentIns').on('click', function(){
+			// Ajax로 폼 넘기기
+			var commentForm = $('#commentForm')[0];
+			var commentData = new FormData(commentForm);
+			$("#commentIns").prop("disabled", true);
+			if("${userId}" == ""){
+				alert('로그인이 필요한 서비스입니다.');
+				$(location).attr("href", "signIn.do");
+			}else {
+				$.ajax({
+					url : "boardCommentInsert.do",
+					enctype: 'multipart/form-data',
+					data: commentData,
+		            processData: false,
+		            contentType: false,
+		            cache: false,
+					data : commentData,
+					type : 'POST',
+					dataType : 'json',
+					success : function(data){
+						var data = JSON.stringify(data);
+						data = JSON.parse(data);
+						afterInsertComment(data);
+					},
+					error: function(request, status, error){
+						alert("code : " + request.status + "\n"
+								+ "message : " + request.responseText + "\n"
+								+ "error : " + error);
+					}
+				});
+			}
+		});
+		
+		// 게시글 수정
 		$('#rewrite').on('click', function(){
 			if("${userId}" == ""){
 				alert('로그인이 필요한 서비스입니다.');
@@ -51,6 +115,7 @@
 			}
 		});
 		
+		// 게시글 삭제
 		$('#delete').on('click', function(){
 			if("${userId}" == ""){
 				alert('로그인이 필요한 서비스입니다.');
@@ -59,26 +124,17 @@
 				alert('삭제 권한이 없습니다.');
 			}
 		});
-		
-		$('#commentIns').on('click', function(){
-			if("${userId}" == ""){
-				alert('로그인이 필요한 서비스입니다.');
-				$(location).attr("href", "signIn.do");
-			}else {
-				document.location.href = "boardCommentInsert.do";
-			}
-		});
 	});
 </script>
-<section style="height: 130vh; overflow:hidden">
+<section>
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
   <center>
-  	<form action="boardCommentInsert.do" method="get">
+  	<form method="get" id="commentForm">
       <input type="hidden" name="boardCodeSeq" id="boardCodeSeq" value="${board.boardCodeSeq }" />
       <input type="hidden" name="userId" id="userId" value="${sessionScope.userId }" />
-      <table style="font-size: 20px;">
+      <table style="font-size: 20px;" id="tableEle">
         <tr>
             <td style="width: 150px;">제목</td>
             <td style="width: 800px; height: 50px;">
@@ -87,13 +143,13 @@
             <td style="width: 100px;">
               <c:choose>
                 <c:when test="${heart eq 'unSignIn' }">
-              	  <button type="button" class="heart" id="thumb">♡</button>
+              	  <button type="button" class="heart" id="thumb"  style="outline: none;">♡</button>
               	</c:when>
               	<c:when test="${heart eq 'notThumbsUp' }">
-              	  <button type="button" class="heart" id="thumb">♡</button>
+              	  <button type="button" class="heart" id="thumb"  style="outline: none;">♡</button>
               	</c:when>
               	<c:otherwise>
-              	  <button type="button" class="heart" id="thumb">♥</button>
+              	  <button type="button" class="heart" id="thumb" style="outline: none;">♥</button>
               	</c:otherwise>
               </c:choose>
               <h2 style="display: inline;" id="maxThumb">${thumbs }</h2>
@@ -118,7 +174,7 @@
             </td>
         </tr>
         <tr>
-            <td style="width: 80px;">
+            <td style="width: 80px;">ㅇ
                 첨부파일
             </td>
             <td colspan="3" style="text-align: left;">
@@ -150,22 +206,22 @@
             </td>
           </tr>
           <c:forEach var="bC" items="${boardComment }">
-          <tr>
-            <td style="height: 35px;">
+          <tr class = "cmtTr">
+            <td style="height: 35px;" class="userId">
               ${bC.userId }
             </td>
-            <td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3">
+            <td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3" class="commentContent">
               ${bC.commentContent }<br>
-              <p style="font-size: 11px; color: #BEBEBE;">
+              <p style="font-size: 11px; color: #BEBEBE;" class="commentDate">
               	<fmt:formatDate value="${bC.commentDate}" pattern="YYYY-MM-dd hh:mm" /> 
               </p>
             </td>
           </tr>
           </c:forEach>
         </c:if>
-        <tr>
+        <tr class="cmtTr">
           <td colspan="2">
-            <input type="text" class="commentWrt" name="commentContent" placeholder="댓글 작성">
+            <input type="text" class="commentWrt" name="commentContent" id="commentContent" placeholder="댓글 작성">
           </td>
           <td colspan="2">
             <input type="submit" class="btn commentBtn" id="commentIns" value="댓글달기">

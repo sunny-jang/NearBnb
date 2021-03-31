@@ -4,6 +4,8 @@
 <script>
 // model checkbox jquery
 $(function(){
+	init();
+	
 	$('#allcheck').click(function(){
 		if($('#allcheck').prop('checked') == true) {
 			$('input[name=check]').prop('checked', true);
@@ -12,13 +14,17 @@ $(function(){
 		}
 	});
 	
-	$("#dateDiff").text(localStorage.dateDiff);
-	$("#totalPrice").text(localStorage.totalPrice);
+	function init() {
+		var object = JSON.parse(localStorage.bookInfo);
+		
+		$("#placeImage").css("background-image",object.imagePath);
+		$("#checkIn").text(object.bookCheckIn);
+		$("#checkOut").text(object.bookCheckOut);
+		$("#bookPerson").text(object.bookPerson);
+		$("#dateDiff").text(object.dateDiff);
+		$("#totalPrice").text(object.totalPrice);
+	}
 });
-
-(function() {
-	
-})()
 </script>
 <section>
   <div class="container">
@@ -35,7 +41,7 @@ $(function(){
 	      	  <i class="fas fa-money-check payment-icon" style="font-size: 25px;"></i>
 	      	  <h5 class="payment-text1">일반 신용카드 결제</h5>
 	      	</div>
-	      	<div class="payment-content bg-warning" onclick="index.do">
+	      	<div class="payment-content bg-warning" id="kakaoPay">
 	      	  <img class="payment-icon" src="${context}/html/images/ico_pay_320.png" />
 	      	  <h5 class="payment-text2">카카오 페이 결제</h5>
 	      	</div>
@@ -48,8 +54,8 @@ $(function(){
           </div>
           <div class="place-li">
           <a href="#" class="row">
-            <div class="place-image col-4 align-self-center">
-              <div class="place-image" style="background-color: black;"></div>
+            <div class="place-image col-4 align-self-center" id="placeImage">
+             
             </div>
             <div class="col-8">
               <span class="place-host">${place.uId}님의 숙소</span>
@@ -66,11 +72,11 @@ $(function(){
           <div class="content-box">
             <div class="place-info">
               <div class="content-title">날짜</div>
-              <div class="content">${book.bookCheckIn} ~ ${book.bookCheckOut}</div>
+              <div class="content"><span id="checkIn">${book.bookCheckIn}</span> ~ <span id="checkOut">${book.bookCheckOut}</span></div>
             </div>
             <div class="place-info">
               <div class="content-title">게스트</div>
-              <div class="content">게스트 ${book.bookPerson}명</div>
+              <div class="content">게스트 <span id="bookPerson">${book.bookPerson}</span>명</div>
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>

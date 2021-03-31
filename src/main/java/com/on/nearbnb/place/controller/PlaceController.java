@@ -104,7 +104,6 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/placeReservation.do", method = RequestMethod.GET)
 	public ModelAndView placeReservation(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
-		// System.out.println(pId);
 		Place place = placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);		
 
@@ -113,6 +112,24 @@ public class PlaceController {
 		modelAndView.addObject("place", place);
 		modelAndView.setViewName("/place/placeReservation");
 		return modelAndView;	
+	}
+	
+	@RequestMapping(value = "/kakaoPayTestPage.do", method=RequestMethod.GET)
+	public ModelAndView kakaoPayTestPage(ModelAndView modelAndView) throws Exception {
+		modelAndView.setViewName("place/kakaoPayTest");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/kakaoPayComplete.do", method=RequestMethod.GET)
+	public ModelAndView kakaoPayComplete(ModelAndView modelAndView) throws Exception {
+		modelAndView.setViewName("place/kakaoPayComplete");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/kakaoPay.do")
+	@ResponseBody
+	public String kakaoPayTest() throws Exception {		
+		return placeService.kakaoPay();
 	}
 
 }

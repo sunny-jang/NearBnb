@@ -39,7 +39,7 @@ public class PlacePoint {
 	
 	@Override
 	public String toString() {
-		return "Coords [latitude=" + latitude + ", longitude=" + longitude + "]";
+		return "Coords [latitude=" + latitude + ", longitude=" + longitude + "]"; 
 	}
 	
 	

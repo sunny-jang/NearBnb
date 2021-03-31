@@ -1,5 +1,7 @@
 package com.on.nearbnb.place.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,5 +20,10 @@ public class PlacePointDao {
 	public int insertPlacePoint(PlacePoint placePoint) {
 		return sqlSession.insert("insertPlacePoint", placePoint);
 		
+	}
+	
+	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint) {
+		System.out.println("DAO도착");
+		return sqlSession.selectList("searchPlacePoint",searchpoint);
 	}
 }

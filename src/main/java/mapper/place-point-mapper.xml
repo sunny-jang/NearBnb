@@ -4,13 +4,19 @@
 <mapper namespace="PlacePoint">
 	
 	<resultMap type="PlacePoint" id="resultPlacePoint">
+		<id property="placeId" column="P_CODE_SEQ" />
 		<result property="latitude" column="LATITUDE"/>
-		<result property="longitude" column="PLACE_ADDRESS"/>
+		<result property="longitude" column="LONGITUDE"/>
 		
 	</resultMap>
 	
 	<insert id="insertPlacePoint" parameterType="PlacePoint">
 		INSERT INTO PLACE_POINT VALUES(#{placeId}, #{latitude}, #{longitude})
 	</insert>
-
+	
+	<select id = "searchPlacePoint" resultMap ="resultPlacePoint" resultType="PlacePoint" parameterType="PlacePoint">
+		SELECT *  FROM PLACE_POINT 
+		WHERE( LATITUDE BETWEEN #{latitude}-0.1 AND #{latitude}+0.1 )
+		AND(LONGITUDE BETWEEN #{longitude}-0.1 AND #{longitude}+0.1)
+	</select>
 </mapper>

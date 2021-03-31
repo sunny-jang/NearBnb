@@ -4,7 +4,7 @@
  <c:set var="context" value="${pageContext.request.contextPath}" />
 <%@ include file="include/header.jsp" %>
   <script>
-
+//instagramAPI
          function aa() {
            $.ajax({
             url: 'https://graph.instagram.com/17841446970921176?fields=username,id,media_count,account_type&access_token=IGQVJYVlhhMjJmOVA3cTFqeDFSVGJjOHJaaUF2cmdDNGhwZAXp4WVRUVmdlQ1BTX19janVLRDR2dlNDanpzMG8yLVF2ekpTTXZA0RkVMclptTmNUcHAzZA29Bc05ONlhvQ2lXTTF0YVZAVcFdod0xDbjk4eQZDZD',
@@ -38,7 +38,8 @@
        (function() {
          bb()
        })()
-        
+ //instagramAPI   
+
       </script>
 <section>
 <div class="row">

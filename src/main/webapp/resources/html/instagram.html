@@ -25,7 +25,7 @@
             success: function(data) {
               console.log(data);
               $("#instafeed").text(data.data[0].id);
-              $("#aaa").text(data.data[0].media_url).attr("href",data.data[0].media_url);
+              // $("#aaa").text(data.data[0].media_url).attr("href",data.data[0].media_url);
              
               for( var i=0; i<6; i++){
                 $("#instaurl"+[i]).attr("href",data.data[i].permalink);

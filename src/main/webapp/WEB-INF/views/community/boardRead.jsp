@@ -9,10 +9,11 @@
 
 //댓글 단 후 
 function afterInsertComment(data){
-	var tableEle = $("#tableEle");
+	var tableEle = $(".asd");
 	$(".cmtTr").remove();
+	var trStr
 	for(var i = 0; i <  data.commentListCnt ; i++ ){
-		var trStr = '<tr class = "cmtTr">'
+		trStr += '<tr class = "cmtTr">'
         	 	  + '<td style="height: 35px;">' + data.commentList[i].userId + '</td>'
         		  + '<td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3">' 
         		  + data.commentList[i].commentContent + '<br>'
@@ -21,17 +22,8 @@ function afterInsertComment(data){
           		  + '</p>'
         		  + '</td>'
       		      + '</tr>';
-        tableEle.append(trStr);
 	}
-	var trBtn = '<tr class = "cmtTr">'
-		  + '<td colspan="2">'
-		  + '<input type="text" class="commentWrt" name="commentContent" id="commentContent" placeholder="댓글 작성">'
-		  + '</td>'
-		  + '<td colspan="2">'
-		  + '<input type="submit" class="btn commentBtn" id="commentIns" value="댓글달기">'
-		  + '</td>'
-		  + '</tr>';
-	tableEle.append(trBtn);
+	tableEle.after(trStr);
 	$("#commentIns").prop("disabled", false);
 }
 
@@ -174,7 +166,7 @@ function afterInsertComment(data){
             </td>
         </tr>
         <tr>
-            <td style="width: 80px;">ㅇ
+            <td style="width: 80px;">
                 첨부파일
             </td>
             <td colspan="3" style="text-align: left;">
@@ -200,7 +192,7 @@ function afterInsertComment(data){
         </tr>
         </c:if>
         <c:if test="${comments ne 0 }">
-          <tr>
+          <tr class="asd">
             <td colspan="4" style="height: 45px;">
            	  댓글
             </td>
@@ -219,7 +211,7 @@ function afterInsertComment(data){
           </tr>
           </c:forEach>
         </c:if>
-        <tr class="cmtTr">
+        <tr>
           <td colspan="2">
             <input type="text" class="commentWrt" name="commentContent" id="commentContent" placeholder="댓글 작성">
           </td>

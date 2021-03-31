@@ -31,7 +31,8 @@ public class MainPageController {
 	searchpoint.setLongitude(longitude);
 	
 	System.out.println("위도 getLatitude : "+searchpoint.getLatitude());
-	System.out.println("경도 getLongitude : "+searchpoint.getLongitude());
+	System.out.println("경도 getLongitude : "+searchpoint.getLongitude()); 
+	
 	
 	List<PlacePoint> resultpoint = placeService.searchPlacePoint(searchpoint);
 	System.out.println(resultpoint.get(0).toString());

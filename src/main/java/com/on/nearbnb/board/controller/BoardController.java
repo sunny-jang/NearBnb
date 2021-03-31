@@ -37,6 +37,7 @@ public class BoardController {
 	public ModelAndView boardListService(@RequestParam(name = "page", defaultValue = "1") int page,
 			Board board,
 			ModelAndView modelAndView) {
+		List<Integer> cntCmt = new ArrayList<Integer>();
 		try {		
 			// 현재 페이지
 			int currentPage = page;
@@ -122,6 +123,8 @@ public class BoardController {
 				boardComment = boardService.selectBoardCommentList(boardCodeSeq);
 				modelAndView.addObject("boardComment", boardComment);
 			}
+			// 조회 수 증가
+			boardService.updateBoardCount(boardCodeSeq);
 			
 			if(userId == null) {
 				// 로그인 하지 않은 경우

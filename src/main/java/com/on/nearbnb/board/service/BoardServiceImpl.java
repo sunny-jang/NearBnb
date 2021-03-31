@@ -47,22 +47,40 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.searchBoardType(board);
 	}
 	
-	// 게시판 추천 개수 조회
-	@Override
-	public int boardThumbCount(int boardCodeSeq) {
-		return boardDao.boardThumbCount(boardCodeSeq);
-	}
-	
 	// 게시글 상세 조회
 	@Override
 	public Board selectBoardOne(int boardCodeSeq) {
 		return boardDao.selectBoardOne(boardCodeSeq);
 	}
 	
+	// 게시글 조회 수 증가
+	@Override
+	public int updateBoardCount(int boardCodeSeq) {
+		return boardDao.updateBoardCount(boardCodeSeq);
+	}
+	
 	// 게시글 등록
 	@Override
 	public int insertBoard(Board board) {
 		return boardDao.insertBoard(board);
+	}
+	
+	// 게시글 수정
+	@Override
+	public int updateBoard(Board board) {
+		return boardDao.updateBoard(board);
+	}
+	
+	// 게시글 삭제
+	@Override
+	public int deleteBoard(int boardCodeSeq) {
+		return boardDao.deleteBoard(boardCodeSeq);
+	}
+	
+	// 게시판 추천 개수 조회
+	@Override
+	public int boardThumbCount(int boardCodeSeq) {
+		return boardDao.boardThumbCount(boardCodeSeq);
 	}
 	
 	// 게시글 추천
@@ -81,18 +99,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardThumb selectBoardThumb(BoardThumb boardThumb) {
 		return boardDao.selectBoardThumb(boardThumb);
-	}
-	
-	// 게시글 수정
-	@Override
-	public int updateBoard(Board board) {
-		return boardDao.updateBoard(board);
-	}
-	
-	// 게시글 삭제
-	@Override
-	public int deleteBoard(int boardCodeSeq) {
-		return boardDao.deleteBoard(boardCodeSeq);
 	}
 	
 	// 게시글 추천 삭제

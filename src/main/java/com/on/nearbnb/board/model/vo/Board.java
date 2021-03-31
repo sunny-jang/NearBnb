@@ -15,6 +15,7 @@ public class Board {
 	private Date boardDate;
 	private int boardCount;
 	private int thumbsCnt;
+	private int commentCnt;
 	
 	public int getBoardCodeSeq() {		return boardCodeSeq;	}
 	public void setBoardCodeSeq(int boardCodeSeq) {		this.boardCodeSeq = boardCodeSeq;	}
@@ -32,5 +33,7 @@ public class Board {
 	public void setBoardCount(int boardCount) {		this.boardCount = boardCount;	}
 	public int getThumbsCnt() {		return thumbsCnt;	}
 	public void setThumbsCnt(int thumbsCnt) {		this.thumbsCnt = thumbsCnt;	}
+	public int getCommentCnt() {		return commentCnt;	}
+	public void setCommentCnt(int commentCnt) {		this.commentCnt = commentCnt;	}
 	
 }

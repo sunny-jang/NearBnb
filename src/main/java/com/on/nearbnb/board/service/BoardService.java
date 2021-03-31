@@ -23,15 +23,24 @@ public interface BoardService {
 	
 	// 게시글 분류
 	public List<Board> searchBoardType(Board board);
-
-	// 게시글 추천 개수 조회
-	public int boardThumbCount(int boardCodeSeq);
 	
 	// 게시글 상세 조회
 	public Board selectBoardOne(int boardCodeSeq);
 	
+	// 게시글 조회 수 증가
+	public int updateBoardCount(int boardCodeSeq);
+	
 	// 게시글 등록
 	public int insertBoard(Board board);
+	
+	// 게시글 수정
+	public int updateBoard(Board board);
+	
+	// 게시글 삭제
+	public int deleteBoard(int boardCodeSeq);
+	
+	// 게시글 추천 개수 조회
+	public int boardThumbCount(int boardCodeSeq);
 	
 	// 게시글 추천
 	public int insertBoardThumb(BoardThumb boardThumb);
@@ -41,12 +50,6 @@ public interface BoardService {
 	
 	// 게시글 추천 조회
 	public BoardThumb selectBoardThumb(BoardThumb boardThumb);
-	
-	// 게시글 수정
-	public int updateBoard(Board board);
-	
-	// 게시글 삭제
-	public int deleteBoard(int boardCodeSeq);
 	
 	// 게시글 추천 삭제
 	public int deleteBoardThumbAll(int boardCodeSeq);

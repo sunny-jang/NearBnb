@@ -23,7 +23,8 @@ public class PlacePointDao {
 	}
 	
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint) {
-		System.out.println("DAO도착");
 		return sqlSession.selectList("searchPlacePoint",searchpoint);
 	}
+	
+	
 }

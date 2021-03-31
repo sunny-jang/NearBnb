@@ -102,7 +102,6 @@ public class placeServiceImpl implements PlaceService {
 	
 	@Override
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint){
-		System.out.println("서비스임플도착");
 		return pPointDao.searchPlacePoint(searchpoint);
 	}
 }

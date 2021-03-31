@@ -35,6 +35,7 @@ public class PlaceController {
 	@Autowired
 	private PlaceFileService placeFileService;
 	
+	
 	@RequestMapping(value="/addFile", method=RequestMethod.POST)
 	@ResponseBody
 	public String addFile(MultipartHttpServletRequest files, HttpServletRequest request) throws Exception {
@@ -54,8 +55,9 @@ public class PlaceController {
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
 	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
 		Place place= placeService.selectPlace(pId);
-		
+		List<PlaceFile> files = placeFileService.selectFiles(pId);
 		modelAndView.addObject("place", place);
+		modelAndView.addObject("images", files);
 		
 		modelAndView.setViewName("/place/placeDetail");
 		return modelAndView;

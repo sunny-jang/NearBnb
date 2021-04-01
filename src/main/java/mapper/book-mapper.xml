@@ -17,5 +17,17 @@
 		INSERT INTO BOOK VALUES(#{uId}, #{pId}, #{bookCheckIn}, #{bookCheckOut},
 		 #{bookPerson}, #{bookPayPrice}, SYSDATE)
 	</insert>
+	
+	<select id="selectBook" parameterType="Book" resultMap="resultBook">
+		SELECT * FROM BOOK
+		<choose>
+			<when test="pId != null">
+				WHERE P_CODE_SEQ = #{pId}
+			</when>
+			<when test="uId != null">
+				WHERE U_ID = #{uId}
+			</when>
+		</choose>
+	</select>
 		
 </mapper>

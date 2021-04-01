@@ -1,5 +1,7 @@
 package com.on.nearbnb.book.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,5 +16,9 @@ public class BookDao {
 	
 	public int insertBook(Book book) {
 		return sqlSession.insert("insertBook", book);
+	}
+	
+	public List<Book> selectBook(Book book) {
+		return sqlSession.selectList("selectBook", book);
 	}
 }

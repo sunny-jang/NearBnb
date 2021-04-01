@@ -21,7 +21,7 @@
 	var cDate = $("#closeDate").text().substring(0,10);
 	var calendarEl = document.getElementById('calendar');
 	var value = '<c:out value="${place.placePrice}" />';   
-	
+	var colors = ['red','yelllow','aa']
 	async function getEventList() {
 		var a = await fetch('bookList.do?pId=${place.placeId}').then(res=>res.json());
 		var result = a.map((item,i)=> {
@@ -40,6 +40,7 @@
 	
 	(async function() {
 		// 캘린더 객채 생성
+		var events = await getFullEvents();
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 		      locale:'ko',
 		      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
@@ -72,11 +73,8 @@
 		    	
 		      },
 		      eventLimit: true, // allow "more" link when too many events
-		      events: await getFullEvents(),
+		      events: events,
 		      local:'ko',
-		      dateClick: function(info) {
-		    	    alert('Clicked on: ' + info.date);
-		      }
 		    });
 		
 		init();
@@ -98,6 +96,14 @@
 	    	//날짜 데이터를 스트링으로 변환
 	    	argS = date.getDateFormat(event_.start);
 	    	argE = date.getDateFormat(event_.end);
+
+	    	
+	    	for(let i = 1;i<events.length;i++) {
+	    		if(new Date(argS)>= new Date(events[i].start) && new Date(argE) <= new Date(events[i].end)) {
+	    			alert("예약불가한 날짜입니다. 날짜 확인 후 다시 선택해 주세요.");
+	    			return;
+	    		}
+	    	}
 	    	
     		if(oDate <= argS && cDate >= argE) {
 	    		alert('예약날짜는 '+ argS +' ~ ' + argE +'입니다.\n체크아웃은 12pm 입니다.');

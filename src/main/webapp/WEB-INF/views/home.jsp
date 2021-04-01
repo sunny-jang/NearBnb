@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
  <c:set var="context" value="${pageContext.request.contextPath}" />
 <%@ include file="include/header.jsp" %>
+
   <script>
 //instagramAPI
          function aa() {

@@ -26,5 +26,10 @@ public class PlacePointDao {
 		return sqlSession.selectList("searchPlacePoint",searchpoint);
 	}
 	
+	@Transactional
+	public PlacePoint searchPlacePointOne(Integer pId) {
+		return sqlSession.selectOne("searchPlacePointOne",pId);
+	}
+	
 	
 }

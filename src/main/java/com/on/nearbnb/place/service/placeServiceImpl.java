@@ -103,4 +103,9 @@ public class placeServiceImpl implements PlaceService {
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint){
 		return pPointDao.searchPlacePoint(searchpoint);
 	}
+
+	@Override
+	public PlacePoint searchPlacePointOne(Integer pId) {
+		return pPointDao.searchPlacePointOne(pId);
+	}
 }

@@ -11,6 +11,7 @@ import com.on.nearbnb.book.model.vo.Book;
 public class BookDao {
 	@Autowired
 	SqlSession sqlSession;
+	
 	public int insertBook(Book book) {
 		return sqlSession.insert("insertBook", book);
 	}

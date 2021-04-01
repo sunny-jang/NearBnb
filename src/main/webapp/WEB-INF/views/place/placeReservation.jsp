@@ -20,6 +20,7 @@
 	var oDate = $("#openDate").text().substring(0,10);
 	var cDate = $("#closeDate").text().substring(0,10);
     var calendarEl = document.getElementById('calendar');
+    var value = '<c:out value="${place.placePrice}" />';     
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       locale:'ko',
@@ -63,13 +64,13 @@
     		alert('예약날짜는 '+ argS +' ~ ' + argE +'입니다.\n체크아웃은 12pm 입니다.');
     		calendar.addEvent(event_);
    	        calendar.unselect();
-   	     	var price = $("#placePrice").text();
-   	     	var value = '<c:out value="${place.placePrice}" />';   	     	
+   	     	var price = $("#placePrice").text();   	     	
+   	     	var guestNum = $('#selectedGuest').text();   	     	
    	     	
    	         $("#checkIn").html(argS);
    	       	 $("#checkOut").html(argE);
    	       	 $("#dateDiff").html(dateDiff);
-	   	     $("#totalPrice").html(numberWithCommas(value * dateDiff));
+	   	     $("#totalPrice").html(numberWithCommas(value * dateDiff * guestNum));
     	}else {
     		alert("예약 가능 날짜 안에서 선택해주세요.")
     	}
@@ -96,18 +97,19 @@
     init();
     
     $("#selectGuest").on("change", function() {
-    	$("#selectedGuest").text($(this).val())
+    	$("#selectedGuest").text($(this).val());    		
     })
     
     $("#postBookInfo").on("click", function() {
 	    var f = document.createElement("form");
 	    var object = {
+	    		
 			  uId : $("input[name=uId]").val(),
 			  pId : $("input[name=pId]").val(),
 			  bookCheckIn : $("#checkIn").text(),
 			  bookCheckOut : $("#checkOut").text(),
 			  bookPerson : $("#selectGuest").val(),
-			  bookPayPrice : $("#totalPrice").text(),
+			  bookPayPrice : value,
 			  dateDiff : $("#dateDiff").text(),
 	    	  totalPrice : $("#totalPrice").text(),
 	    	  imagePath : $("#placeImage").css("background-image"),

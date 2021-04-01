@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,7 @@
 		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 		var options = { //지도생성옵션
 			center : new kakao.maps.LatLng(latitude, longitude), //지도의 중심좌표.
-			level : 3
+			level :5
 		//지도의 레벨(확대, 축소 정도)
 		};
 		//지도 생성 및 객체 리턴
@@ -59,16 +59,60 @@
 				},
 				success : function(data) {
 					console.log("success");
-					searchPoint();
+					console.log(data);
+					
+					var data = JSON.parse(data);				
+					//console.log(data.pointList[0].placeId);
+					
+					searchPoint(data);
 				}
 			});
 		}
 		
-		function searchPoint(){
-			List<PlacePoint> resultpoint = (List<PlacePoint>) request.getAttribute("resultpoint");
-			console.log(resultpoint.get(0).toString);
+		 //마커생성
+		function searchPoint(data){
+			var positions = [];
+			
+			for(var i=1; i<=data.pointList[0].arrCount; i++){
+				var obj = new Object();
+				obj.title = data.pointList[i].placeId;
+				obj.latlng =  new kakao.maps.LatLng(
+						data.pointList[i].latitude, 
+						data.pointList[i].longitude
+						);
+				positions.push(obj);
+				console.log(data.pointList[0].arrCount);
+			}
+			
+			// 마커 이미지의 이미지 주소입니다
+			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+			    
+			var bounds = new kakao.maps.LatLngBounds(); 
+			
+			for (var i = 0; i < positions.length; i ++) {
+			    
+			    // 마커 이미지의 이미지 크기 입니다
+			    var imageSize = new kakao.maps.Size(24, 35); 
+			    
+			    // 마커 이미지를 생성합니다    
+			    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+			    
+			    // 마커를 생성합니다
+			    var marker = new kakao.maps.Marker({
+			        map: map, // 마커를 표시할 지도
+			        position: positions[i].latlng, // 마커를 표시할 위치
+			        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+			        image : markerImage // 마커 이미지 
+			    });
+			    marker.setMap(map);
+			    bounds.extend(positions[i].latlng);
+			    map.setBounds(bounds);
+			}	
 		}
 		
+		 
+		
+
 		
 		//현재 위치값 불러오는 함수
 		function initLocation() {

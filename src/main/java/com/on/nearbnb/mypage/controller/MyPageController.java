@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.on.nearbnb.book.model.vo.Book;
+import com.on.nearbnb.book.service.BookService;
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.file.service.PlaceFileService;
 import com.on.nearbnb.member.model.vo.Member;
@@ -26,6 +28,9 @@ public class MyPageController {
 	
 	@Autowired
 	PlaceService placeService;
+	
+	@Autowired
+	BookService bookService;
 	
 	@Autowired
 	PlaceFileService placeFileService;
@@ -104,7 +109,22 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value = "/myPageGuestCheck.do", method = RequestMethod.GET)
-	public ModelAndView myPageGuestCheck(ModelAndView modelAndView) {
+	public ModelAndView myPageGuestCheck(HttpSession session, ModelAndView modelAndView) {
+		String uId = (String) session.getAttribute("userId");
+		Book b = new Book();
+		b.setuId(uId);
+		List<Book> bookList = bookService.selectBook(b);
+		List<String> thumbnail = new ArrayList<String>();
+		List<String> placeTitle = new ArrayList<String>(); 
+		for(Book book : bookList) {
+			List<PlaceFile> files = placeFileService.selectFiles(Integer.parseInt(book.getpId()));
+			Place place = placeService.selectPlace(Integer.parseInt(book.getpId()));
+			thumbnail.add(files.get(0).getFileChangedName());
+			placeTitle.add(place.getPlaceName());
+		}
+		modelAndView.addObject("bList", bookList);
+		modelAndView.addObject("thumbnail", thumbnail);
+		modelAndView.addObject("pTitle", placeTitle);
 		modelAndView.setViewName("/myPage/myPageGuestCheck");
 		return modelAndView;
 	}

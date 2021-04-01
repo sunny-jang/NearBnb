@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <link href="${context}/html/css/park3.css" rel="stylesheet">    
 <%@ include file="../include/header.jsp" %>
 <!--myPageGuestCheck / 마이페이지_내 예약 조회페이지-->
+<script>
+</script>
 <section>
  
     <div class="row ">
@@ -15,31 +19,29 @@
         <h1>내 예약 조회 페이지</h1>
         <hr>
         <h6 style="color: rgb(206, 0, 0);">※ 모든 숙소의 체크인 시간은 3시 / 체크아웃 시간은 12시 입니다.</h6>
-<!--place-list-->
+	<!--place-list-->
+	<c:forEach var="b" items="${bList}" varStatus="status">
         <div class="card_content">
           <div class="place-li_je">
-            <a class="row"  data-toggle="modal" data-target="#myModal">
-              <div class="place-image col-2 align-self-center">
-                <div class="place-image" style="background-color: black;"></div>
+            <a class="row justify-content-center"  data-toggle="modal" data-target="#myModal">
+              <div class="place-image col-2 align-self-center" style="background-image: url(/nearbnb/resources/html/images/${thumbnail[status.index]})">
+                
               </div>
-              <div class="col-8 card-item">
-                <h5 class="place-name ellipsis2 "> 숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름숙소이름 숙소이름 숙소이름</h5>
-                  <p>총 인원수 : 4 명</p>
-                 
-                  <div class="btn-more" ><!--맨 밑으로 붙일부분-->
-                    <div  data-toggle="modal" data-target="#myModal">상세보기</div>
+              <div class="col-9 card-item">
+                <h5 class="place-name ellipsis2 ">${pTitle[status.index]}</h5>
+              	
+                  <p class="mb-0 mt-3">총 인원수 : ${b.bookPerson } 명</p>
+                  <div>
+                      	결제일 : ${fn:substring(b.bookPayDate,0,10)}
                   </div>
-              </div>
-              <div class="col-2 card-item"> 
-                <div class="side-text">
-                  <div >
-                    결제일<br>
-                    2021-03-20</div>
-                </div>
+                  <div class="btn-more" ><!--맨 밑으로 붙일부분-->
+                    <div  data-toggle="modal" data-target="#myModal">클릭하시면 숙소 정보가 표시됩니다.</div>
+                  </div>
               </div>
             </a>
           </div>
         </div>
+	</c:forEach>
       <!--/place-list-->
       <hr>
       
@@ -55,7 +57,7 @@
             
               <!-- Modal Header -->
               <div class="modal-header">
-                <h2 class="place-name ">숙소이름</h2>
+                <h2 class="place-name">숙소이름</h2>
               </div>
               
               <!-- Modal body -->

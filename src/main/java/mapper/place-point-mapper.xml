@@ -20,7 +20,4 @@
 		AND(LONGITUDE BETWEEN #{longitude}-0.1 AND #{longitude}+0.1)
 	</select>
 	
-	<select id="selectPlacePoint" resultMap="resultPlace" parameterType="Integer">
-		SELECT * FROM PLACE_POINT WHERE P_CODE_SEQ = #{pId}
-	</select>
 </mapper>

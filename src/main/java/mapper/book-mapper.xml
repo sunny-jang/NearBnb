@@ -14,7 +14,10 @@
 	</resultMap>
 	
 	<insert id="insertBook" parameterType="Book">
-		INSERT INTO BOOK VALUES(#{uId}, #{pId}, #{bookCheckIn}, #{bookCheckOut},
+		<selectKey keyProperty="bookId" resultType="Integer" order="BEFORE">
+			select BOOK_SEQ.NEXTVAL from dual
+		</selectKey>
+		INSERT INTO BOOK VALUES(#{bookId}, #{uId}, #{pId}, #{bookCheckIn}, #{bookCheckOut},
 		 #{bookPerson}, #{bookPayPrice}, SYSDATE)
 	</insert>
 	

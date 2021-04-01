@@ -1,19 +1,27 @@
 package com.on.nearbnb.book.model.vo;
 
 public class Book {
+	private Integer bookId;
 	private String uId;
 	private String pId;
 	private String bookCheckIn;
 	private String bookCheckOut;
 	private String bookPerson;
 	private String bookPayPrice;
-	private String bookPayDate;
+	private String bookPayDate;	
 	
 	@Override
 	public String toString() {
-		return "Book [uId=" + uId + ", pId=" + pId + ", bookCheckIn=" + bookCheckIn + ", bookCheckOut=" + bookCheckOut
-				+ ", bookPerson=" + bookPerson + ", bookPayPrice=" + bookPayPrice + ", bookPayDate=" + bookPayDate
-				+ "]";
+		return "Book [bookId=" + bookId + ", uId=" + uId + ", pId=" + pId + ", bookCheckIn=" + bookCheckIn
+				+ ", bookCheckOut=" + bookCheckOut + ", bookPerson=" + bookPerson + ", bookPayPrice=" + bookPayPrice
+				+ ", bookPayDate=" + bookPayDate + "]";
+	}
+	
+	public Integer getBookId() {
+		return bookId;
+	}
+	public void setBookId(Integer bookId) {
+		this.bookId = bookId;
 	}
 	public String getuId() {
 		return uId;

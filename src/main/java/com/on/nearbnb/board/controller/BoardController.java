@@ -37,6 +37,7 @@ public class BoardController {
 	public ModelAndView boardListService(@RequestParam(name = "page", defaultValue = "1") int page,
 			Board board,
 			ModelAndView modelAndView) {
+		List<Integer> cntCmt = new ArrayList<Integer>();
 		try {		
 			// 현재 페이지
 			int currentPage = page;
@@ -122,6 +123,8 @@ public class BoardController {
 				boardComment = boardService.selectBoardCommentList(boardCodeSeq);
 				modelAndView.addObject("boardComment", boardComment);
 			}
+			// 조회 수 증가
+			boardService.updateBoardCount(boardCodeSeq);
 			
 			if(userId == null) {
 				// 로그인 하지 않은 경우
@@ -200,18 +203,31 @@ public class BoardController {
 		return modelAndView;
 	}
 	
-//	// 댓글 작성
-//	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.GET)
-//	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, ModelAndView modelAndView) {
-//		HttpSession session = request.getSession();
-//		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
-//		boardComment.setUserId(userId);
-//		if(!userId.equals("noOne")) {
-//			boardService.insertBoardComment(boardComment);
-//		}else {
-//			return "redirect:/signIn.do";
-//		}
-//		return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardComment.getBoardCodeSeq();
-//	}
-//	
+	// 댓글 작성
+	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.GET)
+	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, ModelAndView modelAndView) {
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		boardComment.setUserId(userId);
+		if(!userId.equals("noOne")) {
+			boardService.insertBoardComment(boardComment);
+		}else {
+			return "redirect:/signIn.do";
+		}
+		return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardComment.getBoardCodeSeq();
+	}
+	
+	
+	// 댓글 삭제
+	@RequestMapping(value = "boardCommentDelete.do", method = RequestMethod.GET)
+	public String boardCommentDelete(int commentCodeSeq, int boardCodeSeq, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		String commentOwner = boardService.selectComment(commentCodeSeq).getUserId();
+		
+		if(commentOwner.equals(userId)) {
+			boardService.deleteBoardComment(commentCodeSeq);
+		}
+		return "redirect:/boadSelectOneCon.do?boardCodeSeq="+boardCodeSeq;
+	}
 }

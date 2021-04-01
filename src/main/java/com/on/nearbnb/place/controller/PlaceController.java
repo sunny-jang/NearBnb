@@ -1,6 +1,7 @@
 package com.on.nearbnb.place.controller;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ public class PlaceController {
 	@Autowired
 	private PlaceFileService placeFileService;
 	
+	
 	@RequestMapping(value="/addFile", method=RequestMethod.POST)
 	@ResponseBody
 	public String addFile(MultipartHttpServletRequest files, HttpServletRequest request) throws Exception {
@@ -53,8 +55,9 @@ public class PlaceController {
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
 	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
 		Place place= placeService.selectPlace(pId);
-		
+		List<PlaceFile> files = placeFileService.selectFiles(pId);
 		modelAndView.addObject("place", place);
+		modelAndView.addObject("images", files);
 		
 		modelAndView.setViewName("/place/placeDetail");
 		return modelAndView;
@@ -127,12 +130,19 @@ public class PlaceController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value = "/kakaoPayCancel.do", method=RequestMethod.GET)
+	public ModelAndView kakaoPayCancel(ModelAndView modelAndView) throws Exception {
+		
+		modelAndView.setViewName("place/kakaoPayCancel");
+		return modelAndView;
+	}
+	
 	@RequestMapping(value = "/kakaoPay.do")
 	@ResponseBody
-	public String kakaoPayTest(String itemName, String totalPrice) throws Exception {
-		System.out.println(itemName);
+	public String kakaoPayTest(String placeName, String totalPrice) throws Exception {		
+		System.out.println(placeName);
 		System.out.println(totalPrice);
-		return placeService.kakaoPay(itemName, totalPrice);
+		return placeService.kakaoPay(placeName, totalPrice);
 	}
 
 }

@@ -39,6 +39,9 @@ secetion{
 .boardDate{
     width: 190px;
 }
+.boardCount{
+	width: 50px;
+}
 .write{
     margin-right: 100px;
     float: right;

@@ -48,11 +48,6 @@ public class BoardDao {
 	public List<Board> searchBoardType(Board board){
 		return sqlSession.selectList("Board.boardTypeSearch", board);
 	}
-		
-	// 게시글 추천 개수 조회
-	public int boardThumbCount(int boardCodeSeq) {
-		return sqlSession.selectOne("Board.boardThumbCount", boardCodeSeq);
-	}
 	
 	// 게시글 상세 조회
 	public Board selectBoardOne(int boardCodeSeq) {
@@ -60,10 +55,33 @@ public class BoardDao {
 		return board;
 	}
 	
+	// 게시글 조회 수 증가
+	public int updateBoardCount(int boardCodeSeq) {
+		int cnt = sqlSession.update("Board.updateBoardCont", boardCodeSeq);
+		return cnt;
+	}
+	
 	// 게시글 등록
 	public int insertBoard(Board board) {
 		int cnt = sqlSession.insert("Board.insertBoard", board);
 		return cnt;
+	}
+	
+	// 게시글 수정
+	public int updateBoard(Board board) {
+		int cnt = sqlSession.update("Board.updateBoard", board);
+		return cnt;
+	}
+	
+	// 게시글 삭제
+	public int deleteBoard(int boardCodeSeq) {
+		int cnt = sqlSession.delete("Board.deleteBoard", boardCodeSeq);
+		return cnt;
+	}
+	
+	// 게시글 추천 개수 조회
+	public int boardThumbCount(int boardCodeSeq) {
+		return sqlSession.selectOne("Board.boardThumbCount", boardCodeSeq);
 	}
 	
 	// 게시글 추천
@@ -83,25 +101,13 @@ public class BoardDao {
 		return sqlSession.selectOne("Board.selectBoardThumb", boardThumb);
 	}
 	
-	// 게시글 수정
-	public int updateBoard(Board board) {
-		int cnt = sqlSession.update("Board.updateBoard", board);
-		return cnt;
-	}
-	
-	// 게시글 삭제
-	public int deleteBoard(int boardCodeSeq) {
-		int cnt = sqlSession.delete("Board.deleteBoard", boardCodeSeq);
-		return cnt;
-	}
-	
 	// 게시글 추천 삭제
 	public int deleteBoardThumbAll(int boardCodeSeq) {
 		int cnt = sqlSession.delete("Board.deleteBoardThumbAll", boardCodeSeq);
 		return cnt;
 	}
 	
-	// 댓글 조회
+	// 댓글 리스트 조회
 	public List<BoardComment> selectBoardCommentList(int boardCodeSeq){
 		List<BoardComment> boardComment = sqlSession.selectList("Board.selectBoardCommentList", boardCodeSeq);
 		return boardComment;
@@ -117,5 +123,24 @@ public class BoardDao {
 	public int insertBoardComment(BoardComment boardComment) {
 		int cnt = sqlSession.insert("Board.insertBoardComment", boardComment);
 		return cnt;
+	}
+	
+	// 댓글 삭제
+	public int deleteBoardComment(int commentCodeSeq) {
+		int cnt = sqlSession.delete("Board.deleteBoardComment", commentCodeSeq);
+		return cnt;
+	}
+	
+	// 댓글 변경
+	public int updateBoardComment(BoardComment boardComment) {
+		int cnt = sqlSession.update("Board.updateBoardComment", boardComment);
+		return cnt;
+	}
+	
+	
+	// 댓글 조회
+	public BoardComment selectComment(int commentCodeSeq) {
+		BoardComment boardComment = sqlSession.selectOne("Board.selectComment", commentCodeSeq);
+		return boardComment;
 	}
 }

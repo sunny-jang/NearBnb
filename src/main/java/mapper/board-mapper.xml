@@ -32,7 +32,7 @@
 <!-- 게시글 목록 조회 -->
 <select id="selectBoardList" parameterType="BoardPage" resultType="Board">
 <![CDATA[
-SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt
+SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt, DECODE(C.COMMENTCNT, NULL, 0, C.COMMENTCNT) AS commentCnt
 FROM (
     SELECT ROWNUM RNUM, 
         BOARD_CODE_SEQ as boardCodeSeq, 
@@ -49,10 +49,17 @@ FROM (
         BOARD_CODE_SEQ, 
         COUNT(*) AS THUMBSCNT
     FROM BOARD_THUMB
-    GROUP BY BOARD_CODE_SEQ) B
+    GROUP BY BOARD_CODE_SEQ) B,
+    (SELECT
+        BOARD_CODE_SEQ,
+        COUNT(*) AS COMMENTCNT
+    FROM BOARD_COMMENT
+    GROUP BY BOARD_CODE_SEQ) C
 WHERE 
 A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
-AND RNUM >= #{startPage} AND RNUM <= #{endPage}
+AND
+A.boardCodeSeq = C.BOARD_CODE_SEQ(+)
+AND RNUM > #{startPage} AND RNUM <= #{endPage}
 ORDER BY A.boardCodeSeq DESC
 ]]>
 </select>
@@ -74,8 +81,8 @@ ORDER BY A.boardCodeSeq DESC
 <!-- 베스트 게시글 5개 조회 -->
 <select id="selectBestList" resultType="Board">
 <![CDATA[
-SELECT ROWNUM, C.* FROM
-(SELECT  A.*, DECODE(B.thumbCnt, null, 0, B.thumbCnt) AS thumbsCnt
+SELECT ROWNUM, D.* FROM
+(SELECT  A.*, DECODE(B.thumbCnt, null, 0, B.thumbCnt) AS thumbsCnt, DECODE(C.commentCnt, NULL, 0, C.commentCnt) AS commentCnt
     FROM 
     (SELECT
         BOARD_CODE_SEQ as boardCodeSeq, 
@@ -86,23 +93,29 @@ SELECT ROWNUM, C.* FROM
         BOARD_DATE boardDate, 
         BOARD_COUNT boardCount
     FROM BOARD 
-    )A
-    LEFT OUTER JOIN
+    )A,
     (SELECT
         BOARD_CODE_SEQ,
         COUNT(*) AS THUMBCNT
         FROM BOARD_THUMB
         GROUP BY BOARD_CODE_SEQ
-        ) B
-    ON (boardCodeSeq = B.BOARD_CODE_SEQ)
-    ORDER BY thumbsCnt DESC) C
+        ) B,
+    (SELECT BOARD_CODE_SEQ,
+        COUNT(*) AS COMMENTCNT
+        FROM BOARD_COMMENT
+        GROUP BY BOARD_CODE_SEQ) C 
+    WHERE
+    A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
+    AND
+    A.boardCodeSeq = C.BOARD_CODE_SEQ(+)
+    ORDER BY thumbsCnt DESC) D
     WHERE ROWNUM <= 5
 ]]>
 </select>
 
 <!-- 게시글 검색 -->
 <select id="boardSearch" parameterType="hashmap" resultType="Board">
-SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt
+SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt, DECODE(C.COMMENTCNT, NULL, 0, C.COMMENTCNT) AS commentCnt
 FROM (
     SELECT ROWNUM RNUM, 
         BOARD_CODE_SEQ as boardCodeSeq, 
@@ -119,9 +132,16 @@ FROM (
         BOARD_CODE_SEQ, 
         COUNT(*) AS THUMBSCNT
     FROM BOARD_THUMB
-    GROUP BY BOARD_CODE_SEQ) B
+    GROUP BY BOARD_CODE_SEQ) B,
+    (SELECT
+        BOARD_CODE_SEQ,
+        COUNT(*) AS COMMENTCNT
+    FROM BOARD_COMMENT
+    GROUP BY BOARD_CODE_SEQ) C
 WHERE 
 A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
+AND
+A.boardCodeSeq = C.BOARD_CODE_SEQ(+)
 <choose>
 		<when test="boardType == '제목'">
 			AND A.boardTitle like '%'||#{boardContent}||'%'
@@ -136,7 +156,7 @@ ORDER BY A.boardCodeSeq DESC
 <!-- 게시글 분류 -->
 <select id="boardTypeSearch" parameterType="Board" resultType="Board">
 
-SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt
+SELECT A.*, DECODE(B.THUMBSCNT, NULL, 0, B.THUMBSCNT) AS thumbsCnt, DECODE(C.COMMENTCNT, NULL, 0, C.COMMENTCNT) AS commentCnt
 FROM (
     SELECT ROWNUM RNUM, 
         BOARD_CODE_SEQ as boardCodeSeq, 
@@ -153,9 +173,16 @@ FROM (
         BOARD_CODE_SEQ, 
         COUNT(*) AS THUMBSCNT
     FROM BOARD_THUMB
-    GROUP BY BOARD_CODE_SEQ) B
+    GROUP BY BOARD_CODE_SEQ) B,
+    (SELECT
+        BOARD_CODE_SEQ,
+        COUNT(*) AS COMMENTCNT
+    FROM BOARD_COMMENT
+    GROUP BY BOARD_CODE_SEQ) C
 WHERE 
 A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
+AND
+A.boardCodeSeq = C.BOARD_CODE_SEQ(+)
 	<choose>
 		<when test="boardType == '전체' or boardType == null">
 		</when>
@@ -167,15 +194,15 @@ ORDER BY A.boardCodeSeq DESC
 </select>
 
 
-<!-- 게시글 추천 개수 조회 -->
-<select id="boardThumbCount" parameterType="int" resultType="_int">
-	SELECT COUNT(*) cnt FROM BOARD_THUMB WHERE BOARD_CODE_SEQ = #{boardCodeSeq}
-</select>
-
 <!-- 게시글 상세 조회 -->
 <select id="selectBoardOne" parameterType="int" resultType="Board" resultMap="resultBoard">
 	SELECT * FROM BOARD WHERE BOARD_CODE_SEQ = #{boardCodeSeq}
 </select>
+
+<!-- 게시글 조회 수 증가 -->
+<update id="updateBoardCont" parameterType="int">
+	UPDATE BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_CODE_SEQ = #{boardCodeSeq}
+</update>
 
 <!-- 게시글 등록 -->
 <insert id="insertBoard"  parameterType="Board">
@@ -183,6 +210,22 @@ ORDER BY A.boardCodeSeq DESC
 		BOARD_SEQ.NEXTVAL, #{userId}, #{boardTitle}, #{boardContent},
 		#{boardType}, SYSDATE, 0)
 </insert>
+
+<!-- 게시글 수정 -->
+<update id="updateBoard" parameterType="Board">
+	UPDATE BOARD SET BOARD_TITLE=#{boardTitle}, BOARD_CONTENT=#{boardContent},
+		BOARD_TYPE=#{boardType} WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+</update>
+
+<!-- 게시글 삭제 -->
+<delete id="deleteBoard" parameterType="int">
+	DELETE FROM BOARD WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+</delete>
+
+<!-- 게시글 추천 개수 조회 -->
+<select id="boardThumbCount" parameterType="int" resultType="_int">
+	SELECT COUNT(*) cnt FROM BOARD_THUMB WHERE BOARD_CODE_SEQ = #{boardCodeSeq}
+</select>
 
 <!-- 게시글 추천 -->
 <insert id="insertBoardThumb" parameterType="BoardThumb">
@@ -201,25 +244,14 @@ ORDER BY A.boardCodeSeq DESC
 	SELECT * FROM BOARD_THUMB WHERE BOARD_CODE_SEQ=#{boardCodeSeq} AND USER_ID=#{userId}
 </select>
 
-<!-- 게시글 수정 -->
-<update id="updateBoard" parameterType="Board">
-	UPDATE BOARD SET BOARD_TITLE=#{boardTitle}, BOARD_CONTENT=#{boardContent},
-		BOARD_TYPE=#{boardType} WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
-</update>
-
-<!-- 게시글 삭제 -->
-<delete id="deleteBoard" parameterType="int">
-	DELETE FROM BOARD WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
-</delete>
-
 <!-- 게시글 추천 삭제 -->
 <delete id="deleteBoardThumbAll" parameterType="int">
 	DELETE FROM BOARD_THUMB WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
 </delete>
 
-<!-- 댓글 조회 -->
+<!-- 댓글 리스트 조회 -->
 <select id="selectBoardCommentList" parameterType="int" resultType="BoardComment" resultMap="resultBoardComment">
-	SELECT * FROM BOARD_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+	SELECT * FROM BOARD_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq} ORDER BY COMMENT_CODE_SEQ ASC
 </select>
 
 <!-- 해당 게시글 댓글 개수 조회 -->
@@ -231,5 +263,20 @@ ORDER BY A.boardCodeSeq DESC
 <insert id="insertBoardComment" parameterType="BoardComment">
 	INSERT INTO BOARD_COMMENT VALUES(COMMENT_SEQ.NEXTVAL, #{boardCodeSeq}, #{userId}, #{commentContent}, SYSDATE)
 </insert>
+
+<!-- 댓글 삭제 -->
+<delete id="deleteBoardComment" parameterType="BoardComment">
+	DELETE FROM BOARD_COMMENT WHERE COMMENT_CODE_SEQ=#{commentCodeSeq}
+</delete>
+
+<!-- 댓글 변경 -->
+<update id="updateBoardComment" parameterType="BoardComment">
+	UPDATE BOARD_COMMENT SET COMMENT_CONTENT=#{commentContent} WHERE COMMENT_CODE_SEQ=#{commentCodeSeq}
+</update>
+
+<!-- 댓글 조회 -->
+<select id="selectComment" parameterType="int" resultType="BoardComment" resultMap="resultBoardComment">
+	SELECT * FROM BOARD_COMMENT WHERE COMMENT_CODE_SEQ=#{commentCodeSeq}
+</select>
 
 </mapper>

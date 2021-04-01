@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,11 +63,10 @@ public class placeServiceImpl implements PlaceService {
 	}
 
 	@Override
-	public String kakaoPay(String itemName, String totalPrice) throws Exception {
-		System.out.println(itemName);
-		System.out.println(totalPrice);
+	public String kakaoPay(String placeName, String totalPrice) throws Exception {
+		String itemName = URLEncoder.encode(placeName, "UTF-8");
 		int price = Integer.parseInt(totalPrice);
-		int vat = price/10;
+		int vat = price/11;
 		URL address = new URL("https://kapi.kakao.com/v1/payment/ready"); // 주소
 		HttpURLConnection conn = (HttpURLConnection) address.openConnection(); // 요청하는 클라이언트와 요청을 받는 카카오페이 서버를 연결시켜주는 기능
 		conn.setRequestMethod("POST"); // 통신방식 : POST
@@ -77,9 +77,8 @@ public class placeServiceImpl implements PlaceService {
 		
 		// 파라미터 구간
 		String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&"
-				+ "partner_user_id=partner_user_id&item_name='울랄라의 테스트'&quantity=1&total_amount="+totalPrice+"&vat_amount="+vat+"&tax_free_amount=0&"
+				+ "partner_user_id=partner_user_id&item_name="+itemName+"&quantity=1&total_amount="+totalPrice+"&vat_amount="+vat+"&tax_free_amount=0&"
 				+ "approval_url=http://localhost:8181/nearbnb/kakaoPayComplete.do&fail_url=http://localhost:8181/nearbnb/index.do&cancel_url=http://localhost:8181/nearbnb/kakaoPayCancel.do";
-		System.out.println(param);
 		OutputStream ops = conn.getOutputStream(); // 파라미터를 실제로 서버로 전달하기 위한 역할, connection을 통해 뭔가를 줄 수 있게 됨.
 		DataOutputStream dops = new DataOutputStream(ops); // 데이터 주는 역할
 		dops.writeBytes(param); // 데이터를 줄 때 byte형태로 전달해야 하는데, byte로 형변환 하는 역할

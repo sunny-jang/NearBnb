@@ -42,4 +42,7 @@
 		  #{placeCloseDate}, #{placeDesc})
 	</insert>
 
+	<select id="selectPlaceName" resultType="String" parameterType="Integer">
+		SELECT PLACE_NAME FROM PLACE WHERE P_CODE_SEQ = #{placeId}
+	</select>
 </mapper>

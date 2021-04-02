@@ -17,8 +17,9 @@ public interface PlaceService {
 	public List<Place> selectPlaceById(String uId);
 
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint);
-
+	public String selectPlaceName(Integer pId);
+	
 	public String kakaoPay(String placeName, String totalPrice) throws Exception;
 
-
+	
 }

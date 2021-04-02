@@ -36,6 +36,10 @@ secetion{
 .boardTitle{
     width: 800px;
 }
+.Btitle:hover{
+	text-decoration:none;
+	color:lightgray;
+}
 .boardHeart{
     color: red;
 }
@@ -80,4 +84,53 @@ input:focus{
 	text-align: left;
 	color: tomato;
 	padding-left: 50px;
+}
+
+.myButton1 {
+	background-color:#f2eb6f;
+	border-radius:23px;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-size:14px;
+	font-weight:bold;
+	padding:4px 11px;
+	text-decoration:none;
+}
+.myButton1:hover {
+	text-decoration:none
+}
+.myButton1:active {
+	position:relative;
+	top:1px;
+	text-decoration:none
+}
+.myButton2 {
+	background-color:white;
+	border-radius:23px;
+	display:inline-block;
+	cursor:pointer;
+	color:black;
+	font-size:14px;
+	font-weight:bold;
+	padding:4px 11px;
+	text-decoration:none;
+}
+.myButton2:hover {
+	color:lightgray;
+	text-decoration:none
+	
+}
+.myButton2:active {
+	position:relative;
+	top:1px;
+	text-decoration:none;
+}
+.beforePage:hover{
+	text-decoration:none;
+	color:lightgray;
+}
+.afterPage:hover{
+	text-decoration:none;
+	color:lightgray;
 }

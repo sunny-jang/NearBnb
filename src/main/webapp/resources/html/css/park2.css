@@ -75,6 +75,12 @@
     margin-right: 180px;
     float: right;
 }
+.write4{
+	background-color:#FFBF00;
+    width: 80px;
+    height: 34px;
+    margin-left: 50px;
+}
 .toList{
     background-color:#FFBF00;
     width: 80px;
@@ -132,6 +138,18 @@ input:focus{
 	color : lightgray;
 	float:right;
 	border: none;
+}
+.insSubComment{
+	background-color: white;
+	color : lightgray;
+	float: right;
+	border: none;
+}
+.subCancle{
+	background-color: white;
+	color : lightgray;
+	border: none;
+	margin-left: 10px;
 }
 #thumb{
 	outline: none;

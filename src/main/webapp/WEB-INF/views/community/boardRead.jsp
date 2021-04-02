@@ -9,6 +9,7 @@
 // 댓글 수정
 function boardCommentUpdate(index){
 	$('.viewContent'+index.value).css("display", "none");
+	$('.subComment'+index.value).css("display", "none");
 	$('.hideContent'+index.value).css("display", "inline");
 	$('.reBtn'+index.value).on('click', function(){
 		var reCommentCode = $('#commentCodeSeq'+index.value).val();
@@ -48,8 +49,46 @@ function boardCommentUpdate(index){
 	
 }
 
-// 게시글 추천
+// 대댓글 달기
+function subCommentIns(index){
+	$('.subComment'+index.value).css("display", "inline");
+	$('.hideContent'+index.value).css("display", "none");
+	$('.viewContent'+index.value).css("display", "inline");
+	
+ 	$('.subBtn'+index.value).on('click', function(){
+ 		var subComment = [];
+		subComment.push($("#boardCodeSeq").val());
+		subComment.push("${sessionScope.userId}");
+		subComment.push($('#commentCodeSeq'+index.value).val());
+		subComment.push($(".subCommentContent"+index.value).val());
+
+		$.ajax({
+			url: 'subCommentInsert.do',
+			traditional : true,
+			data: {
+				'sub': subComment
+			},
+			type: 'POST',
+			success: function(data){
+				location.reload();
+			},
+			error: function(request, status, error){
+				alert("code : " + request.status + "\n"
+						+ "message : " + request.responseText + "\n"
+						+ "error : " + error);
+			}
+		});
+	});
+ 	
+ 	// 대댓글 취소
+	$('.subCancle').on('click', function(){
+		$('.subComment'+index.value).css("display", "none");
+	});
+
+}
+
 $(function(){
+	// 게시글 추천
 	$('#thumb').on('click', function(){
 		// alert($('#boardCodeSeq').val());
 		// alert("${userId}");
@@ -85,62 +124,6 @@ $(function(){
 			});
 		}
 	});
-	
-	//댓글달기
-	/* $('#commentIns').on('click', function(){
-		// Ajax로 폼 넘기기
-		var commentForm = $('#commentForm')[0];
-		var commentData = new FormData(commentForm);
-		$("#commentIns").prop("disabled", true);
-		if("${userId}" == ""){
-			alert('로그인이 필요한 서비스입니다.');
-			$(location).attr("href", "signIn.do");
-		}else {
-			$.ajax({
-				url : "boardCommentInsert.do",
-				enctype: 'multipart/form-data',
-				data: commentData,
-	            processData: false,
-	            contentType: false,
-	            cache: false,
-				data : commentData,
-				type : 'POST',
-				dataType : 'json',
-				success : function(data){
-					var data = JSON.stringify(data);
-					data = JSON.parse(data);
-					afterInsertComment(data);
-				},
-				error: function(request, status, error){
-					alert("code : " + request.status + "\n"
-							+ "message : " + request.responseText + "\n"
-							+ "error : " + error);
-				}
-			});
-		}
-	}); */
-	
-	//댓글 단 후 
-	/* function afterInsertComment(data){
-		var tableEle = $(".commentBoard");
-		$(".cmtTr").remove();
-		var trStr;
-		for(var i = 0; i <  data.commentListCnt ; i++ ){
-			trStr += '<tr class = "cmtTr">'
-					  + '<input type="hidden" name="commentCodeSeq" value="${bC.commentCodeSeq }">'
-	        	 	  + '<td style="height: 35px;">' + data.commentList[i].userId + '</td>'
-	        		  + '<td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3">'
-	        		  + '<input type="button" style="background-color: white; color : lightgray; float:right;" class="delComment" value="x">'
-	        		  + data.commentList[i].commentContent + '<br>'
-	          		  + '<p style="font-size: 11px; color: #BEBEBE;">'
-	        		  + data.commentList[i].commentDate
-	          		  + '</p>'
-	        		  + '</td>'
-	      		      + '</tr>';
-		}
-		tableEle.after(trStr);
-		$("#commentIns").prop("disabled", false);
-	} */
 	
 	// 게시글 수정
 	$('#rewrite').on('click', function(){
@@ -274,10 +257,9 @@ $(function(){
             <td style="height: 35px;" class="userId" id="commentId">
             ${bC.userId }
             </td>
-            <td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3" class="commentContent">
+            <td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3" class="commentContent${status.index }">
               <input type="hidden" name="commentCodeSeq" id="commentCodeSeq${status.index}" value="${bC.commentCodeSeq }">
               <input type="hidden" name="currentComment${status.index }" id="commentCodeSeq" value="${status.index }">
-              <%-- <input type="hidden" name="parentCommentCode" id="parentCommentCode" value="${bC.parentCommentCode }"> --%>
               <c:choose>
               	<c:when test="${sessionScope.userId eq bC.userId }">
 		            <a href="boardCommentDelete.do?commentCodeSeq=${bC.commentCodeSeq }&boardCodeSeq=${board.boardCodeSeq }"
@@ -285,18 +267,32 @@ $(function(){
 		              	 x
 		            </a>
               		<input type="button" class="updComment" value="∴" onclick="boardCommentUpdate(currentComment${status.index})">
+              		<input type="button" class="insSubComment" value="+" onclick="subCommentIns(currentComment${status.index})">
               	</c:when>
               	<c:otherwise>
+              		<input type="button" class="insSubComment" value="+" onclick="subCommentIns(currentComment${status.index})">
               	</c:otherwise>
               </c:choose>
-              <h5 class="viewContent${status.index}">${bC.commentContent }</h5>
+              <c:choose>
+              	<c:when test="${bC.parentCommentCode eq 0}">
+              		<h5 class="viewContent${status.index}">${bC.commentContent }</h5>
+              	</c:when>
+              	<c:when test="${bC.parentCommentCode ne 0}">
+              		<h5 class="viewContent${status.index}" style="margin-left: 20px;">└ ${bC.commentContent }</h5>
+              	</c:when>
+              </c:choose>
               <div style="display:none;" class="hideContent${status.index}">
               	<input type="button" class="write2 btn reBtn${status.index}" value="댓글 수정">
-              	<input type="text" value="${bC.commentContent }" style="width: 450px; height: 30px;" class="reContent${status.index}">
+              	<input type="text" value="${bC.commentContent }" class="reContent${status.index}" style="width: 450px; height: 30px;">
               </div>
               <p style="font-size: 11px; color: #BEBEBE;" class="commentDate">
               	<fmt:formatDate value="${bC.commentDate}" pattern="YYYY-MM-dd hh:mm" /> 
               </p>
+              <div style="display:none; margin-left: 20px;" class="subComment${status.index}">
+                <input type="text" class="subCommentContent${status.index}" style="width: 450px; height: 30px;">
+                <input type="button" class="write4 btn subBtn${status.index}" value="댓글 달기">
+                <input type="button" class="subCancle subCancle${status.index}" value="x">
+              </div>
 			</td>
 			</tr>
           </c:forEach>

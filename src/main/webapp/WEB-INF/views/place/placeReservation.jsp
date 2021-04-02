@@ -207,7 +207,7 @@
       <div class="row section-left">
         <!-- main-left -->
         <div class="col">
-	      <h2>날짜선택</h2>        
+	      <h2>날짜선택&nbsp;<span style="font-size: 16px;">원하는 날짜를 드래그 해주세요</span></h2>
           <div id='calendar' style='margin: 0px 0px 1em; font-size: 13px'></div>
           <h2>인원</h2>
           <select class="form-control" style="margin: 0px 0px 1em" id="selectGuest">
@@ -255,14 +255,14 @@
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>
-              <div class="content">￦ <fmt:formatNumber value="${place.placePrice}" /> × <span id="dateDiff">1</span>박 = ￦&nbsp;<span id="totalPrice"></span></div>
-            </div>            
+              <div class="content">￦ <fmt:formatNumber value="${place.placePrice}" /> × <span id="dateDiff">1</span>박 = ￦&nbsp;<span id="totalPrice"><fmt:formatNumber value="${place.placePrice}" /></span></div>
+            </div>
             <div class="d-flex justify-content-center align-self-center">
               <button type="button" class="btn btn-warning btn-lg btn-block" id="postBookInfo">결제하기</button>	
             </div>
           </div>        
         </div>
-      </div>      
+      </div>
     </div>
 </section>
 <%@ include file="../include/footer.jsp" %>

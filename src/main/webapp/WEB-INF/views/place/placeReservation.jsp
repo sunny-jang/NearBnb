@@ -68,6 +68,7 @@
 			        color: 'orange'
 			      };
 		    	
+		    	console.log(calendar.getEvents())
 		    	// 예약 날짜 체크
 		    	checkAvailableDate(calendar, event_);
 		    	
@@ -75,6 +76,7 @@
 		      eventLimit: true, // allow "more" link when too many events
 		      events: events,
 		      local:'ko',
+		      display: 'background'
 		    });
 		
 		init();
@@ -97,13 +99,30 @@
 	    	argS = date.getDateFormat(event_.start);
 	    	argE = date.getDateFormat(event_.end);
 
-	    	
+	    	let eventArray = [];
 	    	for(let i = 1;i<events.length;i++) {
-	    		if(new Date(argS)>= new Date(events[i].start) && new Date(argE) <= new Date(events[i].end)) {
-	    			alert("예약불가한 날짜입니다. 날짜 확인 후 다시 선택해 주세요.");
+	    		const es = new Date(events[i].start);
+	    		const ee = new Date(events[i].end);
+	    		console.log(i+"번째 이벤트 시작일 : " +es);
+	    		let a = new Date(es.setDate(es.getDate()+1));
+	    		console.log("이벤트 시작일 +1  day : " +a);
+	    		for(let j=0;j<date.getDateDiff(es, ee);j++) {
+	    			
+	    			//console.log(a);
+	    			//eventArray.push(new Date(es.setDate(es.getDate()+j)));
+	    		};
+	    	}
+	    	
+	    	/* console.log(eventArray);
+	    	for(let i=0; i<eventArray.length; i++) {
+	    		const ns = new Date(argS);
+	    		const ne = new Date(argE);
+	    		
+	    		if(ns==eventArray[i] || ne== eventArray[i]) {
+	    			alert("예약할 수 없는 날짜입니다. 다시 선택해주세요.");
 	    			return;
 	    		}
-	    	}
+	    	} */
 	    	
     		if(oDate <= argS && cDate >= argE) {
 	    		alert('예약날짜는 '+ argS +' ~ ' + argE +'입니다.\n체크아웃은 12pm 입니다.');

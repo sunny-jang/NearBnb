@@ -22,6 +22,24 @@
 	var cDate = $("#closeDate").text().substring(0,10);
 	var calendarEl = document.getElementById('calendar');
 	
+	// 예약가능날짜 셋업
+	async function getFullEvents() {
+		var events_ = await getEventList();
+		events_.unshift(
+			{
+		          title: '예약 가능 날짜',
+		          start: oDate,
+		          end: cDate,
+		        }
+		)
+		return events_
+	}
+    
+	// 인원수 체인지 함수
+    $("#selectGuest").on("change", function() {
+    	$("#selectedGuest").text($(this).val());    		
+    })
+	
 	
 	async function getEventList() {
 		var a = await fetch('bookList.do?pId=${place.placeId}').then(res=>res.json());
@@ -179,23 +197,7 @@
       });
 	})();
 	
-	// 예약가능날짜 셋업
-	async function getFullEvents() {
-		var events_ = await getEventList();
-		events_.unshift(
-			{
-		          title: '예약 가능 날짜',
-		          start: oDate,
-		          end: cDate,
-		        }
-		)
-		return events_
-	}
-    
-	// 인원수 체인지 함수
-    $("#selectGuest").on("change", function() {
-    	$("#selectedGuest").text($(this).val());    		
-    })
+	
 });
 </script>
 <section>

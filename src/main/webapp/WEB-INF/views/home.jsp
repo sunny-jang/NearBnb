@@ -41,6 +41,16 @@
        })()
  //instagramAPI   
 
+ function searchList(data){
+			for(var i=0; i<3; i++){
+			$('#list'+[i+1]).html(data.pointList[i].placeName);
+			listImg = "url(/nearbnb/resources/html/images/"+data.pointList[i].placeImage+")";
+			$("#listImg"+[i+1]).css("background-image", listImg); 
+			$("#plink"+[i+1]).attr("href", "placeDetail.do?pId="+data.pointList[i].placeId);
+			}
+		}
+		
+ 
       </script>
 <section>
 <div class="row">
@@ -51,11 +61,11 @@
     <div class="group-place">
       <div class="d-flex justify-content-between">
         <h2><span id="centerAddr"></span></h2><!-- 주소표시 -->
-        <a href="#">더보기 > </a>
+        <a href="placeList.do">더보기 > </a>
       </div>
       <div class="row">
         <div class="col place-item" >
-          <a href="#">
+          <a href="#" id="plink1">
             <div class="place-image" id ="listImg1">
            
             </div>
@@ -63,7 +73,7 @@
           </a>
         </div>
         <div class="col place-item">
-          <a href="#">
+          <a href="#" id="plink2">
             <div class="place-image"  id ="listImg2">
              
             </div>
@@ -71,7 +81,7 @@
           </a>
         </div>
         <div class="col place-item">
-          <a href="#">
+          <a href="#" id="plink3">
             <div class="place-image" id ="listImg3">
               
             </div>

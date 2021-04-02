@@ -115,16 +115,16 @@ public class MyPageController {
 		b.setuId(uId);
 		List<Book> bookList = bookService.selectBook(b);
 		List<String> thumbnail = new ArrayList<String>();
-		List<String> placeTitle = new ArrayList<String>(); 
+		List<Place> place = new ArrayList<Place>();
 		for(Book book : bookList) {
 			List<PlaceFile> files = placeFileService.selectFiles(Integer.parseInt(book.getpId()));
-			Place place = placeService.selectPlace(Integer.parseInt(book.getpId()));
+			Place p = placeService.selectPlaceForModal(Integer.parseInt(book.getpId()));
 			thumbnail.add(files.get(0).getFileChangedName());
-			placeTitle.add(place.getPlaceName());
+			place.add(p);
 		}
 		modelAndView.addObject("bList", bookList);
 		modelAndView.addObject("thumbnail", thumbnail);
-		modelAndView.addObject("pTitle", placeTitle);
+		modelAndView.addObject("pList", place);
 		modelAndView.setViewName("/myPage/myPageGuestCheck");
 		return modelAndView;
 	}

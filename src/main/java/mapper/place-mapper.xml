@@ -27,6 +27,10 @@
 		SELECT * FROM PLACE WHERE U_ID = #{uId}
 	</select>
 	
+	<select id="selectPlaceForModal" resultMap="resultPlace" parameterType="Integer">
+		SELECT PLACE_NAME, PLACE_ADDRESS, PLACE_ADDRESS_DETAIL, PLACE_INFO, USER_PHONE FROM PLACE WHERE P_CODE_SEQ = #{pId}
+	</select>
+	
 	<insert id="insertPlace" parameterType="Place">
 		<selectKey keyProperty="placeId" resultType="Integer" order="BEFORE">
 			select PLACE_SEQ.NEXTVAL from dual

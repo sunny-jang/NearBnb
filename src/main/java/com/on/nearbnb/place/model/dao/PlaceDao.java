@@ -26,6 +26,10 @@ public class PlaceDao {
 		return sqlSession.selectList("Place.selectPlaceById", uId);
 	}
 	
+	public Place selectPlaceForModal(Integer pId) {		
+		return sqlSession.selectOne("Place.selectPlaceForModal", pId);
+	}
+	
 	public String selectPlaceName(Integer pId) {
 		return sqlSession.selectOne("selectPlaceName",pId);
 	}

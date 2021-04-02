@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.on.nearbnb.board.model.dao.BoardDao;
+import com.on.nearbnb.board.model.dao.BoardFileDao;
 import com.on.nearbnb.board.model.vo.Board;
 import com.on.nearbnb.board.model.vo.BoardComment;
+import com.on.nearbnb.board.model.vo.BoardFile;
 import com.on.nearbnb.board.model.vo.BoardThumb;
 
 @Service
@@ -16,6 +18,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	private BoardDao boardDao;
+	
+	@Autowired
+	private BoardFileDao boardFileDao;
 	
 	// 게시판 목록 조회
 	@Override
@@ -59,7 +64,16 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.updateBoardCount(boardCodeSeq);
 	}
 	
-	// 게시글 등록
+	// 게시글 등록(with.파일)
+	@Override
+	public int insertBoardWith(Board board, BoardFile boardFile) {
+		boardDao.insertBoard(board);
+		
+		boardFileDao.insertBoardFile(boardFile, board.getBoardCodeSeq());
+		return 0;
+	}
+	
+	// 게시글 등록(without.파일)
 	@Override
 	public int insertBoard(Board board) {
 		return boardDao.insertBoard(board);
@@ -125,6 +139,12 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.insertBoardComment(boardComment);
 	}
 
+	// 댓글 일괄 삭제
+	@Override
+	public int deleteBoardCommentAll(int boardCodeSeq) {
+		return boardDao.deleteBoardCommentAll(boardCodeSeq);
+	}
+	
 	// 댓글 삭제
 	@Override
 	public int deleteBoardComment(int commentCodeSeq) {

@@ -25,6 +25,7 @@
 	<id property="commentCodeSeq" column="COMMENT_CODE_SEQ"/>
 	<result  property="boardCodeSeq" column="BOARD_CODE_SEQ" />
 	<result property="userId" column="USER_ID" />
+	<result property="parentCommentCode" column="PARENT_COMMENT_CODE" />
 	<result property="commentContent" column="COMMENT_CONTENT" />
 	<result property="commentDate" column="COMMENT_DATE" />
 </resultMap>
@@ -59,7 +60,7 @@ WHERE
 A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
 AND
 A.boardCodeSeq = C.BOARD_CODE_SEQ(+)
-AND RNUM > #{startPage} AND RNUM <= #{endPage}
+AND RNUM >= #{startPage} AND RNUM <= #{endPage}
 ORDER BY A.boardCodeSeq DESC
 ]]>
 </select>
@@ -206,8 +207,11 @@ ORDER BY A.boardCodeSeq DESC
 
 <!-- 게시글 등록 -->
 <insert id="insertBoard"  parameterType="Board">
+	<selectKey keyProperty="boardCodeSeq" resultType="int" order="BEFORE">
+		SELECT BOARD_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
 	INSERT INTO BOARD VALUES(
-		BOARD_SEQ.NEXTVAL, #{userId}, #{boardTitle}, #{boardContent},
+		#{boardCodeSeq}, #{userId}, #{boardTitle}, #{boardContent},
 		#{boardType}, SYSDATE, 0)
 </insert>
 
@@ -251,7 +255,13 @@ ORDER BY A.boardCodeSeq DESC
 
 <!-- 댓글 리스트 조회 -->
 <select id="selectBoardCommentList" parameterType="int" resultType="BoardComment" resultMap="resultBoardComment">
-	SELECT * FROM BOARD_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq} ORDER BY COMMENT_CODE_SEQ ASC
+	SELECT * FROM 
+	    (SELECT * 
+	        FROM STU_BOARD_COMMENT
+	        WHERE BOARD_CODE_SEQ = #{boardCodeSeq})
+	    START WITH PARENT_COMMENT_CODE = 0
+	    CONNECT BY PRIOR COMMENT_CODE_SEQ = PARENT_COMMENT_CODE
+	    ORDER SIBLINGS BY COMMENT_CODE_SEQ;
 </select>
 
 <!-- 해당 게시글 댓글 개수 조회 -->
@@ -261,8 +271,13 @@ ORDER BY A.boardCodeSeq DESC
 
 <!-- 댓글 작성 -->
 <insert id="insertBoardComment" parameterType="BoardComment">
-	INSERT INTO BOARD_COMMENT VALUES(COMMENT_SEQ.NEXTVAL, #{boardCodeSeq}, #{userId}, #{commentContent}, SYSDATE)
+	INSERT INTO BOARD_COMMENT VALUES(COMMENT_SEQ.NEXTVAL, #{boardCodeSeq}, #{userId}, #{parentCommentCode}, #{commentContent}, SYSDATE)
 </insert>
+
+<!-- 댓글 일괄 삭제 -->
+<delete id="deleteBoardCommentAll" parameterType="int">
+	DELETE FROM BOARD_COMMENT WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+</delete>
 
 <!-- 댓글 삭제 -->
 <delete id="deleteBoardComment" parameterType="BoardComment">

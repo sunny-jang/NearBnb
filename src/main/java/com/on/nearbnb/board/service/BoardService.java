@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.on.nearbnb.board.model.vo.Board;
 import com.on.nearbnb.board.model.vo.BoardComment;
+import com.on.nearbnb.board.model.vo.BoardFile;
 import com.on.nearbnb.board.model.vo.BoardThumb;
 
 public interface BoardService {
@@ -30,7 +31,10 @@ public interface BoardService {
 	// 게시글 조회 수 증가
 	public int updateBoardCount(int boardCodeSeq);
 	
-	// 게시글 등록
+	// 게시글 등록(with.파일)
+	public int insertBoardWith(Board board, BoardFile boardFile);
+	
+	// 게시글 등록(without.파일)
 	public int insertBoard(Board board);
 	
 	// 게시글 수정
@@ -62,6 +66,9 @@ public interface BoardService {
 	
 	// 댓글 작성
 	public int insertBoardComment(BoardComment boardComment);
+	
+	// 댓글 일괄 삭제
+	public int deleteBoardCommentAll(int boardCodeSeq);
 	
 	// 댓글 삭제
 	public int deleteBoardComment(int commentCodeSeq);

@@ -88,15 +88,15 @@
       <option value="제목">제목</option>
       <option value="작성자">작성자</option>
     </select>
-    <input type="text" id="boardSearch" name="boardSearch" style="margin-left: 10px; height: 20px;">
-    <input type="button"id="searchBtn" class="btn" style="font-size: 17px;" value="검색">
+    <input type="text" id="boardSearch" name="boardSearch">
+    <input type="button"id="searchBtn" class="btn" value="검색">
   </div>
 	<center>
 		<input type="hidden" name="userId" id="userId" value="${board.userId }" />
-		<table class="comT" style="font-size: 20px;">
+		<table class="comT">
 			<c:if test="${check ne null }">
 				<tr>
-					<th colspan="5" style="text-align: left; color: tomato; padding-left: 50px;">
+					<th colspan="5" id="searchResult">
 						"${check }" 의 검색 결과
 					</th>
 				</tr>
@@ -119,7 +119,7 @@
 			</c:if>
 		 	<c:if test="${boardListCount ne 0 }">
 		 		<c:forEach var="bestBoard" items="${bestList }">
-					<tr class="List" style="background-color: #FFFFAA; border-bottom: 1px solid rgb(251,248,167);">
+					<tr id="bestList">
 						<td>${bestBoard.boardType }</td>
 						<td>
 							<a href="boadSelectOneCon.do?boardCodeSeq=${bestBoard.boardCodeSeq }">${bestBoard.boardTitle }</a>
@@ -138,7 +138,7 @@
 					</tr>
 				</c:forEach>
 		 		<c:forEach var="board" items="${boardList }" varStatus="status">
-					<tr class="List" id="List" style="border-bottom: 1px solid rgb(251,248,167);">
+					<tr id="boardList">
 						<td>${board.boardType }</td>
 						<td>
 							<a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }">${board.boardTitle }</a>
@@ -195,6 +195,6 @@
 		</table>
 	</center>
 </div>
-<input type="button" class="btn write" id="boardWrite" style="background-color:#FFBF00; height: 34px;" onclick="location.href='boardWrite.do'" value="글쓰기" >
+<input type="button" class="btn write" id="boardWrite" onclick="location.href='boardWrite.do'" value="글쓰기" >
 </section>
 <%@ include file="../include/footer.jsp" %>

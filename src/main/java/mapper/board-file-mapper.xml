@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN:"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardFile">
+
+	<resultMap id="resultBoardFile" type="BoardFile">
+		<id property="bFileChangedName" column="BFILE_CHANGED_NAME"/>
+		<result property="boardCodeSeq" column="BOARD_CODE_SEQ"/>
+		<result property="bFileOriginalName" column="BFILE_ORIGINAL_NAME"/>
+		<result property="bFilePath" column="BFILE_PATH"/>
+	</resultMap>
+	
+	<!-- 파일 업로드 -->
+	<insert id="insertBoardFile" parameterType="BoardFile">
+		INSERT INTO BOARD_FILE VALUES(#{bFileChangedName}, #{boardCodeSeq}, #{bFileOriginalName}, #{bFilePath})
+	</insert>
+	
+	<!-- 해당 게시글 파일 조회 -->
+	<select id="selectBoardFile" parameterType="int" resultType="BoardFile" resultMap="resultBoardFile">
+		SELECT * FROM BOARD_FILE WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+	</select>
+	
+	<!-- 해당 게시글 파일 삭제 -->
+	<delete id="deleteBoardFile" parameterType="int">
+		DELETE FROM BOARD_FILE WHERE BOARD_CODE_SEQ=#{boardCodeSeq}
+	</delete>
+</mapper>

@@ -90,34 +90,6 @@ public class BoardAjaxController {
 		return fileName;
 	}
 	
-//	// 게시글 검색
-//	@RequestMapping(value = "boardAjaxSearch.do", method = RequestMethod.GET)
-//	public String searchBoard(
-//			@RequestParam(name = "boardSearchType", defaultValue = "전체") String type,
-//			@RequestParam(name = "boardSearch", required = true) String content,
-//			ModelAndView modelAndView) {
-//		String boardType = type;
-//		String boardContent = content;
-//		
-//		JSONObject jsonData = new JSONObject();
-//		JSONArray jsonArray = new JSONArray();
-//		try {
-//			HashMap<String, Object> searchMap = new HashMap<String, Object>();
-//			searchMap.put("boardType", boardType);
-//			searchMap.put("boardContent", boardContent);
-//			
-//			List<Board> bList = new ArrayList<Board>();
-//			bList = boardService.searchBoard(searchMap);
-//			jsonData.put("boardList", bList);
-//
-//			return jsonData.toJSONString();
-//		}catch(Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-//
-//		return jsonData.toJSONString();
-//	}
-	
 	// 게시글 분류
 	@RequestMapping(value = "boardAjaxType.do", method = RequestMethod.GET)
 	@ResponseBody
@@ -175,53 +147,20 @@ public class BoardAjaxController {
 		modelAndView.setViewName("redirect:/board.do");
 		return modelAndView;
 	}
-	
-//	// 댓글 작성
-//	@RequestMapping(value = "boardCommentInsert.do", method = RequestMethod.POST)
-//	@ResponseBody
-//	public String boardCommentInsert(BoardComment boardComment, HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-//		HttpSession session = request.getSession();
-//		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
-//		
-//		boardComment.setUserId(userId);
-//		JSONObject jsonData = new JSONObject();
-//		
-//		JSONArray jsonArray = new JSONArray();
-//		if(!userId.equals("noOne")){
-//			try {
-//				response.setCharacterEncoding("UTF-8");
-//				request.setCharacterEncoding("UTF-8");
-//				// 댓글 등록
-//				boardService.insertBoardComment(boardComment);
-//				// 댓글 개수 가져오기
-//				int boardCommentCnt = boardService.selectBoardCommentCount(boardComment.getBoardCodeSeq());
-//				// 댓글 가져오기
-//				List<BoardComment> boardCommentList = new ArrayList<BoardComment>();
-//				boardCommentList = boardService.selectBoardCommentList(boardComment.getBoardCodeSeq());
-//				jsonData.put("commentListCnt",boardCommentCnt);
-//
-//				// 날짜 형식용
-//				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-//				
-//				for(int i = 0; i < boardCommentCnt; i++) {
-//					JSONObject jsonData2 = new JSONObject();
-//					jsonData2.put("userId", boardCommentList.get(i).getUserId());
-//					jsonData2.put("commentContent", boardCommentList.get(i).getCommentContent());
-//					String ftDate = ft.format(boardCommentList.get(i).getCommentDate());
-//					jsonData2.put("commentDate",ftDate);
-//					jsonArray.add(jsonData2);
-//				}
-//
-//				jsonData.put("commentList", jsonArray);
-//
-//				return jsonData.toJSONString();
-//			}catch(Exception e) {
-//				System.out.println(e.getMessage());
-//			}
-//		}
-//		return jsonData.toJSONString();
-//	}
 
+	// 대댓글 달기
+	@RequestMapping(value = "subCommentInsert.do", method = RequestMethod.POST)
+	public void subCommentInsert(String[] sub, HttpServletResponse response) {
+		response.setCharacterEncoding("UTF-8");
+		BoardComment boardComment = new BoardComment();
+		boardComment.setBoardCodeSeq(Integer.parseInt(sub[0]));
+		boardComment.setUserId(sub[1]);
+		boardComment.setParentCommentCode(Integer.parseInt(sub[2]));
+		boardComment.setCommentContent(sub[3]);
+		
+		boardService.insertBoardComment(boardComment);
+	}
+	
 	// 댓글 수정
 	@RequestMapping(value = "boardCommentAjaxUpdate.do", method = RequestMethod.POST)
 	public void boardCommentUpdate(BoardComment boardComment,int reCode, String reContent,HttpServletResponse response) throws Exception {
@@ -241,4 +180,5 @@ public class BoardAjaxController {
 		}
 		response.getWriter().append(jsonData.toJSONString());
 	}
+
 }

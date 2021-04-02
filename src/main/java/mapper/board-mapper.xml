@@ -257,11 +257,11 @@ ORDER BY A.boardCodeSeq DESC
 <select id="selectBoardCommentList" parameterType="int" resultType="BoardComment" resultMap="resultBoardComment">
 	SELECT * FROM 
 	    (SELECT * 
-	        FROM STU_BOARD_COMMENT
+	        FROM BOARD_COMMENT
 	        WHERE BOARD_CODE_SEQ = #{boardCodeSeq})
 	    START WITH PARENT_COMMENT_CODE = 0
 	    CONNECT BY PRIOR COMMENT_CODE_SEQ = PARENT_COMMENT_CODE
-	    ORDER SIBLINGS BY COMMENT_CODE_SEQ;
+	    ORDER SIBLINGS BY COMMENT_CODE_SEQ
 </select>
 
 <!-- 해당 게시글 댓글 개수 조회 -->

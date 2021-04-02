@@ -41,6 +41,7 @@
             </a>
           </div>
         </div>
+        <br>
 	</c:forEach>
       <!--/place-list-->
       <hr>

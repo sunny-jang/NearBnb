@@ -4,7 +4,6 @@
 <script>
 $(function(){
 	var object = JSON.parse(localStorage.bookInfo);
-	console.log(object);
 	var placeName = '<c:out value="${place.placeName}" />';	
 	var totalPrice = (object.totalPrice).replace(',', '');
 	
@@ -19,9 +18,10 @@ $(function(){
 		type : 'POST',
 		dataType : 'json',
 		success : function(data){
-			localStorage.clear();
-		}, error : function(error) {
-			alert(error);
+			console.log(decodeURIComponent(data.ok));
+			localStroage.clear();
+		}, error : function(request, status, errorData) {
+			alert('error code : '+request.status + '\n' + 'message : '+request.responseText+'\n'+'error : '+errorData);
 		}		
 	});
 });

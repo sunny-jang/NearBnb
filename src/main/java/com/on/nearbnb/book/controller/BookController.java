@@ -1,13 +1,16 @@
 package com.on.nearbnb.book.controller;
 
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.book.model.vo.Book;
@@ -33,16 +36,18 @@ public class BookController {
 	}
 	
 	@RequestMapping(value="registerBook.do", method=RequestMethod.POST)
-	public void insertBook(Book book, HttpServletResponse response) throws Exception {
-		PrintWriter out = response.getWriter();
+	@ResponseBody
+	public String insertBook(Book book, HttpServletResponse response) throws Exception {
+		response.setContentType("application/json; charset=utf-8");		
+		JSONObject sendJson = new JSONObject();
 		System.out.println(book);
 		int cnt = bookService.insertBook(book);		
 		if(cnt == 1) {
-			out.append("ok");
-			out.flush();
+			sendJson.put("ok", URLEncoder.encode("성공", "utf-8"));
+			return sendJson.toJSONString();
 		} else {
-			out.append("fail");
-			out.flush();
+			sendJson.put("fail", URLEncoder.encode("실패", "utf-8"));
+			return sendJson.toJSONString();
 		}
 	}
 }

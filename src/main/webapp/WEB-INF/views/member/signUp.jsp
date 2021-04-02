@@ -177,7 +177,7 @@
                             <input type="text" style="width: 350px;" id="userId" name="userId" placeholder=" 8~12자의 영문 대소문자와 숫자" class="p-2">
                         </td>
                         <td>
-                            <input type="button" id="checkId" class="btn1" value="중복확인" >
+                            <input type="button" id="checkId" class="btn btn-secondary" value="중복확인" >
                         </td>
                     </tr>
                     <tr id="alertId">
@@ -232,7 +232,7 @@
                             <input type="email" style="width: 350px;" id="userEmail" name="userEmail" placeholder=" 이메일@이메일주소.com" class="p-2">
                         </td>
                         <td>
-                            <input type="button" class="btn1" id="authButton" value="이메일 인증" disabled="true">
+                            <input type="button" class="btn btn-primary" id="authButton" value="이메일 인증" disabled="true">
                         </td>
                     </tr>
                     <tr id="alertEmail">
@@ -244,7 +244,7 @@
                             <input type="text" style="width: 350px;" id="authNum" placeholder=" 인증번호" class="p-2">
                         </td>
                         <td>
-                            <input type="button" class="btn1" id="checkAuthNum" value="인증번호 확인">
+                            <input type="button" class="btn btn-secondary" id="checkAuthNum" value="인증번호 확인">
                         </td>
                     </tr>
                     <tr id="alertAuth">

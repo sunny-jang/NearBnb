@@ -68,7 +68,7 @@
 					searchList(data);
 				}
 			});
-		}
+		} 
 		
 		function searchList(data){
 			for(var i=1; i<=3; i++){

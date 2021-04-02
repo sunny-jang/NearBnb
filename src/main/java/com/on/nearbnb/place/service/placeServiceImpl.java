@@ -98,14 +98,20 @@ public class placeServiceImpl implements PlaceService {
 		BufferedReader br = new BufferedReader(isr); // 서버의 응답은 byte형식으로 오는데 이를 형변환 하는 역할. 사실 BufferedReader는 형변환 하는 역할은 아니지만 형변환 할 줄 암.
 		return br.readLine(); // 문자열로 형변환. 동시에 비워지게 됨.
 	}	
-	
+	//main
 	@Override
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint){
 		return pPointDao.searchPlacePoint(searchpoint);
 	}
 
 	@Override
+	public String selectPlaceName(Integer pId) {		
+		return pDao.selectPlaceName(pId);
+	}
+
+	@Override
 	public PlacePoint searchPlacePointOne(Integer pId) {
 		return pPointDao.searchPlacePointOne(pId);
+
 	}
 }

@@ -61,13 +61,20 @@
 					console.log("success");
 					console.log(data);
 					
-					var data = JSON.parse(data);				
-					//console.log(data.pointList[0].placeId);
-					
+				 data = JSON.parse(data);				
 					searchPoint(data);
+					console.log("1번째 이름 :"+data.pointList[1].placeName);
+					console.log("1번째 이미지:"+data.pointList[1].placeImage);
+					searchList(data);
 				}
 			});
 		}
+		function searchList(data){
+			for(var i=1; i<=3; i++){
+			$('#list'+[i]).html(data.pointList[i].placeName);				
+			}
+		}
+		
 		
 		 //마커생성
 		function searchPoint(data){

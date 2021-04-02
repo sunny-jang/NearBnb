@@ -23,4 +23,7 @@
 		SELECT * FROM PLACE_IMGFILE WHERE P_CODE_SEQ = #{pId}
 	</select>
 	
+	<select id="selectOneFiles" parameterType="Integer" resultType="String">
+		   SELECT KEY FROM PLACE_IMGFILE WHERE P_CODE_SEQ= #{pId} AND ROWNUM=1
+	</select>
 </mapper>

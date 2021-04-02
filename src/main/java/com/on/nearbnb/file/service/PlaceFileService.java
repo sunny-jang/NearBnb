@@ -11,4 +11,6 @@ public interface PlaceFileService {
 	public int insertPlaceFile(List<PlaceFile> placeFile, Integer placeId);
 
 	public List<PlaceFile> selectFiles(Integer pId);
+	
+	public String selectOneFiles(Integer pId);
 }

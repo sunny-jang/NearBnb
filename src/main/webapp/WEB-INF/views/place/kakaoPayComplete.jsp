@@ -5,12 +5,21 @@
 $(function(){
 	var object = JSON.parse(localStorage.bookInfo);
 	console.log(object);
+	var placeName = '<c:out value="${place.placeName}" />';	
+	var totalPrice = (object.totalPrice).replace(',', '');
+	
 	$.ajax({
 		url : 'registerBook.do',
-		data : {'book' : object},
+		data : {'uId' : object.uId,
+				'pId' : object.pId,
+				'bookCheckIn' : object.bookCheckIn,
+				'bookCheckOut' : object.bookCheckOut,
+				'bookPerson' : object.bookPerson, 
+				'bookPayPrice' : totalPrice},
+		type : 'POST',
 		dataType : 'json',
 		success : function(data){
-			alert(data);
+			localStorage.clear();
 		}, error : function(error) {
 			alert(error);
 		}		

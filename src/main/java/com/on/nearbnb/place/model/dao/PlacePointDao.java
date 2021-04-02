@@ -25,6 +25,9 @@ public class PlacePointDao {
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint) {
 		return sqlSession.selectList("searchPlacePoint",searchpoint);
 	}
-	
+
+	public PlacePoint searchPlacePointOne(Integer pId) {
+		return sqlSession.selectOne("searchPlacePointOne",pId);
+	}
 	
 }

@@ -5,19 +5,6 @@
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <%@ include file="../include/header.jsp" %>
 <link href="${context}/html/css/park2.css" rel="stylesheet">
-<style>
-.delComment{
-background-color: white;
-color : lightgray;
-float:right;"
-}
-.updComment{
-background-color: white;
-color : lightgray;
-float:right;
-border: none;
-}
-</style>
 <script>
 // 댓글 수정
 function boardCommentUpdate(index){
@@ -48,6 +35,17 @@ function boardCommentUpdate(index){
 			}
 		});
 	});
+	
+	// 댓글 삭제
+	$('.delComment'+index.value).on('click', function(){
+		if("${userId}" == ""){
+			alert('로그인이 필요한 서비스입니다.');
+			$(location).attr("href", "signIn.do");
+		}else if($('#commentId').val() != "${sessionScope.userId}"){
+			alert('삭제 권한이 없습니다.');
+		}
+	});
+	
 }
 
 // 게시글 추천
@@ -151,17 +149,21 @@ $(function(){
 			$(location).attr("href", "signIn.do");
 		}else if($('#userId').val() != "${sessionScope.userId}"){
 			alert('수정 권한이 없습니다.');
+		}else{
+			document.location.href = 'boardUpdateProCon.do?boardCodeSeq=' + ${board.boardCodeSeq };
 		}
 	});
 	
 	// 게시글 삭제
 	$('#delete').on('click', function(){
-		
+		var result = confirm('정말 삭제 하시겠습니까?');
 		if("${userId}" == ""){
 			alert('로그인이 필요한 서비스입니다.');
 			$(location).attr("href", "signIn.do");
 		}else if($('#userId').val() != "${sessionScope.userId}"){
 			alert('삭제 권한이 없습니다.');
+		}else if(result){
+			document.location.href = 'boardDeleteCon.do?boardCodeSeq=' + ${board.boardCodeSeq };
 		}
 	});
 	
@@ -173,15 +175,6 @@ $(function(){
 		}
 	});
 	
-	// 댓글 삭제
-	$('.delComment').on('click', function(){
-		if("${userId}" == ""){
-			alert('로그인이 필요한 서비스입니다.');
-			$(location).attr("href", "signIn.do");
-		}else if($('#commentId').val() != "${sessionScope.userId}"){
-			alert('삭제 권한이 없습니다.');
-		}
-	});
 });
 </script>
 <section>
@@ -196,18 +189,18 @@ $(function(){
         <tr>
             <td style="width: 150px;">제목</td>
             <td style="width: 800px; height: 50px;">
-                <div class="title" style="margin-top: 30px; text-align: left;"><h2>${board.boardTitle }</h2></div>
+                <div class="title"><h2>${board.boardTitle }</h2></div>
             </td>
             <td style="width: 100px;">
               <c:choose>
                 <c:when test="${heart eq 'unSignIn' }">
-              	  <button type="button" class="heart" id="thumb"  style="outline: none;">♡</button>
+              	  <button type="button" class="heart" id="thumb">♡</button>
               	</c:when>
               	<c:when test="${heart eq 'notThumbsUp' }">
-              	  <button type="button" class="heart" id="thumb"  style="outline: none;">♡</button>
+              	  <button type="button" class="heart" id="thumb">♡</button>
               	</c:when>
               	<c:otherwise>
-              	  <button type="button" class="heart" id="thumb" style="outline: none;">♥</button>
+              	  <button type="button" class="heart" id="thumb">♥</button>
               	</c:otherwise>
               </c:choose>
               <h2 style="display: inline;" id="maxThumb">${thumbs }</h2>
@@ -235,9 +228,22 @@ $(function(){
             <td style="width: 80px;">
                 첨부파일
             </td>
-            <td colspan="3" style="text-align: left;">
-                <input type="file" style="margin-left: 5px;">
-            </td>
+            <c:choose>
+            	<c:when test="${boardFile.boardCodeSeq eq null}">
+            		<td colspan="3">
+            			<h5>등록된 파일이 없습니다.</h5>
+            		</td>
+            	</c:when>
+            	<c:when test="${boardFile.boardCodeSeq ne null }">
+	            	<td colspan="3" style="text-align: left;">
+		   				<a href="boardFileDownload.do?boardCodeSeq=${boardFile.boardCodeSeq }" id="fileDownload" style="margin-left: 20px;">
+            				<i class="fas fa-file" id="fileAfter"></i>
+                			<label for="files" id="fileLabel">${boardFile.bFileOriginalName }</label>
+                			<input type="text" class="opacity-0" id="files" readonly>
+                		</a>
+		            </td>
+            	</c:when>
+            </c:choose>
         </tr>
         <tr>
             <td style="height: 472px;">
@@ -271,14 +277,13 @@ $(function(){
             <td style="text-align: left; padding-left: 30px; padding-top: 10px;" colspan="3" class="commentContent">
               <input type="hidden" name="commentCodeSeq" id="commentCodeSeq${status.index}" value="${bC.commentCodeSeq }">
               <input type="hidden" name="currentComment${status.index }" id="commentCodeSeq" value="${status.index }">
+              <%-- <input type="hidden" name="parentCommentCode" id="parentCommentCode" value="${bC.parentCommentCode }"> --%>
               <c:choose>
               	<c:when test="${sessionScope.userId eq bC.userId }">
-              	
 		            <a href="boardCommentDelete.do?commentCodeSeq=${bC.commentCodeSeq }&boardCodeSeq=${board.boardCodeSeq }"
-		              	 class="delComment" onclick="return confirm('정말 삭제 하시겠습니까?')">
+		              	 class="delComment${status.index }" id="delComment" onclick="return confirm('정말 삭제 하시겠습니까?')">
 		              	 x
 		            </a>
-		            
               		<input type="button" class="updComment" value="∴" onclick="boardCommentUpdate(currentComment${status.index})">
               	</c:when>
               	<c:otherwise>
@@ -292,8 +297,8 @@ $(function(){
               <p style="font-size: 11px; color: #BEBEBE;" class="commentDate">
               	<fmt:formatDate value="${bC.commentDate}" pattern="YYYY-MM-dd hh:mm" /> 
               </p>
-            </td>
-          </tr>
+			</td>
+			</tr>
           </c:forEach>
         </c:if>
         <tr>
@@ -308,8 +313,8 @@ $(function(){
       </form>
   <div>
       <input type="button" class="btn toList" onclick="location.href='board.do'" value="목록">
-      <input type="button" id="delete" class="write1 btn" onclick="boardDeleteCon.do?boardCodeSeq=${board.boardCodeSeq }"  value="삭제">
-      <input type="button" class="write2 btn" id="rewrite" onclick="location.href='boardUpdateProCon.do?boardCodeSeq=${board.boardCodeSeq }'" value="수정">
+      <input type="button" id="delete" class="write1 btn" value="삭제">
+      <input type="button" class="write2 btn" id="rewrite" value="수정">
   </div>
 </center>
 </div>

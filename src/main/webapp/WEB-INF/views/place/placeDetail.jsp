@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c94691936a8b9eaab5061c790ac82c96&libraries=services,clusterer,drawing"></script>
+<c:set var="context" value="${pageContext.request.contextPath}" />
+<script src="${context}/resources/html/js/kakaoMap.js"></script>
+
  <c:set var="context" value="${pageContext.request.contextPath}/resources" />
 <script>
 	$(function() {
@@ -41,8 +46,9 @@
             
           </div>
           <div class="show-map mt-3 justify-content-center row">
-            <a href="https://map.kakao.com/?urlX=496065&urlY=1129583&urlLevel=3&map_type=TYPE_MAP&map_hybrid=false"
-             target="_blank"><img width="500" height="500" src="https://map2.daum.net/map/mapservice?FORMAT=PNG&SCALE=2.5&MX=496065&MY=1129583&S=0&IW=504&IH=310&LANG=0&COORDSTM=WCONGNAMUL&logo=kakao_logo" style="border:1px solid #ccc"></a><div class="hide" style="overflow:hidden;padding:7px 11px;border:1px solid #dfdfdf;border-color:rgba(0,0,0,.1);border-radius:0 0 2px 2px;background-color:#f9f9f9;width:482px;"><strong style="float: left;"><img src="//t1.daumcdn.net/localimg/localimages/07/2018/pc/common/logo_kakaomap.png" width="72" height="16" alt="카카오맵"></strong><div style="float: right;position:relative"><a style="font-size:12px;text-decoration:none;float:left;height:15px;padding-top:1px;line-height:15px;color:#000" target="_blank" href="https://map.kakao.com/?urlX=496065&urlY=1129583&urlLevel=3&map_type=TYPE_MAP&map_hybrid=false">지도 크게 보기</a></div></div>
+          	<input type="hidden" name="latitude" value="${pp.latitude}" />
+          	<input type="hidden" name="longitude" value="${pp.longitude}" />
+          	<div id="map" style="width:500px;height:400px;"></div>
           </div>
         </div>
         <!-- main-right -->
@@ -58,7 +64,7 @@
               <div class="content">${place.placeAddress} ${place.placeAddressDetail} </div>
             </div>
             <div class="d-flex justify-content-start align-self-center">
-              <i class='fas fa-user-friends icon'></i>&nbsp;
+              <i class='fas fa-user-friends icon'></i>&nbsp; 
               <div class="content">${place.maxGuest} 명</div>
             </div>
             <div class="d-flex justify-content-start align-self-center">
@@ -73,6 +79,18 @@
               <i class='fas fa-phone icon'></i>&nbsp;
               <div class="content">${place.hostPhone}</div>
             </div>
+            <c:if test="${not empty place.placeKakaoLink}">
+            <div class="d-flex justify-content-start align-self-center">
+              <i class='fas fa-link icon'></i>&nbsp;
+              <div class="content">${place.placeKakaoLink}</div>
+            </div>
+            </c:if>
+            <div class="d-flex justify-content-start align-self-center">
+              <i class='fas fa-calendar icon'></i>&nbsp;
+              <div class="content">
+              ${fn:substring(place.placeOpenDate,0,10)} ~ ${fn:substring(place.placeCloseDate,0,10)}
+              </div>
+            </div>
             <div class="d-flex justify-content-start align-self-center">
               <div id="detail" class="content">${place.placeDesc}</div>
             </div>
@@ -80,7 +98,7 @@
               <div id="like">♥ ${place.placeThumb}</div>
             </div>
             <div class="d-flex justify-content-center align-self-center">
-              <button type="button" class="btn btn-warning btn-lg btn-block">예약하기</button>	
+              <button type="button" class="btn btn-warning btn-lg btn-block" onClick="location.href='placeReservation.do?pId=${place.placeId}'">예약하기</button>	
             </div>
           </div>        
         </div>

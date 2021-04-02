@@ -7,17 +7,55 @@
 
 <!-- SmartEditor2 라이브러리 --> 
 <script type="text/javascript" src="${context}/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+
+<script>
+	$(function(){
+		$('#fileUpload').on('change', function(){
+			var boardForm = $('#frm')[0];
+			var formData = new FormData();
+			var file = $('#files')[0].files[0];
+
+			formData.append("file", file);
+			
+			$.ajax({
+				url : 'boardAjaxFileInsert.do',
+				method : 'POST',
+				data : formData,
+				processData : false,
+				contentType : false,
+				success : function(data){
+					var subData = data.substring(13, data.legnth);
+					$('#fileLabel').html(subData);
+					$('#fileBefore').css('display', 'none');
+					$('#fileAfter').css('display', 'inline');
+					
+					var i = document.createElement("input");
+					i.setAttribute("type","hidden");
+					i.setAttribute("name","changedFile");
+					i.setAttribute("value",data);
+					$("#frm").append(i);
+				},
+				error: function(request, status, error){
+					alert("code : " + request.status + "\n"
+							+ "message : " + request.responseText + "\n"
+							+ "error : " + error);
+				}
+			});
+		});
+		
+	});
+</script>
 <section>
 <div class="total">
   <h2>커뮤니티</h2>
   <hr>
   <center style="font-size: 23px;">
-    <form class="center" action="boardWriteCon.do" method="post" id="frm">
+    <form class="center" action="boardWriteCon.do" enctype="multipart/form-data" method="post" id="frm">
       <table>
         <tr>
             <td style="width: 300px;">제목</td>
             <td style="width: 900px; height: 50px;">
-                <h2><input type="text" class="title" style="margin-top: 20px;" placeholder=" 제목" name="boardTitle" id="boardTitle"></h2>
+                <h2><input type="text" class="title" placeholder=" 제목" name="boardTitle" id="boardTitle"></h2>
             </td>
             <td style="border-left: 1px solid #ccc; padding: 10px;">
                 <select style="border: none;" name="boardType" id="boardType">
@@ -33,7 +71,12 @@
                 첨부파일
             </td>
             <td colspan="2" style="text-align: left;">
-                <input type="file" style="margin-left: 5px;">
+            	<a href="#" id="fileUpload" style="margin-left: 20px;">
+            		<i class="far fa-file" id="fileBefore"></i>
+            		<i class="fas fa-file" id="fileAfter" style="display: none;"></i>
+                	<label for="files" id="fileLabel">파일</label>
+                	<input type="file" class="opacity-0" id="files">
+                </a>
             </td>
         </tr>
         <tr>
@@ -41,7 +84,7 @@
                 글 내용
             </td>
             <td colspan="2">
-                <textarea name="boardContent" id="smartEditor" style="width: 100%; height: 430px;"></textarea>
+                <textarea name="boardContent" id="smartEditor"></textarea>
             </td>
         </tr>
       </table>

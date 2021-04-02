@@ -1,5 +1,6 @@
 package com.on.nearbnb.board.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.board.model.vo.Board;
@@ -56,6 +59,35 @@ public class BoardAjaxController {
 
 		jsonData.put("maxThumb",thumbs);
 		response.getWriter().append(jsonData.toJSONString());
+	}
+	
+	// 게시글 파일 추가
+	@RequestMapping(value = "boardAjaxFileInsert.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String addBoardFile(MultipartHttpServletRequest files, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("application/x-json; charset=UTF-8");
+		
+		MultipartFile file = files.getFile("file");
+
+		// 업로드 시간 + 파일 명
+		String fileName = new java.util.Date().getTime() + file.getOriginalFilename();
+		System.out.println(fileName);
+		
+		// 파일 업로드 될 경로
+		String path = request.getSession().getServletContext().getRealPath("resources") + "\\html\\images\\";
+		File folder = new File(path + fileName);
+		
+		// 파일 저장
+		try {
+			System.out.println("파일 경로 : " + folder);
+			
+			file.transferTo(folder);
+			System.out.println(fileName + "전송이 완료되었습니다.");
+		}catch(Exception e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+		}
+		
+		return fileName;
 	}
 	
 //	// 게시글 검색

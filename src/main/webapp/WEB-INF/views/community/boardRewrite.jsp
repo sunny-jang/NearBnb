@@ -8,18 +8,6 @@
 <!-- SmartEditor2 라이브러리 --> 
 <script type="text/javascript" src="${context}/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
-<script>
-	$(function(){
-		$('#frm').on('submit', function(){
-			var boardType = $('#boardType').val();
-			if(boardType == '종류'){
-				alert('게시글의 종류를 선택해주세요.');
-			}else{
-				return true;
-			}
-		});
-	});
-</script>
 <section style="height: 100vh;">
 <div class="total">
   <h2>커뮤니티</h2>
@@ -61,16 +49,29 @@
             <td style="width: 80px;">
                 첨부파일
             </td>
-            <td colspan="2" style="text-align: left;">
-                <input type="file" style="margin-left: 5px;">
-            </td>
+            <c:choose>
+            	<c:when test="${boardFile.boardCodeSeq eq null}">
+            		<td colspan="3">
+            			<h5>등록된 파일이 없습니다.</h5>
+            		</td>
+            	</c:when>
+            	<c:when test="${boardFile.boardCodeSeq ne null }">
+	            	<td colspan="3" style="text-align: left;">
+		   				<a href="#" id="fileDownload" style="margin-left: 20px; text-decoration: none;">
+            				<i class="fas fa-file" id="fileAfter" style="font-size: 25px;"></i>
+                			<label for="files" id="fileLabel">${boardFile.bFileOriginalName }</label>
+                			<input type="text" class="opacity-0" id="files" readonly>
+                		</a>
+		            </td>
+            	</c:when>
+            </c:choose>
         </tr>
         <tr>
             <td>
                 글 내용
             </td>
             <td colspan="2">
-                <textarea id="smartEditor" name="boardContent" style="width: 100%; height: 412px;">${board.boardContent }</textarea>
+                <textarea id="smartEditor" name="boardContent">${board.boardContent }</textarea>
                 <input type="hidden" name="boardCodeSeq" value="${board.boardCodeSeq }" />
             </td>
         </tr>

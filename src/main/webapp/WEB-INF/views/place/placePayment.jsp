@@ -8,7 +8,8 @@ $(function(){
 
 	var object = JSON.parse(localStorage.bookInfo);
 	var placeName = '<c:out value="${place.placeName}" />';	
-	var totalPrice = (object.totalPrice).replace(',', ''); 
+	var totalPrice = (object.totalPrice).replaceAll(',', ''); 
+	console.log(object);
 	console.log(totalPrice);
 
 	init();

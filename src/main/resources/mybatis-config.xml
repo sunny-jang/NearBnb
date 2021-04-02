@@ -12,6 +12,7 @@
 		<typeAlias type="com.on.nearbnb.board.model.vo.BoardThumb" alias="BoardThumb" />
 		<typeAlias type="com.on.nearbnb.board.model.vo.BoardPage" alias="BoardPage" />
 		<typeAlias type="com.on.nearbnb.board.model.vo.BoardComment" alias="BoardComment" />
+		<typeAlias type="com.on.nearbnb.board.model.vo.BoardFile" alias="BoardFile" />
 		<typeAlias type="com.on.nearbnb.place.model.vo.Place" alias="Place" />
 		<typeAlias type="com.on.nearbnb.file.model.vo.PlaceFile" alias="PlaceFile" />
 		<typeAlias type="com.on.nearbnb.place.model.vo.PlacePoint" alias="PlacePoint" />
@@ -21,7 +22,8 @@
 	<!-- 사용하고자 하는 mapper를 등록한다. -->
 	<mappers>
 		<mapper resource="mapper/member-mapper.xml" />
-		<mapper resource="mapper/board-mapper.xml"	/>
+		<mapper resource="mapper/board-mapper.xml"	/>	
+		<mapper resource="mapper/board-file-mapper.xml"	/>	
 		<mapper resource="mapper/place-mapper.xml" />
 		<mapper resource="mapper/place-image-mapper.xml" />
 		<mapper resource="mapper/place-point-mapper.xml" />

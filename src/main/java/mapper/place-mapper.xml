@@ -45,6 +45,7 @@
 		  #{placeCloseDate}, #{placeDesc})
 	</insert>
 
+
 	<!-- 숙소 코드로 숙소 명 조회 -->
 	<select id="selectPlaceName" resultType="String" parameterType="Integer">
 		SELECT PLACE_NAME FROM PLACE WHERE P_CODE_SEQ = #{placeId}

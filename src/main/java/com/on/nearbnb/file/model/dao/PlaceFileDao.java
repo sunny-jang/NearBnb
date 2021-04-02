@@ -27,4 +27,8 @@ public class PlaceFileDao {
 	public List<PlaceFile> selectFiles(Integer pId) {
 		return sqlSession.selectList("selectFiles", pId);
 	}
+	
+	public String selectOneFiles(Integer pId) {//메인페이지
+		return sqlSession.selectOne("selectOneFiles",pId); 
+	}
 }

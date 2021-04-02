@@ -28,4 +28,8 @@ public class PlaceFileServiceImpl implements PlaceFileService {
 		return pFileDao.selectFiles(pId);
 	}
 	
+	@Override
+	public String selectOneFiles(Integer pId) {//메인페이지
+		return pFileDao.selectOneFiles(pId);
+	}
 }

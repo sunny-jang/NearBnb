@@ -58,21 +58,21 @@
           <a href="#">
             <div class="place-image" style="background-image: url(https://a0.muscache.com/im/pictures/5b89cc73-f1e4-40e8-bb08-747fd7be786e.jpg?im_w=1200);">
             </div>
-            <span>오직 당신만을 위한 루프탑</span>
+            <span id="list1"></span>
           </a>
         </div>
         <div class="col place-item">
           <a href="#">
             <div class="place-image" style="background-image: url(https://a0.muscache.com/im/pictures/5b89cc73-f1e4-40e8-bb08-747fd7be786e.jpg?im_w=1200);">
             </div>
-            <span>오직 당신만을 위한 루프탑</span>
+            <span id="list2"></span>
           </a>
         </div>
         <div class="col place-item">
           <a href="#">
             <div class="place-image" style="background-image: url(https://a0.muscache.com/im/pictures/5b89cc73-f1e4-40e8-bb08-747fd7be786e.jpg?im_w=1200);">
             </div>
-            <span>오직 당신만을 위한 루프탑</span>
+            <span id="list3"></span>
           </a>
         </div>
         

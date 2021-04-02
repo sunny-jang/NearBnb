@@ -35,6 +35,8 @@
     width: 898px;
     height: 48px;
     border: none;
+    margin-top: 30px;
+    text-align: left;
 }
 .heart{
     color: red;
@@ -119,4 +121,25 @@ input:focus{
 	color : lightgray;
 	border: none;
 	float:right;
+}
+#delComment{
+	background-color: white;
+	color : lightgray;
+	float: right;"
+}
+.updComment{
+	background-color: white;
+	color : lightgray;
+	float:right;
+	border: none;
+}
+#thumb{
+	outline: none;
+}
+i{
+	font-size: 25px;
+}
+#smartEditor{
+	width: 100%;
+	height: 430px;
 }

@@ -21,8 +21,14 @@ secetion{
 .type{
     height: 50px;
 }
-.List{
+#bestList{
     height: 40px;
+    background-color: #FFFFAA;
+    border-bottom: 1px solid rgb(251,248,167);
+}
+#boardList{
+	height: 40px;
+	border-bottom: 1px solid rgb(251,248,167);
 }
 .boardType2{
     width: 190px;
@@ -55,4 +61,23 @@ table td{
 }
 input:focus{
     outline: none;
+}
+#boardWrite{
+	background-color:#FFBF00;
+	height: 34px;
+}
+#boardSearch{
+	margin-left: 10px;
+	height: 20px;
+}
+#searchBtn{
+	font-size: 17px;
+}
+.comT{
+	font-size: 20px;
+}
+#searchResult{
+	text-align: left;
+	color: tomato;
+	padding-left: 50px;
 }

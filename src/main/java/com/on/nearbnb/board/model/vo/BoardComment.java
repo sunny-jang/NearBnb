@@ -10,6 +10,7 @@ public class BoardComment {
 	private int commentCodeSeq;
 	private int boardCodeSeq;
 	private String userId;
+	private int parentCommentCode;
 	private String commentContent;
 	private Date commentDate;
 	
@@ -19,6 +20,8 @@ public class BoardComment {
 	public void setBoardCodeSeq(int boardCodeSeq) {		this.boardCodeSeq = boardCodeSeq;	}
 	public String getUserId() {		return userId;	}
 	public void setUserId(String userId) {		this.userId = userId;	}
+	public int getParentCommentCode() {		return parentCommentCode;	}
+	public void setParentCommentCode(int parentCommentCode) {		this.parentCommentCode = parentCommentCode;	}
 	public String getCommentContent() {		return commentContent;	}
 	public void setCommentContent(String commentContent) {		this.commentContent = commentContent;	}
 	public Date getCommentDate() {		return commentDate;	}

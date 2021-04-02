@@ -16,11 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.board.model.vo.Board;
 import com.on.nearbnb.board.model.vo.BoardComment;
+import com.on.nearbnb.board.model.vo.BoardFile;
 import com.on.nearbnb.board.model.vo.BoardThumb;
+import com.on.nearbnb.board.service.BoardFileService;
 import com.on.nearbnb.board.service.BoardService;
 
 @Controller
@@ -29,6 +32,10 @@ public class BoardController {
 	// BoardService DI
 	@Autowired
 	BoardService boardService;
+	
+	// BoardFileService DI
+	@Autowired
+	BoardFileService boardFileService;
 	
 //	private String boardListAgain = "redirect:/board.do/";
 	
@@ -123,6 +130,14 @@ public class BoardController {
 				boardComment = boardService.selectBoardCommentList(boardCodeSeq);
 				modelAndView.addObject("boardComment", boardComment);
 			}
+			
+			// 해당 게시글 파일 조회
+			BoardFile boardFile = boardFileService.selectBoardFile(boardCodeSeq);
+			if(boardFile != null) {
+				modelAndView.addObject("boardFile", boardFile);
+			}
+
+
 			// 조회 수 증가
 			boardService.updateBoardCount(boardCodeSeq);
 			
@@ -149,12 +164,31 @@ public class BoardController {
 	
 	// 게시글 등록
 	@RequestMapping(value = "boardWriteCon.do", method = RequestMethod.POST)
-	public String boardInsertService(Board board, HttpServletRequest request, ModelAndView modelAndView) throws ServletException, IOException {
+	public String boardInsertService(MultipartHttpServletRequest files, Board board, HttpServletRequest request, ModelAndView modelAndView) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		board.setUserId((String) session.getAttribute("userId"));
-		boardService.insertBoard(board);
-
-		// 상세 조회 돌아감
+		
+		
+		if(files != null) {
+			// 바뀐 파일 명
+			String bFileChangedName = files.getParameter("changedFile");
+	
+			// 파일 경로
+			String bFilePath = files.getSession().getServletContext().getRealPath("resources")+"\\html\\images\\";
+	
+			// 파일 원본 명
+			String bFileOriginalName = bFileChangedName.substring(13, bFileChangedName.length());
+	
+			// 객체 생성
+			BoardFile boardFile = new BoardFile();
+			boardFile.setbFileChangedName(bFileChangedName);
+			boardFile.setbFileOriginalName(bFileOriginalName);
+			boardFile.setbFilePath(bFilePath);
+			boardService.insertBoardWith(board, boardFile);
+		}else {
+			boardService.insertBoard(board);
+		}
+		// 목록 조회 돌아감
 		return "redirect:/board.do";
 	}
 	
@@ -162,9 +196,19 @@ public class BoardController {
 	@RequestMapping(value = "boardUpdateProCon.do", method = RequestMethod.GET)
 	public ModelAndView boardUpdateProService(int boardCodeSeq, HttpServletRequest request, ModelAndView modelAndView) throws IOException {
 		
+		// 작성자 확인
 		HttpSession session = request.getSession();
 		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		
+		// 게시글 정보 조회
 		Board board = boardService.selectBoardOne(boardCodeSeq);
+		
+		// 게시글 파일 조회
+		BoardFile boardFile = boardFileService.selectBoardFile(boardCodeSeq);
+
+		if(boardFile != null) {
+			modelAndView.addObject("boardFile", boardFile);
+		}
 		modelAndView.addObject("board", board);
 		if(userId.equals(board.getUserId())) {
 			modelAndView.setViewName("community/boardRewrite");
@@ -195,6 +239,8 @@ public class BoardController {
 		if(userId.equals(board.getUserId())) {
 			boardService.deleteBoard(boardCodeSeq);
 			boardService.deleteBoardThumbAll(boardCodeSeq);
+			boardService.deleteBoardCommentAll(boardCodeSeq);
+			boardFileService.deleteBoardFile(boardCodeSeq);
 			modelAndView.setViewName("redirect:/board.do");
 			return modelAndView;
 		}else {

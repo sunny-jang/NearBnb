@@ -31,6 +31,15 @@ class PlaceDate {
 		$("input[name=placeCloseDate]").attr("min", nextDate);
 	}
 	
+	// min 날짜를 설정
+	addDays(date,days) {
+		var date_ = new Date();
+			date_.setDate(date.getDate()+days);
+		var addedDate = this.getDateFormat(date_);
+		
+		return addedDate
+	}
+	
 	// 숫자형 날짜 데이터를 포멧에 맞게 변환
 	getDateFormat(date) {
 		var yyyy_mm_dd;

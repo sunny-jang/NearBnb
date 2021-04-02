@@ -16,12 +16,13 @@
   document.addEventListener('DOMContentLoaded', function() {
 	function numberWithCommas(x) {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
-	var events_ = [];
+	var value = '<c:out value="${place.placePrice}" />';   
+	
 	var oDate = $("#openDate").text().substring(0,10);
 	var cDate = $("#closeDate").text().substring(0,10);
 	var calendarEl = document.getElementById('calendar');
-	var value = '<c:out value="${place.placePrice}" />';   
-	var colors = ['red','yelllow','aa']
+	
+	
 	async function getEventList() {
 		var a = await fetch('bookList.do?pId=${place.placeId}').then(res=>res.json());
 		var result = a.map((item,i)=> {
@@ -34,12 +35,12 @@
 			}
 		})
 		
-		console.log(result)
 		return result;
 	}
 	
 	(async function() {
 		// 캘린더 객채 생성
+		var date = new PlaceDate();
 		var events = await getFullEvents();
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 		      locale:'ko',
@@ -68,7 +69,6 @@
 			        color: 'orange'
 			      };
 		    	
-		    	console.log(calendar.getEvents())
 		    	// 예약 날짜 체크
 		    	checkAvailableDate(calendar, event_);
 		    	
@@ -90,40 +90,24 @@
     	    	
     	// 예약 가능날짜 사이에 있는지 여부
     	function checkAvailableDate(calendar, event_) {
-
-	    	var date = new PlaceDate();
+	    	
     		// 예약기간 구함
 	    	var dateDiff = date.getDateDiff(event_.start, event_.end);
 	    	
 	    	//날짜 데이터를 스트링으로 변환
 	    	argS = date.getDateFormat(event_.start);
 	    	argE = date.getDateFormat(event_.end);
-
-	    	let eventArray = [];
-	    	for(let i = 1;i<events.length;i++) {
-	    		const es = new Date(events[i].start);
-	    		const ee = new Date(events[i].end);
-	    		console.log(i+"번째 이벤트 시작일 : " +es);
-	    		let a = new Date(es.setDate(es.getDate()+1));
-	    		console.log("이벤트 시작일 +1  day : " +a);
-	    		for(let j=0;j<date.getDateDiff(es, ee);j++) {
-	    			
-	    			//console.log(a);
-	    			//eventArray.push(new Date(es.setDate(es.getDate()+j)));
-	    		};
+	    	
+			//예약된 날짜들 Array로 생성
+			let eventArray =  getBookedDates(events);
+			
+	    	//기간을 입력받아 예약된 날짜가 포함되어있는지 체크 
+	    	let isBooked = isBookedDate(argS, argE, eventArray);
+	    	if(isBooked) {
+	    		return;
 	    	}
 	    	
-	    	/* console.log(eventArray);
-	    	for(let i=0; i<eventArray.length; i++) {
-	    		const ns = new Date(argS);
-	    		const ne = new Date(argE);
-	    		
-	    		if(ns==eventArray[i] || ne== eventArray[i]) {
-	    			alert("예약할 수 없는 날짜입니다. 다시 선택해주세요.");
-	    			return;
-	    		}
-	    	} */
-	    	
+	    	// 기간 내에서 선택
     		if(oDate <= argS && cDate >= argE) {
 	    		alert('예약날짜는 '+ argS +' ~ ' + argE +'입니다.\n체크아웃은 12pm 입니다.');
 	    		calendar.addEvent(event_);
@@ -136,8 +120,37 @@
 	   	       	$("#dateDiff").html(dateDiff);
 		   	    $("#totalPrice").html(numberWithCommas(value * dateDiff * guestNum));
 	    	}else {
-	    		alert("예약 가능 날짜 안에서 선택해주세요.")
+	    		alert("예약 가능 날짜 안에서 선택해주세요.");
 	    	}
+    	}
+    	
+    	// 예약된 날짜들 배열로 생성
+    	function getBookedDates (events) {
+			let eventArray = [];
+	    	for(let i = 1;i<events.length;i++) {
+	    		const es = new Date(events[i].start);
+	    		const ee = new Date(events[i].end);
+	    		const diffDate = date.getDateDiff(es, ee);
+	    		
+	    		for(let j=0;j<diffDate;j++) {
+	    			const es = new Date(events[i].start);
+	    			eventArray.push(new Date(es.setDate(es.getDate()+j)));
+	    		};
+	    	}
+	    	return eventArray;
+		}
+    	
+    	// 선택된 날짜가 예약된 기간 내 있는지 체크
+    	function isBookedDate(argS, argE, eventArray) {
+    		var eventArray = eventArray ? eventArray : [];
+    		var argE_ = date.addDays(new Date(argE),-1);
+	    	for(let i=0; i<eventArray.length; i++) {
+	    		if(argS == date.getDateFormat(eventArray[i]) || argE_ == date.getDateFormat(eventArray[i])) {
+	    			alert("예약할 수 없는 날짜입니다. 다시 선택해주세요.");
+	    			return true;
+	    		}
+	    	}
+	    	return false;
     	}
     	
     	// 예약정보 저장

@@ -59,19 +59,22 @@
 				},
 				success : function(data) {
 					console.log("success");
-					console.log(data);
+					//console.log(data);
 					
 				 data = JSON.parse(data);				
 					searchPoint(data);
-					console.log("1번째 이름 :"+data.pointList[1].placeName);
-					console.log("1번째 이미지:"+data.pointList[1].placeImage);
+					//console.log("1번째 이름 :"+data.pointList[1].placeName);
+					//console.log("1번째 이미지:"+data.pointList[1].placeImage);
 					searchList(data);
 				}
 			});
 		}
+		
 		function searchList(data){
 			for(var i=1; i<=3; i++){
-			$('#list'+[i]).html(data.pointList[i].placeName);				
+			$('#list'+[i]).html(data.pointList[i].placeName);
+			listImg = "url(/nearbnb/resources/html/images/"+data.pointList[i].placeImage+")";
+			$("#listImg"+[i]).css("background-image", listImg); 
 			}
 		}
 		
@@ -82,7 +85,7 @@
 			
 			for(var i=1; i<=data.pointList[0].arrCount; i++){
 				var obj = new Object();
-				obj.title = data.pointList[i].placeId;
+				obj.title = data.pointList[i].placeName;
 				obj.latlng =  new kakao.maps.LatLng(
 						data.pointList[i].latitude, 
 						data.pointList[i].longitude
@@ -111,6 +114,14 @@
 			        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 			        image : markerImage // 마커 이미지 
 			    });
+			    
+			    // 마커에 표시할 인포윈도우를 생성합니다 
+			    var infowindow = new kakao.maps.InfoWindow({
+			        content: positions[i].title // 인포윈도우에 표시할 내용
+			     
+			    });
+			   
+			    infowindow.open(map, marker);
 			    marker.setMap(map);
 			    bounds.extend(positions[i].latlng);
 			    map.setBounds(bounds);

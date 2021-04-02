@@ -14,18 +14,22 @@ public class PlaceDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	// 숙소 등록
 	public int insertPlace(Place place) {
 		return sqlSession.insert("insertPlace", place);
 	}
 	
+	// 숙소 코드로 조회(상세 조회)
 	public Place selectPlace(Integer pId) {
 		return sqlSession.selectOne("selectPlace", pId);
 	}
 	
+	// 아이디로 숙소 조회(등록한 숙소 조회)
 	public List<Place> selectPlaceById(String uId) {		
 		return sqlSession.selectList("Place.selectPlaceById", uId);
 	}
 	
+	// 숙소 코드로 숙소 명 조회
 	public String selectPlaceName(Integer pId) {
 		return sqlSession.selectOne("selectPlaceName",pId);
 	}

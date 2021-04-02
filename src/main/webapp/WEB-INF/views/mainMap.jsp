@@ -59,31 +59,25 @@
 				},
 				success : function(data) {
 					console.log("success");
-					//console.log(data);
+					console.log(data);
 					
 				 data = JSON.parse(data);				
 					searchPoint(data);
-					//console.log("1번째 이름 :"+data.pointList[1].placeName);
-					//console.log("1번째 이미지:"+data.pointList[1].placeImage);
+					console.log("1번째 이름 :"+data.pointList[0].placeName);
+					console.log("1번째 이미지:"+data.pointList[0].placeImage);
 					searchList(data);
+					console.log("data길이 : "+data.pointList.length);
 				}
 			});
 		} 
 		
-		function searchList(data){
-			for(var i=1; i<=3; i++){
-			$('#list'+[i]).html(data.pointList[i].placeName);
-			listImg = "url(/nearbnb/resources/html/images/"+data.pointList[i].placeImage+")";
-			$("#listImg"+[i]).css("background-image", listImg); 
-			}
-		}
 		
 		
 		 //마커생성
 		function searchPoint(data){
 			var positions = [];
 			
-			for(var i=1; i<=data.pointList[0].arrCount; i++){
+			for(var i=0; i<data.pointList.length; i++){
 				var obj = new Object();
 				obj.title = data.pointList[i].placeName;
 				obj.latlng =  new kakao.maps.LatLng(
@@ -91,7 +85,6 @@
 						data.pointList[i].longitude
 						);
 				positions.push(obj);
-				console.log(data.pointList[0].arrCount);
 			}
 			
 			// 마커 이미지의 이미지 주소입니다

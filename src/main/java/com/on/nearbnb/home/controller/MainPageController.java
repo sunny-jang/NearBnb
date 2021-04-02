@@ -68,9 +68,6 @@ public class MainPageController {
 		JSONObject jsonObject = new JSONObject();//PlacePoint객체오브젝트
 		JSONArray jsonArray = new JSONArray();
 		
-		JSONObject arrCount = new JSONObject();
-		arrCount.put("arrCount", resultpoint.size());
-		jsonArray.add(arrCount);
 		for (int i = 0; i < resultpoint.size(); i++) {
 			JSONObject pObject = new JSONObject();
 			pObject.put("placeId", resultpoint.get(i).getPlaceId());

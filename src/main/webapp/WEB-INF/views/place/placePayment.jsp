@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script>
 // model checkbox jquery
 $(function(){
@@ -32,6 +34,7 @@ $(function(){
 		$("#bookPerson").text(object.bookPerson);
 		$("#dateDiff").text(object.dateDiff);
 		$("#totalPrice").text(object.totalPrice);
+		
 	}
 
 	
@@ -48,8 +51,43 @@ $(function(){
 			}			
 		});
 	});
-
 });
+
+function openIMP() {
+	var object = JSON.parse(localStorage.bookInfo);
+	
+	var IMP = window.IMP; // 생략가능
+	IMP.init('iamport'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+	
+	IMP.request_pay({
+	    pg : 'inicis', // version 1.1.0부터 지원.
+	    pay_method : 'card',
+	    merchant_uid : 'merchant_' + new Date().getTime(),
+	    name : '${place.placeName}',
+	    amount : (object.totalPrice).replaceAll(',', ''),
+	    buyer_email : 'iamport@siot.do',
+	    buyer_name : object.uId,
+	}, function(rsp) {
+	    if ( rsp.success ) {
+	    	/* $.ajax({
+	    		url: 'registerBook.do',
+	    		method: 'post',
+	    		dataType: 'json',
+	    		data: object
+	    	}) */
+	        var msg = '결제가 완료되었습니다.';
+	        msg += '고유ID : ' + rsp.imp_uid;
+	        msg += '상점 거래ID : ' + rsp.merchant_uid;
+	        msg += '결제 금액 : ' + rsp.paid_amount;
+	        msg += '카드 승인번호 : ' + rsp.apply_num;
+	        location.href='kakaoPayComplete.do';
+	    } else {
+	        var msg = '결제에 실패하였습니다.';
+	        msg += '에러내용 : ' + rsp.error_msg;
+	    }
+	    alert(msg);
+	});
+}
 </script>
 <section>
   <div class="container">
@@ -62,7 +100,7 @@ $(function(){
         <div class="col">
 	      <h2>결제 수단 선택</h2>
 	      <div class="payment-box d-flex justify-content-around">
-	      	<div class="payment-content bg-warning" data-toggle="modal" data-target="#normalModal">
+	      	<div class="payment-content bg-warning" data-toggle="modal" data-target="#normalModal" onclick="openIMP()">
 	      	  <i class="fas fa-money-check payment-icon" style="font-size: 25px;"></i>
 	      	  <h5 class="payment-text1">일반 신용카드 결제</h5>
 	      	</div>
@@ -115,7 +153,7 @@ $(function(){
       </div>      
     </div>
     <!-- normalModal -->
-    <div class="modal fade" id="normalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="normalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content container">
           <div class="modal-header align-self-center mt-2">
@@ -162,6 +200,6 @@ $(function(){
           </div>
         </div>
       </div>
-    </div>  
+    </div>   -->
 </section>
 <%@ include file="../include/footer.jsp" %>

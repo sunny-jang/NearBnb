@@ -53,6 +53,7 @@ var date = new PlaceDate();
 </script>
 <section class="row justify-content-center m-0">
   <form action="" class="col-8" method="POST" enctype="multipart/form-data" id="addForm" accept-charset="utf-8">
+    <input type="hidden" name="getLocation" value="current">
     <h2 class="mt-3 mb-3">
       이름님이 호스팅하는 아파트
     </h2>

@@ -1,6 +1,8 @@
 package com.on.nearbnb.place.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +21,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.on.nearbnb.book.model.vo.Book;
+import com.on.nearbnb.book.service.BookService;
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.file.service.PlaceFileService;
 import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.service.PlaceService;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 public class PlaceController {
@@ -33,6 +40,9 @@ public class PlaceController {
 	
 	@Autowired
 	private PlaceFileService placeFileService;
+	
+	@Autowired
+	private BookService bookService;
 	
 	
 	@RequestMapping(value="/addFile", method=RequestMethod.POST)
@@ -55,8 +65,10 @@ public class PlaceController {
 	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
 		Place place= placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);
+		PlacePoint pp = placeService.searchPlacePointOne(pId);
 		modelAndView.addObject("place", place);
 		modelAndView.addObject("images", files);
+		modelAndView.addObject("pp", pp);
 		
 		modelAndView.setViewName("/place/placeDetail");
 		return modelAndView;
@@ -108,9 +120,8 @@ public class PlaceController {
 	public ModelAndView placeReservation(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
 		Place place = placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);		
-
+	
 		modelAndView.addObject("sImage",files.get(0).getFileChangedName());
-		
 		modelAndView.addObject("place", place);
 		modelAndView.setViewName("/place/placeReservation");
 		return modelAndView;	
@@ -129,12 +140,40 @@ public class PlaceController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value = "/kakaoPayCancel.do", method=RequestMethod.GET)
+	public ModelAndView kakaoPayCancel(ModelAndView modelAndView) throws Exception {
+		
+		modelAndView.setViewName("place/kakaoPayCancel");
+		return modelAndView;
+	}
+	
 	@RequestMapping(value = "/kakaoPay.do")
 	@ResponseBody
-	public String kakaoPayTest(String itemName, String totalPrice) throws Exception {
-		System.out.println(itemName);
+	public String kakaoPayTest(String placeName, String totalPrice) throws Exception {		
+		System.out.println(placeName);
 		System.out.println(totalPrice);
-		return placeService.kakaoPay(itemName, totalPrice);
+		return placeService.kakaoPay(placeName, totalPrice);
+	}
+	
+	@RequestMapping(value = "/bookList.do")
+	@ResponseBody
+	public String makeBookJson(String pId) throws UnsupportedEncodingException {
+		Book book = new Book();
+		book.setpId(pId);
+		List<Book> bookList = bookService.selectBook(book);
+		JSONArray jsonArray = new JSONArray();
+		
+		for(Book book_: bookList) {
+			JSONObject innerObject = new JSONObject();
+			innerObject.put("title", URLEncoder.encode("예약 불가", "utf-8"));
+			innerObject.put("start", book_.getBookCheckIn());
+			innerObject.put("end", book_.getBookCheckOut());
+			jsonArray.add(innerObject);
+		}
+		
+		System.out.println();
+		
+		return jsonArray.toString();
 	}
 
 }

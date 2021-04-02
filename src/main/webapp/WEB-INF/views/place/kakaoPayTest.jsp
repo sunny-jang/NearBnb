@@ -18,7 +18,8 @@ $(function(){
 				window.open(msg);
 			}, error : function(error) {
 				alert(error);
-			}			
+			}
+			
 		});
 	});	
 });

@@ -21,14 +21,13 @@ public class PlacePointDao {
 		return sqlSession.insert("insertPlacePoint", placePoint);
 		
 	}
-	
+	@Transactional
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint) {
 		return sqlSession.selectList("searchPlacePoint",searchpoint);
 	}
 
-	
 	public PlacePoint searchPlacePointOne(Integer pId) {
-		return sqlSession.selectOne("searchPlacePointOne", pId);
+		return sqlSession.selectOne("searchPlacePointOne",pId);
 	}
 	
 }

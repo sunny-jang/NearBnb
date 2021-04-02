@@ -107,6 +107,7 @@
 		      <td class="boardHeart">♥</td>
 		      <td class="boardWriter">작성자</td>
 		      <td class="boardDate">작성일</td>
+		      <td class="boardCount">조회</td>
 		    </tr>
 	    	<tr></tr>
 		    <c:if test="${boardListCount eq 0 }">
@@ -120,19 +121,39 @@
 		 		<c:forEach var="bestBoard" items="${bestList }">
 					<tr class="List" style="background-color: #FFFFAA; border-bottom: 1px solid rgb(251,248,167);">
 						<td>${bestBoard.boardType }</td>
-						<td><a href="boadSelectOneCon.do?boardCodeSeq=${bestBoard.boardCodeSeq }">${bestBoard.boardTitle }</a></td>
+						<td>
+							<a href="boadSelectOneCon.do?boardCodeSeq=${bestBoard.boardCodeSeq }">${bestBoard.boardTitle }</a>
+							<c:choose>
+								<c:when test="${bestBoard.commentCnt eq 0 }">
+								</c:when>
+								<c:when test="${bestBoard.commentCnt ne 0 }">
+								<p style="display: inline; color: tomato;">[${bestBoard.commentCnt}]</p>
+								</c:when>
+							</c:choose>
+						</td>
 						<td>${bestBoard.thumbsCnt }</td>
 						<td>${bestBoard.userId }</td>
 						<td><fmt:formatDate value="${bestBoard.boardDate }" type="DATE" dateStyle="MEDIUM"/></td>
+						<td>${bestBoard.boardCount }</td>
 					</tr>
 				</c:forEach>
-		 		<c:forEach var="board" items="${boardList }">
+		 		<c:forEach var="board" items="${boardList }" varStatus="status">
 					<tr class="List" id="List" style="border-bottom: 1px solid rgb(251,248,167);">
 						<td>${board.boardType }</td>
-						<td><a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }">${board.boardTitle }</a></td>
+						<td>
+							<a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }">${board.boardTitle }</a>
+							<c:choose>
+								<c:when test="${board.commentCnt eq 0 }">
+								</c:when>
+								<c:when test="${board.commentCnt ne 0 }">
+								<p style="display: inline; color: tomato;">[${board.commentCnt}]</p>
+								</c:when>
+							</c:choose>
+						</td>
 						<td>${board.thumbsCnt }</td>
 						<td>${board.userId }</td>
 						<td><fmt:formatDate value="${board.boardDate }" type="DATE" dateStyle="MEDIUM"/></td>
+						<td>${board.boardCount }</td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -145,7 +166,7 @@
 						<c:url var="boardList" value="board.do">
 							<c:param name="page" value="${currentPage-1}" />
 						</c:url>
-						<a href="${boardList}">이전</a>
+						<a href="${boardList}"><b>< 이전</b></a>
 					</c:if>
 					<!-- 번호 처리 -->
 					<c:set var="maxPage" value="${maxPage}" />
@@ -167,7 +188,7 @@
 						<c:url var="boardListEND" value="board.do">
 							<c:param name="page" value="${currentPage+1}" />
 						</c:url>
-						<a href="${boardListEND}">다음</a>
+						<a href="${boardListEND}"><b>다음 ></b></a>
 					</c:if>
 				</td>
 			</tr>

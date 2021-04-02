@@ -55,11 +55,11 @@
       <h4 class="col-8 place-name ellipsis1">숙소이름이에용</h4>
       <!--달력 부분 -->
      <div class="row justify-content-center">
-      <div class="col-10">   
+      <div class="col-8">   
       	<div id='calendar' style='margin-bottom: 20px; font-size: 13px;'></div>
       </div>
   	 </div>
-     <div style="text-align: end;"><button type="button" class="btn btn-primary" onclick="location.href='myPageHostCheck.html'" >목록보기</button></div>
+     <div class="col-8" style="text-align: end;"><button type="button" class="btn btn-primary" onclick="location.href='myPageHostCheck.html'" >목록보기</button></div>
   
     
     </main>

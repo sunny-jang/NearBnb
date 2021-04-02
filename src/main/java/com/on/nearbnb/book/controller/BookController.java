@@ -1,5 +1,9 @@
 package com.on.nearbnb.book.controller;
 
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +30,19 @@ public class BookController {
 		modelAndView.addObject("place", place);
 		modelAndView.setViewName("/place/placePayment");
 		return modelAndView;
+	}
+	
+	@RequestMapping(value="registerBook.do", method=RequestMethod.POST)
+	public void insertBook(Book book, HttpServletResponse response) throws Exception {
+		PrintWriter out = response.getWriter();
+		System.out.println(book);
+		int cnt = bookService.insertBook(book);		
+		if(cnt == 1) {
+			out.append("ok");
+			out.flush();
+		} else {
+			out.append("fail");
+			out.flush();
+		}
 	}
 }

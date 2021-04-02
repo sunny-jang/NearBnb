@@ -1,14 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <script>
 // model checkbox jquery
 $(function(){
+
 	var object = JSON.parse(localStorage.bookInfo);
 	var placeName = '<c:out value="${place.placeName}" />';	
+	var totalPrice = (object.totalPrice).replaceAll(',', ''); 
 	console.log(object);
+	console.log(totalPrice);
+
 	init();
 	
+
 	$('#allcheck').click(function(){
 		if($('#allcheck').prop('checked') == true) {
 			$('input[name=check]').prop('checked', true);
@@ -18,6 +24,7 @@ $(function(){
 	});
 	
 	function init() {
+		var object = JSON.parse(localStorage.bookInfo);
 		
 		$("#placeImage").css("background-image",object.imagePath);
 		$("#checkIn").text(object.bookCheckIn);
@@ -26,20 +33,22 @@ $(function(){
 		$("#dateDiff").text(object.dateDiff);
 		$("#totalPrice").text(object.totalPrice);
 	}
+
 	
 	$('#kakaoPay').click(function(){
 		$.ajax({
 			url : 'kakaoPay.do',
-			data : {'itemName' : placeName, 'totalPrice' : '100000'},
+			data : {'placeName' : placeName, 'totalPrice' : totalPrice},
 			dataType: 'json',
 			success : function(data) {				
 				 var msg = data.next_redirect_pc_url;
-				 window.open(msg);
+				 location.href = msg;
 			}, error : function(error) {
 				alert(error);
 			}			
 		});
 	});
+
 });
 </script>
 <section>
@@ -75,12 +84,12 @@ $(function(){
             </div>
             <div class="col-8">
               <span class="place-host">${place.uId}님의 숙소</span>
-              <h5 class="place-name ellipsis2" id="placeName">${place.placeName}</h5>
+              <h5 class="place-name ellipsis2">${place.placeName}</h5>
               <span class="place-option">최대인원 ${place.maxGuest}명 . 숙소 유형 ${place.placeType}</span>
               <p class="place-des ellipsis2">${place.placeDesc}</p>
               <div class="d-flex justify-content-between">
                 <div>${place.placeThumb} <i class="fa fa-heart"></i></div>
-                <div>${place.placePrice} 원 / 박</div>
+                <div><fmt:formatNumber value="${place.placePrice}" /> 원 / 박</div>
               </div>
             </div>
           </a>          
@@ -88,15 +97,15 @@ $(function(){
           <div class="content-box">
             <div class="place-info">
               <div class="content-title">날짜</div>
-              <div class="content"><span id="checkIn"></span> ~ <span id="checkOut"></span></div>
+              <div class="content"><span id="checkIn">${book.bookCheckIn}</span> ~ <span id="checkOut">${book.bookCheckOut}</span></div>
             </div>
             <div class="place-info">
               <div class="content-title">게스트</div>
-              <div class="content">게스트 <span id="bookPerson"></span>명</div>
+              <div class="content">게스트 <span id="bookPerson">${book.bookPerson}</span>명</div>
             </div>
             <div class="place-info">
               <div class="content-title">요금</div>
-              <div class="content">￦${place.placePrice} × <span id="dateDiff"></span>박 = <span id="totalPrice"></span></div>
+              <div class="content">￦&nbsp;<fmt:formatNumber value="${place.placePrice}" /> × <span id="dateDiff"></span>박 = ￦&nbsp;<span id="totalPrice"></span></div>
             </div>           
           </div>       
         </div>

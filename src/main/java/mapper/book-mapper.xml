@@ -14,8 +14,23 @@
 	</resultMap>
 	
 	<insert id="insertBook" parameterType="Book">
-		INSERT INTO BOOK VALUES(#{uId}, #{pId}, #{bookCheckIn}, #{bookCheckOut},
+		<selectKey keyProperty="bookId" resultType="Integer" order="BEFORE">
+			select BOOK_SEQ.NEXTVAL from dual
+		</selectKey>
+		INSERT INTO BOOK VALUES(#{bookId}, #{uId}, #{pId}, #{bookCheckIn}, #{bookCheckOut},
 		 #{bookPerson}, #{bookPayPrice}, SYSDATE)
 	</insert>
+	
+	<select id="selectBook" parameterType="Book" resultMap="resultBook">
+		SELECT * FROM BOOK
+		<choose>
+			<when test="pId != null">
+				WHERE P_CODE_SEQ = #{pId}
+			</when>
+			<when test="uId != null">
+				WHERE U_ID = #{uId}
+			</when>
+		</choose>
+	</select>
 		
 </mapper>

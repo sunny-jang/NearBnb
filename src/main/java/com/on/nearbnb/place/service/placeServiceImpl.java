@@ -104,10 +104,6 @@ public class placeServiceImpl implements PlaceService {
 		return pPointDao.searchPlacePoint(searchpoint);
 	}
 
-	@Override
-	public String selectPlaceName(Integer pId) {		
-		return pDao.selectPlaceName(pId);
-	}
 
 	@Override
 	public PlacePoint searchPlacePointOne(Integer pId) {

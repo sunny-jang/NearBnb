@@ -25,8 +25,4 @@ public class PlaceDao {
 	public List<Place> selectPlaceById(String uId) {		
 		return sqlSession.selectList("Place.selectPlaceById", uId);
 	}
-	
-	public String selectPlaceName(Integer pId) {
-		return sqlSession.selectOne("selectPlaceName",pId);
-	}
 }

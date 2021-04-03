@@ -48,13 +48,13 @@ public class MainPageController {
 		System.out.println(resultpoint.get(0).getPlaceId());
 		System.out.println("어레이 크기 : " + resultpoint.size());
 		
-		List<String> resultplace = new ArrayList();
+		List<Place> resultplace = new ArrayList();
 		List<String> resultimage = new ArrayList();
 		
 		for(int i =0; i<resultpoint.size(); i++) {
 			
 			int pId=resultpoint.get(i).getPlaceId();
-			String placeName = placeService.selectPlaceName(pId);
+			Place placeName = placeService.selectPlace(pId);
 			resultplace.add(placeName);
 			//System.out.println("숙소이름 : "+placeName.getPlaceName());
 			
@@ -73,7 +73,7 @@ public class MainPageController {
 			pObject.put("placeId", resultpoint.get(i).getPlaceId());
 			pObject.put("latitude", resultpoint.get(i).getLatitude());
 			pObject.put("longitude", resultpoint.get(i).getLongitude());
-			pObject.put("placeName",resultplace.get(i));
+			pObject.put("placeName",resultplace.get(i).getPlaceName());
 			pObject.put("placeImage",resultimage.get(i));
 			jsonArray.add(pObject);
 		}

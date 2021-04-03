@@ -26,6 +26,11 @@ var date = new PlaceDate();
 		    formData.enctype='multipart/form-data';
 		    formData.append("image", file);
 		    
+		    // 확장자 검사
+		    if(!checkFileType(fileName)) {
+		    	return;
+		    }
+		    
 		    var storageRef = firebase.storage().ref();
 
 		    storageRef
@@ -39,29 +44,39 @@ var date = new PlaceDate();
 		           let storageUrl = 'images/'+fileName;
 		           
 		           storageRef.child(storageUrl).getDownloadURL().then(function(url) {   // 저장된 파일의 http url 주소 받아오기
-		           	_this.closest("div").css("background-image", "url("+url+")");
+		            // 이미지 표시
+		        	   _this.closest("div").css("background-image", "url("+url+")");
 		           	$(".big-image").css("background-image", "url("+url+")");
 		           	
+		           	// input에 값 넣어서 form에 추가
 		           	let i = document.createElement("input");
 		           	i.setAttribute("type","hidden");
 					i.setAttribute("name","imagePath");
 					i.setAttribute("value",url);
 					$("#addForm").append(i);
-					
-		           	
 		          }).catch(function(error) {});
 		           
 		           let i = document.createElement("input");
-						i.setAttribute("type","hidden");
-						i.setAttribute("name","changedImages");
-						i.setAttribute("value",fileName);
-						
-						$("#addForm").append(i);
-				
+					i.setAttribute("type","hidden");
+					i.setAttribute("name","changedImages");
+					i.setAttribute("value",fileName);
+					
+					$("#addForm").append(i);
 		       }
 		    );
 		})
 	});
+	
+	function checkFileType(fileName) {
+		var reg = /.+\./;
+	    var checkFile = fileName.replace(reg.exec(fileName),"");
+	    if(checkFile != "jpg" && checkFile != "png") {
+	    	alert("jpg 또는 png 형식의 사진만 올릴 수 있습니다.")
+	    	return false;
+	    }
+	    
+	    return true;
+	} 
 
 </script>
 <section class="row justify-content-center m-0">

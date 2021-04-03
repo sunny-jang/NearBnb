@@ -24,6 +24,6 @@
 	</select>
 	
 	<select id="selectOneFiles" parameterType="Integer" resultType="String">
-		   SELECT KEY FROM PLACE_IMGFILE WHERE P_CODE_SEQ= #{pId} AND ROWNUM=1
+		   SELECT PFILE_PATH FROM PLACE_IMGFILE WHERE P_CODE_SEQ= #{pId} AND ROWNUM=1
 	</select>
 </mapper>

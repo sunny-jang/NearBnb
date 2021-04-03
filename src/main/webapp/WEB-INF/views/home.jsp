@@ -44,7 +44,7 @@
  function searchList(data){
 			for(var i=0; i<3; i++){
 			$('#list'+[i+1]).html(data.pointList[i].placeName);
-			listImg = "url(/nearbnb/resources/html/images/"+data.pointList[i].placeImage+")";
+			listImg = "url("+data.pointList[i].placeImage+")";
 			$("#listImg"+[i+1]).css("background-image", listImg); 
 			$("#plink"+[i+1]).attr("href", "placeDetail.do?pId="+data.pointList[i].placeId);
 			}

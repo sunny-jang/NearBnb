@@ -40,7 +40,7 @@ function modalValues(n) {
 	$('#modalDesc').text(modalDesc);
 	$('#modalPhone').text(modalPhone);
 	$('#modalPaydate').text(modalPaydate);
-	$('#modalThumbnail').css('background-image', 'url(/nearbnb/resources/html/images/'+modalThumbnail+')');
+	$('#modalThumbnail').css('background-image', 'url('+modalThumbnail+')');
 }
 </script>
 <section>

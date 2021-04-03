@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.book.model.vo.Book;
@@ -92,6 +93,7 @@ public class MyPageController {
 		String uId = (String)session.getAttribute("userId");		
 		List<Place> placeList = placeService.selectPlaceById(uId);
 		List<String> thumbnail = new ArrayList<String>();
+		
 		for(Place p : placeList) {
 			List<PlaceFile> files = placeFileService.selectFiles(p.getPlaceId());
 			
@@ -108,7 +110,9 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value = "/myPageHostCalendar.do", method = RequestMethod.GET)
-	public ModelAndView myPageHostCalendar(ModelAndView modelAndView) {
+	public ModelAndView myPageHostCalendar(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
+		Place place = placeService.selectPlace(pId);
+		modelAndView.addObject("place", place);		
 		modelAndView.setViewName("myPage/myPageHostCalendar");
 		return modelAndView;
 	}
@@ -120,21 +124,22 @@ public class MyPageController {
 		b.setuId(uId);
 		List<Book> bookList = bookService.selectBook(b);
 		List<String> thumbnail = new ArrayList<String>();
-		List<String> placeTitle = new ArrayList<String>(); 
+		List<Place> place = new ArrayList<Place>();
 		for(Book book : bookList) {
 			List<PlaceFile> files = placeFileService.selectFiles(Integer.parseInt(book.getpId()));
-			Place place = placeService.selectPlace(Integer.parseInt(book.getpId()));
+			Place p = placeService.selectPlaceForModal(Integer.parseInt(book.getpId()));
 			
 			if(files.size() > 0) {
 				thumbnail.add(files.get(0).getFilePath());
 			}else {
 				thumbnail.add("");
 			}
-			placeTitle.add(place.getPlaceName());
+			place.add(p);
+			
 		}
 		modelAndView.addObject("bList", bookList);
 		modelAndView.addObject("thumbnail", thumbnail);
-		modelAndView.addObject("pTitle", placeTitle);
+		modelAndView.addObject("pList", place);
 		modelAndView.setViewName("/myPage/myPageGuestCheck");
 		return modelAndView;
 	}

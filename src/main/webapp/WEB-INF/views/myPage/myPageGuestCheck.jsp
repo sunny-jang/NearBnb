@@ -8,6 +8,40 @@
 <%@ include file="../include/header.jsp" %>
 <!--myPageGuestCheck / 마이페이지_내 예약 조회페이지-->
 <script>
+// modal 정보
+function modalValues(n) {
+	function numberWithCommas(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
+	function phoneNumber(x) {
+		var first = x.substring(0,3);
+		var second = x.substring(3,7);
+		var third = x.substring(7,11);
+		return first+'-'+second+'-'+third;
+	}
+	var modalTitle = $('#ptitle'+n).text();
+	var modalGuest = $('#bPerson'+n).text();
+	var modalPrice = numberWithCommas($('#bPrice'+n).val());
+	var modalCheckin = $('#bCheckin'+n).val();
+	var modalCheckout = $('#bCheckout'+n).val();
+	var modalAddress = $('#pAddress'+n).val();
+	var modalAddressDetail = $('#pAddressDetail'+n).val();
+	var modalDesc = $('#pDesc'+n).val();
+	var modalPhone = phoneNumber($('#pPhone'+n).val());
+	var modalPaydate = $('#bPaydate'+n).text();
+	var modalThumbnail = $('#pThumbnail'+n).val();
+	console.log(modalThumbnail);
+	$('#modalTitle').text(modalTitle);
+	$('#modalGuest').text(modalGuest);
+	$('#modalPrice').text(modalPrice);
+	$('#modalCheckin').text(modalCheckin);
+	$('#modalCheckout').text(modalCheckout);
+	$('#modalAddress').text(modalAddress);
+	$('#modalAddressDetail').text(modalAddressDetail);
+	$('#modalDesc').text(modalDesc);
+	$('#modalPhone').text(modalPhone);
+	$('#modalPaydate').text(modalPaydate);
+	$('#modalThumbnail').css('background-image', 'url(/nearbnb/resources/html/images/'+modalThumbnail+')');
+}
 </script>
 <section>
  
@@ -21,18 +55,26 @@
         <h6 style="color: rgb(206, 0, 0);">※ 모든 숙소의 체크인 시간은 3시 / 체크아웃 시간은 12시 입니다.</h6>
 	<!--place-list-->
 	<c:forEach var="b" items="${bList}" varStatus="status">
-        <div class="card_content">
+		<input type="hidden" id="bPrice${status.index}" value="${b.bookPayPrice }" />
+		<input type="hidden" id="bCheckin${status.index}" value="${fn:substring(b.bookCheckIn,0,10)}" />
+		<input type="hidden" id="bCheckout${status.index}" value="${fn:substring(b.bookCheckOut,0,10)}" />
+		<input type="hidden" id="pAddress${status.index}" value="${pList[status.index].placeAddress }" />
+		<input type="hidden" id="pAddressDetail${status.index}" value="${pList[status.index].placeAddressDetail }" />
+		<input type="hidden" id="pDesc${status.index}" value="${pList[status.index].placeDesc }" />
+		<input type="hidden" id="pPhone${status.index}" value="${pList[status.index].hostPhone }" />
+		<input type="hidden" id="pThumbnail${status.index}" value="${thumbnail[status.index]}" />		
+        <div class="card_content" onclick='modalValues(${status.index});'>
           <div class="place-li_je">
             <a class="row justify-content-center"  data-toggle="modal" data-target="#myModal">
               <div class="place-image col-2 align-self-center" style="background-image: url(${thumbnail[status.index]})">
                 
               </div>
               <div class="col-9 card-item">
-                <h5 class="place-name ellipsis2 ">${pTitle[status.index]}</h5>
+                <h5 id="ptitle${status.index}" class="place-name ellipsis2 ">${pList[status.index].placeName}</h5>
               	
-                  <p class="mb-0 mt-3">총 인원수 : ${b.bookPerson } 명</p>
+                  <p id="bPerson${status.index}" class="mb-0 mt-3">총 인원수 : ${b.bookPerson } 명</p>
                   <div>
-                      	결제일 : ${fn:substring(b.bookPayDate,0,10)}
+                      	결제일 : <span id="bPaydate${status.index}">${fn:substring(b.bookPayDate,0,10)}</span>
                   </div>
                   <div class="btn-more" ><!--맨 밑으로 붙일부분-->
                     <div  data-toggle="modal" data-target="#myModal">클릭하시면 숙소 정보가 표시됩니다.</div>
@@ -58,46 +100,46 @@
             
               <!-- Modal Header -->
               <div class="modal-header">
-                <h2 class="place-name">숙소이름</h2>
+                <h2 id="modalTitle" class="place-name">숙소이름</h2>
               </div>
               
               <!-- Modal body -->
               <div class="modal-body">
                 <div class="place-image col-4 align-self-center float-right">
-                  <div class="place-image" style="background-color: black;"></div>
+                  <div class="place-image" id="modalThumbnail"></div>
                 </div>
                 <div>
                   <br>
                   <div>
                     인원
-                    <h5> 4 명</h5>
+                    <h5 id="modalGuest"> 4 명</h5>
                     <br>
                     금액
-                    <h5> 150,000 원</h5>
+                    <h5 id="modalPrice"> 150,000 원</h5>
                   </div>
                   <br>
                   <div >
                    <div class="modal-text">
                     체크인
-                    <h5>2021.03.24</h5>
+                    <h5 id="modalCheckin">2021.03.24</h5>
                    </div>
                  <div class="modal-text"><h3>~</h3></div>
                    <div class="modal-text">
                     체크아웃
-                    <h5>2021.03.27</h5>
+                    <h5 id="modalCheckout">2021.03.27</h5>
                    </div>
                   </div>
                   <br>
                   <div>
                     주소
-                    <h5>서울특별시 중구 충무로 3길, 202동 305호
-                      <br>@@동 @@@@아파트
+                    <h5><span id="modalAddress">서울특별시 중구 충무로 3길, 202동 305호</span>
+                      <br><span id="modalAddressDetail">@@동 @@@@아파트</span>
                     </h5>
                   </div>
                   <hr>
                   <div>
                     <h5>이용 시 주의사항 </h5>
-                    <p>
+                    <p id="modalDesc">
                       1. 청소 및 시설 보증금 2만원(입실전에 입금) *퇴실 후 방 확인 뒤에 당일~익일 사이에 반환됩니다.<br>
                       2.숙소 내부 절대 금연입니다. (내부 흡연으로 인한 오염 및 기물 훼손 시 클리닝 비용 청구됩니다)<br>
                       3.기물 파손 / 분실 시 구매가로 청구됩니다.<br>
@@ -110,12 +152,12 @@
                   <div>
                     연락처
                     <h5>
-                      <i class="fa fa-phone" style="font-size:24px"></i> : 010 - 1234 -1234 / <a href="#"><i class="fa fa-comments-o" style="font-size:24px"></i> </a>
+                      <i class="fa fa-phone" style="font-size:24px"></i> : <span id="modalPhone">010 - 1234 -1234</span> / <a href="#"><i class="fa fa-comments-o" style="font-size:24px"></i> </a>
                     </h5>
                   </div>
                   <br>
                  <div class="text-price">
-                  <h7>결제일<br>2021-03-20</h7>
+                  <h7>결제일<br><span id="modalPaydate">2021-03-20</span></h7>
                  </div>
                 </div>
                 

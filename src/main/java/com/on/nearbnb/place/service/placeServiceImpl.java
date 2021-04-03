@@ -20,6 +20,7 @@ import com.on.nearbnb.place.model.dao.PlaceDao;
 import com.on.nearbnb.place.model.dao.PlacePointDao;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.model.vo.PlacePoint;
+import com.on.nearbnb.place.model.vo.PlaceThumb;
 
 @Service
 public class placeServiceImpl implements PlaceService {
@@ -60,6 +61,11 @@ public class placeServiceImpl implements PlaceService {
 	@Override
 	public List<Place> selectPlaceById(String uId) {		
 		return pDao.selectPlaceById(uId);
+	}
+	
+	@Override
+	public Place selectPlaceForModal(Integer pId) {		
+		return pDao.selectPlaceForModal(pId);
 	}
 
 	@Override
@@ -104,14 +110,31 @@ public class placeServiceImpl implements PlaceService {
 		return pPointDao.searchPlacePoint(searchpoint);
 	}
 
-	@Override
-	public String selectPlaceName(Integer pId) {		
-		return pDao.selectPlaceName(pId);
-	}
 
 	@Override
 	public PlacePoint searchPlacePointOne(Integer pId) {
 		return pPointDao.searchPlacePointOne(pId);
 
 	}
+	
+	@Override
+	public int placeThumbCount(int placeId) {
+		return pDao.placeThumbCount(placeId);
+	}
+	
+	@Override
+	public PlaceThumb selectPlaceThumb(PlaceThumb placeThumb) {
+		return pDao.selectPlaceThumb(placeThumb);
+	}
+	
+	@Override
+	public int insertPlaceThumb(PlaceThumb placeThumb) {
+		return pDao.insertPlaceThumb(placeThumb);
+	}
+	
+	@Override
+	public int deletePlaceThumb(PlaceThumb placeThumb) {
+		return pDao.deletePlaceThumb(placeThumb);
+	}
+
 }

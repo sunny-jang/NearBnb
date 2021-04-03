@@ -313,6 +313,9 @@ img {
 
 #like {
   font-size: 27px;
+  outline: none;
+  background-color: white;
+   border: none;
 }
 
 .place-info {

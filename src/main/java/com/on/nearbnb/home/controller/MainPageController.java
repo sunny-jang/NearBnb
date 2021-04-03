@@ -49,7 +49,7 @@ public class MainPageController {
 		System.out.println("어레이 크기 : " + resultpoint.size());
 		
 		List<Place> resultplace = new ArrayList();
-		List<String> resultimage = new ArrayList();
+		List<String> resultimage = new ArrayList(); 
 		
 		for(int i =0; i<resultpoint.size(); i++) {
 			

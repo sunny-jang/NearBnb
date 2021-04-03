@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.on.nearbnb.board.model.vo.BoardThumb;
 import com.on.nearbnb.book.model.vo.Book;
 import com.on.nearbnb.book.service.BookService;
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.file.service.PlaceFileService;
 import com.on.nearbnb.place.model.vo.PlacePoint;
+import com.on.nearbnb.place.model.vo.PlaceThumb;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.service.PlaceService;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import org.json.simple.JSONObject;
 
 @Controller
 public class PlaceController {
@@ -62,16 +65,40 @@ public class PlaceController {
 	}
 	
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
-	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
+	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, HttpServletRequest request, ModelAndView modelAndView) {
 		Place place= placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);
 		PlacePoint pp = placeService.searchPlacePointOne(pId);
+		
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		
+		int likes = placeService.placeThumbCount(pId);
 		modelAndView.addObject("place", place);
 		modelAndView.addObject("images", files);
+		
+		PlaceThumb placeThumb = new PlaceThumb();
+		placeThumb.setPlaceId(pId);
+		placeThumb.setuId(userId);
+
+		try {
+			if(userId.equals("noOne")) {
+				modelAndView.addObject("like", "login");
+			}else if(placeService.selectPlaceThumb(placeThumb) == null) {
+				modelAndView.addObject("like", "didnt");
+			}else {
+				modelAndView.addObject("like", "did");
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+			
+		modelAndView.addObject("likes",likes);
 		modelAndView.addObject("pp", pp);
 		
 		modelAndView.setViewName("/place/placeDetail");
 		return modelAndView;
+	
 	}
 	
 	@RequestMapping(value="/placeAdd.do", method=RequestMethod.POST)
@@ -173,6 +200,39 @@ public class PlaceController {
 		System.out.println();
 		
 		return jsonArray.toString();
+	}
+	
+	// 숙소 추천
+	@RequestMapping(value = "placeAjaxThumbsUp.do", method = RequestMethod.GET)
+	public void thumbInsertService(int placeCodeSeq,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		JSONObject jsonData= new JSONObject();
+		
+		if(userId.equals("noOne")) {
+			jsonData.put("like", "didnt");
+			return;
+		}
+		PlaceThumb placeThumb = new PlaceThumb();
+		placeThumb.setPlaceId(placeCodeSeq);
+		placeThumb.setuId(userId);
+
+		try {
+			if(placeService.selectPlaceThumb(placeThumb) == null){
+				jsonData.put("like", "did");
+				placeService.insertPlaceThumb(placeThumb);
+			}else {
+				placeService.deletePlaceThumb(placeThumb);
+				jsonData.put("like", "didnt");
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		int likes = placeService.placeThumbCount(placeThumb.getPlaceId());
+		jsonData.put("maxLikes",likes);
+		
+		response.getWriter().append(jsonData.toJSONString());
 	}
 
 }

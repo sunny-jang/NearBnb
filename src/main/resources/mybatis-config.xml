@@ -15,6 +15,7 @@
 		<typeAlias type="com.on.nearbnb.board.model.vo.BoardFile" alias="BoardFile" />
 		<typeAlias type="com.on.nearbnb.place.model.vo.Place" alias="Place" />
 		<typeAlias type="com.on.nearbnb.file.model.vo.PlaceFile" alias="PlaceFile" />
+		<typeAlias type="com.on.nearbnb.place.model.vo.PlaceThumb" alias="PlaceThumb" />
 		<typeAlias type="com.on.nearbnb.place.model.vo.PlacePoint" alias="PlacePoint" />
 		<typeAlias type="com.on.nearbnb.book.model.vo.Book" alias="Book" />
 	</typeAliases>

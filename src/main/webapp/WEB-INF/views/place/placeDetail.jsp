@@ -23,10 +23,46 @@
 			if(bgImage != 'none') {
 				$(".big-image").css("background-image", bgImage);
 			}
-		})
-	})
+		});
+		
+		$('#like').on('click', function(){
+			var user = "${sessionScope.userId}";
+			if(user == ""){
+				alert('로그인이 필요한 서비스입니다.');
+				$(location).attr("href", "signIn.do");
+			}else{
+				$.ajax({
+					url : 'placeAjaxThumbsUp.do',
+					data : {
+						placeCodeSeq : $('#placeCodeSeq').val(),
+						userId : user
+					},
+					type : 'GET',
+					dataType : 'json',
+					success: function(data){
+						$('.likes').html(data.maxLikes);
+						if(data.like == 'login'){
+							alert('로그인이 필요한 서비스입니다.');
+						}
+							if(data.like == 'didnt'){
+							$('#like').html("♡");
+						}
+							if(data.like == 'did'){
+							$('#like').html("♥");
+						}
+					},
+					error: function(request, status, error){
+						alert("code : " + request.status + "\n"
+								+ "message : " + request.responseText + "\n"
+								+ "error : " + error);
+					}
+				});
+			}
+		});
+	});
 </script>
 <section>
+  <input type="hidden" id="placeCodeSeq" value="${place.placeId }">
   <div class="container">
     <div class="title align-self-center">
       <h1>${place.placeName}</h1>
@@ -54,7 +90,7 @@
         <!-- main-right -->
         <div class="col">
           <div class="d-flex justify-content-between">
-            <h2>&nbsp;${place.uId}님이 호스팅하는 아파트</h2>
+            <h2 id="userId">&nbsp;${place.uId}님이 호스팅하는 아파트</h2>
             <div class="profile" style="background-color: black;"></div>
           </div>
           <hr>
@@ -95,7 +131,18 @@
               <div id="detail" class="content">${place.placeDesc}</div>
             </div>
             <div class="d-flex justify-content-center align-self-center">
-              <div id="like">♥ ${place.placeThumb}</div>
+            	<c:choose>
+            	  <c:when test="${like eq 'login' }">
+            	  	<b><button type="button" class="like" id="like">♡</button></b>
+            	  </c:when>
+            	  <c:when test="${like eq 'didnt' }">
+            	  	<b><button type="button" class="like" id="like">♡</button></b>
+            	  </c:when>
+				  <c:otherwise>
+				  	<b><button type="button" class="like" id="like">♥</button></b>
+              	  </c:otherwise>
+				</c:choose>
+				<p class="likes" style="font-size: 30px;">${likes}</p>
             </div>
             <div class="d-flex justify-content-center align-self-center">
               <button type="button" class="btn btn-warning btn-lg btn-block" onClick="location.href='placeReservation.do?pId=${place.placeId}'">예약하기</button>	

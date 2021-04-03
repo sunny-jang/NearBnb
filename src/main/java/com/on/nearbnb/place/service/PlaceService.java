@@ -11,10 +11,14 @@ import com.on.nearbnb.place.model.vo.PlacePoint;
 @Transactional(rollbackFor = Exception.class)
 public interface PlaceService {
 	
+	// 숙소 등록
 	public int insertPlace(Place place, PlacePoint placePoint, List<PlaceFile>placeFile);
+	
+	// 숙소 위치 등록
 	public int insertPlacePoint(PlacePoint placePoint);
 	public Place selectPlace(Integer pId);
 	public List<Place> selectPlaceById(String uId);
+	public Place selectPlaceForModal(Integer pId);
 
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint);
 

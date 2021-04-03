@@ -61,6 +61,11 @@ public class placeServiceImpl implements PlaceService {
 	public List<Place> selectPlaceById(String uId) {		
 		return pDao.selectPlaceById(uId);
 	}
+	
+	@Override
+	public Place selectPlaceForModal(Integer pId) {		
+		return pDao.selectPlaceForModal(pId);
+	}
 
 	@Override
 	public String kakaoPay(String placeName, String totalPrice) throws Exception {
@@ -110,4 +115,5 @@ public class placeServiceImpl implements PlaceService {
 		return pPointDao.searchPlacePointOne(pId);
 
 	}
+
 }

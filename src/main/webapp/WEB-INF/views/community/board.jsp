@@ -122,73 +122,99 @@
 					<tr id="bestList">
 						<td>${bestBoard.boardType }</td>
 						<td>
-							<a href="boadSelectOneCon.do?boardCodeSeq=${bestBoard.boardCodeSeq }">${bestBoard.boardTitle }</a>
+							<a href="boadSelectOneCon.do?boardCodeSeq=${bestBoard.boardCodeSeq }" class="Btitle">${bestBoard.boardTitle }</a>
 							<c:choose>
 								<c:when test="${bestBoard.commentCnt eq 0 }">
 								</c:when>
 								<c:when test="${bestBoard.commentCnt ne 0 }">
-								<p style="display: inline; color: tomato;">[${bestBoard.commentCnt}]</p>
+									<p style="display: inline; color: tomato;">[${bestBoard.commentCnt}]</p>
 								</c:when>
 							</c:choose>
 						</td>
-						<td>${bestBoard.thumbsCnt }</td>
-						<td>${bestBoard.userId }</td>
-						<td><fmt:formatDate value="${bestBoard.boardDate }" type="DATE" dateStyle="MEDIUM"/></td>
-						<td>${bestBoard.boardCount }</td>
+						<td>
+							${bestBoard.thumbsCnt }
+						</td>
+						<td>
+							${bestBoard.userId }
+						</td>
+						<td>
+							<fmt:formatDate value="${bestBoard.boardDate }" type="DATE" dateStyle="MEDIUM"/>
+						</td>
+						<td>
+							${bestBoard.boardCount }
+						</td>
 					</tr>
 				</c:forEach>
 		 		<c:forEach var="board" items="${boardList }" varStatus="status">
 					<tr id="boardList">
 						<td>${board.boardType }</td>
 						<td>
-							<a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }">${board.boardTitle }</a>
+							<a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }" class="Btitle">${board.boardTitle }</a>
 							<c:choose>
 								<c:when test="${board.commentCnt eq 0 }">
 								</c:when>
 								<c:when test="${board.commentCnt ne 0 }">
-								<p style="display: inline; color: tomato;">[${board.commentCnt}]</p>
+									<p style="display: inline; color: tomato;">[${board.commentCnt}]</p>
 								</c:when>
 							</c:choose>
 						</td>
-						<td>${board.thumbsCnt }</td>
-						<td>${board.userId }</td>
-						<td><fmt:formatDate value="${board.boardDate }" type="DATE" dateStyle="MEDIUM"/></td>
-						<td>${board.boardCount }</td>
+						<td>
+							${board.thumbsCnt }
+						</td>
+						<td>
+							${board.userId }
+						</td>
+						<td>
+							<fmt:formatDate value="${board.boardDate }" type="DATE" dateStyle="MEDIUM"/>
+						</td>
+						<td>
+							${board.boardCount }
+						</td>
 					</tr>
 				</c:forEach>
 			</c:if>
 			<!-- 앞 페이지 번호 처리 -->
 			<tr height="20">
 				<td colspan="5" style="margin: 10px;">
-					<c:if test="${currentPage <= 1}">
-					</c:if>
+					<c:if test="${currentPage <= 1}"></c:if>
 		  			<c:if test="${currentPage > 1}">
 						<c:url var="boardList" value="board.do">
 							<c:param name="page" value="${currentPage-1}" />
 						</c:url>
-						<a href="${boardList}"><b>< 이전</b></a>
+						<a href="${boardList}" class="beforePage">
+							<b>
+								< 이전
+							</b>
+						</a>
 					</c:if>
 					<!-- 번호 처리 -->
 					<c:set var="maxPage" value="${maxPage}" />
 					<c:forEach var="endPage" begin="${startPage+1}" end="${maxPage}">
 						<c:if test="${endPage eq currentPage}">
-							<font color="red" size="4"><b>[${endPage}]</b></font>
+							<font size="4">
+								<b class="myButton1">
+									${endPage}
+								</b>
+							</font>
 						</c:if>
 						<c:if test="${endPage ne currentPage}">
 							<c:url var="boardListCheck" value="board.do">
 								<c:param name="page" value="${endPage}" />
 							</c:url>
-							<a href="${boardListCheck}">${endPage}</a>
+							<a href="${boardListCheck}" class="myButton2">${endPage}</a>
 						</c:if>
 					</c:forEach>
 					<!-- 끝 페이지 번호 처리 -->
-					<c:if test="${currentPage >= maxPage}">
-					</c:if>
+					<c:if test="${currentPage >= maxPage}"></c:if>
 					<c:if test="${currentPage < maxPage}">
 						<c:url var="boardListEND" value="board.do">
 							<c:param name="page" value="${currentPage+1}" />
 						</c:url>
-						<a href="${boardListEND}"><b>다음 ></b></a>
+						<a href="${boardListEND}" class="afterPage">
+							<b>
+								다음 >
+							</b>
+						</a>
 					</c:if>
 				</td>
 			</tr>

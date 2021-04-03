@@ -29,7 +29,7 @@ public class PlaceDao {
 	public List<Place> selectPlaceById(String uId) {		
 		return sqlSession.selectList("Place.selectPlaceById", uId);
 	}
-	
+
 	// 숙소 코드로 숙소 명 조회
 	public String selectPlaceName(Integer pId) {
 		return sqlSession.selectOne("selectPlaceName",pId);
@@ -54,4 +54,10 @@ public class PlaceDao {
 	public int deletePlaceThumb(PlaceThumb placeThumb) {
 		return sqlSession.delete("Place.deletePlaceThumb", placeThumb);
 	}
+
+	// 마이페이지용 숙소 코드로 조회(상세 조회)
+	public Place selectPlaceForModal(Integer pId) {		
+		return sqlSession.selectOne("Place.selectPlaceForModal", pId);
+	}	
+
 }

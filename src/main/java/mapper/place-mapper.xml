@@ -71,6 +71,11 @@
 		    "uId" = #{uId}
 	</select>
 	
+	<!-- 마이페이지 용 숙소 코드로 조회 -->
+	<select id="selectPlaceForModal" resultMap="resultPlace" parameterType="Integer">
+		SELECT PLACE_NAME, PLACE_ADDRESS, PLACE_ADDRESS_DETAIL, PLACE_INFO, USER_PHONE FROM PLACE WHERE P_CODE_SEQ = #{pId}
+	</select>	
+
 	<!-- 숙소 등록 -->
 	<insert id="insertPlace" parameterType="Place">
 		<selectKey keyProperty="placeId" resultType="Integer" order="BEFORE">
@@ -111,4 +116,5 @@
 	<delete id="deletePlaceThumb" parameterType="placeThumb">
 		DELETE FROM PLACE_THUMB WHERE P_CODE_SEQ = #{placeId} AND U_ID = #{uId}
 	</delete>
+
 </mapper>

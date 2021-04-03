@@ -63,7 +63,7 @@
 		        USER_PHONE hostPhone,
 		        PLACE_KAKAO_LINK placeKakaoLink,
 		        PLACE_INFO placeDesc,
-		        PLACE_OPEN_DATE placeOpenDate
+		        PLACE_OPEN_DATE placeOpenDate,
 		        PLACE_CLOSE_DATE placeCloseDate
 		    FROM PLACE)A,
 		        (SELECT P_CODE_SEQ, COUNT(*) CNT FROM PLACE_THUMB GROUP BY P_CODE_SEQ) B

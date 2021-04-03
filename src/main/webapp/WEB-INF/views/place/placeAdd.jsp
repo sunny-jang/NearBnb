@@ -6,6 +6,7 @@
  <c:set var="context" value="${pageContext.request.contextPath}" />
  <script src="${context}/resources/html/js/dateController.js"></script>
  <script src="${context}/resources/html/js/kakaoMap.js"></script>
+ <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 var date = new PlaceDate();
 	$(function() {
@@ -118,7 +119,7 @@ var date = new PlaceDate();
             </div>
           </div>
 
-          <div class="show-map mt-3 justify-content-center row">
+          <div class="show-map mt-3 mb-3 justify-content-center row">
           <div id="map" style="width:500px;height:400px;"></div>
           </div>
          
@@ -136,11 +137,11 @@ var date = new PlaceDate();
             </div>
             <div class="w-50">
             	<div class="d-flex">
-            		<input type="text" placeholder="주소를 입력해주세요." name="placeAddress" id="address" class="w-75 p-2 mb-2 col-9" required>
-              		<button type="button" class="btn btn-primary find-address p-1 pt-2 pb-2 w-25 mb-2 col" style="box-sizing:border-box; font-size: 14px">지도에 표시</button>
+            		<input type="text" placeholder="주소를 입력해주세요." readonly name="placeAddress" id="address" class="w-75 p-2 mb-2 col-9" required style="background-color: #eee">
+              		<button type="button" class="btn btn-primary find-address p-1 pt-2 pb-2 w-25 mb-2 col" style="box-sizing:border-box; font-size: 14px">주소 검색</button>
             	</div>
               
-              <input type="text" placeholder="상세 주소를 입력해주세요." name="placeAddressDetail" class="w-100 p-2" required>
+              <input type="text" placeholder="상세 주소를 입력해주세요." name="placeAddressDetail" class="w-100 p-2" required id="addressDetail">
               <input type="hidden" name="latitude" class="w-100 p-2" required>
               <input type="hidden" name="longitude" class="w-100 p-2" required>
             </div>
@@ -203,4 +204,7 @@ var date = new PlaceDate();
     </div>
   </form>
 </section>
+<script>
+    
+</script>
 <%@ include file="../include/footer.jsp" %>

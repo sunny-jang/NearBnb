@@ -40,7 +40,7 @@
           	<c:forEach var="i" begin="0" end="3">
          		<div class="sub-pic"
          		 style="background-image:
-         		 url(./resources/html/images/<c:if test="${not empty images[i]}">${images[i].fileChangedName});</c:if>
+         		 url(<c:if test="${not empty images[i]}">${images[i].filePath});</c:if>
          		  background-size: cover; background-repeat: no-repeat"></div>
           	</c:forEach>
             

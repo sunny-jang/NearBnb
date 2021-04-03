@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,15 +50,16 @@ public class PlaceController {
 	@ResponseBody
 	public String addFile(MultipartHttpServletRequest files, HttpServletRequest request) throws Exception {
 		MultipartFile image = files.getFile("image");
+		
 
 		String imageName = new java.util.Date().getTime() + image.getOriginalFilename();
 		String path = request.getSession().getServletContext().getRealPath("resources") +"\\html\\images\\" + imageName;
 
-		File file = new File(path);
-		
-		image.transferTo(file);
-		
+//		File file = new File(path);
 		System.out.println(imageName);
+		
+//		image.transferTo(file);
+		
 		return imageName;
 	}
 	
@@ -77,11 +79,24 @@ public class PlaceController {
 	@RequestMapping(value="/placeAdd.do", method=RequestMethod.POST)
 	public String addPlace(MultipartHttpServletRequest files, Place place, PlacePoint placePoint, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
 		List<MultipartFile> images = files.getFiles("imageUpload");
-		String path = files.getSession().getServletContext().getRealPath("resources")+"\\html\\images\\";
 		String[] changedImages = files.getParameterValues("changedImages");
+		String[] imagePath = files.getParameterValues("imagePath");
+		
+		List<HashMap<String, String>> imageInfo = new ArrayList<HashMap<String,String>>();
+		
+		for(int i=0; i<changedImages.length; i++) { 
+			HashMap<String, String> fileInfo = new HashMap<String, String>();
+			String fileName = images.get(i).getOriginalFilename();
+			
+			fileInfo.put("fileName", fileName);
+			fileInfo.put("changedName", changedImages[i]);
+			fileInfo.put("imagePath", imagePath[i]);
+			
+			imageInfo.add(fileInfo);
+		}
 		
 		/* Coords coords = getCoords(request); */
-		List<PlaceFile> placeFiles = makeFileList(images,changedImages, path);
+		List<PlaceFile> placeFiles = makeFileList(imageInfo);
 		System.out.println(placeFiles.toString());
 		HttpSession session = request.getSession();
 		String uId = (String) session.getAttribute("userId");
@@ -96,14 +111,13 @@ public class PlaceController {
 		return "redirect:index.do";
 	}
 
-	public List<PlaceFile> makeFileList(List<MultipartFile> images,String[] changedImages, String path) {
+	public List<PlaceFile> makeFileList(List<HashMap<String, String>> imageInfo) {
 		List<PlaceFile> placeFiles = new ArrayList<PlaceFile>();
 		
-		for(int i = 0; i<changedImages.length; i++) {
-			String fileName = images.get(i).getOriginalFilename();
-			String fileChangedName = changedImages[i];
-			System.out.println("fileChangedName : " + fileChangedName);
-			String _path = path;
+		for(int i = 0; i<imageInfo.size(); i++) {
+			String fileName = imageInfo.get(i).get("fileName");
+			String fileChangedName = imageInfo.get(i).get("changedName");
+			String _path = imageInfo.get(i).get("imagePath");
 					
 			
 			if(fileName!= null && fileName !="") {
@@ -121,7 +135,7 @@ public class PlaceController {
 		Place place = placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);		
 	
-		modelAndView.addObject("sImage",files.get(0).getFileChangedName());
+		modelAndView.addObject("sImage",files.get(0).getFilePath());
 		modelAndView.addObject("place", place);
 		modelAndView.setViewName("/place/placeReservation");
 		return modelAndView;	

@@ -94,7 +94,12 @@ public class MyPageController {
 		List<String> thumbnail = new ArrayList<String>();
 		for(Place p : placeList) {
 			List<PlaceFile> files = placeFileService.selectFiles(p.getPlaceId());
-			thumbnail.add(files.get(0).getFileChangedName());
+			
+			if(files.size() > 0) {
+				thumbnail.add(files.get(0).getFilePath());
+			}else {
+				thumbnail.add("");
+			}
 		}		
 		modelAndView.addObject("placeList", placeList);
 		modelAndView.addObject("thumbnail", thumbnail);
@@ -119,7 +124,12 @@ public class MyPageController {
 		for(Book book : bookList) {
 			List<PlaceFile> files = placeFileService.selectFiles(Integer.parseInt(book.getpId()));
 			Place place = placeService.selectPlace(Integer.parseInt(book.getpId()));
-			thumbnail.add(files.get(0).getFileChangedName());
+			
+			if(files.size() > 0) {
+				thumbnail.add(files.get(0).getFilePath());
+			}else {
+				thumbnail.add("");
+			}
 			placeTitle.add(place.getPlaceName());
 		}
 		modelAndView.addObject("bList", bookList);

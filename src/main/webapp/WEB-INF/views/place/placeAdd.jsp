@@ -7,46 +7,59 @@
  <script src="${context}/resources/html/js/dateController.js"></script>
  <script src="${context}/resources/html/js/kakaoMap.js"></script>
 <script>
-//dateController.js 에 클래스로 분리
-var date = new PlaceDate();
 	$(function() {
 		var date = new PlaceDate();
-		$("input[name=placeOpenDate]").attr("min", date.getDateFormat(new Date()))
 		
-		//TDDO fetch api로 바꾸기
-		$("input[name=imageUpload]").on("change", function() {
-			var _this = $(this);
-			var file = _this[0].files[0];
-            var formData = new FormData();
-            formData.append("image", file);
-
-			$.ajax({
-				url: 'addFile',
-				method: 'POST',
-				data: formData,
-				processData: false,
-				contentType: false,
-				success: function(data) {
-					_this.closest("div").css("background-image", "url(/nearbnb/resources/html/images/"+data+")");
-					$(".big-image").css("background-image", "url(/nearbnb/resources/html/images/"+data+")");
-					
-					var i = document.createElement("input");
-					i.setAttribute("type","hidden");
-					i.setAttribute("name","changedImages");
-					console.log(data);
-					i.setAttribute("value",data);
-					$("#addForm").append(i);
-				},
-				error: function(error) {
-					console.log();
-				}
-			})
-		})
+		$("input[name=placeOpenDate]").attr("min", date.getDateFormat(new Date()));
 		
 		$("#submitPlace").on("click", function() {
 			var formData = new FormData($("#addForm")[0]);
 			var latitude = $("input[name=latitude]").val();
 			var longitude = $("input[name=longitude]").val();
+		});
+		
+		$("input[name=imageUpload]").on("change", function() {
+			var _this = $(this);
+			var file = _this[0].files[0];
+			var fileName = new Date().getTime() + file.name;
+		    var formData = new FormData();
+		    formData.enctype='multipart/form-data';
+		    formData.append("image", file);
+		    
+		    var storageRef = firebase.storage().ref();
+
+		    storageRef
+		    .child(`images/`+fileName)
+		    .put(file)
+		    .on('state_changed', snapshot => {
+		           console.log(snapshot)
+		       }, error => {
+		           console.log(error);
+		       }, (res) => {
+		           let storageUrl = 'images/'+fileName;
+		           
+		           storageRef.child(storageUrl).getDownloadURL().then(function(url) {   // 저장된 파일의 http url 주소 받아오기
+		           	_this.closest("div").css("background-image", "url("+url+")");
+		           	$(".big-image").css("background-image", "url("+url+")");
+		           	
+		           	let i = document.createElement("input");
+		           	i.setAttribute("type","hidden");
+					i.setAttribute("name","imagePath");
+					i.setAttribute("value",url);
+					$("#addForm").append(i);
+					
+		           	
+		          }).catch(function(error) {});
+		           
+		           let i = document.createElement("input");
+						i.setAttribute("type","hidden");
+						i.setAttribute("name","changedImages");
+						i.setAttribute("value",fileName);
+						
+						$("#addForm").append(i);
+				
+		       }
+		    );
 		})
 	});
 
@@ -174,6 +187,5 @@ var date = new PlaceDate();
         
     </div>
   </form>
-  
 </section>
 <%@ include file="../include/footer.jsp" %>

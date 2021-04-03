@@ -24,7 +24,7 @@
         <div class="card_content">
           <div class="place-li_je">
             <a class="row justify-content-center"  data-toggle="modal" data-target="#myModal">
-              <div class="place-image col-2 align-self-center" style="background-image: url(/nearbnb/resources/html/images/${thumbnail[status.index]})">
+              <div class="place-image col-2 align-self-center" style="background-image: url(${thumbnail[status.index]})">
                 
               </div>
               <div class="col-9 card-item">

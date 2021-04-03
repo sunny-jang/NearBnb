@@ -7,8 +7,8 @@
  <script src="${context}/resources/html/js/dateController.js"></script>
  <script src="${context}/resources/html/js/kakaoMap.js"></script>
 <script>
+var date = new PlaceDate();
 	$(function() {
-		var date = new PlaceDate();
 		
 		$("input[name=placeOpenDate]").attr("min", date.getDateFormat(new Date()));
 		
@@ -171,7 +171,7 @@
             </div>
             <div class="d-flex justify-content-end">
               <input type="date" name="placeOpenDate" class="w-50 p-2" required min="" onChange="date.setOpenDate(this)">
-              <input type="date" name="placeCloseDate" class="w-50 p-2 ml-2" required min="2021-03-26">
+              <input type="date" name="placeCloseDate" class="w-50 p-2 ml-2" required>
             </div>
             
           </div>

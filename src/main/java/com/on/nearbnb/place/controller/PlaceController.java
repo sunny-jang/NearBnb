@@ -49,23 +49,6 @@ public class PlaceController {
 	private BookService bookService;
 	
 	
-	@RequestMapping(value="/addFile", method=RequestMethod.POST)
-	@ResponseBody
-	public String addFile(MultipartHttpServletRequest files, HttpServletRequest request) throws Exception {
-		MultipartFile image = files.getFile("image");
-		
-
-		String imageName = new java.util.Date().getTime() + image.getOriginalFilename();
-		String path = request.getSession().getServletContext().getRealPath("resources") +"\\html\\images\\" + imageName;
-
-//		File file = new File(path);
-		System.out.println(imageName);
-		
-//		image.transferTo(file);
-		
-		return imageName;
-	}
-	
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
 	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, HttpServletRequest request, ModelAndView modelAndView) {
 		Place place= placeService.selectPlace(pId);

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.book.model.vo.Book;
@@ -103,7 +104,9 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value = "/myPageHostCalendar.do", method = RequestMethod.GET)
-	public ModelAndView myPageHostCalendar(ModelAndView modelAndView) {
+	public ModelAndView myPageHostCalendar(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
+		Place place = placeService.selectPlace(pId);
+		modelAndView.addObject("place", place);		
 		modelAndView.setViewName("myPage/myPageHostCalendar");
 		return modelAndView;
 	}

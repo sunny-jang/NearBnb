@@ -61,7 +61,7 @@
 				},
 				success : function(data) {
 					console.log("success");
-					//console.log(data);
+					console.log(data);
 					
 				 data = JSON.parse(data);				
 					searchPoint(data);

@@ -16,8 +16,8 @@
 				<c:forEach var="p" items="${placeList}" varStatus="status">
 				<div class="card_content">
 					<div class="place-li_je pt-2">
-						<a href="#" class="row justify-content-center">
-							<div class="place-image col-2 align-self-center" style="background-image: url(/nearbnb/resources/html/images/${thumbnail[status.index]})">
+						<a href="myPageHostCalendar.do?pId=${p.placeId}" class="row justify-content-center">
+							<div class="place-image col-2 align-self-center" style="background-image: url(${thumbnail[status.index]})">
 								
 							</div>
 							<div class="col-9">

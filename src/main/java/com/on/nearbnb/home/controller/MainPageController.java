@@ -30,9 +30,9 @@ public class MainPageController {
 	PlaceService placeService;
 	@Autowired
 	PlaceFileService placeFileService;
-	
 
-	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")@ResponseBody
+	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	@ResponseBody
 	public Object searchPlacePoint(@RequestParam("latitude") double latitude,
 			@RequestParam("longitude") double longitude, HttpServletRequest request, ModelAndView modelAndView) {
 
@@ -43,47 +43,48 @@ public class MainPageController {
 		System.out.println("위도 getLatitude : " + searchpoint.getLatitude());
 		System.out.println("경도 getLongitude : " + searchpoint.getLongitude());
 
-		List<PlacePoint> resultpoint = placeService.searchPlacePoint(searchpoint);
-		System.out.println(resultpoint.get(0).toString());
-		System.out.println(resultpoint.get(0).getPlaceId());
-		System.out.println("어레이 크기 : " + resultpoint.size());
-		
-		List<Place> resultplace = new ArrayList();
-		List<String> resultimage = new ArrayList(); 
-		
-		for(int i =0; i<resultpoint.size(); i++) {
-			
-			int pId=resultpoint.get(i).getPlaceId();
-			Place placeName = placeService.selectPlace(pId);
-			resultplace.add(placeName);
-			//System.out.println("숙소이름 : "+placeName.getPlaceName());
-			
-			String imageStr = placeFileService.selectOneFiles(pId);
-			resultimage.add(imageStr);
-			//System.out.println("이미지 주소값 : "+resultimage.get(i));
-		}
-		  
-		
-		//Ajax
-		JSONObject jsonObject = new JSONObject();//PlacePoint객체오브젝트
+		List<PlacePoint> resultPoint = placeService.searchPlacePoint(searchpoint);
+		System.out.println("PlaceId : " + resultPoint.get(0).getPlaceId());
+		List<Place> resultPlace = placeService.selectPlaceList(resultPoint);// 숙소정보
+		System.out.println("PlaceName : " + resultPlace.get(0).getPlaceName());
+		List<PlaceFile> resultFileOne = placeFileService.selectOneList(resultPoint);
+		System.out.println("FilePath : " + resultFileOne.get(0).getFilePath());
+
+		// Ajax
+		JSONObject jsonObject = new JSONObject();// PlacePoint객체오브젝트
 		JSONArray jsonArray = new JSONArray();
-		
-		for (int i = 0; i < resultpoint.size(); i++) {
-			JSONObject pObject = new JSONObject();
-			pObject.put("placeId", resultpoint.get(i).getPlaceId());
-			pObject.put("latitude", resultpoint.get(i).getLatitude());
-			pObject.put("longitude", resultpoint.get(i).getLongitude());
-			pObject.put("placeName",resultplace.get(i).getPlaceName());
-			pObject.put("placeImage",resultimage.get(i));
-			jsonArray.add(pObject);
+
+		for (int i = 0; i < resultPoint.size(); i++) {
+			System.out.println(i + "PlaceId : " + resultPoint.get(i).getPlaceId());
 		}
-		
-		jsonObject.put("pointList",jsonArray);
-		
+
+		System.out.println("크기 : " + resultPoint.size());
+		System.out.println("크기 : " + resultFileOne.size());
+
+		System.out.println("test : " + resultFileOne.get(0).getPlaceId());
+
+		int pointId, placeId, fileId;
+
+		for (int i = 0; i < resultFileOne.size(); i++) {
+			pointId = resultPoint.get(i).getPlaceId();
+			placeId = resultPlace.get(i).getPlaceId();
+			fileId = resultFileOne.get(i).getPlaceId();
+			if ((pointId == placeId) && (placeId == fileId)) {
+				JSONObject pObject = new JSONObject();
+				pObject.put("placeId", resultPoint.get(i).getPlaceId());
+				pObject.put("latitude", resultPoint.get(i).getLatitude());
+				pObject.put("longitude", resultPoint.get(i).getLongitude());
+				pObject.put("placeName", resultPlace.get(i).getPlaceName());
+				pObject.put("placeImage", resultFileOne.get(i).getFilePath());
+				jsonArray.add(pObject);
+			}
+
+		}
+
+		jsonObject.put("pointList", jsonArray);
+
 		Object result = jsonObject.toString();
 		System.out.println(result);
-		modelAndView.addObject("resultpoint", resultpoint);
-		modelAndView.setViewName("mainMap");
 		return result;
 	}
 }

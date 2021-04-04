@@ -16,17 +16,61 @@
 		<result property="placeOpenDate" column="PLACE_OPEN_DATE"/>
 		<result property="placeCloseDate" column="PLACE_CLOSE_DATE"/>
 		<result property="placeDesc" column="PLACE_INFO"/>
-		<result property="placeThumb" column="PLACE_THUMB"/>
+	</resultMap>
+	
+	<resultMap type="PlaceThumb" id="resultPlaceThumb">
+		<id property="placeId" column="P_CODE_SEQ" />
+		<result property="uId" column="U_ID"/>
 	</resultMap>
 	
 	<!-- 숙소 코드로 조회(상세 조회) -->
 	<select id="selectPlace" resultMap="resultPlace" parameterType="Integer">
-		SELECT * FROM PLACE WHERE P_CODE_SEQ = #{pId}
+		SELECT A.*, DECODE(B.CNT, NULL, 0, B.CNT) placeThumb FROM
+		    (SELECT
+		        P_CODE_SEQ placeId,
+		        U_ID "uId",
+		        PLACE_NAME placeName,
+		        PLACE_ADDRESS placeAddress,
+		        PLACE_ADDRESS_DETAIL placeAddressDetail,
+		        PLACE_LIMIT_PERSON maxGuest,
+		        PLACE_TYPE placeType,
+		        PLACE_PRICE placePrice,
+		        USER_PHONE hostPhone,
+		        PLACE_KAKAO_LINK placeKakaoLink,
+		        PLACE_INFO placeDesc,
+		        PLACE_OPEN_DATE placeOpenDate,
+		        PLACE_CLOSE_DATE placeCloseDate
+		    FROM PLACE)A,
+		        (SELECT P_CODE_SEQ, COUNT(*) CNT FROM PLACE_THUMB GROUP BY P_CODE_SEQ) B
+		WHERE
+		    A.placeId = B.P_CODE_SEQ(+)
+		AND
+		    placeId = #{pId}
 	</select>
 	
 	<!-- 아이디로 숙소 조회(등록한 숙소 조회) -->
 	<select id="selectPlaceById" resultMap="resultPlace" parameterType="String">
-		SELECT * FROM PLACE WHERE U_ID = #{uId}
+		SELECT A.*, DECODE(B.CNT, NULL, 0, B.CNT) placeThumb FROM
+		    (SELECT
+		        P_CODE_SEQ placeId,
+		        U_ID "uId",
+		        PLACE_NAME placeName,
+		        PLACE_ADDRESS placeAddress,
+		        PLACE_ADDRESS_DETAIL placeAddressDetail,
+		        PLACE_LIMIT_PERSON maxGuest,
+		        PLACE_TYPE placeType,
+		        PLACE_PRICE placePrice,
+		        USER_PHONE hostPhone,
+		        PLACE_KAKAO_LINK placeKakaoLink,
+		        PLACE_INFO placeDesc,
+		        PLACE_OPEN_DATE placeOpenDate,
+		        PLACE_CLOSE_DATE placeCloseDate
+		    FROM PLACE)A,
+		        (SELECT P_CODE_SEQ, COUNT(*) CNT FROM PLACE_THUMB GROUP BY P_CODE_SEQ) B
+		WHERE
+		    A.placeId = B.P_CODE_SEQ(+)
+		AND
+		    "uId" = #{uId}
 	</select>
 	
 	<!-- 마이페이지 용 숙소 코드로 조회 -->
@@ -50,6 +94,7 @@
 		  #{placeCloseDate}, #{placeDesc})
 	</insert>
 
+
 	<!-- 리스트 숙소정보 조회 -->
 	  <select id = "selectSearchPlace"  resultMap="resultPlace" parameterType="java.util.List">
     SELECT * FROM PLACE WHERE P_CODE_SEQ in (
@@ -58,5 +103,31 @@
        </foreach>
        )
    </select>
+
+	<!-- 숙소 코드로 숙소 명 조회 -->
+	<select id="selectPlaceName" resultType="String" parameterType="Integer">
+		SELECT PLACE_NAME FROM PLACE WHERE P_CODE_SEQ = #{placeId}
+	</select>
+	
+	<!-- 게시글 추천 개수 조회 -->
+	<select id="placeThumbCount" parameterType="int" resultType="_int">
+		SELECT COUNT(*) cnt FROM PLACE_THUMB WHERE P_CODE_SEQ = #{placeId}
+	</select>
+	
+	<!-- 추천 조회 -->
+	<select id="selectPlaceThumb" parameterType="PlaceThumb" resultType="PlaceThumb" resultMap="resultPlaceThumb">
+		SELECT * FROM PLACE_THUMB WHERE P_CODE_SEQ = #{placeId} AND U_ID = #{uId}
+	</select>
+	
+	<!-- 추천하기 -->
+	<insert id="insertPlaceThumb" parameterType="placeThumb">
+		INSERT INTO PLACE_THUMB VALUES(#{placeId}, #{uId})
+	</insert>
+	
+	<!-- 추천 취소 -->
+	<delete id="deletePlaceThumb" parameterType="placeThumb">
+		DELETE FROM PLACE_THUMB WHERE P_CODE_SEQ = #{placeId} AND U_ID = #{uId}
+	</delete>
+
 
 </mapper>

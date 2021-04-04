@@ -162,13 +162,12 @@ $(function(){
 </script>
 <section>
 	<div class="total">
-		<h2>커뮤니티</h2>
-		<hr>
+	<h2>커뮤니티</h2>
+	<hr>
 		<center>
 			<form method="get" id="commentForm" action="boardCommentInsert.do">
-				<input type="hidden" name="boardCodeSeq" id="boardCodeSeq"
-					value="${board.boardCodeSeq }" /> <input type="hidden"
-					name="userId" id="userId" value="${board.userId }" />
+				<input type="hidden" name="boardCodeSeq" id="boardCodeSeq" value="${board.boardCodeSeq }" />
+				<input type="hidden" name="userId" id="userId" value="${board.userId }" />
 				<table style="font-size: 20px;" id="tableEle">
 					<tr>
 						<td style="width: 150px;">제목</td>
@@ -177,7 +176,8 @@ $(function(){
 								<h2>${board.boardTitle }</h2>
 							</div>
 						</td>
-						<td style="width: 100px;"><c:choose>
+						<td style="width: 100px;">
+							<c:choose>
 								<c:when test="${heart eq 'unSignIn' }">
 									<button type="button" class="heart" id="thumb">♡</button>
 								</c:when>

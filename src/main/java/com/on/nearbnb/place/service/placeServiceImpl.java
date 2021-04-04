@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.on.nearbnb.place.model.dao.PlaceDao;
 import com.on.nearbnb.place.model.dao.PlacePointDao;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.model.vo.PlacePoint;
+import com.on.nearbnb.place.model.vo.PlaceThumb;
 
 @Service
 public class placeServiceImpl implements PlaceService {
@@ -105,11 +107,12 @@ public class placeServiceImpl implements PlaceService {
 	}	
 	//mainpage
 	@Override
-	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint){//foreach
-		List<PlacePoint> resultPoint= pPointDao.searchPlacePoint(searchpoint);
-		System.out.println(resultPoint.get(0).getPlaceId());
-		List<Place> resultPlace = pDao.selectSearchPlace(resultPoint);
-		System.out.println(resultPlace.get(0).getPlaceName());
+	public List<Place> selectPlaceList(List<PlacePoint> resultPoint) {
+		return pDao.selectSearchPlace(resultPoint);
+	}	
+	
+	@Override
+	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint){
 		return pPointDao.searchPlacePoint(searchpoint);
 	}
 
@@ -118,6 +121,26 @@ public class placeServiceImpl implements PlaceService {
 	public PlacePoint searchPlacePointOne(Integer pId) {
 		return pPointDao.searchPlacePointOne(pId);
 
+	}
+	
+	@Override
+	public int placeThumbCount(int placeId) {
+		return pDao.placeThumbCount(placeId);
+	}
+	
+	@Override
+	public PlaceThumb selectPlaceThumb(PlaceThumb placeThumb) {
+		return pDao.selectPlaceThumb(placeThumb);
+	}
+	
+	@Override
+	public int insertPlaceThumb(PlaceThumb placeThumb) {
+		return pDao.insertPlaceThumb(placeThumb);
+	}
+	
+	@Override
+	public int deletePlaceThumb(PlaceThumb placeThumb) {
+		return pDao.deletePlaceThumb(placeThumb);
 	}
 
 }

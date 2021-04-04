@@ -6,49 +6,78 @@
  <c:set var="context" value="${pageContext.request.contextPath}" />
  <script src="${context}/resources/html/js/dateController.js"></script>
  <script src="${context}/resources/html/js/kakaoMap.js"></script>
+ <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-//dateController.js 에 클래스로 분리
 var date = new PlaceDate();
 	$(function() {
-		var date = new PlaceDate();
-		$("input[name=placeOpenDate]").attr("min", date.getDateFormat(new Date()))
 		
-		//TDDO fetch api로 바꾸기
-		$("input[name=imageUpload]").on("change", function() {
-			var _this = $(this);
-			var file = _this[0].files[0];
-            var formData = new FormData();
-            formData.append("image", file);
-
-			$.ajax({
-				url: 'addFile',
-				method: 'POST',
-				data: formData,
-				processData: false,
-				contentType: false,
-				success: function(data) {
-					_this.closest("div").css("background-image", "url(/nearbnb/resources/html/images/"+data+")");
-					$(".big-image").css("background-image", "url(/nearbnb/resources/html/images/"+data+")");
-					
-					var i = document.createElement("input");
-					i.setAttribute("type","hidden");
-					i.setAttribute("name","changedImages");
-					console.log(data);
-					i.setAttribute("value",data);
-					$("#addForm").append(i);
-				},
-				error: function(error) {
-					console.log();
-				}
-			})
-		})
+		$("input[name=placeOpenDate]").attr("min", date.getDateFormat(new Date()));
 		
 		$("#submitPlace").on("click", function() {
 			var formData = new FormData($("#addForm")[0]);
 			var latitude = $("input[name=latitude]").val();
 			var longitude = $("input[name=longitude]").val();
+		});
+		
+		$("input[name=imageUpload]").on("change", function() {
+			var _this = $(this);
+			var file = _this[0].files[0];
+			var fileName = new Date().getTime() + file.name;
+		    var formData = new FormData();
+		    formData.enctype='multipart/form-data';
+		    formData.append("image", file);
+		    
+		    // 확장자 검사
+		    if(!checkFileType(fileName)) {
+		    	return;
+		    }
+		    
+		    var storageRef = firebase.storage().ref();
+
+		    storageRef
+		    .child(`images/`+fileName)
+		    .put(file)
+		    .on('state_changed', snapshot => {
+		           console.log(snapshot)
+		       }, error => {
+		           console.log(error);
+		       }, (res) => {
+		           let storageUrl = 'images/'+fileName;
+		           
+		           storageRef.child(storageUrl).getDownloadURL().then(function(url) {   // 저장된 파일의 http url 주소 받아오기
+		            // 이미지 표시
+		        	   _this.closest("div").css("background-image", "url("+url+")");
+		           	$(".big-image").css("background-image", "url("+url+")");
+		           	
+		           	// input에 값 넣어서 form에 추가
+		           	let i = document.createElement("input");
+		           	i.setAttribute("type","hidden");
+					i.setAttribute("name","imagePath");
+					i.setAttribute("value",url);
+					$("#addForm").append(i);
+		          }).catch(function(error) {});
+		           
+		           let i = document.createElement("input");
+					i.setAttribute("type","hidden");
+					i.setAttribute("name","changedImages");
+					i.setAttribute("value",fileName);
+					
+					$("#addForm").append(i);
+		       }
+		    );
 		})
 	});
+	
+	function checkFileType(fileName) {
+		var reg = /.+\./;
+	    var checkFile = fileName.replace(reg.exec(fileName),"");
+	    if(checkFile != "jpg" && checkFile != "png") {
+	    	alert("jpg 또는 png 형식의 사진만 올릴 수 있습니다.")
+	    	return false;
+	    }
+	    
+	    return true;
+	} 
 
 </script>
 <section class="row justify-content-center m-0">
@@ -90,7 +119,7 @@ var date = new PlaceDate();
             </div>
           </div>
 
-          <div class="show-map mt-3 justify-content-center row">
+          <div class="show-map mt-3 mb-3 justify-content-center row">
           <div id="map" style="width:500px;height:400px;"></div>
           </div>
          
@@ -108,11 +137,11 @@ var date = new PlaceDate();
             </div>
             <div class="w-50">
             	<div class="d-flex">
-            		<input type="text" placeholder="주소를 입력해주세요." name="placeAddress" id="address" class="w-75 p-2 mb-2 col-9" required>
-              		<button type="button" class="btn btn-primary find-address p-1 pt-2 pb-2 w-25 mb-2 col" style="box-sizing:border-box; font-size: 14px">지도에 표시</button>
+            		<input type="text" placeholder="주소를 입력해주세요." readonly name="placeAddress" id="address" class="w-75 p-2 mb-2 col-9" required style="background-color: #eee">
+              		<button type="button" class="btn btn-primary find-address p-1 pt-2 pb-2 w-25 mb-2 col" style="box-sizing:border-box; font-size: 14px">주소 검색</button>
             	</div>
               
-              <input type="text" placeholder="상세 주소를 입력해주세요." name="placeAddressDetail" class="w-100 p-2" required>
+              <input type="text" placeholder="상세 주소를 입력해주세요." name="placeAddressDetail" class="w-100 p-2" required id="addressDetail">
               <input type="hidden" name="latitude" class="w-100 p-2" required>
               <input type="hidden" name="longitude" class="w-100 p-2" required>
             </div>
@@ -158,7 +187,7 @@ var date = new PlaceDate();
             </div>
             <div class="d-flex justify-content-end">
               <input type="date" name="placeOpenDate" class="w-50 p-2" required min="" onChange="date.setOpenDate(this)">
-              <input type="date" name="placeCloseDate" class="w-50 p-2 ml-2" required min="2021-03-26">
+              <input type="date" name="placeCloseDate" class="w-50 p-2 ml-2" required>
             </div>
             
           </div>
@@ -174,6 +203,8 @@ var date = new PlaceDate();
         
     </div>
   </form>
-  
 </section>
+<script>
+    
+</script>
 <%@ include file="../include/footer.jsp" %>

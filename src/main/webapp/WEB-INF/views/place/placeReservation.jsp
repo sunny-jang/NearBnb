@@ -225,7 +225,8 @@
           </div>
           <div class="place-li">
           <div class="row">
-            <div class="place-image col-4 align-self-center" id="placeImage" style="background-image: url(/nearbnb/resources/html/images/${sImage})">
+            <div class="place-image col-4 align-self-center" id="placeImage"
+             style="background-image: url(${sImage})">
             <input type="hidden" name="uId" value="${userId}">
             <input type="hidden" name="pId" value="${place.placeId }">
             </div>

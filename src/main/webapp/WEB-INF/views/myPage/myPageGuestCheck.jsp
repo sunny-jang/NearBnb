@@ -40,7 +40,7 @@ function modalValues(n) {
 	$('#modalDesc').text(modalDesc);
 	$('#modalPhone').text(modalPhone);
 	$('#modalPaydate').text(modalPaydate);
-	$('#modalThumbnail').css('background-image', 'url(/nearbnb/resources/html/images/'+modalThumbnail+')');
+	$('#modalThumbnail').css('background-image', 'url('+modalThumbnail+')');
 }
 </script>
 <section>
@@ -66,7 +66,7 @@ function modalValues(n) {
         <div class="card_content" onclick='modalValues(${status.index});'>
           <div class="place-li_je">
             <a class="row justify-content-center"  data-toggle="modal" data-target="#myModal">
-              <div class="place-image col-2 align-self-center" style="background-image: url(/nearbnb/resources/html/images/${thumbnail[status.index]})">
+              <div class="place-image col-2 align-self-center" style="background-image: url(${thumbnail[status.index]})">
                 
               </div>
               <div class="col-9 card-item">

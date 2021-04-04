@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +23,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.on.nearbnb.board.model.vo.BoardThumb;
 import com.on.nearbnb.book.model.vo.Book;
 import com.on.nearbnb.book.service.BookService;
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.file.service.PlaceFileService;
 import com.on.nearbnb.place.model.vo.PlacePoint;
+import com.on.nearbnb.place.model.vo.PlaceThumb;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.service.PlaceService;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import org.json.simple.JSONObject;
 
 @Controller
 public class PlaceController {
@@ -45,21 +49,7 @@ public class PlaceController {
 	private BookService bookService;
 	
 	
-	@RequestMapping(value="/addFile", method=RequestMethod.POST)
-	@ResponseBody
-	public String addFile(MultipartHttpServletRequest files, HttpServletRequest request) throws Exception {
-		MultipartFile image = files.getFile("image");
 
-		String imageName = new java.util.Date().getTime() + image.getOriginalFilename();
-		String path = request.getSession().getServletContext().getRealPath("resources") +"\\html\\images\\" + imageName;
-
-		File file = new File(path);
-		
-		image.transferTo(file);
-		
-		System.out.println(imageName);
-		return imageName;
-	}
 	
 	@RequestMapping(value = "/placeList.do", method = RequestMethod.GET)//숙소목록
 	public ModelAndView placeList(ModelAndView modelAndView) {
@@ -69,27 +59,65 @@ public class PlaceController {
 	}
 	
 	
+
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
-	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, ModelAndView modelAndView) {
+	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, HttpServletRequest request, ModelAndView modelAndView) {
 		Place place= placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);
 		PlacePoint pp = placeService.searchPlacePointOne(pId);
+		
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		
+		int likes = placeService.placeThumbCount(pId);
 		modelAndView.addObject("place", place);
 		modelAndView.addObject("images", files);
+		
+		PlaceThumb placeThumb = new PlaceThumb();
+		placeThumb.setPlaceId(pId);
+		placeThumb.setuId(userId);
+
+		try {
+			if(userId.equals("noOne")) {
+				modelAndView.addObject("like", "login");
+			}else if(placeService.selectPlaceThumb(placeThumb) == null) {
+				modelAndView.addObject("like", "didnt");
+			}else {
+				modelAndView.addObject("like", "did");
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+			
+		modelAndView.addObject("likes",likes);
 		modelAndView.addObject("pp", pp);
 		
 		modelAndView.setViewName("/place/placeDetail");
 		return modelAndView;
+	
 	}
 	
 	@RequestMapping(value="/placeAdd.do", method=RequestMethod.POST)
 	public String addPlace(MultipartHttpServletRequest files, Place place, PlacePoint placePoint, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
 		List<MultipartFile> images = files.getFiles("imageUpload");
-		String path = files.getSession().getServletContext().getRealPath("resources")+"\\html\\images\\";
 		String[] changedImages = files.getParameterValues("changedImages");
+		String[] imagePath = files.getParameterValues("imagePath");
+		
+		List<HashMap<String, String>> imageInfo = new ArrayList<HashMap<String,String>>();
+		
+		for(int i=0; i<changedImages.length; i++) { 
+			HashMap<String, String> fileInfo = new HashMap<String, String>();
+			String fileName = images.get(i).getOriginalFilename();
+			
+			fileInfo.put("fileName", fileName);
+			fileInfo.put("changedName", changedImages[i]);
+			fileInfo.put("imagePath", imagePath[i]);
+			
+			imageInfo.add(fileInfo);
+		}
 		
 		/* Coords coords = getCoords(request); */
-		List<PlaceFile> placeFiles = makeFileList(images,changedImages, path);
+		List<PlaceFile> placeFiles = makeFileList(imageInfo);
 		System.out.println(placeFiles.toString());
 		HttpSession session = request.getSession();
 		String uId = (String) session.getAttribute("userId");
@@ -104,14 +132,13 @@ public class PlaceController {
 		return "redirect:index.do";
 	}
 
-	public List<PlaceFile> makeFileList(List<MultipartFile> images,String[] changedImages, String path) {
+	public List<PlaceFile> makeFileList(List<HashMap<String, String>> imageInfo) {
 		List<PlaceFile> placeFiles = new ArrayList<PlaceFile>();
 		
-		for(int i = 0; i<changedImages.length; i++) {
-			String fileName = images.get(i).getOriginalFilename();
-			String fileChangedName = changedImages[i];
-			System.out.println("fileChangedName : " + fileChangedName);
-			String _path = path;
+		for(int i = 0; i<imageInfo.size(); i++) {
+			String fileName = imageInfo.get(i).get("fileName");
+			String fileChangedName = imageInfo.get(i).get("changedName");
+			String _path = imageInfo.get(i).get("imagePath");
 					
 			
 			if(fileName!= null && fileName !="") {
@@ -129,7 +156,7 @@ public class PlaceController {
 		Place place = placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);		
 	
-		modelAndView.addObject("sImage",files.get(0).getFileChangedName());
+		modelAndView.addObject("sImage",files.get(0).getFilePath());
 		modelAndView.addObject("place", place);
 		modelAndView.setViewName("/place/placeReservation");
 		return modelAndView;	
@@ -181,6 +208,39 @@ public class PlaceController {
 		System.out.println();
 		
 		return jsonArray.toString();
+	}
+	
+	// 숙소 추천
+	@RequestMapping(value = "placeAjaxThumbsUp.do", method = RequestMethod.GET)
+	public void thumbInsertService(int placeCodeSeq,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+		JSONObject jsonData= new JSONObject();
+		
+		if(userId.equals("noOne")) {
+			jsonData.put("like", "didnt");
+			return;
+		}
+		PlaceThumb placeThumb = new PlaceThumb();
+		placeThumb.setPlaceId(placeCodeSeq);
+		placeThumb.setuId(userId);
+
+		try {
+			if(placeService.selectPlaceThumb(placeThumb) == null){
+				jsonData.put("like", "did");
+				placeService.insertPlaceThumb(placeThumb);
+			}else {
+				placeService.deletePlaceThumb(placeThumb);
+				jsonData.put("like", "didnt");
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		int likes = placeService.placeThumbCount(placeThumb.getPlaceId());
+		jsonData.put("maxLikes",likes);
+		
+		response.getWriter().append(jsonData.toJSONString());
 	}
 
 }

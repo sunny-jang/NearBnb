@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.model.vo.PlacePoint;
+import com.on.nearbnb.place.model.vo.PlaceThumb;
 
 @Transactional(rollbackFor = Exception.class)
 public interface PlaceService {
@@ -20,6 +21,7 @@ public interface PlaceService {
 	public List<Place> selectPlaceById(String uId);
 	public Place selectPlaceForModal(Integer pId);
 
+	public List<Place> selectPlaceList(List<PlacePoint> resultPoint) ;
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint);
 
 	public PlacePoint searchPlacePointOne(Integer pId);
@@ -27,4 +29,11 @@ public interface PlaceService {
 
 	public String kakaoPay(String placeName, String totalPrice) throws Exception;
 
+	public int placeThumbCount(int placeId);
+	
+	public PlaceThumb selectPlaceThumb(PlaceThumb placeThumb);
+	
+	public int insertPlaceThumb(PlaceThumb placeThumb);
+	
+	public int deletePlaceThumb(PlaceThumb placeThumb);
 }

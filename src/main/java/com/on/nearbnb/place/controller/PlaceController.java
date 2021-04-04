@@ -49,6 +49,17 @@ public class PlaceController {
 	private BookService bookService;
 	
 	
+
+	
+	@RequestMapping(value = "/placeList.do", method = RequestMethod.GET)//숙소목록
+	public ModelAndView placeList(ModelAndView modelAndView) {
+		
+		modelAndView.setViewName("/place/placeList");
+		return modelAndView;
+	}
+	
+	
+
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
 	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, HttpServletRequest request, ModelAndView modelAndView) {
 		Place place= placeService.selectPlace(pId);

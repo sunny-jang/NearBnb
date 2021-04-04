@@ -22,6 +22,7 @@ public interface PlaceService {
 	public List<Place> selectPlaceById(String uId);
 	public Place selectPlaceForModal(Integer pId);
 
+	public List<Place> selectPlaceList(List<PlacePoint> resultPoint) ;
 	public List<PlacePoint> searchPlacePoint(PlacePoint searchpoint);
 
 	public PlacePoint searchPlacePointOne(Integer pId);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.place.model.vo.Place;
+import com.on.nearbnb.place.model.vo.PlacePoint;
 
 public interface PlaceFileService {
 	
@@ -12,5 +13,5 @@ public interface PlaceFileService {
 
 	public List<PlaceFile> selectFiles(Integer pId);
 	
-	public String selectOneFiles(Integer pId);
+	public List<PlaceFile> selectOneList(List<PlacePoint> resultPoint);
 }

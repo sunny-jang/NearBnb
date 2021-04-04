@@ -18,7 +18,6 @@
 		SELECT *  FROM PLACE_POINT 
 		WHERE( LATITUDE BETWEEN #{latitude}-0.1 AND #{latitude}+0.1 )
 		AND(LONGITUDE BETWEEN #{longitude}-0.1 AND #{longitude}+0.1)
-		ORDER BY DBMS_RANDOM.RANDOM()
 	</select>
 	
 	<select id="searchPlacePointOne" resultMap="resultPlacePoint" parameterType="Integer">

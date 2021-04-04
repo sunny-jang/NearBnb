@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.on.nearbnb.place.model.vo.ExtendedPlace;
 import com.on.nearbnb.place.model.vo.Place;
+
 import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.model.vo.PlaceThumb;
+
 
 @Repository
 public class PlaceDao {
@@ -67,4 +69,12 @@ public class PlaceDao {
 			return sqlSession.selectList("Place.searchExtendedPlace", pp);
 		}
 
-}
+
+	//foreach문 place정보조회 (임시)
+	public List<Place>selectSearchPlace(List<PlacePoint> resultPoint){
+		return sqlSession.selectList("selectSearchPlace",resultPoint);
+	}
+} 
+
+
+

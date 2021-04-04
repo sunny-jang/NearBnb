@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.place.model.vo.Place;
+import com.on.nearbnb.place.model.vo.PlacePoint;
 
 @Repository
 public class PlaceFileDao {
@@ -28,7 +29,7 @@ public class PlaceFileDao {
 		return sqlSession.selectList("selectFiles", pId);
 	}
 	
-	public String selectOneFiles(Integer pId) {//메인페이지
-		return sqlSession.selectOne("selectOneFiles",pId); 
+	public List<PlaceFile> selectOneList(List<PlacePoint> resultPoint) {//메인페이지
+		return sqlSession.selectList("selectOneList",resultPoint); 
 	}
 }

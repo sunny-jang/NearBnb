@@ -11,6 +11,7 @@ import com.on.nearbnb.file.model.dao.PlaceFileDao;
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.place.model.dao.PlaceDao;
 import com.on.nearbnb.place.model.vo.Place;
+import com.on.nearbnb.place.model.vo.PlacePoint;
 
 @Service
 public class PlaceFileServiceImpl implements PlaceFileService {
@@ -29,7 +30,8 @@ public class PlaceFileServiceImpl implements PlaceFileService {
 	}
 	
 	@Override
-	public String selectOneFiles(Integer pId) {//메인페이지
-		return pFileDao.selectOneFiles(pId);
+	public List<PlaceFile> selectOneList(List<PlacePoint> resultPoint){
+		return pFileDao.selectOneList(resultPoint);
 	}
+	
 }

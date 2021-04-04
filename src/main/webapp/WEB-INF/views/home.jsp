@@ -40,7 +40,6 @@ function searchList(data){
 }
 </script>
 
-
 <section>
 <div class="row">
   <div class="col main-left">

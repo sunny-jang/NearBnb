@@ -18,6 +18,13 @@
 		<result property="placeDesc" column="PLACE_INFO"/>
 	</resultMap>
 	
+	<resultMap type="com.on.nearbnb.place.model.vo.ExtendedPlace" id="resultExtendedPlace">
+		<result property="latitude" column="LATITUDE"/>
+		<result property="longitude" column="LONGITUDE"/>
+		<result property="imagePath" column="PFILE_PATH"/>
+		<collection property="place" resultMap="resultPlace" />
+	</resultMap>
+	
 	<resultMap type="PlaceThumb" id="resultPlaceThumb">
 		<id property="placeId" column="P_CODE_SEQ" />
 		<result property="uId" column="U_ID"/>
@@ -118,5 +125,14 @@
 	<delete id="deletePlaceThumb" parameterType="placeThumb">
 		DELETE FROM PLACE_THUMB WHERE P_CODE_SEQ = #{placeId} AND U_ID = #{uId}
 	</delete>
+	
+	<select id="searchExtendedPlace" resultMap ="resultExtendedPlace" parameterType="PlacePoint">
+		SELECT * FROM PLACE
+		JOIN PLACE_POINT P USING(P_CODE_SEQ)
+		JOIN PLACE_IMGFILE PI USING(P_CODE_SEQ)
+		WHERE( P.LATITUDE BETWEEN #{latitude}-0.1 AND #{latitude}+0.1 )
+		AND(P.LONGITUDE BETWEEN #{longitude}-0.1 AND #{longitude}+0.1)
+		ORDER BY DBMS_RANDOM.RANDOM()
+	</select>
 
 </mapper>

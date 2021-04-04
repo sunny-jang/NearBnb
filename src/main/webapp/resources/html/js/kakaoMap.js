@@ -53,12 +53,11 @@ $(function() {
 		alert('GPS를 지원하지 않습니다');
 		}
 	}
-
-
 	//TDDO fetch api로 바꾸기
 	function FindLocationMap() {
 		// 주소로 좌표를 검색합니다
 		var address = $("#address").val();
+		console.log("ddd")
 		
 			// 정상적으로 검색이 완료됐으면  
 			geocoder.addressSearch(address, function(result, status) {

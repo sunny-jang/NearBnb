@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.file.service.PlaceFileService;
 import com.on.nearbnb.place.model.dao.PlacePointDao;
+import com.on.nearbnb.place.model.vo.ExtendedPlace;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.service.PlaceService;
@@ -31,6 +32,17 @@ public class MainPageController {
 	@Autowired
 	PlaceFileService placeFileService;
 	
+	
+	@RequestMapping(value = "/test.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")@ResponseBody
+	public void test(@RequestParam("latitude") double latitude,
+			@RequestParam("longitude") double longitude, HttpServletRequest request, ModelAndView modelAndView) {
+		PlacePoint pp = new PlacePoint();
+		pp.setLatitude(latitude);
+		pp.setLongitude(longitude);
+		
+		List<ExtendedPlace> ep = placeService.searchExtendedPlace(pp);
+		System.out.println(ep.toString());
+	}
 
 	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")@ResponseBody
 	public Object searchPlacePoint(@RequestParam("latitude") double latitude,
@@ -40,13 +52,7 @@ public class MainPageController {
 		searchpoint.setLatitude(latitude);
 		searchpoint.setLongitude(longitude);
 
-		System.out.println("위도 getLatitude : " + searchpoint.getLatitude());
-		System.out.println("경도 getLongitude : " + searchpoint.getLongitude());
-
 		List<PlacePoint> resultpoint = placeService.searchPlacePoint(searchpoint);
-		System.out.println(resultpoint.get(0).toString());
-		System.out.println(resultpoint.get(0).getPlaceId());
-		System.out.println("어레이 크기 : " + resultpoint.size());
 		
 		List<Place> resultplace = new ArrayList();
 		List<String> resultimage = new ArrayList(); 
@@ -56,11 +62,9 @@ public class MainPageController {
 			int pId=resultpoint.get(i).getPlaceId();
 			Place placeName = placeService.selectPlace(pId);
 			resultplace.add(placeName);
-			//System.out.println("숙소이름 : "+placeName.getPlaceName());
 			
 			String imageStr = placeFileService.selectOneFiles(pId);
 			resultimage.add(imageStr);
-			//System.out.println("이미지 주소값 : "+resultimage.get(i));
 		}
 		  
 		
@@ -81,7 +85,6 @@ public class MainPageController {
 		jsonObject.put("pointList",jsonArray);
 		
 		Object result = jsonObject.toString();
-		System.out.println(result);
 		modelAndView.addObject("resultpoint", resultpoint);
 		modelAndView.setViewName("mainMap");
 		return result;

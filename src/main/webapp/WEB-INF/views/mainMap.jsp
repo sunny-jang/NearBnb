@@ -11,6 +11,11 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 	$(function() {
+		$(".find-location").on("click", function() {
+			FindLocationMap();
+		});
+		
+		
 		initLocation();
 		var latitude = $("input[name=latitude]").val();//위도
 		var longitude = $("input[name=longitude]").val();//경도
@@ -58,20 +63,13 @@
 					console.log("error");
 				},
 				success : function(data) {
-					console.log("success");
-					console.log(data);
 					
 				 data = JSON.parse(data);				
 					searchPoint(data);
-					console.log("1번째 이름 :"+data.pointList[0].placeName);
-					console.log("1번째 이미지:"+data.pointList[0].placeImage);
 					searchList(data);
-					console.log("data길이 : "+data.pointList.length);
 				}
 			});
 		} 
-		
-		
 		
 		 //마커생성
 		function searchPoint(data){
@@ -121,10 +119,6 @@
 			}	
 		}
 		
-		 
-		
-
-		
 		//현재 위치값 불러오는 함수
 		function initLocation() {
 			if (navigator.geolocation) {//위치값 액세스
@@ -146,6 +140,33 @@
 			}
 		}
 		//initLocation_end
+		
+		
+		//TDDO fetch api로 바꾸기
+		function FindLocationMap() {
+			// 주소로 좌표를 검색합니다
+			var address = $("#address").val();
+			console.log(address)
+			
+				// 정상적으로 검색이 완료됐으면  
+				geocoder.addressSearch(address, function(result, status) {
+					if (status === kakao.maps.services.Status.OK) {
+					latitude_ = result[0].y;
+					longitude_ = result[0].x;
+					var coords = new kakao.maps.LatLng(latitude_, longitude_);
+
+					placePoint(latitude_, longitude_)
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					$("input[name=latitude]").val(latitude_);
+					$("input[name=longitude]").val(longitude_);
+					map.setCenter(coords);
+				} else {
+					alert("정확한 주소를 적어주시고 지도상의 마커를 확인해주세요\nex) 인천광역시 연희로 42번길 ");
+				}
+			});
+		}
+		
+		
 	});
 </script>
 </head>

@@ -18,6 +18,7 @@ import com.on.nearbnb.file.model.dao.PlaceFileDao;
 import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.place.model.dao.PlaceDao;
 import com.on.nearbnb.place.model.dao.PlacePointDao;
+import com.on.nearbnb.place.model.vo.ExtendedPlace;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.model.vo.PlaceThumb;
@@ -135,6 +136,11 @@ public class placeServiceImpl implements PlaceService {
 	@Override
 	public int deletePlaceThumb(PlaceThumb placeThumb) {
 		return pDao.deletePlaceThumb(placeThumb);
+	}
+	
+	@Override
+	public List<ExtendedPlace> searchExtendedPlace(PlacePoint pp) {
+		return pDao.searchExtendedPlace(pp);
 	}
 
 }

@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.on.nearbnb.place.model.vo.ExtendedPlace;
 import com.on.nearbnb.place.model.vo.Place;
+import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.model.vo.PlaceThumb;
 
 @Repository
@@ -59,5 +61,10 @@ public class PlaceDao {
 	public Place selectPlaceForModal(Integer pId) {		
 		return sqlSession.selectOne("Place.selectPlaceForModal", pId);
 	}	
+	
+	// 마이페이지용 숙소 코드로 조회(상세 조회)
+		public List<ExtendedPlace> searchExtendedPlace(PlacePoint pp) {		
+			return sqlSession.selectList("Place.searchExtendedPlace", pp);
+		}
 
 }

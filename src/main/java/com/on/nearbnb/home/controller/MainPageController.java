@@ -66,7 +66,7 @@ public class MainPageController {
 		int pointId, placeId, fileId;
 
 		for (int i = 0; i < resultFileOne.size(); i++) {
-			pointId = resultPoint.get(i).getPlaceId();
+			pointId = resultPoint.get(i).getPlaceId(); 
 			placeId = resultPlace.get(i).getPlaceId();
 			fileId = resultFileOne.get(i).getPlaceId();
 			if ((pointId == placeId) && (placeId == fileId)) {

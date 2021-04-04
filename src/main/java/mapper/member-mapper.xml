@@ -53,15 +53,18 @@
 	<update id="updateMember" parameterType="Member">
 		UPDATE MEMBER
 		<set>
-			<if test="userEmail == null and userPhone == null">
-				USER_PW = #{userPw}
-			</if>
-			<if test="userPw == ''">
-				USER_PHONE = #{userPhone}, USER_EMAIL = #{userEmail}
-			</if>
-			<if test="userPw != ''">
-				USER_PW = #{userPw}, USER_PHONE = #{userPhone}, USER_EMAIL = #{userEmail}
-			</if>
+			<choose>
+				<when test="userEmail == null and userPhone == null">
+					USER_PW = #{userPw}
+				</when>
+				<when test="userPw == ''">
+					USER_PHONE = #{userPhone}, USER_EMAIL = #{userEmail}
+				</when>
+				<when test="userPw != ''">
+					USER_PW = #{userPw}, USER_PHONE = #{userPhone}, USER_EMAIL = #{userEmail}
+				</when>
+				<otherwise></otherwise>
+			</choose>
 		</set>
 		WHERE U_ID = #{userId}
 	</update>

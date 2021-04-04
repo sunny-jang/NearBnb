@@ -50,4 +50,13 @@
 		  #{placeCloseDate}, #{placeDesc})
 	</insert>
 
+	<!-- 리스트 숙소정보 조회 -->
+	  <select id = "selectSearchPlace"  resultMap="resultPlace" parameterType="java.util.List">
+    SELECT * FROM PLACE WHERE P_CODE_SEQ in (
+      <foreach item="PlacePoint" index="index" collection="list"  separator="," >
+      #{PlacePoint.placeId}
+       </foreach>
+       )
+   </select>
+
 </mapper>

@@ -36,11 +36,7 @@ public class HomeController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/placeList.do", method = RequestMethod.GET)
-	public ModelAndView placeList(ModelAndView modelAndView) {
-		modelAndView.setViewName("/place/placeList");
-		return modelAndView;
-	}
+	
 	
 	@RequestMapping(value = "/reservationComplete.do", method = RequestMethod.GET)
 	public ModelAndView reservationComplete(ModelAndView modelAndView) {

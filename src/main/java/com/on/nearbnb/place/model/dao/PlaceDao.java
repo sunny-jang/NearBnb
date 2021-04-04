@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.on.nearbnb.place.model.vo.Place;
+import com.on.nearbnb.place.model.vo.PlacePoint;
 
 @Repository
 public class PlaceDao {
@@ -35,5 +36,8 @@ public class PlaceDao {
 		return sqlSession.selectOne("Place.selectPlaceForModal", pId);
 	}	
 
-
-}
+	//foreach문 place정보조회 (임시)
+	public List<Place>selectSearchPlace(List<PlacePoint> resultPoint){
+		return sqlSession.selectList("selectSearchPlace",resultPoint);
+	}
+} 

@@ -41,7 +41,7 @@
        })()
  //instagramAPI   
 
- function searchList(data){
+ function searchList(data){ 
 			for(var i=0; i<3; i++){
 			$('#list'+[i+1]).html(data.pointList[i].placeName);
 			listImg = "url(/nearbnb/resources/html/images/"+data.pointList[i].placeImage+")";
@@ -50,7 +50,7 @@
 			}
 		}
 		
- 
+
       </script>
 <section>
 <div class="row">

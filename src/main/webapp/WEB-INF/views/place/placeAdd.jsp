@@ -70,7 +70,7 @@ var date = new PlaceDate();
 	
 	function checkFileType(fileName) {
 		var reg = /.+\./;
-	    var checkFile = fileName.replace(reg.exec(fileName),"");
+	    var checkFile = fileName.replace(reg.exec(fileName),"").toLowerCase();
 	    if(checkFile != "jpg" && checkFile != "png") {
 	    	alert("jpg 또는 png 형식의 사진만 올릴 수 있습니다.")
 	    	return false;

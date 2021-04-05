@@ -51,6 +51,7 @@ function placeList(data){
 		placeList.push(placeObj);
 	}
 	localStorage.placeList = JSON.stringify(placeList);
+	console.log(placeList);
 }
 
 

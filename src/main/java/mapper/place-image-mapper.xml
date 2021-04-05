@@ -32,7 +32,7 @@
 	<!-- 이미지file하나만 조회 리스트 -->
 	<select id="selectOneList"  resultMap="resultPlaceFile" parameterType="java.util.List">
  	<foreach item="PlacePoint" index="index" collection="list"  separator=" UNION ALL " >
- 	SELECT * FROM PLACE_IMGFILE WHERE P_CODE_SEQ = #{PlacePoint.placeId} AND ROWNUM=1 	
-    </foreach>   
+ 	SELECT * FROM PLACE_IMGFILE WHERE P_CODE_SEQ = #{PlacePoint.placeId} AND ROWNUM=1 
+    </foreach>  
 	</select>
 </mapper>

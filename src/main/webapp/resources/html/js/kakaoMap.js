@@ -24,16 +24,17 @@ $(function() {
 				var $checkCurrent =  $("input[name=getLocation]");
 				var latitude_ = latitude;
 				var longitude_ = longitude;
-				
+				infowindow.setContent('<div style="width:150px;text-align:center;padding:6px 0; margin-bottom: -2px">숙소 위치</div>')
 				if($checkCurrent.val() == 'current') {
 					latitude_ = position.coords.latitude;
 					longitude_ = position.coords.longitude;
+					infowindow.setContent('<div style="width:150px;text-align:center;padding:6px 0; margin-bottom: -2px">현재 위치</div>')
 				}
 			
 			var coords = new kakao.maps.LatLng(latitude_, longitude_);//x,y좌표값
 			
 			infowindow.setPosition(coords);
-			infowindow.setContent('<div style="width:150px;text-align:center;padding:6px 0; margin-bottom: -2px">현재 위치</div>')
+			
 			marker.setPosition(coords);
 			
 			//지도 생성 및 객체 리턴
@@ -57,7 +58,6 @@ $(function() {
 	function FindLocationMap() {
 		// 주소로 좌표를 검색합니다
 		var address = $("#address").val();
-		console.log("ddd")
 		
 			// 정상적으로 검색이 완료됐으면  
 			geocoder.addressSearch(address, function(result, status) {

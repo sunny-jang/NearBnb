@@ -118,11 +118,10 @@ function deletePlace(pId) {
 		fetch("deletePlace.do?pId="+pId, {
 			method: 'get',
 		}).then(res=>res.json()).then((res)=>{
-			console.log(res);
 			if(res.result == "failed") {
 				alert("예약이 잡힌 숙소는 취소할 수 없습니다.")
 			}else {
-				history.back();
+				location.href="myPageHostCheck.do";
 			}
 		})
 	}else {

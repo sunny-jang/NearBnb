@@ -21,7 +21,19 @@
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-storage.js"></script>
 <script src="${context}/html/js/firebaseConfig.js"></script>
+<script type="text/javascript">
+var c = 0;
+	function pop() {
+		if(c == 0) {
+			$('#profile-card').css('display', 'block');
+			c = 1;
+		} else {
+			$('#profile-card').css('display', 'none');
+			c = 0;
+		}
+	}
 
+</script>
 </head>
 <body>
 <header>
@@ -48,18 +60,16 @@
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
-              <button type="button" class="btn btn-primary" onclick="location.href='myPage.do'">마이페이지</button>
-              <button type="button" class="btn btn-secondary" onclick="location.href='signOut.do'">로그아웃</button>
-              <a class="ml-1" href="#"><img src ="${context}/html/images/defaultprofile.jpg" style="width: 44px; height: 44px;"></a>
+              <button class="ml-1" onclick="pop()"><img src ="${context}/html/images/defaultprofile.jpg" style="width: 44px; height: 44px;"></button>
           </div>
-          <div class="d-flex justify-content-end">
-          	<div id="profile-card" class="mt-2">
+          <div class="d-flex justify-content-end mt-2">
+          	<div id="profile-card">
 	          	<div id="card-header">
 	          		<div id="pic">
 	          			<img src ="${context}/html/images/defaultprofile.jpg" style="width: 44px; height: 44px;">
 	          		</div>
-	          		<div id="name">John Doe</div>
-	          		<div id="desc">Developer & Designer</div>     			
+	          		<div id="name">${userName}</div>
+	          		<div id="desc">${userId}</div>     			
 	          	</div>
 	          	<div id="card-footer">
 	          		<div id="item">

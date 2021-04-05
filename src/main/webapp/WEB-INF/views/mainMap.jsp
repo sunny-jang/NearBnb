@@ -15,6 +15,10 @@
 			FindLocationMap();
 		});
 		
+		$("input[name=address]").on("keydown", function(e) {
+			if(e.keyCode == 13) FindLocationMap();
+		});
+		
 		initLocation();
 		var latitude = $("input[name=latitude]").val();//위도
 		var longitude = $("input[name=longitude]").val();//경도

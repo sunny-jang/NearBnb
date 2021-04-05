@@ -9,6 +9,7 @@
 <script type="text/javascript" src="${context}/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 <script>
+	// 파일 업로드
 	$(function(){
 		$('#fileUpload').on('change', function(){
 			var boardForm = $('#frm')[0];

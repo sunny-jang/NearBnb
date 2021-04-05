@@ -59,6 +59,14 @@
 				});
 			}
 		});
+		
+		$('#reserve').on('click', function() {
+			var user = "${sessionScope.userId}";
+			if(user == "") {
+				alert('로그인이 필요한 서비스입니다.');
+				location.href = 'signIn.do';
+			}
+		});
 	});
 </script>
 <section>
@@ -145,7 +153,7 @@
 				<p class="likes" style="font-size: 30px;">${likes}</p>
             </div>
             <div class="d-flex justify-content-center align-self-center">
-              <button type="button" class="btn btn-warning btn-lg btn-block" onClick="location.href='placeReservation.do?pId=${place.placeId}'">예약하기</button>	
+              <button type="button" id="reserve" class="btn btn-warning btn-lg btn-block" onClick="location.href='placeReservation.do?pId=${place.placeId}'">예약하기</button>	
             </div>
           </div>        
         </div>

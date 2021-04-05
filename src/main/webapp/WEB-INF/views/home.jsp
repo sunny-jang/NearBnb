@@ -52,7 +52,14 @@ function placeList(data){
 	}
 	localStorage.placeList = JSON.stringify(placeList);
 	console.log(placeList);
+	
+	$(".btn-more").on("click", function() {
+		var latitude = $("input[name=latitude]").val();//위도
+		var longitude = $("input[name=longitude]").val();//경도
+		location.href='placeList.do?latitude='+latitude+'&longitude='+longitude;
+	});
 }
+
 
 
 </script>
@@ -70,7 +77,7 @@ function placeList(data){
     <div class="group-place">
       <div class="d-flex justify-content-between">
         <h2><span id="centerAddr"></span></h2><!-- 주소표시 -->
-        <a href="placeList.do">더보기 > </a>
+        <a  class="btn-more">더보기 > </a>
       </div>
       <div class="row">
       

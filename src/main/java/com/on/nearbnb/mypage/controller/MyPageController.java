@@ -123,6 +123,7 @@ public class MyPageController {
 		Book b = new Book();
 		b.setuId(uId);
 		List<Book> bookList = bookService.selectBook(b);
+		System.out.println(bookList);
 		List<String> thumbnail = new ArrayList<String>();
 		List<Place> place = new ArrayList<Place>();
 		for(Book book : bookList) {
@@ -141,6 +142,17 @@ public class MyPageController {
 		modelAndView.addObject("thumbnail", thumbnail);
 		modelAndView.addObject("pList", place);
 		modelAndView.setViewName("/myPage/myPageGuestCheck");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/reservationCancel.do", method=RequestMethod.GET)
+	public ModelAndView reservationCancel(@RequestParam(name="bId") String bookId, ModelAndView modelAndView) throws Exception {
+		int cnt = bookService.deleteBook(bookId);
+		if(cnt == 1) {
+			modelAndView.setViewName("myPage/reservCancelComplete");
+		} else {
+			modelAndView.setViewName("myPage/reservCancelFail");
+		}
 		return modelAndView;
 	}
 	

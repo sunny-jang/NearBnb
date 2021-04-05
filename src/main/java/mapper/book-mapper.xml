@@ -4,8 +4,9 @@
 <mapper namespace="Book">
 	
 	<resultMap type="Book" id="resultBook">
-		<id property="uId" column="U_ID"/>
-		<id property="pId" column="P_CODE_SEQ"/>
+		<id property="bookId" column="BOOK_NUM_SEQ" />
+		<result property="uId" column="U_ID"/>
+		<result property="pId" column="P_CODE_SEQ"/>
 		<result property="bookCheckIn" column="BOOK_CHECKIN"/>
 		<result property="bookCheckOut" column="BOOK_CHECKOUT"/>
 		<result property="bookPerson" column="BOOK_PERSON"/>
@@ -32,5 +33,9 @@
 			</when>
 		</choose>
 	</select>
+	
+	<delete id="deleteBook" parameterType="String">
+		DELETE FROM BOOK WHERE BOOK_NUM_SEQ = #{bookId}
+	</delete>
 		
 </mapper>

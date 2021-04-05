@@ -23,5 +23,12 @@ public class BookServiceImpl implements BookService {
 	public List<Book> selectBook(Book book) {
 		return bookDao.selectBook(book);
 	}
+
+	@Override
+	public int deleteBook(String bookId) {		
+		return bookDao.deleteBook(bookId);
+	}
+	
+	
 	
 }

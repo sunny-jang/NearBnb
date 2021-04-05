@@ -50,6 +50,7 @@
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
               <button type="button" class="btn btn-primary" onclick="location.href='myPagePwCheck.do'">마이페이지</button>
               <button type="button" class="btn btn-secondary" onclick="location.href='signOut.do'">로그아웃</button>
+              <a href="#"><img src ="${context}/html/images/defaultprofile.jpg" style="width: 20px; height: 20px;"></a>
           </div>
         </c:if>
         </div>

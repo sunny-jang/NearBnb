@@ -18,6 +18,7 @@ function modalValues(n) {
 		var third = x.substring(7,11);
 		return first+'-'+second+'-'+third;
 	}
+	var modalNum = $('#bNum'+n).val();
 	var modalTitle = $('#ptitle'+n).text();
 	var modalGuest = $('#bPerson'+n).text();
 	var modalPrice = numberWithCommas($('#bPrice'+n).val());
@@ -30,6 +31,7 @@ function modalValues(n) {
 	var modalPaydate = $('#bPaydate'+n).text();
 	var modalThumbnail = $('#pThumbnail'+n).val();
 	console.log(modalThumbnail);
+	$('#modalNum').val(modalNum);
 	$('#modalTitle').text(modalTitle);
 	$('#modalGuest').text(modalGuest);
 	$('#modalPrice').text(modalPrice);
@@ -42,6 +44,18 @@ function modalValues(n) {
 	$('#modalPaydate').text(modalPaydate);
 	$('#modalThumbnail').css('background-image', 'url('+modalThumbnail+')');
 }
+	function reservationCancel() {
+		var modalNum = $('#modalNum').val();
+		var url = 'reservationCancel.do?bId='+modalNum;
+		console.log('예취 눌러짐');
+		console.log(modalNum);
+		if(confirm('정말 예약을 취소하시겠습니까?')) {			
+			location.href=url;
+			return true;
+		} else {
+			return false;
+		}
+	}
 </script>
 <section>
  
@@ -55,6 +69,7 @@ function modalValues(n) {
         <h6 style="color: rgb(206, 0, 0);">※ 모든 숙소의 체크인 시간은 3시 / 체크아웃 시간은 12시 입니다.</h6>
 	<!--place-list-->
 	<c:forEach var="b" items="${bList}" varStatus="status">
+		<input type="hidden" id="bNum${status.index }" value="${b.bookId }" />
 		<input type="hidden" id="bPrice${status.index}" value="${b.bookPayPrice }" />
 		<input type="hidden" id="bCheckin${status.index}" value="${fn:substring(b.bookCheckIn,0,10)}" />
 		<input type="hidden" id="bCheckout${status.index}" value="${fn:substring(b.bookCheckOut,0,10)}" />
@@ -93,7 +108,7 @@ function modalValues(n) {
    
       <!--모달-->
       <div class="container">
-       
+        <input type="hidden" id="modalNum" value="" />
         <div class="modal fade" id="myModal">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -164,7 +179,7 @@ function modalValues(n) {
               </div>
               <!-- Modal footer -->
               <div class="modal-footer d-flex justify-content-between">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">예약취소</button>
+                <button type="button" onclick="reservationCancel();" class="btn btn-secondary" data-dismiss="modal">예약취소</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"> 닫기</button>
               </div>  
             </div>

@@ -376,20 +376,22 @@ img {
 	border-radius: 50%;
 }
 
-#pic img{
+#pic img {
 	display: block;
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
+	cursor: pointer;
 }
 
 #edit-profile {
 	display: inline-block;
-	padding: 12px 50px;
+	padding: 6px 30px;
 	color: #e66767;
 	border: 2px solid #e66767;
 	border-radius: 6px;
 	margin-top: 16px;
+	cursor: pointer;
 }
 
 ::-webkit-scrollbar {

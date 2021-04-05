@@ -21,4 +21,5 @@ public interface MemberService {
 	
 	public int deleteMember(String userId) throws Exception;
  
+	public int updateMemberProfile(String userId) throws Exception;
 }

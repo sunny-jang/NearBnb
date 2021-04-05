@@ -115,4 +115,10 @@ public class MemberServiceImpl implements MemberService{
 		return cnt;
 	}
 
+	@Override
+	public int updateMemberProfile(String userId) throws Exception {
+		int cnt = memberDao.updateMemberProfile(userId);
+		return cnt;
+	}
+
 }

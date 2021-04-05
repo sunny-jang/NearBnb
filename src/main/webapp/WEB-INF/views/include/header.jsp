@@ -38,6 +38,65 @@ function loginCheck() {
 	location.href = 'signIn.do';
 }
 
+function checkFileType(fileName) {
+	var reg = /.+\./;
+    var checkFile = fileName.replace(reg.exec(fileName),"").toLowerCase();
+    if(checkFile != "jpg" && checkFile != "png") {
+    	alert("jpg 또는 png 형식의 사진만 올릴 수 있습니다.")
+    	return false;
+    }    
+    return true;
+}
+$(function(){
+	$('#edit-btn').on('click', function(){
+		var formData = new FormData($('aa')[0]);
+	});
+	
+	$('#aa').on('change', function(){
+		var file = $('#aa')[0].files[0];
+		var userId = "${sessionScope.userId}";		
+		console.log(file.name);
+		
+		// 확장자 검사
+		if(!checkFileType(file.name)) {
+			return;
+		}
+		
+		var storageRef = firebase.storage().ref();
+		
+		storageRef
+		.child(`images/`+file.name)
+		.put(file)
+		.on('state_changed', snapshot => {
+			console.log(snapshot);
+		}, error => {
+			console.log(error);
+		}, (res) => {
+			let storageUrl = 'images/'+file.name;
+			console.log(storageUrl);
+			var url = storageRef.child(storageUrl).getDownloadURL();
+			console.log(url);
+			$.ajax({
+				url : 'insertProfile.do',
+				data : {'userId' : userId,
+						'profileName' : file.name,
+						'profilePath' : url},
+				type : 'POST',
+				dataType : 'json',
+				success : function() {
+					console.log('complete');					
+					$('#pic').attr('src', url);
+					alert('프로필 사진이 변경되었습니다.');
+					location.href='index.do';
+				},
+				error : function() {
+					alert('failed');
+				}
+			});
+		});
+	});
+});
+
 
 </script>
 </head>
@@ -61,8 +120,8 @@ function loginCheck() {
               <button type="button" class="btn btn-secondary" onclick="location.href='signUp.do'">회원가입</button>
           </div>
         </c:if>
-        <!-- 로그인 상태일 때 -->
-        <c:if test="${not empty userId && userProfile ne 'Y'}">
+        <!-- 로그인 상태 & 프로필 사진 없음 -->
+        <c:if test="${userProfile eq 'N  '}">
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
@@ -72,10 +131,13 @@ function loginCheck() {
           	<div id="profile-card">
 	          	<div id="card-header">
 	          		<div id="pic">
-	          			<img src ="${context}/html/images/defaultprofile.jpg" style="width: 44px; height: 44px;">
+	          			<img src ="${context}/html/images/defaultprofile.jpg">
 	          		</div>
 	          		<div id="name" style="font-size: 20px;">${userId}</div>
-	          		<div id="desc"><button id="edit-profile">프로필 수정하기</button></div>     			
+	          		<div id="edit-btn">
+	          			<label id="edit-profile" for="aa">프로필 수정하기</label>
+	          			<input type="file" id="aa" style="display: none;" />	          				          		
+	          		</div>     			
 	          	</div>
 	          	<div id="card-footer">
 	          		<div id="item">
@@ -86,6 +148,7 @@ function loginCheck() {
           	</div>
           </div>
         </c:if>
+        <!-- 로그인 상태 & 프로필 사진 있음 -->
         </div>
       </div>
     </div>

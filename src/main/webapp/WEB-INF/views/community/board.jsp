@@ -19,9 +19,7 @@
  		$('#searchBtn').on('click', function(){
 			var searchType = $("#boardSearchType > option:selected").val();
 			var searchData = $("#boardSearch").val();
-			if(searchType == "전체" || searchType == ""){
-				alert('카테고리를 선택해주세요.');
-			}else if(searchData == ""){
+			if(searchData == ""){
 				alert('검색어를 입력해주세요.')
 			}else{
 				document.location.href = "printBoardAjaxSearch.do?boardType=" + searchType + "&boardContent="+searchData;
@@ -31,22 +29,22 @@
 		// 게시글 분류
 		$('#boardType').on('change',function(){
 			var boardType = $("#boardType > option:selected").val();
-			$.ajax({
+/* 			$.ajax({
 				url : 'boardAjaxType.do',
 				data : {
 					boardType : boardType
 				},
 				type : 'get',
 				dataType : 'json',
-				success: function(data){
+				success: function(data){ */
 					document.location.href = "printBoardAjaxType.do?boardType=" + boardType;
-				},
+/* 				},
 				error: function(request, status, error){
 					alert("code : " + request.status + "\n"
 							+ "message : " + request.responseText + "\n"
 							+ "error : " + error);
 				}
-			});
+			}); */
 		});
 	});
 </script>

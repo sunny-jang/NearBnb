@@ -137,7 +137,7 @@ var date = new PlaceDate();
             </div>
             <div class="w-50">
             	<div class="d-flex">
-            		<input type="text" placeholder="주소를 입력해주세요." readonly name="placeAddress" id="address" class="w-75 p-2 mb-2 col-9" required style="background-color: #eee">
+            		<input type="text" placeholder="주소를 입력해주세요." readonly name="placeAddress" id="address" class="w-75 p-2 mb-2 col-8" required style="background-color: #eee">
               		<button type="button" class="btn btn-primary find-address p-1 pt-2 pb-2 w-25 mb-2 col" style="box-sizing:border-box; font-size: 14px">주소 검색</button>
             	</div>
               

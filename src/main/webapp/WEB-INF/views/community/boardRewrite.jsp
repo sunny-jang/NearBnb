@@ -8,7 +8,7 @@
 <!-- SmartEditor2 라이브러리 --> 
 <script type="text/javascript" src="${context}/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
-<section style="height: 100vh;">
+<section class="pb-5">
 	<div class="total">
 		<h2>커뮤니티</h2>
 		<hr>

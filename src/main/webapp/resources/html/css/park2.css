@@ -33,9 +33,7 @@
 }
 .title{
     width: 898px;
-    height: 48px;
     border: none;
-    margin-top: 30px;
     text-align: left;
 }
 .heart{
@@ -131,7 +129,7 @@ input:focus{
 #delComment{
 	background-color: white;
 	color : lightgray;
-	float: right;"
+	float: right;
 }
 .updComment{
 	background-color: white;

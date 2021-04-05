@@ -94,7 +94,7 @@ function searchList(data){
           <div>
             <img  class ="place-image imageaaa0">
           </div>
-          <span id="instacaption0"></span>
+          <span id="instacaption0" class="ellipsis2"></span>
         </a>
       </div>
       <div class="col place-item">
@@ -102,7 +102,7 @@ function searchList(data){
           <div class="place-image">
             <img  class ="place-image imageaaa1">
           </div>
-          <span id="instacaption1"></span>
+          <span id="instacaption1" class="ellipsis2"></span>
         </a>
       </div>
       <div class="col place-item">
@@ -110,7 +110,7 @@ function searchList(data){
           <div>
             <img  class ="place-image imageaaa2">
           </div>
-          <span id="instacaption2"></span>
+          <span id="instacaption2" class="ellipsis2"></span>
         </a>
       </div>
       <div class="col place-item">
@@ -118,7 +118,7 @@ function searchList(data){
           <div>
             <img  class ="place-image imageaaa3">
           </div>
-          <span id="instacaption3"></span>
+          <span id="instacaption3" class="ellipsis2"></span>
         </a>
       </div>
       <div class="col place-item">
@@ -126,7 +126,7 @@ function searchList(data){
           <div>
             <img class ="place-image imageaaa4">
           </div>
-          <span id="instacaption4"></span>
+          <span id="instacaption4" class="ellipsis2"></span>
         </a>
       </div>
       <div class="col place-item">
@@ -134,7 +134,7 @@ function searchList(data){
           <div>
             <img class ="place-image imageaaa5">
           </div>
-          <span id="instacaption5"></span>
+          <span id="instacaption5" class="ellipsis2"></span>
         </a>
       </div>
     </div>

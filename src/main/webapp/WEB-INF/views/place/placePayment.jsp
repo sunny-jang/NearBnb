@@ -131,9 +131,6 @@ function openIMP() {
           </div>       
         </div>
       </div>
-      <div class="d-flex justify-content-center align-self-center">
-        <button type="button" class="btn btn-warning btn-lg">결제확인</button>	
-      </div>      
     </div>
 </section>
 <%@ include file="../include/footer.jsp" %>

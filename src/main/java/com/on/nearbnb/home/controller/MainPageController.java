@@ -67,26 +67,18 @@ public class MainPageController {
 		JSONObject jsonObject = new JSONObject();// PlacePoint객체오브젝트
 		JSONArray jsonArray = new JSONArray();
 
-		for (int i = 0; i < resultPoint.size(); i++) {
-			System.out.println(i + "PlaceId : " + resultPoint.get(i).getPlaceId());
-		}
-
-		System.out.println("크기 : " + resultPoint.size());
-		System.out.println("크기 : " + resultFileOne.size());
-
-		System.out.println("test : " + resultFileOne.get(0).getPlaceId());
-
 		int pointId, placeId, fileId;
 
 		for (int i = 0; i < resultFileOne.size(); i++) {
 			pointId = resultPoint.get(i).getPlaceId(); 
 			placeId = resultPlace.get(i).getPlaceId();
 			fileId = resultFileOne.get(i).getPlaceId();
+			
 			if ((pointId == placeId) && (placeId == fileId)) {
 				JSONObject pObject = new JSONObject();
 				pObject.put("placeId", resultPoint.get(i).getPlaceId());
 				pObject.put("latitude", resultPoint.get(i).getLatitude());
-				pObject.put("longitude", resultPoint.get(i).getLongitude());
+				pObject.put("longitude", resultPoint.get(i).getLongitude());	
 				pObject.put("placeName", resultPlace.get(i).getPlaceName());
 				pObject.put("placeImage", resultFileOne.get(i).getFilePath());
 				jsonArray.add(pObject);

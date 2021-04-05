@@ -52,7 +52,7 @@ public class MyPageController {
 	public ModelAndView myPagePwCheckAction(Member member, ModelAndView modelAndView) throws Exception {
 		Member m = memberService.selectMember(member);
 		if(m.getUserPw().equals(member.getUserPw())) {
-			modelAndView.setViewName("redirect:myPage.do");
+			modelAndView.setViewName("redirect:myPageEditUser.do");
 		} else {
 			modelAndView.setViewName("myPage/myPagePwCheckError");
 		}		

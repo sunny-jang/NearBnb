@@ -77,7 +77,7 @@ var date = new PlaceDate();
 	    }
 	    
 	    return true;
-	} 
+	}
 
 </script>
 <section class="row justify-content-center m-0">

@@ -73,6 +73,10 @@
 		WHERE U_ID = #{userId}
 	</update>
 	
+	<update id="updateMemberProfile" parameterType="String">
+		UPDATE MEMBER SET USER_PROFILE = 'Y' WHERE U_ID = #{userId}
+	</update>
+	
 	<delete id="deleteMember" parameterType="String">	
 		DELETE FROM MEMBER WHERE U_ID = #{userId}
 	</delete>

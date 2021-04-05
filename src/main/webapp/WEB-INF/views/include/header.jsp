@@ -44,13 +44,30 @@
           </div>
         </c:if>
         <!-- 로그인 상태일 때 -->
-        <c:if test="${not empty userId}">
+        <c:if test="${not empty userId && userProfile ne 'Y'}">
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
               <button type="button" class="btn btn-primary" onclick="location.href='myPage.do'">마이페이지</button>
               <button type="button" class="btn btn-secondary" onclick="location.href='signOut.do'">로그아웃</button>
-              <a href="#"><img src ="${context}/html/images/defaultprofile.jpg" style="width: 20px; height: 20px;"></a>
+              <a class="ml-1" href="#"><img src ="${context}/html/images/defaultprofile.jpg" style="width: 44px; height: 44px;"></a>
+          </div>
+          <div class="d-flex justify-content-end">
+          	<div id="profile-card" class="mt-2">
+	          	<div id="card-header">
+	          		<div id="pic">
+	          			<img src ="${context}/html/images/defaultprofile.jpg" style="width: 44px; height: 44px;">
+	          		</div>
+	          		<div id="name">John Doe</div>
+	          		<div id="desc">Developer & Designer</div>     			
+	          	</div>
+	          	<div id="card-footer">
+	          		<div id="item">
+	          			<button type="button" class="btn btn-primary" onclick="location.href='myPage.do'">마이페이지</button>
+	              		<button type="button" class="btn btn-secondary" onclick="location.href='signOut.do'">로그아웃</button>	
+	          		</div>
+	          	</div>
+          	</div>
           </div>
         </c:if>
         </div>

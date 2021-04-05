@@ -144,6 +144,9 @@ A.boardCodeSeq = B.BOARD_CODE_SEQ(+)
 AND
 A.boardCodeSeq = C.BOARD_CODE_SEQ(+)
 <choose>
+		<when test="boardType == '전체'">
+			AND (A.boardTitle like '%'||#{boardContent}||'%' OR A.userId like '%'||#{boardContent}||'%')
+		</when>
 		<when test="boardType == '제목'">
 			AND A.boardTitle like '%'||#{boardContent}||'%'
 		</when>

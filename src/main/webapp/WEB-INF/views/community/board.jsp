@@ -19,9 +19,7 @@
  		$('#searchBtn').on('click', function(){
 			var searchType = $("#boardSearchType > option:selected").val();
 			var searchData = $("#boardSearch").val();
-			if(searchType == "전체" || searchType == ""){
-				alert('카테고리를 선택해주세요.');
-			}else if(searchData == ""){
+			if(searchData == ""){
 				alert('검색어를 입력해주세요.')
 			}else{
 				document.location.href = "printBoardAjaxSearch.do?boardType=" + searchType + "&boardContent="+searchData;

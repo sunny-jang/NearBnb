@@ -7,10 +7,34 @@
 $(function() {
 	console.log(localStorage.placeList);
 	var pList = JSON.parse(localStorage.placeList);
-	console.log("어레이길이 : "+pList.length);
-	console.log("pList : "+pList[0].placeId);
 	
 	
+	
+	
+	function pListAjax(pList){
+		
+		console.log("어레이길이 : "+pList.length);
+		console.log("pList : "+pList[0].placeId);
+		var idList=[];
+		for(var i=0; i<pList.length; i++){
+			var obj = {
+				//"placeId" : pList[0].placeId;
+			}
+			idList.push(obj);
+		}
+		
+		$.ajax({
+			type : "POST",
+			url : "pListAjax.do",
+			data : idList,
+			error : function(error) {
+				console.log("error");
+			},
+			success : function(list) {
+				console.log("success");
+			}
+		});		
+	}
 	
 });
 

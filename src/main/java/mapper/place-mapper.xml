@@ -108,7 +108,7 @@
       <foreach item="PlacePoint" index="index" collection="list"  separator="," >
       #{PlacePoint.placeId}
        </foreach>
-       )
+       )ORDER BY P_CODE_SEQ
    </select>
 
 	<!-- 숙소 코드로 숙소 명 조회 -->

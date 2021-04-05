@@ -103,6 +103,7 @@ img {
   background-size: cover;
   background-repeat: no-repeat;
   background-color: black;
+  background-position: center;
 }
 
 .group-place {

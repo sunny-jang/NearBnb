@@ -15,7 +15,6 @@
 			FindLocationMap();
 		});
 		
-		
 		initLocation();
 		var latitude = $("input[name=latitude]").val();//위도
 		var longitude = $("input[name=longitude]").val();//경도
@@ -53,10 +52,7 @@
 				
 //controller
 	 
-		function placePoint(lat, lon) {
-			console.log("위도 : "+lat);
-			console.log("경도 : "+lon);
-						
+		function placePoint(lat, lon) {		
 			$.ajax({
 				type : "POST",
 				url : "centerPoint.do",
@@ -65,30 +61,14 @@
 					console.log("error");
 				},
 				success : function(data) {
-					
 				 data = JSON.parse(data);				
 					searchPoint(data);
-
-					console.log("1번째 이름 :"+data.pointList[0].placeName);
-					console.log("1번째 아이디:"+data.pointList[0].placeId);
-
 					searchList(data);
-					console.log("data길이 : "+data.pointList.length);
-	
-
+					placeList(data);
 				}
-			});
-			pList = [];
-		//	console.log(data);
-					for(var i=0; i<data.pointList.length; i++){
-						pId = new Object();
-						pId.placeId = data.pointList[i].placeId;
-						pList.push(pId);
-					}
-					console.log("pList :");
-		} 
-		
 
+			});			
+		} 
 		console.log("pList :"+pList.get(0).placeName);
 		console.log("pList :"+pList);
 		
@@ -129,7 +109,7 @@
 			    
 			    // 마커에 표시할 인포윈도우를 생성합니다 
 			    var infowindow = new kakao.maps.InfoWindow({
-			        content: positions[i].title // 인포윈도우에 표시할 내용
+			        content: '<div style="width:150px; text-align:center;padding:3px 0; margin-bottom: -2px; font-size:12px; border-radius:10px">'+positions[i].title+'</div>' // 인포윈도우에 표시할 내용
 			     
 			    });
 			   

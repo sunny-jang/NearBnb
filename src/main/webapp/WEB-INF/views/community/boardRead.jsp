@@ -160,7 +160,7 @@ $(function(){
 	
 });
 </script>
-<section>
+<section class="pb-5">
 	<div class="total">
 	<h2>커뮤니티</h2>
 	<hr>

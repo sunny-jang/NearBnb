@@ -148,5 +148,10 @@ public class placeServiceImpl implements PlaceService {
 	public List<ExtendedPlace> searchExtendedPlace(PlacePoint pp) {
 		return pDao.searchExtendedPlace(pp);
 	}
+	
+	@Override
+	public int deletePlace(Integer pId) {
+		return pDao.deletePlace(pId);
+	}
 
 }

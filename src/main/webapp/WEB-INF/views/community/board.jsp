@@ -50,11 +50,11 @@
 		});
 	});
 </script>
-<section>
-<div class="total">
+<section class="row d-flex justify-content-center pb-5 m-0">
+<div class="total col-10">
   <h2>커뮤니티</h2>
   <hr>
-  <select class="boartType1" id="boardType" name="boardType">
+  <select class="boartType1" id="boardType" name="boardType" style="height:30px">
     <c:choose>
 		<c:when test="${board.boardType eq '추천' }">
 			<option value="전체">전체</option>
@@ -83,13 +83,13 @@
 	</c:choose>
   </select>
   <div class="search">
-    <select id="boardSearchType" name="boardSearchType">
+    <select id="boardSearchType" name="boardSearchType" style="height:30px">
       <option value="전체">전체</option>
       <option value="제목">제목</option>
       <option value="작성자">작성자</option>
     </select>
-    <input type="text" id="boardSearch" name="boardSearch">
-    <input type="button"id="searchBtn" class="btn" value="검색">
+    <input type="text" id="boardSearch" name="boardSearch" style="height:30px">
+    <input type="button"id="searchBtn" class="btn btn-third" value="검색">
   </div>
 	<center>
 		<input type="hidden" name="userId" id="userId" value="${board.userId }" />
@@ -121,7 +121,7 @@
 		 		<c:forEach var="bestBoard" items="${bestList }">
 					<tr id="bestList">
 						<td>${bestBoard.boardType }</td>
-						<td>
+						<td class="ellipsis1 pl-2 pr-2 pt-2 pb-2">
 							<a href="boadSelectOneCon.do?boardCodeSeq=${bestBoard.boardCodeSeq }" class="Btitle">${bestBoard.boardTitle }</a>
 							<c:choose>
 								<c:when test="${bestBoard.commentCnt eq 0 }">
@@ -148,7 +148,7 @@
 		 		<c:forEach var="board" items="${boardList }" varStatus="status">
 					<tr id="boardList">
 						<td>${board.boardType }</td>
-						<td>
+						<td class="ellipsis1 pl-3 pr-3 pt-2 pb-2">
 							<a href="boadSelectOneCon.do?boardCodeSeq=${board.boardCodeSeq }" class="Btitle">${board.boardTitle }</a>
 							<c:choose>
 								<c:when test="${board.commentCnt eq 0 }">
@@ -175,7 +175,7 @@
 			</c:if>
 			<!-- 앞 페이지 번호 처리 -->
 			<tr height="20">
-				<td colspan="5" style="margin: 10px;">
+				<td colspan="5" style="margin: 10px; padding-top:20px">
 					<c:if test="${currentPage <= 1}"></c:if>
 		  			<c:if test="${currentPage > 1}">
 						<c:url var="boardList" value="board.do">
@@ -220,7 +220,11 @@
 			</tr>
 		</table>
 	</center>
+	<div class="d-flex justify-content-end m-0">
+		<input type="button" class="btn write" id="boardWrite" onclick="location.href='boardWrite.do'" value="글쓰기" >
+	</div>
+	
 </div>
-<input type="button" class="btn write" id="boardWrite" onclick="location.href='boardWrite.do'" value="글쓰기" >
+
 </section>
 <%@ include file="../include/footer.jsp" %>

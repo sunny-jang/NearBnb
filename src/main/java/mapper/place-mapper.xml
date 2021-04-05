@@ -82,7 +82,7 @@
 	
 	<!-- 마이페이지 용 숙소 코드로 조회 -->
 	<select id="selectPlaceForModal" resultMap="resultPlace" parameterType="Integer">
-		SELECT PLACE_NAME, PLACE_ADDRESS, PLACE_ADDRESS_DETAIL, PLACE_INFO, USER_PHONE FROM PLACE WHERE P_CODE_SEQ = #{pId}
+		SELECT PLACE_NAME, PLACE_ADDRESS, PLACE_ADDRESS_DETAIL, PLACE_INFO, USER_PHONE FROM PLACE WHERE P_CODE_SEQ = #{pId} ORDER BY 
 	</select>	
 
 	<!-- 숙소 등록 -->
@@ -103,13 +103,13 @@
 
 
 	<!-- 리스트 숙소정보 조회 -->
-	  <select id = "selectSearchPlace"  resultMap="resultPlace" parameterType="java.util.List">
-    SELECT * FROM PLACE WHERE P_CODE_SEQ in (
-      <foreach item="PlacePoint" index="index" collection="list"  separator="," >
-      #{PlacePoint.placeId}
-       </foreach>
-       )
-   </select>
+    <select id = "selectSearchPlace"  resultMap="resultPlace" parameterType="java.util.List">
+      SELECT * FROM PLACE WHERE P_CODE_SEQ in (
+        <foreach item="PlacePoint" index="index" collection="list"  separator="," >
+        #{PlacePoint.placeId}
+         </foreach>
+         )ORDER BY P_CODE_SEQ
+    </select>
 
 	<!-- 숙소 코드로 숙소 명 조회 -->
 	<select id="selectPlaceName" resultType="String" parameterType="Integer">
@@ -136,14 +136,20 @@
 		DELETE FROM PLACE_THUMB WHERE P_CODE_SEQ = #{placeId} AND U_ID = #{uId}
 	</delete>
 	
+	<!-- 플레이스 확장 vo에 값 저장 -->
 	<select id="searchExtendedPlace" resultMap ="resultExtendedPlace" parameterType="PlacePoint">
 		SELECT * FROM PLACE
 		JOIN PLACE_POINT P USING(P_CODE_SEQ)
 		JOIN PLACE_IMGFILE PI USING(P_CODE_SEQ)
-		WHERE( P.LATITUDE BETWEEN #{latitude}-0.1 AND #{latitude}+0.1 )
-		AND(P.LONGITUDE BETWEEN #{longitude}-0.1 AND #{longitude}+0.1)
+		WHERE( P.LATITUDE BETWEEN #{latitude}-0.04 AND #{latitude}+0.04)
+		AND(P.LONGITUDE BETWEEN #{longitude}-0.04 AND #{longitude}+0.041)
 		ORDER BY DBMS_RANDOM.RANDOM()
 	</select>
+	
+	<!-- 숙소삭제 -->
+	<delete id="deletePlace" parameterType="Integer">
+		DELETE FROM PLACE WHERE P_CODE_SEQ = #{placeId}
+	</delete>
 
 
 </mapper>

@@ -11,8 +11,6 @@ $(function(){
 	var object = JSON.parse(localStorage.bookInfo);
 	var placeName = '<c:out value="${place.placeName}" />';	
 	var totalPrice = (object.totalPrice).replaceAll(',', ''); 
-	console.log(object);
-	console.log(totalPrice);
 
 	init();
 	
@@ -69,23 +67,8 @@ function openIMP() {
 	    buyer_name : object.uId,
 	}, function(rsp) {
 	    if ( rsp.success ) {
-	    	/* $.ajax({
-	    		url: 'registerBook.do',
-	    		method: 'post',
-	    		dataType: 'json',
-	    		data: object
-	    	}) */
-	        var msg = '결제가 완료되었습니다.';
-	        msg += '고유ID : ' + rsp.imp_uid;
-	        msg += '상점 거래ID : ' + rsp.merchant_uid;
-	        msg += '결제 금액 : ' + rsp.paid_amount;
-	        msg += '카드 승인번호 : ' + rsp.apply_num;
 	        location.href='kakaoPayComplete.do';
-	    } else {
-	        var msg = '결제에 실패하였습니다.';
-	        msg += '에러내용 : ' + rsp.error_msg;
-	    }
-	    alert(msg);
+	    } 
 	});
 }
 </script>
@@ -148,58 +131,6 @@ function openIMP() {
           </div>       
         </div>
       </div>
-      <div class="d-flex justify-content-center align-self-center">
-        <button type="button" class="btn btn-warning btn-lg">결제확인</button>	
-      </div>      
     </div>
-    <!-- normalModal -->
-    <!-- <div class="modal fade" id="normalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content container">
-          <div class="modal-header align-self-center mt-2">
-            <h1>일반 신용 결제</h1>
-          </div>
-          <div class="modal-body">
-            <div>
-              <h3>결제 수단</h3>
-            </div>
-            <select class="form-control" >
-              <option>신용카드 또는 체크카드</option>
-            </select>
-            <input type="text" class="form-control mt-2" placeholder="카드번호" />
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="만료일" />
-              <input type="text" class="form-control" placeholder="CVV" />
-            </div>
-            <div class="form-check mt-3">
-              <input type="checkbox" name="check" id="allcheck" class="form-check-input" value=""><h5>전체 동의</h5>
-            </div>
-            <div class="form-check mt-2">
-              &nbsp;&nbsp;<input type="checkbox" name="check" class="form-check-input" value=""><u>숙소이용규칙 및 취소/환불규정 동의</u><span style="font-color: red;">(필수)</span>
-            </div>
-            <div class="form-check mt-2">
-              &nbsp;&nbsp;<input type="checkbox" name="check" class="form-check-input" value=""><u>개인정보 수집 및 이용 동의</u><span style="font-color: red;">(필수)</span>
-            </div>
-            <div class="form-check mt-2">
-              &nbsp;&nbsp;<input type="checkbox" name="check" class="form-check-input" value=""><u>개인정보 제 3자 제공 동의</u><span style="font-color: red;">(필수)</span>
-            </div>  
-            <div class="form-check mt-2">
-              &nbsp;&nbsp;<input type="checkbox" name="check" class="form-check-input" value=""><u>숙소이용규칙 및 취소/환불규정 동의</u><span style="font-color: red;">(필수)</span>
-            </div>
-          </div>
-          <div class="pt-3">
-            <div class="d-flex justify-content-start ml-5">
-      	      <h4>총 결제금액</h4>
-            </div>
-            <div class="d-flex justify-content-end mr-5">
-            	<h1>178,000 원</h1>
-            </div>
-          </div>
-          <div class="d-flex justify-content-center align-self-center m-3">
-        	<button type="button" class="btn btn-warning btn-lg">결제하기</button>	
-          </div>
-        </div>
-      </div>
-    </div>   -->
 </section>
 <%@ include file="../include/footer.jsp" %>

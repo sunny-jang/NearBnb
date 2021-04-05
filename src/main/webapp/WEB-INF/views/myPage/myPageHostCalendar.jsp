@@ -79,10 +79,6 @@
 			        allDay: arg.allDay,
 			        color: 'orange'
 			      };
-		    	
-		    	// 예약 날짜 체크
-		    	checkAvailableDate(calendar, event_);
-		    	
 		      },
 		      eventLimit: true, // allow "more" link when too many events
 		      events: events,
@@ -112,11 +108,28 @@
 	    	}
 	    	return eventArray;
 		}
-    	
 	})();
-	
-	
 });
+  
+function deletePlace(pId) {
+	var confirmDelete = confirm("정말 삭제하시겠습니까?");
+	
+	if(confirmDelete) {
+		fetch("deletePlace.do?pId="+pId, {
+			method: 'get',
+		}).then(res=>res.json()).then((res)=>{
+			console.log(res);
+			if(res.result == "failed") {
+				alert("예약이 잡힌 숙소는 취소할 수 없습니다.")
+			}else {
+				history.back();
+			}
+		})
+	}else {
+		return;
+	}
+	
+}
 </script>
 <section>
  
@@ -135,7 +148,10 @@
       <div class="col-8">   
       	<div id='calendar' style='margin-bottom: 20px; font-size: 13px;'></div>
       </div>
-     <div class="col-8" style="text-align: end;"><button type="button" class="btn btn-primary" onclick="history.back();" >목록보기</button></div>
+     <div class="col-8 justify-content-between d-flex">
+     	<button type="button" class="btn btn-secondary" onclick="deletePlace(${place.placeId});" >삭제하기</button>
+     	<button type="button" class="btn btn-primary" onclick="history.back();" >목록보기</button>
+     </div>
   	 </div>
   
     

@@ -100,6 +100,8 @@ public class MemberController {
 		} else {
 			if((m.getUserPw()).equals(member.getUserPw())) {
 				session.setAttribute("userId", m.getUserId());
+				session.setAttribute("userProfile", m.getUserProfile());
+				session.setAttribute("userName", m.getUserName());
 				modelAndView.setViewName("redirect:index.do");				
 			} else {
 				modelAndView.setViewName("member/memberLoginError");

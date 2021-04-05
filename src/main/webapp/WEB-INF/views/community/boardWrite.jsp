@@ -45,7 +45,7 @@
 		
 	});
 </script>
-<section>
+<section class="pb-5">
 	<div class="total">
 		<h2>커뮤니티</h2>
 		<hr>
@@ -55,9 +55,9 @@
 					<tr>
 						<td style="width: 300px;">제목</td>
 						<td style="width: 900px; height: 50px;">
-							<h2>
+							<h3 class="m-0">
 								<input type="text" class="title" placeholder=" 제목" name="boardTitle" id="boardTitle">
-							</h2>
+							</h3>
 						</td>
 						<td style="border-left: 1px solid #ccc; padding: 10px;">
 							<select style="border: none;" name="boardType" id="boardType">

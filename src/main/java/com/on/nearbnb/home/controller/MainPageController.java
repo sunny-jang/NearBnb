@@ -45,8 +45,8 @@ public class MainPageController {
 
 	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	@ResponseBody
-	public Object searchPlacePoint(@RequestParam("latitude") double latitude,
-			@RequestParam("longitude") double longitude, HttpServletRequest request, ModelAndView modelAndView) {
+	public String searchPlacePoint(@RequestParam("latitude") double latitude,
+			@RequestParam("longitude") double longitude, HttpServletRequest request) {
 
 		PlacePoint searchpoint = new PlacePoint();
 		searchpoint.setLatitude(latitude);
@@ -61,42 +61,36 @@ public class MainPageController {
 		List<Place> resultPlace = placeService.selectPlaceList(resultPoint);// 숙소정보
 		System.out.println("PlaceName : " + resultPlace.get(0).getPlaceName());
 		List<PlaceFile> resultFileOne = placeFileService.selectOneList(resultPoint);
-		System.out.println("FilePath : " + resultFileOne.get(0).getFilePath());
+		System.out.println("resultPoint.size : " + resultPoint.size());
 
 		// Ajax
 		JSONObject jsonObject = new JSONObject();// PlacePoint객체오브젝트
 		JSONArray jsonArray = new JSONArray();
 
-		for (int i = 0; i < resultPoint.size(); i++) {
-			System.out.println(i + "PlaceId : " + resultPoint.get(i).getPlaceId());
-		}
-
-		System.out.println("크기 : " + resultPoint.size());
-		System.out.println("크기 : " + resultFileOne.size());
-
-		System.out.println("test : " + resultFileOne.get(0).getPlaceId());
-
 		int pointId, placeId, fileId;
 
-		for (int i = 0; i < resultFileOne.size(); i++) {
+		for (int i = 0; i < resultPoint.size(); i++) {
 			pointId = resultPoint.get(i).getPlaceId(); 
 			placeId = resultPlace.get(i).getPlaceId();
 			fileId = resultFileOne.get(i).getPlaceId();
+			//System.out.println(pointId+","+placeId+","+fileId);
+			
 			if ((pointId == placeId) && (placeId == fileId)) {
 				JSONObject pObject = new JSONObject();
 				pObject.put("placeId", resultPoint.get(i).getPlaceId());
 				pObject.put("latitude", resultPoint.get(i).getLatitude());
-				pObject.put("longitude", resultPoint.get(i).getLongitude());
+				pObject.put("longitude", resultPoint.get(i).getLongitude());	
 				pObject.put("placeName", resultPlace.get(i).getPlaceName());
 				pObject.put("placeImage", resultFileOne.get(i).getFilePath());
 				jsonArray.add(pObject);
+				
 			}
 		}
 
 		jsonObject.put("pointList", jsonArray);
 
-		Object result = jsonObject.toString();
-		System.out.println(result);
+		String result = jsonObject.toString();
+		//System.out.println(result);
 		return result;
 	}
 }

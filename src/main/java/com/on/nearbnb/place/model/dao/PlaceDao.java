@@ -69,9 +69,13 @@ public class PlaceDao {
 			return sqlSession.selectList("Place.searchExtendedPlace", pp);
 		}
 
-	// foreach문 place정보조회 (임시)
+	//foreach문 place정보조회 (임시)
 	public List<Place>selectSearchPlace(List<PlacePoint> resultPoint){
 		return sqlSession.selectList("selectSearchPlace",resultPoint);
+	}
+	
+	public int deletePlace(Integer pId) {
+		return sqlSession.delete("deletePlace", pId);
 	}
 } 
 

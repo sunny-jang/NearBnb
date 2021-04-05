@@ -8,8 +8,8 @@
 </head>
 <body>
 <script>
-	alert('회원 수정이 완료되었습니다.');
-	location.href = 'myPage.do';
+	alert('예약이 정상적으로 취소되었습니다 \n 7일 이내로 예약금액이 환불 될 예정입니다.');
+	location.href = 'myPageGuestCheck.do';
 </script>
 </body>
 </html>

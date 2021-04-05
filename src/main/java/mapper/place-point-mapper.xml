@@ -17,7 +17,7 @@
 	<select id="searchPlacePoint" resultMap ="resultPlacePoint" resultType="PlacePoint" parameterType="PlacePoint">
 		SELECT *  FROM PLACE_POINT 
 		WHERE( LATITUDE BETWEEN #{latitude}-0.04 AND #{latitude}+0.04)
-		AND(LONGITUDE BETWEEN #{longitude}-0.04 AND #{longitude}+0.04)
+		AND(LONGITUDE BETWEEN #{longitude}-0.04 AND #{longitude}+0.04) ORDER BY	P_CODE_SEQ
 	</select>
 	
 	<select id="searchPlacePointOne" resultMap="resultPlacePoint" parameterType="Integer">

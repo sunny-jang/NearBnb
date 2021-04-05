@@ -68,8 +68,8 @@ var c = 0;
 	          		<div id="pic">
 	          			<img src ="${context}/html/images/defaultprofile.jpg" style="width: 44px; height: 44px;">
 	          		</div>
-	          		<div id="name">${userName}</div>
-	          		<div id="desc">${userId}</div>     			
+	          		<div id="name" style="font-size: 20px;">${userId}</div>
+	          		<div id="desc"><button id="edit-profile">프로필 수정하기</button></div>     			
 	          	</div>
 	          	<div id="card-footer">
 	          		<div id="item">

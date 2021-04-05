@@ -82,7 +82,7 @@
 	
 	<!-- 마이페이지 용 숙소 코드로 조회 -->
 	<select id="selectPlaceForModal" resultMap="resultPlace" parameterType="Integer">
-		SELECT PLACE_NAME, PLACE_ADDRESS, PLACE_ADDRESS_DETAIL, PLACE_INFO, USER_PHONE FROM PLACE WHERE P_CODE_SEQ = #{pId}
+		SELECT PLACE_NAME, PLACE_ADDRESS, PLACE_ADDRESS_DETAIL, PLACE_INFO, USER_PHONE FROM PLACE WHERE P_CODE_SEQ = #{pId} ORDER BY 
 	</select>	
 
 	<!-- 숙소 등록 -->

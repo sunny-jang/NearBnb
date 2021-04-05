@@ -34,11 +34,6 @@
 					i.setAttribute("name","changedFile");
 					i.setAttribute("value",data);
 					$("#frm").append(i);
-				},
-				error: function(request, status, error){
-					alert("code : " + request.status + "\n"
-							+ "message : " + request.responseText + "\n"
-							+ "error : " + error);
 				}
 			});
 		});

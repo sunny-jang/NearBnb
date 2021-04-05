@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLEncoder;
 
 import javax.servlet.ServletOutputStream;
@@ -27,7 +28,7 @@ public class BoardFileController {
 	
 	// 해당 게시글 파일 다운받기
 		@RequestMapping(value = "boardFileDownload.do", method = RequestMethod.GET)
-		public void boardFileDownload(int boardCodeSeq, HttpServletRequest request, HttpServletResponse response) {
+		public void boardFileDownload(int boardCodeSeq, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 			// 파일 정보 조회
 			BoardFile boardFile = boardFileService.selectBoardFile(boardCodeSeq);
@@ -72,8 +73,15 @@ public class BoardFileController {
 				}
 
 			}catch(IOException e) {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter script = response.getWriter();
+				
+				script.println("<script>");
+				script.println("alert('다운로드에 실패했습니다');");
+				script.println("history.back();");
+				script.println("</script>");
 				System.out.println(e.getMessage());
-				e.printStackTrace();
+				return;
 			}finally {
 				try {
 					sos.close();

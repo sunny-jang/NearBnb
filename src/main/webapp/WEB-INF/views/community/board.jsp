@@ -29,22 +29,22 @@
 		// 게시글 분류
 		$('#boardType').on('change',function(){
 			var boardType = $("#boardType > option:selected").val();
-			$.ajax({
+/* 			$.ajax({
 				url : 'boardAjaxType.do',
 				data : {
 					boardType : boardType
 				},
 				type : 'get',
 				dataType : 'json',
-				success: function(data){
+				success: function(data){ */
 					document.location.href = "printBoardAjaxType.do?boardType=" + boardType;
-				},
+/* 				},
 				error: function(request, status, error){
 					alert("code : " + request.status + "\n"
 							+ "message : " + request.responseText + "\n"
 							+ "error : " + error);
 				}
-			});
+			}); */
 		});
 	});
 </script>

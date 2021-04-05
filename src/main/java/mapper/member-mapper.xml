@@ -14,7 +14,8 @@
 		<result property="userEmail" column="USER_EMAIL"/>
 		<result property="userRole" column="USER_ROLE"/>
 		<result property="userRegdate" column="USER_REGDATE"/>
-	</resultMap>
+		<result property="userProfile" column="USER_PROFILE"/>
+ 	</resultMap>
 	
 	<!-- member table의 모든 데이터 select -->
 	<!-- resultMap을 쓰지 않을 경우 resultType="Member" 지정 필요 -->
@@ -47,7 +48,7 @@
 	</select>
 	
 	<insert id="insertMember" parameterType="Member">
-		INSERT INTO MEMBER VALUES(#{userId}, #{userPw}, #{userName}, #{userPhone}, #{userEmail}, DEFAULT, DEFAULT)
+		INSERT INTO MEMBER VALUES(#{userId}, #{userPw}, #{userName}, #{userPhone}, #{userEmail}, DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
 	<update id="updateMember" parameterType="Member">

@@ -21,4 +21,8 @@ public class BookDao {
 	public List<Book> selectBook(Book book) {
 		return sqlSession.selectList("selectBook", book);
 	}
+	
+	public int deleteBook(String bookId) {
+		return sqlSession.delete("Book.deleteBook", bookId);
+	}
 }

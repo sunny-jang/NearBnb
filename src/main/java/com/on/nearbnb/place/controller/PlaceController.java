@@ -63,7 +63,7 @@ public class PlaceController {
 //	@ResponseBody
 //	public String pListAjax(@RequestParam("idList") List<PlacePoint> pidList,
 //			 HttpServletRequest request) {
-//		List<Place> resultList = placeService.selectPlaceList(pidList);
+//		List<Place> resultList = placeService.selectPlaceList(pidList); 
 //		System.out.println("resultList"+resultList.size());
 //		// Ajax
 //				JSONObject jsonObject = new JSONObject();

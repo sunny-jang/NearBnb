@@ -37,6 +37,9 @@
 				<when test="userId != null">
 					U_ID = #{userId}
 				</when>
+				<when test="userEmail != null">
+					USER_EMAIL = #{userEmail}
+				</when>
 				<otherwise></otherwise>
 			</choose>	
 		</where>

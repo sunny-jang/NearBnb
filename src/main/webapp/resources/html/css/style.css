@@ -382,6 +382,15 @@ img {
 	border-radius: 50%;
 }
 
+#edit-profile {
+	display: inline-block;
+	padding: 12px 50px;
+	color: #e66767;
+	border: 2px solid #e66767;
+	border-radius: 6px;
+	margin-top: 16px;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
   }

@@ -12,14 +12,13 @@
      method: 'get',
      dataType: 'json',
      success: function(data) {
-       console.log(data);
        $("#instafeed").text(data.data[0].id);
        $("#aaa").text(data.data[0].media_url).attr("href",data.data[0].media_url);
       
        for( var i=0; i<6; i++){
          $("#instaurl"+[i]).attr("href",data.data[i].permalink);
          $("#instacaption"+[i]).text(data.data[i].caption);
-         $(".imageaaa"+[i]).attr("src",data.data[i].media_url);//이미지
+         $("#imageaaa"+[i]).css("background-image","url("+data.data[i].media_url+")");//이미지
        }
      }
    })         
@@ -32,12 +31,29 @@
 
 function searchList(data){
 	for(var i=0; i<3; i++){
-	$('#list'+[i+1]).html(data.pointList[i].placeName);
+	$('#list'+[i]).html(data.pointList[i].placeName);
 	listImg = "url("+data.pointList[i].placeImage+")";
-	$("#listImg"+[i+1]).css("background-image", listImg); 
-	$("#plink"+[i+1]).attr("href", "placeDetail.do?pId="+data.pointList[i].placeId);
+	$("#listImg"+[i]).css("background-image", listImg); 
+	$("#plink"+[i]).attr("href", "placeDetail.do?pId="+data.pointList[i].placeId);
 	}
 }
+
+//정보저장
+function placeList(data){
+	var placeList = [];
+	
+	for(var i=0; i<data.pointList.length; i++){
+		var placeObj = {
+			placeId : data.pointList[i].placeId,
+			placeName : data.pointList[i].placeName, 	
+			placeImage : data.pointList[i].placeImage,
+		}	
+		placeList.push(placeObj);
+	}
+	localStorage.placeList = JSON.stringify(placeList);
+}
+
+
 </script>
 
 <section>
@@ -54,31 +70,15 @@ function searchList(data){
         <a href="placeList.do">더보기 > </a>
       </div>
       <div class="row">
+      
+      <c:forEach var="i" begin="0" end="2">
         <div class="col place-item" >
-          <a href="#" id="plink1">
-            <div class="place-image" id ="listImg1">
-           
-            </div>
-            <span id="list1"></span>
+          <a href="#" id="plink${i}">
+            <div class="place-image" id ="listImg${i}"></div>
+            <span id="list${i}"></span>
           </a>
         </div>
-        <div class="col place-item">
-          <a href="#" id="plink2">
-            <div class="place-image"  id ="listImg2">
-             
-            </div>
-            <span id="list2"></span>
-          </a>
-        </div>
-        <div class="col place-item">
-          <a href="#" id="plink3">
-            <div class="place-image" id ="listImg3">
-              
-            </div>
-            <span id="list3"></span>
-          </a>
-        </div>
-        
+       </c:forEach> 
       </div>
     </div>
 
@@ -87,54 +87,15 @@ function searchList(data){
       <h3>Instagram</h3>
     </div>
     <div class="row row-cols-3">
+     <c:forEach var="i" begin="0" end="5">
       <div class="col place-item">
-        <a href="" id="instaurl0">
-          <div>
-            <img  class ="place-image imageaaa0">
+        <a href="" id="instaurl${i}">
+          <div class ="place-image" id="imageaaa${i}">
           </div>
-          <span id="instacaption0"></span>
+          <span id="instacaption${i}"></span>
         </a>
       </div>
-      <div class="col place-item">
-        <a href="" id="instaurl1">
-          <div class="place-image">
-            <img  class ="place-image imageaaa1">
-          </div>
-          <span id="instacaption1"></span>
-        </a>
-      </div>
-      <div class="col place-item">
-        <a href="" id="instaurl2">
-          <div>
-            <img  class ="place-image imageaaa2">
-          </div>
-          <span id="instacaption2"></span>
-        </a>
-      </div>
-      <div class="col place-item">
-        <a href="" id="instaurl3">
-          <div>
-            <img  class ="place-image imageaaa3">
-          </div>
-          <span id="instacaption3"></span>
-        </a>
-      </div>
-      <div class="col place-item">
-        <a href="" id="instaurl4">
-          <div>
-            <img class ="place-image imageaaa4">
-          </div>
-          <span id="instacaption4"></span>
-        </a>
-      </div>
-      <div class="col place-item">
-        <a href="" id="instaurl5">
-          <div>
-            <img class ="place-image imageaaa5">
-          </div>
-          <span id="instacaption5"></span>
-        </a>
-      </div>
+      </c:forEach> 
     </div>
   </div>
 

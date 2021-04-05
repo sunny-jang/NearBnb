@@ -68,6 +68,20 @@ public class MemberController {
 		out.close();
 	}
 	
+	// 이메일 중복확인 ajax
+	@RequestMapping(value="emailCheck.do", method=RequestMethod.GET)	
+	public void emailCheck(Member member, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		Member m = memberService.selectMember(member);
+		if(m == null) {
+			out.append("1");
+		} else {
+			out.append("0");
+		}		
+		out.close();
+	}
+	
 	// 이메일 인증번호 전송
 	@RequestMapping(value="authNum.do", method=RequestMethod.POST)
 	@ResponseBody

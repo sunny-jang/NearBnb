@@ -85,7 +85,7 @@
 				checkPhone = true;
 			}
 		});
-		// 이메일 유효성 검사
+		// 이메일 중복&유효성 검사
 		$('#userEmail').focusout(function(){
 			var userEmail = $('#userEmail').val();
 			var emailCheck = RegExp(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/);
@@ -94,9 +94,23 @@
 				$('#authButton').attr('disabled', true);
 				checkEmail = false;
 			} else {
-				$('#alertEmail').html("");
-				$('#authButton').attr('disabled', false);
-				checkEmail = true;
+				$.ajax({
+					url : 'emailCheck.do',
+					type : 'GET',
+					data : {'userEmail' : userEmail},
+					success : function(data) {
+						if(data == 0) {
+							$('#alertEmail').html('<th></th><td style="padding: 0px 0px 0px 15px !important;">해당 이메일은 현재 사용중입니다.</td>').css('color','red');
+							$('#authButton').attr('disabled', true);
+							checkEmail = false;
+						} else {
+							$('#alertEmail').html("");
+							$('#authButton').attr('disabled', false);
+							checkEmail = true;
+						}
+					},
+					error : function(request, status, error){}
+				});				
 			}
 		});
 		// 인증메일 보내기

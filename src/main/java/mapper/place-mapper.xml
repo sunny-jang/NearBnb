@@ -141,8 +141,8 @@
 		SELECT * FROM PLACE
 		JOIN PLACE_POINT P USING(P_CODE_SEQ)
 		JOIN PLACE_IMGFILE PI USING(P_CODE_SEQ)
-		WHERE( P.LATITUDE BETWEEN #{latitude}-0.1 AND #{latitude}+0.1 )
-		AND(P.LONGITUDE BETWEEN #{longitude}-0.1 AND #{longitude}+0.1)
+		WHERE( P.LATITUDE BETWEEN #{latitude}-0.04 AND #{latitude}+0.04)
+		AND(P.LONGITUDE BETWEEN #{longitude}-0.04 AND #{longitude}+0.041)
 		ORDER BY DBMS_RANDOM.RANDOM()
 	</select>
 	

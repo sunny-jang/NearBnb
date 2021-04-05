@@ -8,33 +8,7 @@ $(function() {
 	console.log(localStorage.placeList);
 	var pList = JSON.parse(localStorage.placeList);
 	
-	
-	
-	
-	function pListAjax(pList){
-		
-		console.log("어레이길이 : "+pList.length);
-		console.log("pList : "+pList[0].placeId);
-		var idList=[];
-		for(var i=0; i<pList.length; i++){
-			var obj = {
-				//"placeId" : pList[0].placeId;
-			}
-			idList.push(obj);
-		}
-		
-		$.ajax({
-			type : "POST",
-			url : "pListAjax.do",
-			data : idList,
-			error : function(error) {
-				console.log("error");
-			},
-			success : function(list) {
-				console.log("success");
-			}
-		});		
-	}
+	pListAjax(pList);
 	
 });
 
@@ -51,7 +25,7 @@ $(function() {
               <div class="place-image" style="background-color: black;"></div>
             </div>
             <div class="col-7">
-              <span class="place-host">User11님의 숙소</span>
+              <span class="place-host">${ }님의 숙소</span>
               <h5 class="place-name ellipsis2">숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름</h5>
               <span class="place-option">최대인원 4명 . 숙소 유형 아파트</span>
               <p class="place-des ellipsis2">여름휴가 간 동안 집이 비어서 올리게 되었습니다~ 깨끗하게 써주실 분 찾습니다~^^* 주실 분 찾습니다~^^* 주실 분 찾습니다~^^* .....</p>

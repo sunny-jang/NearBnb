@@ -52,10 +52,7 @@
 				
 //controller
 	 
-		function placePoint(lat, lon) {
-			console.log("위도 : "+lat);
-			console.log("경도 : "+lon);
-						
+		function placePoint(lat, lon) {		
 			$.ajax({
 				type : "POST",
 				url : "centerPoint.do",
@@ -64,19 +61,13 @@
 					console.log("error");
 				},
 				success : function(data) {
-					
 				 data = JSON.parse(data);				
 					searchPoint(data);
-
-					console.log("1번째 이름 :"+data.pointList[0].placeName);
-					console.log("1번째 아이디:"+data.pointList[0].placeId);
-
 					searchList(data);
-					console.log("data길이 : "+data.pointList.length);
-	
-
+					placeList(data);
 				}
-			});
+
+			});			
 		} 
 		console.log("pList :"+pList.get(0).placeName);
 		console.log("pList :"+pList);

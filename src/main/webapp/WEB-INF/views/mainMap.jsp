@@ -15,7 +15,6 @@
 			FindLocationMap();
 		});
 		
-		
 		initLocation();
 		var latitude = $("input[name=latitude]").val();//위도
 		var longitude = $("input[name=longitude]").val();//경도
@@ -78,17 +77,7 @@
 
 				}
 			});
-			pList = [];
-		//	console.log(data);
-					for(var i=0; i<data.pointList.length; i++){
-						pId = new Object();
-						pId.placeId = data.pointList[i].placeId;
-						pList.push(pId);
-					}
-					console.log("pList :");
 		} 
-		
-
 		console.log("pList :"+pList.get(0).placeName);
 		console.log("pList :"+pList);
 		

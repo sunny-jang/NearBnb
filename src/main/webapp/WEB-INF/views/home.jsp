@@ -62,9 +62,11 @@ function placeList(data){
   <div class="col main-left">
     <h2>현재 위치의 숙소</h2>
     <span>예약하기 전에 코로나19 관련 여행 제한 사항을 확인하세요.</span>
-	
-	<input type="text" name="address" id="address" />
-	<button class="find-location">검색</button>
+	<br/>
+	<h5>위치로 숙소를 검색할 수 있습니다. :)</h5>
+	<br/>
+	<input type="text" name="address" id="address" placeholder="위치를 입력해 주세요."  class="w-75"/>
+	<button class="find-location btn-primary">검색</button>
     <div class="group-place">
       <div class="d-flex justify-content-between">
         <h2><span id="centerAddr"></span></h2><!-- 주소표시 -->
@@ -93,9 +95,11 @@ function placeList(data){
         <a href="" id="instaurl${i}">
           <div class ="place-image" id="imageaaa${i}">
           </div>
-          <span id="instacaption${i}"></span>
+
+          <span id="instacaption${i}" class="ellipsis2"></span>
         </a>
       </div>
+      
       </c:forEach> 
     </div>
   </div>

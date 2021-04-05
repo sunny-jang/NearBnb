@@ -30,6 +30,7 @@ import com.on.nearbnb.file.model.vo.PlaceFile;
 import com.on.nearbnb.file.service.PlaceFileService;
 import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.model.vo.PlaceThumb;
+import com.on.nearbnb.place.model.dao.PlaceDao;
 import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.service.PlaceService;
 
@@ -262,5 +263,24 @@ public class PlaceController {
 		
 		response.getWriter().append(jsonData.toJSONString());
 	}
-
+	
+	@RequestMapping(value="deletePlace.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String deletePlace(@RequestParam(name="pId") String pId) {
+		JSONObject jobj = new JSONObject();
+		Book book = new Book();
+		book.setpId(pId);
+		System.out.println(pId);
+		
+		List<Book> bList = bookService.selectBook(book);
+		System.out.println(bList.toString());
+		if(bList.size() == 0) {
+			placeService.deletePlace(Integer.parseInt(pId));
+			jobj.put("result", "deleted");
+		}else {
+			jobj.put("result", "failed");
+		}
+		
+		return jobj.toJSONString();
+	}
 }

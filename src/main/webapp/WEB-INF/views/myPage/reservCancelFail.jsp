@@ -8,8 +8,8 @@
 </head>
 <body>
 <script>
-	alert('회원 수정이 완료되었습니다.');
-	location.href = 'myPage.do';
+	alert('예약 취소가 실패하였습니다.');
+	location.href = 'index.do';
 </script>
 </body>
 </html>

@@ -11,6 +11,7 @@ public class Member {
 	private String userEmail;
 	private int userRole;
 	private Date userRegdate;
+	private String userProfile;
 	
 	
 	public String getUserId() {
@@ -54,6 +55,12 @@ public class Member {
 	}
 	public void setUserRegdate(Date userRegdate) {
 		this.userRegdate = userRegdate;
+	}	
+	public String getUserProfile() {
+		return userProfile;
+	}
+	public void setUserProfile(String userProfile) {
+		this.userProfile = userProfile;
 	}
 	
 	@Override

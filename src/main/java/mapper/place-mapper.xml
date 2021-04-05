@@ -136,6 +136,7 @@
 		DELETE FROM PLACE_THUMB WHERE P_CODE_SEQ = #{placeId} AND U_ID = #{uId}
 	</delete>
 	
+	<!-- 플레이스 확장 vo에 값 저장 -->
 	<select id="searchExtendedPlace" resultMap ="resultExtendedPlace" parameterType="PlacePoint">
 		SELECT * FROM PLACE
 		JOIN PLACE_POINT P USING(P_CODE_SEQ)
@@ -144,6 +145,11 @@
 		AND(P.LONGITUDE BETWEEN #{longitude}-0.1 AND #{longitude}+0.1)
 		ORDER BY DBMS_RANDOM.RANDOM()
 	</select>
+	
+	<!-- 숙소삭제 -->
+	<delete id="deletePlace" parameterType="Integer">
+		DELETE FROM PLACE WHERE P_CODE_SEQ = #{placeId}
+	</delete>
 
 
 </mapper>

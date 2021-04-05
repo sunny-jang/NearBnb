@@ -11,7 +11,7 @@
           <h1>마이페이지</h1>
           <hr>
           <div class="card-deck">
-            <a class="card bg-primary pt-3 pb-3" href="myPageEditUser.do">
+            <a class="card bg-primary pt-3 pb-3" href="myPagePwCheck.do">
             <div>
               <div class="card-body text-center">
                 <div class="circle_bg">

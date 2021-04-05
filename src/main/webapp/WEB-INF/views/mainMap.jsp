@@ -15,7 +15,6 @@
 			FindLocationMap();
 		});
 		
-		
 		initLocation();
 		var latitude = $("input[name=latitude]").val();//위도
 		var longitude = $("input[name=longitude]").val();//경도
@@ -67,9 +66,12 @@
 					searchList(data);
 					placeList(data);
 				}
+
 			});			
 		} 
-	
+		console.log("pList :"+pList.get(0).placeName);
+		console.log("pList :"+pList);
+		
 		 //마커생성
 		function searchPoint(data){
 			var positions = [];
@@ -107,7 +109,7 @@
 			    
 			    // 마커에 표시할 인포윈도우를 생성합니다 
 			    var infowindow = new kakao.maps.InfoWindow({
-			        content: positions[i].title // 인포윈도우에 표시할 내용
+			        content: '<div style="width:150px; text-align:center;padding:3px 0; margin-bottom: -2px; font-size:12px; border-radius:10px">'+positions[i].title+'</div>' // 인포윈도우에 표시할 내용
 			     
 			    });
 			   

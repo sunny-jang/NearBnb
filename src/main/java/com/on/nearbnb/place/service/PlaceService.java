@@ -39,4 +39,6 @@ public interface PlaceService {
 	public int deletePlaceThumb(PlaceThumb placeThumb);
 
 	List<ExtendedPlace> searchExtendedPlace(PlacePoint pp);
+
+	int deletePlace(Integer pId);
 }

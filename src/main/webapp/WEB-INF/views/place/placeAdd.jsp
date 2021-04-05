@@ -84,7 +84,7 @@ var date = new PlaceDate();
   <form action="" class="col-8" method="POST" enctype="multipart/form-data" id="addForm" accept-charset="utf-8">
     <input type="hidden" name="getLocation" value="current">
     <h2 class="mt-3 mb-3">
-      이름님이 호스팅하는 아파트
+      ${userId }님이 호스팅하는 숙소
     </h2>
     <div class="row">
       <div class="col justify-content-center">

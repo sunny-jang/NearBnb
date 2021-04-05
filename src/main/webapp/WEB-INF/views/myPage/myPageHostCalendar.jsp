@@ -12,6 +12,20 @@
 <script src='${context}/html/js/ko.js'></script>
 <script src="${context}/resources/html/js/dateController.js"></script>
 <!--myPageHostCalendar-->
+<style>
+.book-list {
+	padding: 0;
+	margin: 0;
+}
+.book-list li {
+	list-style:none;
+	padding: 15px;
+	border: 1px solid #eee;
+	margin-bottom: 15px;
+	font-size: 14px;
+	background-color: #eee;
+}
+</style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
 	function numberWithCommas(x) {
@@ -38,7 +52,7 @@
 		var a = await fetch('bookList.do?pId=${place.placeId}').then(res=>res.json());
 		var result = a.map((item,i)=> {
 			return {
-				id: 'bookId-'+i,
+				id: 'index-'+i,
 				title: '예약된 날짜',
 				start: item.start.substring(0,10),
 				end: item.end.substring(0,10),
@@ -47,6 +61,22 @@
 		})
 		
 		return result;
+	}
+	
+	async function getEventEle() {
+		var bList = await fetch('bookList.do?pId=${place.placeId}').then(res=>res.json());
+		let temp = '<ul class="book-list">';
+		bList.map(item=>{
+			temp+= '<li>예약자명 : '+item.userId+'<br />'
+			+ '총 결제금액 : '+item.bookPayPrice+'<br />'
+			+ '총 예약 인원 : '+item.bookPerson+'<br />'
+			+ '체크인 날짜 : '+item.start.substring(0,10)+'<br />'
+			+ '체크아웃 날짜 : '+item.end.substring(0,10)+'<br />'
+			+ '</li>';
+		})
+		temp+='</ul>'
+		
+		return temp;
 	}
 	
 	(async function() {
@@ -108,6 +138,11 @@
 	    	}
 	    	return eventArray;
 		}
+    	
+    	$("#bookInfo").append(await getEventEle());
+    	
+    	console.log(await getEventEle());
+    	
 	})();
 });
   
@@ -118,11 +153,10 @@ function deletePlace(pId) {
 		fetch("deletePlace.do?pId="+pId, {
 			method: 'get',
 		}).then(res=>res.json()).then((res)=>{
-			console.log(res);
 			if(res.result == "failed") {
 				alert("예약이 잡힌 숙소는 취소할 수 없습니다.")
 			}else {
-				history.back();
+				location.href="myPageHostCheck.do";
 			}
 		})
 	}else {
@@ -131,7 +165,7 @@ function deletePlace(pId) {
 	
 }
 </script>
-<section>
+<section class="pb-5">
  
   <div class="row flex-nowrap">
     <%@ include file="../include/sidemenu.jsp" %>
@@ -140,12 +174,14 @@ function deletePlace(pId) {
       <h1>내 숙소 예약 현황</h1>
       <hr>
       
-      <h4 class="col-8 place-name ellipsis1">${place.placeName }</h4><br>
+      <h4 class="col-8 place-name ellipsis1">${place.placeName }</h4>
+      <a class="btn btn-third mb-2 ml-2" style="font-size:14px" href="placeDetail.do?pId=${place.placeId}">내 숙소 상세페이지 바로가기</a>
       <!--달력 부분 -->
+      <br>
       <input type="hidden" id="openDate" name="placeOpenDate" value="${place.placeOpenDate }" />
       <input type="hidden" id="closeDate" name="placeCloseDate" value="${place.placeCloseDate }" />
      <div class="row justify-content-center">
-      <div class="col-8">   
+      <div class="col-8 " id="bookInfo">   
       	<div id='calendar' style='margin-bottom: 20px; font-size: 13px;'></div>
       </div>
      <div class="col-8 justify-content-between d-flex">

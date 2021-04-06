@@ -26,7 +26,7 @@
 		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 		var options = { //지도생성옵션
 			center : new kakao.maps.LatLng(latitude, longitude), //지도의 중심좌표.
-			level :5
+			level :4
 		//지도의 레벨(확대, 축소 정도)
 		};
 		//지도 생성 및 객체 리턴
@@ -39,6 +39,11 @@
 			geocoder.coord2RegionCode(coords.getLng(), coords.getLat(),
 					callback);
 		}
+		
+		// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+		kakao.maps.event.addListener(map, 'idle', function() {
+		    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+		});
 		
 		// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
 		function displayCenterInfo(result, status) {
@@ -94,7 +99,7 @@
 			// 마커 이미지의 이미지 주소입니다
 			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
 			    
-			var bounds = new kakao.maps.LatLngBounds(); 
+		//	var bounds = new kakao.maps.LatLngBounds(); 
 			
 			for (var i = 0; i < positions.length; i ++) {
 			    
@@ -121,8 +126,8 @@
 			    });
 			    infowindow.open(map, marker);
 			    marker.setMap(map);
-			    bounds.extend(positions[i].latlng);
-			    map.setBounds(bounds);
+			   // bounds.extend(positions[i].latlng);
+			  //  map.setBounds(bounds);
 			}
 			
 			function aa() {

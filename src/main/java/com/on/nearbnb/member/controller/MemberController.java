@@ -116,16 +116,25 @@ public class MemberController {
 	public ModelAndView login(Member member, HttpServletRequest request,
 			ModelAndView modelAndView) throws Exception {
 		HttpSession session = request.getSession();
-		Member m = memberService.selectMember(member);
+		Member m = memberService.selectMember(member);		
 		if(m == null) {
 			modelAndView.setViewName("member/memberLoginError");
 		} else {
 			if((m.getUserPw()).equals(member.getUserPw())) {
-				session.setAttribute("userId", m.getUserId());
-				session.setAttribute("userProfile", m.getUserProfile());
-				System.out.println(m.getUserProfile());
-				session.setAttribute("userName", m.getUserName());
-				modelAndView.setViewName("redirect:index.do");				
+				if(m.getUserProfile().equals("N")) {
+					session.setAttribute("userId", m.getUserId());
+					session.setAttribute("userProfile", m.getUserProfile());
+					System.out.println(m.getUserProfile());
+					session.setAttribute("userName", m.getUserName());
+					modelAndView.setViewName("redirect:index.do");
+				} else {
+					session.setAttribute("userId", m.getUserId());
+					session.setAttribute("userProfile", m.getUserProfile());
+					String profileUrl = memberProfileService.selectMemberProfile(m.getUserId());					
+					session.setAttribute("profileUrl", profileUrl);
+					session.setAttribute("userName", m.getUserName());
+					modelAndView.setViewName("redirect:index.do");
+				}
 			} else {
 				modelAndView.setViewName("member/memberLoginError");
 			}
@@ -206,8 +215,18 @@ public class MemberController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void insertProfile(MemberProfile memberProfile) throws Exception {
 		System.out.println(memberProfile);
-		int cnt = memberProfileService.insertMemberProfile(memberProfile);
-		int _cnt = memberService.updateMemberProfile(memberProfile.getUserId());
+		memberProfileService.insertMemberProfile(memberProfile);
+		memberService.updateMemberProfile(memberProfile.getUserId());
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/updateProfile.do")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void updateProfile(MemberProfile memberProfile, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		System.out.println(memberProfile);
+		memberProfileService.updateMemberProfile(memberProfile);
+		session.setAttribute("profileUrl", memberProfile.getProfilePath());
 	}
 	
 }

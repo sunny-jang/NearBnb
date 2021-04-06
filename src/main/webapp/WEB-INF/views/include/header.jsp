@@ -54,7 +54,9 @@ $(function(){
 	
 	$('#aa').on('change', function(){
 		var file = $('#aa')[0].files[0];
-		var userId = "${sessionScope.userId}";		
+		var userId = "${sessionScope.userId}";
+		var downloadUrl = null;
+		var check = "${sessionScope.profileUrl}";		
 		console.log(file.name);
 		
 		// 확장자 검사
@@ -74,25 +76,27 @@ $(function(){
 		}, (res) => {
 			let storageUrl = 'images/'+file.name;
 			console.log(storageUrl);
-			var url = storageRef.child(storageUrl).getDownloadURL();
-			console.log(url);
-			$.ajax({
-				url : 'insertProfile.do',
-				data : {'userId' : userId,
-						'profileName' : file.name,
-						'profilePath' : url},
-				type : 'POST',
-				dataType : 'json',
-				success : function() {
-					console.log('complete');					
-					$('#pic').attr('src', url);
-					alert('프로필 사진이 변경되었습니다.');
-					location.href='index.do';
-				},
-				error : function() {
-					alert('failed');
-				}
-			});
+			storageRef.child(storageUrl).getDownloadURL().then(function(url) {
+				console.log(url);
+				downloadUrl = url;
+				console.log(url);
+				$.ajax({
+					url : (check == null) ? 'insertProfile.do' : 'updateProfile.do',
+					data : {'userId' : userId,
+							'profileName' : file.name,
+							'profilePath' : downloadUrl},
+					type : 'POST',
+					dataType : 'json',
+					success : function() {
+						console.log('complete');
+						alert('프로필 사진이 변경되었습니다.');						
+						location.href='index.do';						
+					},
+					error : function() {
+						alert('failed');
+					}
+				});
+			});			
 		});
 	});
 });
@@ -149,6 +153,35 @@ $(function(){
           </div>
         </c:if>
         <!-- 로그인 상태 & 프로필 사진 있음 -->
+        <c:if test="${userProfile eq 'Y  '}">
+          <div class="d-flex justify-content-end right-menu">
+              <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
+              <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
+              <div id="after-pic" onclick="pop()">
+	          	<img src ="${profileUrl}">
+	          </div>
+          </div>
+          <div class="d-flex justify-content-end mt-2">
+          	<div id="profile-card">
+	          	<div id="card-header">
+	          		<div id="pic">
+	          			<img src ="${profileUrl}">
+	          		</div>
+	          		<div id="name" style="font-size: 20px;">${userId}</div>
+	          		<div id="edit-btn">
+	          			<label id="edit-profile" for="aa">프로필 수정하기</label>
+	          			<input type="file" id="aa" style="display: none;" />	          				          		
+	          		</div>
+	          	</div>
+	          	<div id="card-footer">
+	          		<div id="item">
+	          			<button type="button" class="btn btn-primary" onclick="location.href='myPage.do'">마이페이지</button>
+	              		<button type="button" class="btn btn-secondary" onclick="location.href='signOut.do'">로그아웃</button>	
+	          		</div>
+	          	</div>
+          	</div>
+          </div>
+        </c:if>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@
  <c:set var="context" value="${pageContext.request.contextPath}" />
 
 <%@ include file="include/header.jsp" %>
-
+ 
 <script>
   function getInstaFeed() {
     $.ajax({
@@ -52,6 +52,7 @@ function placeList(data){
 <div class="row">
   <div class="col main-left">
     <h2>현재 위치의 숙소</h2>
+  
     <span>예약하기 전에 코로나19 관련 여행 제한 사항을 확인하세요.</span>
 	<br/>
 	<h5>위치로 숙소를 검색할 수 있습니다. :)</h5>
@@ -61,7 +62,7 @@ function placeList(data){
     <div class="group-place">
       <div class="d-flex justify-content-between">
         <h2><span id="centerAddr"></span></h2><!-- 주소표시 -->
-        <a  class="btn-more" style="cursor: pointer;">더보기 > </a>
+        <a  class="btn-more" onclick="placeList()" style="cursor: pointer;">더보기 > </a>
       </div>
       <div class="row">
       

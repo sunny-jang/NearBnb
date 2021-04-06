@@ -101,7 +101,7 @@ class CalendarHandler {
 		var argE_ = this.cDate.addDays(new Date(argE),-1);
 		
 		for(let i=0; i<eventArray.length; i++) {
-			if(argS == this.cDate.getDateFormat(eventArray[i]) || argE_ == date.getDateFormat(eventArray[i])) {
+			if(argS == this.cDate.getDateFormat(eventArray[i]) || argE_ == this.cDate.getDateFormat(eventArray[i])) {
 				alert("예약할 수 없는 날짜입니다. 다시 선택해주세요.");
 				return true;
 			}

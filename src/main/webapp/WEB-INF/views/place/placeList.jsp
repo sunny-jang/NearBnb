@@ -4,8 +4,10 @@
   <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
  <c:set var="context" value="${pageContext.request.contextPath}" />
 <%@ include file="../include/header.jsp" %>
-<section>
 
+
+<section>
+  <input type="hidden" name="current" value="list"></input>
   <div class="row">
     <div class="col main-left">
       <div class="place-list">

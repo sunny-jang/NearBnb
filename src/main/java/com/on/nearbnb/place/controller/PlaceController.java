@@ -67,6 +67,7 @@ public class PlaceController {
 		if ((pointId == placeId) && (placeId == fileId)) {
 		modelAndView.addObject("epPlace", resultPlace);
 		modelAndView.addObject("epFile", resultFileOne);
+		modelAndView.addObject("pp", pp);
 		}else {System.out.println("파일오류");}
 		modelAndView.setViewName("/place/placeList");
 		return modelAndView;
@@ -116,17 +117,22 @@ public class PlaceController {
 		String[] changedImages = files.getParameterValues("changedImages");
 		String[] imagePath = files.getParameterValues("imagePath");
 		
+		
+		System.out.println(changedImages.toString());
+		System.out.println(imagePath.toString());
 		List<HashMap<String, String>> imageInfo = new ArrayList<HashMap<String,String>>();
 		
-		for(int i=0; i<changedImages.length; i++) { 
-			HashMap<String, String> fileInfo = new HashMap<String, String>();
-			String fileName = images.get(i).getOriginalFilename();
-			
-			fileInfo.put("fileName", fileName);
-			fileInfo.put("changedName", changedImages[i]);
-			fileInfo.put("imagePath", imagePath[i]);
-			
-			imageInfo.add(fileInfo);
+		for(int i=0; i<changedImages.length; i++) {
+			if(changedImages[i] != "" || changedImages[i] != null) {
+				HashMap<String, String> fileInfo = new HashMap<String, String>();
+				String fileName = images.get(i).getOriginalFilename();
+				
+				fileInfo.put("fileName", fileName);
+				fileInfo.put("changedName", changedImages[i]);
+				fileInfo.put("imagePath", imagePath[i]);
+				
+				imageInfo.add(fileInfo);
+			}
 		}
 		
 		/* Coords coords = getCoords(request); */

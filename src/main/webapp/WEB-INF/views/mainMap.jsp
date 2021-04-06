@@ -18,10 +18,18 @@
 		$("input[name=address]").on("keydown", function(e) {
 			if(e.keyCode == 13) FindLocationMap();
 		});
-		
-		initLocation();
 		var latitude = $("input[name=latitude]").val();//위도
 		var longitude = $("input[name=longitude]").val();//경도
+		
+		var currentPage = $("input[name=current]").val();
+		if(currentPage!="list"){
+			initLocation();			
+		}else{
+			latitude = "${pp.latitude}";
+			longitude = "${pp.longitude}";
+			placePoint(latitude, longitude);
+		}
+		
 
 		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 		var options = { //지도생성옵션
@@ -41,7 +49,7 @@
 		}
 		
 		// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-		kakao.maps.event.addListener(map, 'dragend', function() {
+		kakao.maps.event.addListener(map, 'idle', function() {
 		    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 		});
 		
@@ -71,7 +79,7 @@
 				url : "centerPoint.do",
 				data : { 'latitude' : lat ,'longitude' : lon},
 				error : function(error) {
-					alert("해당 주소에 등록된 숙소가 없습니다."); 
+					alert("해당 주소에 등록된 숙소가 없습니다.");
 					initLocation();
 				},
 				success : function(data) {
@@ -140,8 +148,6 @@
 		  	}
 		}
 		 
-		
-		
 		//현재 위치값 불러오는 함수
 		function initLocation() {
 			if (navigator.geolocation) {//위치값 액세스
@@ -182,6 +188,8 @@
 					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 					$("input[name=latitude]").val(latitude_);
 					$("input[name=longitude]").val(longitude_);
+					var infoDiv = document.getElementById('centerAddr');
+					infoDiv.innerHTML = address;
 					map.setCenter(coords);
 				} else {
 					alert("정확한 주소를 적어주시고 지도상의 마커를 확인해주세요\nex) 인천광역시 연희로 42번길 ");

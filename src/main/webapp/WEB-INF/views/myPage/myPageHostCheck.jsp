@@ -35,6 +35,15 @@
 				</div>
 				<br>
 				</c:forEach>
+				<c:if test="${empty placeList}">
+				
+				<div class="null-area">
+					
+					<i class="fas fa-ban mb-4" style="font-size: 70px;"></i>
+					<span>등록하신 숙소가 없습니다</span>
+					<button class='btn btn-third mt-3' onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
+				</div>
+				</c:if>
 			</main>
 			<!--/메인-->
 		</div>

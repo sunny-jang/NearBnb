@@ -11,55 +11,31 @@
 <script src='${context}/resources/html/js/timegrid.js'></script>
 <script src='${context}/resources/html/js/ko.js'></script>
  <script src="${context}/resources/html/js/dateController.js"></script>
+ <script src="${context}/resources/html/js/CalendarHandler.js"></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
 	function numberWithCommas(x) {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
-	var value = '<c:out value="${place.placePrice}" />';   
+	var value = '<c:out value="${place.placePrice}" />';
+	
 	
 	var oDate = $("#openDate").text().substring(0,10);
 	var cDate = $("#closeDate").text().substring(0,10);
 	var calendarEl = document.getElementById('calendar');
+	var pId = '${place.placeId}';
 	
-	// 예약가능날짜 셋업
-	async function getFullEvents() {
-		var events_ = await getEventList();
-		events_.unshift(
-			{
-		          title: '예약 가능 날짜',
-		          start: oDate,
-		          end: cDate,
-		        }
-		)
-		return events_
-	}
-    
-	// 인원수 체인지 함수
-    $("#selectGuest").on("change", function() {
-    	$("#selectedGuest").text($(this).val());    		
-    })
-	
-	
-	async function getEventList() {
-		var a = await fetch('bookList.do?pId=${place.placeId}').then(res=>res.json());
-		var result = a.map((item,i)=> {
-			return {
-				id: 'bookId-'+i,
-				title: decodeURIComponent(item.title).replaceAll('+',' '),
-				start: item.start.substring(0,10),
-				end: item.end.substring(0,10),
-				color: 'red',
-			}
-		})
-		
-		return result;
-	}
+	// 커스텀 캘린더 헨들러 생성
+	var cHand = new CalendarHandler();
 	
 	(async function() {
 		// 캘린더 객채 생성
+		
 		var date = new PlaceDate();
-		var events = await getFullEvents();
+		// 예약되어있는 정보들 불러옴
+		
+		var events = await cHand.getFullEvents(oDate,cDate,pId);
+		// fullCalendar 객체 생성
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 		      locale:'ko',
 		      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
@@ -70,15 +46,15 @@
 		        },
 		      selectable: true,
 		      select: function(arg) {
-		    	var event_ = calendar.getEventById('newbook');
+		    	var newEvent = calendar.getEventById('newbook');
 		    	
-		    	// 이미 이벤트가 만들어져있으면 삭제
-		    	if(event_) {
-		    		event_.remove();
+		    	// 이미 이벤트가 만들어져있으면 삭제(재 선택시 초기화)
+		    	if(newEvent) {
+		    		newEvent.remove();
 		    	}
 		    	
 		    	// 이벤트 셋업
-		    	event_ = {
+		    	newEvent = {
 				    id: 'newbook',
 			        title: "예약 날짜",
 			        start: arg.start,
@@ -87,11 +63,24 @@
 			        color: 'orange'
 			      };
 		    	
-		    	// 예약 날짜 체크
-		    	checkAvailableDate(calendar, event_);
+		    	// 이벤트 날짜 겹치는지 체크
+		    	var checkDup = cHand.checkDupEvent(newEvent, events);
 		    	
+		    	// 오픈기간 내인지 체크
+		    	var isAvailable = cHand.isAvailable(newEvent, oDate, cDate);
+		    	
+		    	// 겹치는 이벤트가 없고, 오픈기간내에 있으면 실행
+		    	if(!checkDup && isAvailable) {
+		    		var result = cHand.addEvent(calendar, newEvent);
+		    		if(result!=null) {
+			    		$("#checkIn").html(result.argS);
+				       	$("#checkOut").html(result.argE);
+				       	$("#dateDiff").html(result.diffDate);
+				   	    $("#totalPrice").html(numberWithCommas(value * result.diffDate));
+			    	}
+		    	}
 		      },
-		      eventLimit: true, // allow "more" link when too many events
+		      eventLimit: true,
 		      events: events,
 		      local:'ko',
 		      display: 'background'
@@ -105,73 +94,8 @@
 	    	$("#checkOut").text(oDate);
 	    	calendar.render();
     	}
-    	    	
-    	// 예약 가능날짜 사이에 있는지 여부
-    	function checkAvailableDate(calendar, event_) {
-	    	
-    		// 예약기간 구함
-	    	var dateDiff = date.getDateDiff(event_.start, event_.end);
-	    	
-	    	//날짜 데이터를 스트링으로 변환
-	    	argS = date.getDateFormat(event_.start);
-	    	argE = date.getDateFormat(event_.end);
-	    	
-			//예약된 날짜들 Array로 생성
-			let eventArray =  getBookedDates(events);
-			
-	    	//기간을 입력받아 예약된 날짜가 포함되어있는지 체크 
-	    	let isBooked = isBookedDate(argS, argE, eventArray);
-	    	if(isBooked) {
-	    		return;
-	    	}
-	    	
-	    	// 기간 내에서 선택
-    		if(oDate <= argS && cDate >= argE) {
-	    		alert('예약날짜는 '+ argS +' ~ ' + argE +'입니다.\n체크아웃은 12pm 입니다.');
-	    		calendar.addEvent(event_);
-	   	        calendar.unselect();
-	   	     	var price = $("#placePrice").text();   	     	
-	   	     	var guestNum = $('#selectedGuest').text();   	     	
-	   	     	
-	   	        $("#checkIn").html(argS);
-	   	       	$("#checkOut").html(argE);
-	   	       	$("#dateDiff").html(dateDiff);
-		   	    $("#totalPrice").html(numberWithCommas(value * dateDiff * guestNum));
-	    	}else {
-	    		alert("예약 가능 날짜 안에서 선택해주세요.");
-	    	}
-    	}
     	
-    	// 예약된 날짜들 배열로 생성
-    	function getBookedDates (events) {
-			let eventArray = [];
-	    	for(let i = 1;i<events.length;i++) {
-	    		const es = new Date(events[i].start);
-	    		const ee = new Date(events[i].end);
-	    		const diffDate = date.getDateDiff(es, ee);
-	    		
-	    		for(let j=0;j<diffDate;j++) {
-	    			const es = new Date(events[i].start);
-	    			eventArray.push(new Date(es.setDate(es.getDate()+j)));
-	    		};
-	    	}
-	    	return eventArray;
-		}
-    	
-    	// 선택된 날짜가 예약된 기간 내 있는지 체크
-    	function isBookedDate(argS, argE, eventArray) {
-    		var eventArray = eventArray ? eventArray : [];
-    		var argE_ = date.addDays(new Date(argE),-1);
-	    	for(let i=0; i<eventArray.length; i++) {
-	    		if(argS == date.getDateFormat(eventArray[i]) || argE_ == date.getDateFormat(eventArray[i])) {
-	    			alert("예약할 수 없는 날짜입니다. 다시 선택해주세요.");
-	    			return true;
-	    		}
-	    	}
-	    	return false;
-    	}
-    	
-    	// 예약정보 저장
+    	// 결제 전 임시 localStorage에 예약정보 저장
         $("#postBookInfo").on("click", function() {
     	    var f = document.createElement("form");
     	    var object = {
@@ -187,7 +111,8 @@
     	  }
     	    
     	  localStorage.bookInfo = JSON.stringify(object);
-    	    
+    	  
+    	  // 날짜 선택이 되었으면 결제페이지로 넘어감
     	  if(calendar.getEventById('newbook')) {
     		  document.body.appendChild(f);
     		  location.href="placePayment.do?pId="+object.pId;
@@ -195,9 +120,13 @@
     		  alert('날짜를 선택해주세요.');
     	  }
       });
+    	
+      // 인원수 체인지 함수
+       $("#selectGuest").on("change", function() {
+       	$("#selectedGuest").text($(this).val());    		
+       });
+    	
 	})();
-	
-	
 });
 </script>
 <section>

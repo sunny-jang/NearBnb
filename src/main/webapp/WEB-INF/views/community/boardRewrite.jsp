@@ -8,6 +8,40 @@
 <!-- SmartEditor2 라이브러리 --> 
 <script type="text/javascript" src="${context}/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
+<!-- 파일 업로드 -->
+<script>
+	$(function(){
+		$('#fileUpload').on('change', function(){
+			var boardForm = $('#frm')[0];
+			var formData = new FormData();
+			var file = $('#files')[0].files[0];
+
+			formData.append("file", file);
+			
+			$.ajax({
+				url : 'boardAjaxFileInsert.do',
+				method : 'POST',
+				data : formData,
+				processData : false,
+				contentType : false,
+				success : function(data){
+					var subData = data.substring(13, data.legnth);
+					$('#fileLabel').html(subData);
+					$('#fileBefore').css('display', 'none');
+					$('#fileAfter').css('display', 'inline');
+					
+					var i = document.createElement("input");
+					i.setAttribute("type","hidden");
+					i.setAttribute("name","changedFile");
+					i.setAttribute("value",data);
+					$("#frm").append(i);
+				}
+			});
+		});
+		
+	});
+</script>
+
 <section class="pb-5">
 	<div class="total">
 		<h2>커뮤니티</h2>
@@ -61,10 +95,10 @@
 							</c:when>
 							<c:when test="${boardFile.boardCodeSeq ne null }">
 								<td colspan="3" style="text-align: left;">
-									<a href="#" id="fileDownload" style="margin-left: 20px; text-decoration: none;">
+									<a href="#" id="fileUpload" style="margin-left: 20px; text-decoration: none;">
 										<i class="fas fa-file" id="fileAfter" style="font-size: 25px;"></i>
 										<label for="files" id="fileLabel">${boardFile.bFileOriginalName }</label>
-										<input type="text" class="opacity-0" id="files" readonly>
+										<input type="file" class="opacity-0" id="files">
 									</a>
 								</td>
 							</c:when>

@@ -244,6 +244,9 @@ public class PlaceController {
 		for(Book book_: bookList) {
 			JSONObject innerObject = new JSONObject();
 			innerObject.put("title", URLEncoder.encode("예약 불가", "utf-8"));
+			innerObject.put("userId", book_.getuId());
+			innerObject.put("bookPayPrice", book_.getBookPayPrice());
+			innerObject.put("bookPerson", book_.getBookPerson());
 			innerObject.put("start", book_.getBookCheckIn());
 			innerObject.put("end", book_.getBookCheckOut());
 			jsonArray.add(innerObject);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN:"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberProfile">
+	
+	<resultMap type="MemberProfile" id="resultProfile">		
+		<id property="userId" column="U_ID"/>
+		<result property="profileName" column="PROFILE_NAME"/>
+		<result property="profilePath" column="PROFILE_PATH"/>
+	</resultMap>	
+	
+	<insert id="insertMemberProfile" parameterType="MemberProfile">
+		INSERT INTO MEMBER_PROFILE VALUES(#{userId}, #{profileName}, #{profilePath})
+	</insert>
+</mapper>

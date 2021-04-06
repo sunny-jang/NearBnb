@@ -8,14 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.on.nearbnb.file.model.vo.MemberProfile;
+import com.on.nearbnb.file.service.MemberProfileService;
 import com.on.nearbnb.member.model.vo.Member;
 import com.on.nearbnb.member.service.MemberService;
 
@@ -24,6 +29,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	MemberProfileService memberProfileService;
 	
 	// 테스트 컨트롤러
 	@RequestMapping(value = "/testInsert.do", method = RequestMethod.GET)
@@ -68,6 +76,20 @@ public class MemberController {
 		out.close();
 	}
 	
+	// 이메일 중복확인 ajax
+	@RequestMapping(value="emailCheck.do", method=RequestMethod.GET)	
+	public void emailCheck(Member member, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		Member m = memberService.selectMember(member);
+		if(m == null) {
+			out.append("1");
+		} else {
+			out.append("0");
+		}		
+		out.close();
+	}
+	
 	// 이메일 인증번호 전송
 	@RequestMapping(value="authNum.do", method=RequestMethod.POST)
 	@ResponseBody
@@ -101,6 +123,8 @@ public class MemberController {
 			if((m.getUserPw()).equals(member.getUserPw())) {
 				session.setAttribute("userId", m.getUserId());
 				session.setAttribute("userProfile", m.getUserProfile());
+				System.out.println(m.getUserProfile());
+				session.setAttribute("userName", m.getUserName());
 				modelAndView.setViewName("redirect:index.do");				
 			} else {
 				modelAndView.setViewName("member/memberLoginError");
@@ -174,6 +198,16 @@ public class MemberController {
 			modelAndView.setViewName("member/changePwComplete");
 		}
 		return modelAndView;
-	}	
+	}
+	
+	// 프로필 사진
+	@ResponseBody
+	@PostMapping(value="/insertProfile.do")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void insertProfile(MemberProfile memberProfile) throws Exception {
+		System.out.println(memberProfile);
+		int cnt = memberProfileService.insertMemberProfile(memberProfile);
+		int _cnt = memberService.updateMemberProfile(memberProfile.getUserId());
+	}
 	
 }

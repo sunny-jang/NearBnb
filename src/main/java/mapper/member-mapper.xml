@@ -37,6 +37,9 @@
 				<when test="userId != null">
 					U_ID = #{userId}
 				</when>
+				<when test="userEmail != null">
+					USER_EMAIL = #{userEmail}
+				</when>
 				<otherwise></otherwise>
 			</choose>	
 		</where>
@@ -68,6 +71,10 @@
 			</choose>
 		</set>
 		WHERE U_ID = #{userId}
+	</update>
+	
+	<update id="updateMemberProfile" parameterType="String">
+		UPDATE MEMBER SET USER_PROFILE = 'Y' WHERE U_ID = #{userId}
 	</update>
 	
 	<delete id="deleteMember" parameterType="String">	

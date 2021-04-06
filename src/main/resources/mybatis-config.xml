@@ -18,6 +18,7 @@
 		<typeAlias type="com.on.nearbnb.place.model.vo.PlaceThumb" alias="PlaceThumb" />
 		<typeAlias type="com.on.nearbnb.place.model.vo.PlacePoint" alias="PlacePoint" />
 		<typeAlias type="com.on.nearbnb.book.model.vo.Book" alias="Book" />
+		<typeAlias type="com.on.nearbnb.file.model.vo.MemberProfile" alias="MemberProfile" />
 	</typeAliases>
 	
 	<!-- 사용하고자 하는 mapper를 등록한다. -->
@@ -29,5 +30,6 @@
 		<mapper resource="mapper/place-image-mapper.xml" />
 		<mapper resource="mapper/place-point-mapper.xml" />
 		<mapper resource="mapper/book-mapper.xml" />
+		<mapper resource="mapper/profile-mapper.xml" />
 	</mappers>
 </configuration>

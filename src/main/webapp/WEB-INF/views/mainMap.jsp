@@ -15,6 +15,10 @@
 			FindLocationMap();
 		});
 		
+		$("input[name=address]").on("keydown", function(e) {
+			if(e.keyCode == 13) FindLocationMap();
+		});
+		
 		initLocation();
 		var latitude = $("input[name=latitude]").val();//위도
 		var longitude = $("input[name=longitude]").val();//경도
@@ -76,6 +80,8 @@
 		function searchPoint(data){
 			var positions = [];
 			
+			console.log(data.pointList);
+			
 			for(var i=0; i<data.pointList.length; i++){
 				var obj = new Object();
 				obj.title = data.pointList[i].placeName;
@@ -107,18 +113,28 @@
 			        image : markerImage // 마커 이미지 
 			    });
 			    
+			    marker.setClickable(true);
+			    
 			    // 마커에 표시할 인포윈도우를 생성합니다 
 			    var infowindow = new kakao.maps.InfoWindow({
-			        content: '<div style="width:150px; text-align:center;padding:3px 0; margin-bottom: -2px; font-size:12px; border-radius:10px">'+positions[i].title+'</div>' // 인포윈도우에 표시할 내용
+			        content: '<a href="placeDetail.do?pId='+data.pointList[i].placeId+'" style="text-decoration:none"><div style="width:150px; text-align:center;padding:3px 0; margin-bottom: -2px; font-size:12px; border-radius:10px">'+positions[i].title+'</div></a>' // 인포윈도우에 표시할 내용
 			     
 			    });
-			   
+			    
+			    console.log(data.pointList[i].placeId);
 			    infowindow.open(map, marker);
 			    marker.setMap(map);
 			    bounds.extend(positions[i].latlng);
 			    map.setBounds(bounds);
-			}	
+			}
+			
+			function aa() {
+				let e = data.
+		        location.href="placeDetail.do?pId="+pId;
+		  	}
 		}
+		 
+		
 		
 		//현재 위치값 불러오는 함수
 		function initLocation() {

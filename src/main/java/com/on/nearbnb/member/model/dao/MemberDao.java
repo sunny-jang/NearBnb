@@ -50,5 +50,10 @@ public class MemberDao {
 		int cnt = sqlSession.delete("Member.deleteMember", userId);
 		return cnt;
 	}
+	
+	public int updateMemberProfile(String userId) throws Exception {
+		int cnt = sqlSession.update("Member.updateMemberProfile", userId);
+		return cnt;
+	}
 
 }

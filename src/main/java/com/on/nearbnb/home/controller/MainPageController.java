@@ -42,10 +42,6 @@ public class MainPageController {
 		searchpoint.setLatitude(latitude);
 		searchpoint.setLongitude(longitude);
 
-
-		//System.out.println("위도 getLatitude : " + searchpoint.getLatitude());
-	//	System.out.println("경도 getLongitude : " + searchpoint.getLongitude());
-
 		List<PlacePoint> resultPoint = placeService.searchPlacePoint(searchpoint);
 		List<Place> resultPlace = placeService.selectPlaceList(resultPoint);// 숙소정보
 		List<PlaceFile> resultFileOne = placeFileService.selectOneList(resultPoint);
@@ -61,7 +57,6 @@ public class MainPageController {
 			pointId = resultPoint.get(i).getPlaceId(); 
 			placeId = resultPlace.get(i).getPlaceId();
 			fileId = resultFileOne.get(i).getPlaceId();
-			//System.out.println(pointId+","+placeId+","+fileId);
 			
 			if ((pointId == placeId) && (placeId == fileId)) {
 				JSONObject pObject = new JSONObject();

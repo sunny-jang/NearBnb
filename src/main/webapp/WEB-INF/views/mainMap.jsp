@@ -62,6 +62,9 @@
 				url : "centerPoint.do",
 				data : { 'latitude' : lat ,'longitude' : lon},
 				error : function(error) {
+					alert("해당 지역에 올라온 숙소가 없습니다.");
+					
+					return;
 					console.log("error");
 				},
 				success : function(data) {

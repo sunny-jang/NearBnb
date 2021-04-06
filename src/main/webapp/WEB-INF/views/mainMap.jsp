@@ -26,7 +26,7 @@
 		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 		var options = { //지도생성옵션
 			center : new kakao.maps.LatLng(latitude, longitude), //지도의 중심좌표.
-			level :4
+			level :5
 		//지도의 레벨(확대, 축소 정도)
 		};
 		//지도 생성 및 객체 리턴
@@ -41,9 +41,10 @@
 		}
 		
 		// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-		kakao.maps.event.addListener(map, 'idle', function() {
+		kakao.maps.event.addListener(map, 'dragend', function() {
 		    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 		});
+		
 		
 		// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
 		function displayCenterInfo(result, status) {
@@ -53,10 +54,13 @@
 					// 행정동의 region_type 값은 'H' 이므로
 					if (result[i].region_type === 'H') {
 						infoDiv.innerHTML = result[i].address_name;
+						var address = $("#address").val(result[i].address_name);
+						//FindLocationMap();
 						break;
 					}
 				}
 			}
+			
 		}
 				
 //controller
@@ -67,16 +71,14 @@
 				url : "centerPoint.do",
 				data : { 'latitude' : lat ,'longitude' : lon},
 				error : function(error) {
-					alert("해당 지역에 올라온 숙소가 없습니다.");
-					
-					return;
-					console.log("error");
+					alert("해당 주소에 등록된 숙소가 없습니다.");
+					initLocation();
 				},
 				success : function(data) {
 				 data = JSON.parse(data);				
 					searchPoint(data);
 					searchList(data);
-					placeList(data);
+					
 				}
 
 			});			
@@ -85,6 +87,7 @@
 		
 		 //마커생성
 		function searchPoint(data){
+			
 			var positions = [];
 			for(var i=0; i<data.pointList.length; i++){
 				var obj = new Object();
@@ -99,7 +102,7 @@
 			// 마커 이미지의 이미지 주소입니다
 			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
 			    
-		//	var bounds = new kakao.maps.LatLngBounds(); 
+			var bounds = new kakao.maps.LatLngBounds(); 
 			
 			for (var i = 0; i < positions.length; i ++) {
 			    
@@ -126,8 +129,9 @@
 			    });
 			    infowindow.open(map, marker);
 			    marker.setMap(map);
-			   // bounds.extend(positions[i].latlng);
-			  //  map.setBounds(bounds);
+			    bounds.extend(positions[i].latlng);
+			    map.setBounds(bounds);
+			  //  map.setLevel(4);
 			}
 			
 			function aa() {
@@ -165,7 +169,7 @@
 		function FindLocationMap() {
 			// 주소로 좌표를 검색합니다
 			var address = $("#address").val();
-
+			
 			
 				// 정상적으로 검색이 완료됐으면  
 				geocoder.addressSearch(address, function(result, status) {
@@ -173,7 +177,7 @@
 					latitude_ = result[0].y;
 					longitude_ = result[0].x;
 					var coords = new kakao.maps.LatLng(latitude_, longitude_);
-
+					
 					placePoint(latitude_, longitude_)
 					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 					$("input[name=latitude]").val(latitude_);

@@ -155,6 +155,9 @@ $(function(){
 		if("${userId}" == ""){
 			alert('로그인이 필요한 서비스입니다.');
 			$(location).attr("href", "signIn.do");
+		}else if($('#commentContent').val() == ""){
+			alert('댓글을 작성해주세요.');
+			return;
 		}
 	});
 	

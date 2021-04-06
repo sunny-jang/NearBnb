@@ -171,14 +171,18 @@ public class BoardController {
 		
 		if(files != null) {
 			// 바뀐 파일 명
-			String bFileChangedName = files.getParameter("changedFile");
-	
-			// 파일 경로
-			String bFilePath = files.getSession().getServletContext().getRealPath("resources")+"\\html\\images\\";
+			String bFileChangedName = files.getParameter("bFileChangedName");
 	
 			// 파일 원본 명
-			String bFileOriginalName = bFileChangedName.substring(13, bFileChangedName.length());
-	
+			String bFileOriginalName = files.getParameter("bFileOriginalName");
+			
+			// 파일 경로
+			String bFilePath = files.getParameter("bFilePath");
+			
+			System.out.println("바뀐 파일 명 : " + bFileChangedName);
+			System.out.println("원본 : " + bFilePath);
+			System.out.println("경로 : " + bFileOriginalName);
+			
 			// 객체 생성
 			BoardFile boardFile = new BoardFile();
 			boardFile.setbFileChangedName(bFileChangedName);

@@ -15,6 +15,7 @@
 			var boardForm = $('#frm')[0];
 			var formData = new FormData();
 			var file = $('#files')[0].files[0];
+			var fileName = new Date().getTime() + file.name;
 
 			formData.append("file", file);
 			
@@ -40,21 +41,35 @@
 							contentType : false,
 							success : function(data){
 								var subData = data.substring(13, data.legnth);
+								alert('subData : ' + subData);
+								alert('fileName : ' + fileName);
+								alert('url : ' + url);
 								$('#fileLabel').html(subData);
 								$('#fileBefore').css('display', 'none');
 								$('#fileAfter').css('display', 'inline');
 								
 								var i = document.createElement("input");
 								i.setAttribute("type","hidden");
-								i.setAttribute("name","changedFile");
-								i.setAttribute("value",data);
+								i.setAttribute("name","bFileChangedName");
+								i.setAttribute("value",fileName);
 								$("#frm").append(i);
+								
+								var j = document.createElement("input");
+								j.setAttribute("type","hidden");
+								j.setAttribute("name","bFileOriginalName");
+								j.setAttribute("value",subData);
+								$("#frm").append(j);
+								
+								var k = document.createElement("input");
+								k.setAttribute("type","hidden");
+								k.setAttribute("name","bFilePath");
+								k.setAttribute("value",url);
+								$("#frm").append(k);
 							}
 						});
 		           }).catch(function(error) {});
 		       });
 		});
-		
 	});
 </script>
 <section class="pb-5">

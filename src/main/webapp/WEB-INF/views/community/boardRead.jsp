@@ -221,7 +221,7 @@ $(function(){
 							</c:when>
 							<c:when test="${boardFile.boardCodeSeq ne null }">
 								<td colspan="3" style="text-align: left;">
-									<a href="boardFileDownload.do?boardCodeSeq=${boardFile.boardCodeSeq }" id="fileDownload" style="margin-left: 20px;">
+									<a href="${boardFile.bFilePath} " style="margin-left: 20px;" type="media_type" download="${boardFile.bFileOriginalName }">
 										<i class="fas fa-file" id="fileAfter"></i>
 										<label for="files" id="fileLabel">${boardFile.bFileOriginalName }</label>
 										<input type="text" class="opacity-0" id="files" readonly>

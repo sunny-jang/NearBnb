@@ -12,4 +12,8 @@
 	<insert id="insertMemberProfile" parameterType="MemberProfile">
 		INSERT INTO MEMBER_PROFILE VALUES(#{userId}, #{profileName}, #{profilePath})
 	</insert>
+	
+	<select id="selectMemberProfile" parameterType="String" resultType="String">
+		SELECT PROFILE_PATH FROM MEMBER_PROFILE WHERE U_ID = #{userId}
+	</select>
 </mapper>

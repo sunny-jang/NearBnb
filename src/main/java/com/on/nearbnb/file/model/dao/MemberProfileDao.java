@@ -12,7 +12,11 @@ public class MemberProfileDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public int insertMemberProfile(MemberProfile memberProfile) {
+	public int insertMemberProfile(MemberProfile memberProfile) throws Exception {
 		return sqlSession.insert("insertMemberProfile", memberProfile);
+	}
+	
+	public String selectMemberProfile(String userId) throws Exception {
+		return sqlSession.selectOne("selectMemberProfile", userId);
 	}
 }

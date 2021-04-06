@@ -13,9 +13,15 @@ public class MemberProfileServiceImpl implements MemberProfileService {
 	private MemberProfileDao memberProfileDao;
 	
 	@Override
-	public int insertMemberProfile(MemberProfile memberProfile) {
+	public int insertMemberProfile(MemberProfile memberProfile) throws Exception {
 		
 		return memberProfileDao.insertMemberProfile(memberProfile);
+	}
+
+	@Override
+	public String selectMemberProfile(String userId) throws Exception {
+		
+		return memberProfileDao.selectMemberProfile(userId);
 	}
 
 }

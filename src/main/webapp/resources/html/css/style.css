@@ -375,10 +375,25 @@ img {
 	border-radius: 50%;
 }
 
+#after-pic {
+	padding: 5px;
+	background: linear-gradient(130deg, #74b9ff, #e66767);
+	margin: 0;
+	border-radius: 50%;
+}
+
 #pic img {
 	display: block;
 	width: 100px;
 	height: 100px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+#after-pic img {
+	display: block;
+	width: 40px;
+	height: 40px;
 	border-radius: 50%;
 	cursor: pointer;
 }

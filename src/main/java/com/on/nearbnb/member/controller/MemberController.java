@@ -213,10 +213,15 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping(value="/insertProfile.do")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void insertProfile(MemberProfile memberProfile) throws Exception {
+	public void insertProfile(MemberProfile memberProfile, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
 		System.out.println(memberProfile);
+		System.out.println("등록");
 		memberProfileService.insertMemberProfile(memberProfile);
 		memberService.updateMemberProfile(memberProfile.getUserId());
+		Member m = memberService.selectMemberStr(memberProfile.getUserId());
+		session.setAttribute("profileUrl", memberProfile.getProfilePath());
+		session.setAttribute("userProfile", m.getUserProfile());
 	}
 	
 	@ResponseBody
@@ -225,8 +230,8 @@ public class MemberController {
 	public void updateProfile(MemberProfile memberProfile, HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();
 		System.out.println(memberProfile);
+		System.out.println("수정");
 		memberProfileService.updateMemberProfile(memberProfile);
 		session.setAttribute("profileUrl", memberProfile.getProfilePath());
 	}
-	
 }

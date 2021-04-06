@@ -56,8 +56,14 @@ $(function(){
 		var file = $('#aa')[0].files[0];
 		var userId = "${sessionScope.userId}";
 		var downloadUrl = null;
-		var check = "${sessionScope.profileUrl}";		
+		var check = "${sessionScope.profileUrl}";
+		var num = 0;
 		console.log(file.name);
+		console.log(check);
+		if(check != "") {
+			num = 1;
+		}
+		console.log(num);
 		
 		// 확장자 검사
 		if(!checkFileType(file.name)) {
@@ -81,7 +87,7 @@ $(function(){
 				downloadUrl = url;
 				console.log(url);
 				$.ajax({
-					url : (check == null) ? 'insertProfile.do' : 'updateProfile.do',
+					url : (num == 0) ? 'insertProfile.do' : 'updateProfile.do',
 					data : {'userId' : userId,
 							'profileName' : file.name,
 							'profilePath' : downloadUrl},
@@ -89,8 +95,9 @@ $(function(){
 					dataType : 'json',
 					success : function() {
 						console.log('complete');
-						alert('프로필 사진이 변경되었습니다.');						
-						location.href='index.do';						
+						alert('프로필 사진이 변경되었습니다.');
+						location.href='index.do';
+						
 					},
 					error : function() {
 						alert('failed');
@@ -126,6 +133,7 @@ $(function(){
         </c:if>
         <!-- 로그인 상태 & 프로필 사진 없음 -->
         <c:if test="${userProfile eq 'N  '}">
+       	  <input type="hidden" value="${userProfile}" />
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
@@ -154,6 +162,7 @@ $(function(){
         </c:if>
         <!-- 로그인 상태 & 프로필 사진 있음 -->
         <c:if test="${userProfile eq 'Y  '}">
+          <input type="hidden" value="${userProfile}" />
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>

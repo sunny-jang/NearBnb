@@ -56,8 +56,13 @@ $(function(){
 		var file = $('#aa')[0].files[0];
 		var userId = "${sessionScope.userId}";
 		var downloadUrl = null;
-		var check = "${sessionScope.profileUrl}";		
+		var check = "${sessionScope.profileUrl}";
+		var num = 0;
 		console.log(file.name);
+		console.log(check);
+		if(check != "") {
+			num = 1;
+		}
 		
 		// 확장자 검사
 		if(!checkFileType(file.name)) {
@@ -81,7 +86,7 @@ $(function(){
 				downloadUrl = url;
 				console.log(url);
 				$.ajax({
-					url : (check == null) ? 'insertProfile.do' : 'updateProfile.do',
+					url : (num == 0) ? 'insertProfile.do' : 'updateProfile.do',
 					data : {'userId' : userId,
 							'profileName' : file.name,
 							'profilePath' : downloadUrl},
@@ -89,8 +94,9 @@ $(function(){
 					dataType : 'json',
 					success : function() {
 						console.log('complete');
-						alert('프로필 사진이 변경되었습니다.');						
-						location.href='index.do';						
+						alert('프로필 사진이 변경되었습니다.');
+						location.href='index.do';
+						
 					},
 					error : function() {
 						alert('failed');

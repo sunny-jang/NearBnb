@@ -23,10 +23,7 @@ var date = new PlaceDate();
 			var _this = $(this);
 			var file = _this[0].files[0];
 			var fileName = new Date().getTime() + file.name;
-		    var formData = new FormData();
-		    formData.enctype='multipart/form-data';
-		    formData.append("image", file);
-		    
+			
 		    // 확장자 검사
 		    if(!checkFileType(fileName)) {
 		    	return;
@@ -68,6 +65,7 @@ var date = new PlaceDate();
 		})
 	});
 	
+	// 확장자 체크
 	function checkFileType(fileName) {
 		var reg = /.+\./;
 	    var checkFile = fileName.replace(reg.exec(fileName),"").toLowerCase();

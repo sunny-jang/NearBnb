@@ -137,7 +137,7 @@ $(function(){
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
-              <button class="ml-1" onclick="pop()"><img src ="${context}/html/images/defaultprofile.jpg" style="width: 44px; height: 44px;"></button>
+              <div class="ml-1" onclick="pop()" style="cursor: pointer;"><img src ="${context}/html/images/defaultprofile.jpg" style="width: 44px; height: 44px;"></div>
           </div>
           <div class="d-flex justify-content-end mt-2">
           	<div id="profile-card">

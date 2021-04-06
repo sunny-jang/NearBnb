@@ -1,20 +1,18 @@
 package com.on.nearbnb.place.controller;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,20 +21,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.on.nearbnb.board.model.vo.BoardThumb;
 import com.on.nearbnb.book.model.vo.Book;
 import com.on.nearbnb.book.service.BookService;
 import com.on.nearbnb.file.model.vo.PlaceFile;
+import com.on.nearbnb.file.service.MemberProfileService;
 import com.on.nearbnb.file.service.PlaceFileService;
+import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.model.vo.PlacePoint;
 import com.on.nearbnb.place.model.vo.PlaceThumb;
-import com.on.nearbnb.place.model.dao.PlaceDao;
-import com.on.nearbnb.place.model.vo.ExtendedPlace;
-import com.on.nearbnb.place.model.vo.Place;
 import com.on.nearbnb.place.service.PlaceService;
 
 import net.sf.json.JSONArray;
-import org.json.simple.JSONObject;
 
 @Controller
 public class PlaceController {
@@ -49,6 +44,9 @@ public class PlaceController {
 	
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private MemberProfileService memberProfileService;
 	
 	@RequestMapping(value = "/placeList.do", method = RequestMethod.GET)//숙소목록
 	public ModelAndView placeList(PlacePoint pp, ModelAndView modelAndView) {
@@ -75,17 +73,18 @@ public class PlaceController {
 	}
 
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
-	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, HttpServletRequest request, ModelAndView modelAndView) {
+	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
 		Place place= placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);
 		PlacePoint pp = placeService.searchPlacePointOne(pId);
-		
+		String hostProfile = memberProfileService.selectMemberProfile(place.getuId());
 		HttpSession session = request.getSession();
 		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
 		
 		int likes = placeService.placeThumbCount(pId);
 		modelAndView.addObject("place", place);
 		modelAndView.addObject("images", files);
+		modelAndView.addObject("hostProfile", hostProfile);
 		
 		PlaceThumb placeThumb = new PlaceThumb();
 		placeThumb.setPlaceId(pId);
@@ -213,7 +212,7 @@ public class PlaceController {
 		
 		for(Book book_: bookList) {
 			JSONObject innerObject = new JSONObject();
-			innerObject.put("title", URLEncoder.encode("예약 불가", "utf-8"));
+			innerObject.put("title", URLEncoder.encode("예약 완료", "utf-8"));
 			innerObject.put("userId", book_.getuId());
 			innerObject.put("bookPayPrice", book_.getBookPayPrice());
 			innerObject.put("bookPerson", book_.getBookPerson());

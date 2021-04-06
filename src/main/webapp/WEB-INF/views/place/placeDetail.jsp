@@ -97,9 +97,14 @@
         </div>
         <!-- main-right -->
         <div class="col">
-          <div class="d-flex justify-content-between">
-            <h2 id="userId">&nbsp;${place.uId}님이 호스팅하는 아파트</h2>
-            <div class="profile" style="background-color: black;"></div>
+          <div class="d-flex justify-content-between align-self-center">
+            <div class="align-item-center" id="userId" style="margin: 0;"><span style="font-size: 32px;">&nbsp;${place.uId}님이 호스팅하는 아파트</span></div>
+            <c:if test="${empty hostProfile}">
+            	<div id="after-pic"><img src ="${context}/html/images/defaultprofile.jpg"></div>
+            </c:if>
+            <c:if test="${not empty hostProfile}">
+	            <div id="after-pic"><img src ="${hostProfile}"></div>
+            </c:if>
           </div>
           <hr>
           <div class="content-box">

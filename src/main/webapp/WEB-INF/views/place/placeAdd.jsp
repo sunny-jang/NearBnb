@@ -127,7 +127,12 @@ var date = new PlaceDate();
         <div class="add-fixed">
           <div class="d-flex justify-content-between mb-3 align-items-center">
             <input type="text" placeholder="숙소명" name="placeName" class="w-75 p-2" required>
-            <i class="fa fa-user-circle" style="font-size: 35px;"></i>
+            <c:if test="${userProfile eq 'N  '}">
+            	<div id="after-pic"><img src ="${context}/resources/html/images/defaultprofile.jpg"></div>
+            </c:if>
+            <c:if test="${userProfile eq 'Y  '}">
+	            <div id="after-pic"><img src ="${profileUrl}"></div>
+            </c:if>
           </div>
           <div class="d-flex justify-content-between mb-3">
             <div class="d-flex">

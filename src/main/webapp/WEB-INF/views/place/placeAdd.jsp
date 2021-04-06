@@ -47,19 +47,11 @@ var date = new PlaceDate();
 		           	$(".big-image").css("background-image", "url("+url+")");
 		           	
 		           	// input에 값 넣어서 form에 추가
-		           	let i = document.createElement("input");
-		           	i.setAttribute("type","hidden");
-					i.setAttribute("name","imagePath");
-					i.setAttribute("value",url);
-					$("#addForm").append(i);
+		           	
+					_this.siblings("input[name=imagePath]").val(url);
 		          }).catch(function(error) {});
 		           
-		           let i = document.createElement("input");
-					i.setAttribute("type","hidden");
-					i.setAttribute("name","changedImages");
-					i.setAttribute("value",fileName);
-					
-					$("#addForm").append(i);
+		           _this.siblings("input[name=changedImages]").val(fileName);
 		       }
 		    );
 		})
@@ -89,28 +81,37 @@ var date = new PlaceDate();
           <div class="image-add-form">
             <div class="big-image align-self-center"></div>
             <div class="d-flex justify-content-between w-100 mt-3">
+            
               <div class="file-upload">
                 <a href="#">
                   <i class="fa fa-camera" style="font-size: 25px;"></i>
                   <input type="file" class="opacity-0 aa" name="imageUpload" required>
+               	  <input type="hidden" name="changedImages" />
+               	  <input type="hidden" name="imagePath" />
                 </a>
               </div>
               <div class="file-upload">
                 <a href="#">
                   <i class="fa fa-camera" style="font-size: 25px;"></i>
                   <input type="file" class="opacity-0 bb" name="imageUpload">
+                  <input type="hidden" name="changedImages" />
+               	  <input type="hidden" name="imagePath" />
                 </a>
               </div>
               <div class="file-upload">
                 <a href="#">
                    <i class="fa fa-camera" style="font-size: 25px;"></i>
                   <input type="file" class="opacity-0" name="imageUpload">
+                  <input type="hidden" name="changedImages" />
+               	  <input type="hidden" name="imagePath" />
                 </a>
               </div>
               <div class="file-upload">
                 <a href="#">
                   <i class="fa fa-camera" style="font-size: 25px;"></i>
                   <input type="file" class="opacity-0" name="imageUpload">
+                  <input type="hidden" name="changedImages" />
+               	  <input type="hidden" name="imagePath" />
                 </a>
               </div>
               

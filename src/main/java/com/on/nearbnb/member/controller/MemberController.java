@@ -219,4 +219,14 @@ public class MemberController {
 		memberService.updateMemberProfile(memberProfile.getUserId());
 	}
 	
+	@ResponseBody
+	@PostMapping(value="/updateProfile.do")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void updateProfile(MemberProfile memberProfile, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		System.out.println(memberProfile);
+		memberProfileService.updateMemberProfile(memberProfile);
+		session.setAttribute("profileUrl", memberProfile.getProfilePath());
+	}
+	
 }

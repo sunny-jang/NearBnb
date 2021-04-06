@@ -24,4 +24,10 @@ public class MemberProfileServiceImpl implements MemberProfileService {
 		return memberProfileDao.selectMemberProfile(userId);
 	}
 
+	@Override
+	public int updateMemberProfile(MemberProfile memberProfile) throws Exception {
+		
+		return memberProfileDao.updateMemberProfile(memberProfile);
+	}
+
 }

@@ -16,4 +16,8 @@
 	<select id="selectMemberProfile" parameterType="String" resultType="String">
 		SELECT PROFILE_PATH FROM MEMBER_PROFILE WHERE U_ID = #{userId}
 	</select>
+	
+	<update id="updateMemberProfile" parameterType="MemberProfile">
+		UPDATE MEMBER_PROFILE SET PROFILE_NAME = #{profileName}, PROFILE_PATH = #{profilePath} WHERE U_ID = #{userId}
+	</update>
 </mapper>

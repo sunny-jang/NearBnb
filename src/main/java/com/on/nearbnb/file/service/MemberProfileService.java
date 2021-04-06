@@ -7,4 +7,6 @@ public interface MemberProfileService {
 	public int insertMemberProfile(MemberProfile memberProfile) throws Exception;
 	
 	public String selectMemberProfile(String userId) throws Exception;
+	
+	public int updateMemberProfile(MemberProfile memberProfile) throws Exception;
 }

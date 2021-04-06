@@ -13,10 +13,14 @@ public class MemberProfileDao {
 	private SqlSession sqlSession;
 	
 	public int insertMemberProfile(MemberProfile memberProfile) throws Exception {
-		return sqlSession.insert("insertMemberProfile", memberProfile);
+		return sqlSession.insert("MemberProfile.insertMemberProfile", memberProfile);
 	}
 	
 	public String selectMemberProfile(String userId) throws Exception {
-		return sqlSession.selectOne("selectMemberProfile", userId);
+		return sqlSession.selectOne("MemberProfile.selectMemberProfile", userId);
+	}
+	
+	public int updateMemberProfile(MemberProfile memberProfile) throws Exception {
+		return sqlSession.update("MemberProfile.updateMemberProfile", memberProfile);
 	}
 }

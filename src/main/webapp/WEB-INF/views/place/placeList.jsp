@@ -15,7 +15,7 @@
           <a href="placeDetail.do?pId=${ep.placeId }" class="row">
             <div class=" col-5 align-self-center">
               <div class="place-image"  style="background-image: url(${epFile[status.index].filePath})"></div>
-              <!--  style="background-image: url()"> -->
+             
             </div>
             <div class="col-7">
               <span class="place-host">${ep.uId }님의 숙소</span>

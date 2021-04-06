@@ -48,10 +48,10 @@ var date = new PlaceDate();
 		           	
 		           	// input에 값 넣어서 form에 추가
 		           	
-					_this.siblings("input[name=changedImages]").val(url);
+					_this.siblings("input[name=imagePath]").val(url);
 		          }).catch(function(error) {});
 		           
-		           _this.siblings("input[name=imagePath]").val(fileName);
+		           _this.siblings("input[name=changedImages]").val(fileName);
 		       }
 		    );
 		})

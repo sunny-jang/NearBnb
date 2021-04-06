@@ -65,8 +65,8 @@ public class PlaceDao {
 	}	
 	
 	// 마이페이지용 숙소 코드로 조회(상세 조회)
-		public List<ExtendedPlace> searchExtendedPlace(PlacePoint pp) {		
-			return sqlSession.selectList("Place.searchExtendedPlace", pp);
+		public List<ExtendedPlace> searchExtendedPlace(List<PlacePoint> resultPoint) {		
+			return sqlSession.selectList("Place.searchExtendedPlace", resultPoint);
 		}
 
 	//foreach문 place정보조회 (임시)

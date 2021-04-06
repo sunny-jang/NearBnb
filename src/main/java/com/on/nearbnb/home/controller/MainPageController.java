@@ -32,17 +32,7 @@ public class MainPageController {
 	@Autowired
 	PlaceFileService placeFileService;
 
-	@RequestMapping(value = "/test.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")@ResponseBody
-	public void test(@RequestParam("latitude") double latitude,
-			@RequestParam("longitude") double longitude, HttpServletRequest request, ModelAndView modelAndView) {
-		PlacePoint pp = new PlacePoint();
-		pp.setLatitude(latitude);
-		pp.setLongitude(longitude);
-		
-		List<ExtendedPlace> ep = placeService.searchExtendedPlace(pp);
-		System.out.println(ep.toString());
-	}
-
+	
 	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String searchPlacePoint(@RequestParam("latitude") double latitude,
@@ -53,15 +43,13 @@ public class MainPageController {
 		searchpoint.setLongitude(longitude);
 
 
-		System.out.println("위도 getLatitude : " + searchpoint.getLatitude());
-		System.out.println("경도 getLongitude : " + searchpoint.getLongitude());
+		//System.out.println("위도 getLatitude : " + searchpoint.getLatitude());
+	//	System.out.println("경도 getLongitude : " + searchpoint.getLongitude());
 
 		List<PlacePoint> resultPoint = placeService.searchPlacePoint(searchpoint);
-		System.out.println("PlaceId : " + resultPoint.get(0).getPlaceId());
 		List<Place> resultPlace = placeService.selectPlaceList(resultPoint);// 숙소정보
-		System.out.println("PlaceName : " + resultPlace.get(0).getPlaceName());
 		List<PlaceFile> resultFileOne = placeFileService.selectOneList(resultPoint);
-		System.out.println("resultPoint.size : " + resultPoint.size());
+	
 
 		// Ajax
 		JSONObject jsonObject = new JSONObject();// PlacePoint객체오브젝트
@@ -83,14 +71,10 @@ public class MainPageController {
 				pObject.put("placeName", resultPlace.get(i).getPlaceName());
 				pObject.put("placeImage", resultFileOne.get(i).getFilePath());
 				jsonArray.add(pObject);
-				
 			}
 		}
-
 		jsonObject.put("pointList", jsonArray);
-
 		String result = jsonObject.toString();
-		//System.out.println(result);
 		return result;
 	}
 }

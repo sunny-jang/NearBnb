@@ -100,6 +100,15 @@ function modalValues(n) {
         </div>
         <br>
 	</c:forEach>
+	<c:if test="${empty bList}">
+				
+	<div class="null-area">
+		
+		<i class="fas fa-ban mb-4" style="font-size: 70px;"></i>
+		<span>예약한 숙소가 없습니다</span>
+		<button class='btn btn-third mt-3' onclick="location.href='index.do'">내 주변 숙소 둘러보기</button>
+	</div>
+	</c:if>
       <!--/place-list-->
       <hr>
       

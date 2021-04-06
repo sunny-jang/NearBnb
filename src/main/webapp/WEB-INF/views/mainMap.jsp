@@ -39,7 +39,7 @@
 			geocoder.coord2RegionCode(coords.getLng(), coords.getLat(),
 					callback);
 		}
-		console.log(coords.getLng(),coords.getLat());
+		
 		// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
 		function displayCenterInfo(result, status) {
 			if (status === kakao.maps.services.Status.OK) {
@@ -73,15 +73,11 @@
 
 			});			
 		} 
-		console.log("pList :"+pList.get(0).placeName);
-		console.log("pList :"+pList);
+		
 		
 		 //마커생성
 		function searchPoint(data){
 			var positions = [];
-			
-			console.log(data.pointList);
-			
 			for(var i=0; i<data.pointList.length; i++){
 				var obj = new Object();
 				obj.title = data.pointList[i].placeName;
@@ -120,8 +116,6 @@
 			        content: '<a href="placeDetail.do?pId='+data.pointList[i].placeId+'" style="text-decoration:none"><div style="width:150px; text-align:center;padding:3px 0; margin-bottom: -2px; font-size:12px; border-radius:10px">'+positions[i].title+'</div></a>' // 인포윈도우에 표시할 내용
 			     
 			    });
-			    
-			    console.log(data.pointList[i].placeId);
 			    infowindow.open(map, marker);
 			    marker.setMap(map);
 			    bounds.extend(positions[i].latlng);
@@ -163,7 +157,7 @@
 		function FindLocationMap() {
 			// 주소로 좌표를 검색합니다
 			var address = $("#address").val();
-			console.log(address)
+
 			
 				// 정상적으로 검색이 완료됐으면  
 				geocoder.addressSearch(address, function(result, status) {

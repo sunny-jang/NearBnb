@@ -22,8 +22,7 @@
               <h5 class="place-name ellipsis2">${ep.placeName }</h5>
               <span class="place-option">최대인원 ${ep.maxGuest }명 . 숙소 유형 ${ep.placeType }</span>
               <p class="place-des ellipsis2">${ep.placeDesc }</p>
-              <div class="d-flex justify-content-between">
-               <!--  <div>16 <i class="fa fa-heart"></i></div> -->
+              <div class="d-flex justify-content-between">       
                <div><fmt:formatNumber value="${ep.placePrice}" /> 원 / 박</div>
               </div>
             </div>

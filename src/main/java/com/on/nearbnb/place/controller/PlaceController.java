@@ -70,39 +70,9 @@ public class PlaceController {
 		modelAndView.addObject("epPlace", resultPlace);
 		modelAndView.addObject("epFile", resultFileOne);
 		}else {System.out.println("파일오류");}
-		//List<ExtendedPlace> epList = placeService.searchExtendedPlace(resultPoint);
-		//modelAndView.addObject("epList", epList);
-		
-		
 		modelAndView.setViewName("/place/placeList");
 		return modelAndView;
 	}
-	
-//	@RequestMapping(value = "/pListAjax.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")
-//	@ResponseBody
-//	public String pListAjax(@RequestParam("idList") List<PlacePoint> pidList,
-//			 HttpServletRequest request) {
-//		List<Place> resultList = placeService.selectPlaceList(pidList); 
-//		System.out.println("resultList"+resultList.size());
-//		// Ajax
-//				JSONObject jsonObject = new JSONObject();
-//				JSONArray jsonArray = new JSONArray();
-//				for (int i = 0; i < resultList.size(); i++) {
-//					JSONObject pObject = new JSONObject();
-//					pObject.put("placeId", resultList.get(i).getuId());	
-//					pObject.put("maxGuest", resultList.get(i).getMaxGuest());	
-//					pObject.put("placeType", resultList.get(i).getPlaceType());	
-//					pObject.put("placePrice", resultList.get(i).getPlacePrice());	
-//					pObject.put("placeDesc", resultList.get(i).getPlaceDesc());	
-//					pObject.put("placeOpenDate", resultList.get(i).getPlaceOpenDate());	
-//					pObject.put("placeCloseDate", resultList.get(i).getPlaceCloseDate());	
-//					jsonArray.add(pObject);
-//				}
-//				jsonObject.put("placeList", jsonArray);
-//		String result=jsonObject.toString();
-//		System.out.println(result); 
-//		return result;
-//	}
 
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
 	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, HttpServletRequest request, ModelAndView modelAndView) {

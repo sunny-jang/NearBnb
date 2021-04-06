@@ -137,12 +137,24 @@
 	</delete>
 	
 	<!-- 플레이스 확장 vo에 값 저장 -->
+	<!-- <select id = "searchExtendedPlace"  resultMap="resultExtendedPlace" parameterType="java.util.List">
+       <foreach item="PlacePoint" index="index" collection="list"  separator=" UNION ALL " >
+      SELECT ROWNUM, PL.*, PP.*,PI.* FROM PLACE_IMGFILE PI, PLACE_POINT PP, PLACE PL
+       WHERE PI.P_CODE_SEQ IN(
+        SELECT DISTINCT P_CODE_SEQ FROM PLACE WHERE P_CODE_SEQ IN (#{PlacePoint.placeId})
+        )
+       AND PL.P_CODE_SEQ = PI.P_CODE_SEQ
+       AND PL.P_CODE_SEQ = PP.P_CODE_SEQ
+       AND ROWNUM = 1;
+       </foreach>
+   </select>-->
+	
 	<select id="searchExtendedPlace" resultMap ="resultExtendedPlace" parameterType="PlacePoint">
 		SELECT * FROM PLACE
-		JOIN PLACE_POINT P USING(P_CODE_SEQ)
-		JOIN PLACE_IMGFILE PI USING(P_CODE_SEQ)
+			JOIN PLACE_POINT P USING(P_CODE_SEQ)
+			JOIN PLACE_IMGFILE PI USING(P_CODE_SEQ)
 		WHERE( P.LATITUDE BETWEEN #{latitude}-0.04 AND #{latitude}+0.04)
-		AND(P.LONGITUDE BETWEEN #{longitude}-0.04 AND #{longitude}+0.041)
+			AND(P.LONGITUDE BETWEEN #{longitude}-0.04 AND #{longitude}+0.04)
 		ORDER BY DBMS_RANDOM.RANDOM()
 	</select>
 	

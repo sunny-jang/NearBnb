@@ -52,9 +52,28 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/placeList.do", method = RequestMethod.GET)//숙소목록
 	public ModelAndView placeList(PlacePoint pp, ModelAndView modelAndView) {
-		List<ExtendedPlace> epList = placeService.searchExtendedPlace(pp);
+		List<PlacePoint> resultPoint = placeService.searchPlacePoint(pp);
+		List<Place> resultPlace = placeService.selectPlaceList(resultPoint);// 숙소정보
+		List<PlaceFile> resultFileOne = placeFileService.selectOneList(resultPoint);
 		
-		modelAndView.addObject("epList", epList);
+		int pointId, placeId, fileId, size;
+		size = resultPoint.size();
+		pointId = resultPoint.get(size-1).getPlaceId(); 
+		placeId = resultPlace.get(size-1).getPlaceId();
+		fileId = resultFileOne.get(size-1).getPlaceId();
+		System.out.println(pointId+","+placeId+","+fileId);
+		System.out.println("resultPoint size : "+resultPoint.size());
+		System.out.println("resultPlace size : "+resultPlace.size());
+		System.out.println("resultFileOne size : "+resultFileOne.size());
+		
+		if ((pointId == placeId) && (placeId == fileId)) {
+		modelAndView.addObject("epPlace", resultPlace);
+		modelAndView.addObject("epFile", resultFileOne);
+		}else {System.out.println("파일오류");}
+		//List<ExtendedPlace> epList = placeService.searchExtendedPlace(resultPoint);
+		//modelAndView.addObject("epList", epList);
+		
+		
 		modelAndView.setViewName("/place/placeList");
 		return modelAndView;
 	}

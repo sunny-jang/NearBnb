@@ -39,13 +39,13 @@ function searchList(data){
 }
 
 //정보저장
-
+function placeList(data){
 	$(".btn-more").on("click", function() {
 		var latitude = $("input[name=latitude]").val();//위도
 		var longitude = $("input[name=longitude]").val();//경도
 		location.href='placeList.do?latitude='+latitude+'&longitude='+longitude;
 	});
-
+}
 </script>
 
 <section>

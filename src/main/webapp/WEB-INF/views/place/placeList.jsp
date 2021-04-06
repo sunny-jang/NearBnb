@@ -1,42 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+  <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
  <c:set var="context" value="${pageContext.request.contextPath}" />
 <%@ include file="../include/header.jsp" %>
-<script>
-$(function() {
-	console.log(localStorage.placeList);
-	var pList = JSON.parse(localStorage.placeList);
-	
-	pListAjax(pList);
-	
-});
-
-</script>
-
 <section>
 
   <div class="row">
     <div class="col main-left">
       <div class="place-list">
+      
+      <c:forEach var = "ep" items="${epPlace }" varStatus="status">
         <div class="place-li ">
-          <a href="#" class="row">
+          <a href="placeDetail.do?pId=${ep.placeId }" class="row">
             <div class=" col-5 align-self-center">
-              <div class="place-image" style="background-color: black;"></div>
+              <div class="place-image"  style="background-image: url(${epFile[status.index].filePath})"></div>
+             
             </div>
             <div class="col-7">
-              <span class="place-host">${ }님의 숙소</span>
-              <h5 class="place-name ellipsis2">숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름 숙소이름</h5>
-              <span class="place-option">최대인원 4명 . 숙소 유형 아파트</span>
-              <p class="place-des ellipsis2">여름휴가 간 동안 집이 비어서 올리게 되었습니다~ 깨끗하게 써주실 분 찾습니다~^^* 주실 분 찾습니다~^^* 주실 분 찾습니다~^^* .....</p>
+              <span class="place-host">${ep.uId }님의 숙소</span>
+              <h5 class="place-name ellipsis2">${ep.placeName }</h5>
+              <span class="place-option">최대인원 ${ep.maxGuest }명 . 숙소 유형 ${ep.placeType }</span>
+              <p class="place-des ellipsis2">${ep.placeDesc }</p>
               <div class="d-flex justify-content-between">
-                <div>16 <i class="fa fa-heart"></i></div>
-                <div>30,000 원 / 박</div>
+               <!--  <div>16 <i class="fa fa-heart"></i></div> -->
+               <div><fmt:formatNumber value="${ep.placePrice}" /> 원 / 박</div>
               </div>
             </div>
           </a>
-          
         </div>
+        </c:forEach>
         
       </div>
     </div>

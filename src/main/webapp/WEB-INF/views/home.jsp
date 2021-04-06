@@ -40,28 +40,12 @@ function searchList(data){
 
 //정보저장
 function placeList(data){
-	var placeList = [];
-	
-	for(var i=0; i<data.pointList.length; i++){
-		var placeObj = {
-			placeId : data.pointList[i].placeId,
-			placeName : data.pointList[i].placeName, 	
-			placeImage : data.pointList[i].placeImage,
-		}	
-		placeList.push(placeObj);
-	}
-	localStorage.placeList = JSON.stringify(placeList);
-	console.log(placeList);
-	
 	$(".btn-more").on("click", function() {
 		var latitude = $("input[name=latitude]").val();//위도
 		var longitude = $("input[name=longitude]").val();//경도
 		location.href='placeList.do?latitude='+latitude+'&longitude='+longitude;
 	});
 }
-
-
-
 </script>
 
 <section>

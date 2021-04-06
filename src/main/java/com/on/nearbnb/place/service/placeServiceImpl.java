@@ -145,8 +145,8 @@ public class placeServiceImpl implements PlaceService {
 	}
 	
 	@Override
-	public List<ExtendedPlace> searchExtendedPlace(PlacePoint pp) {
-		return pDao.searchExtendedPlace(pp);
+	public List<ExtendedPlace> searchExtendedPlace(List<PlacePoint> resultPoint) {
+		return pDao.searchExtendedPlace(resultPoint);
 	}
 	
 	@Override

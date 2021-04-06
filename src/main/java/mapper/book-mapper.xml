@@ -24,14 +24,16 @@
 	
 	<select id="selectBook" parameterType="Book" resultMap="resultBook">
 		SELECT * FROM BOOK
+		<where>
 			<choose>
 				<when test="pId != null">
-					WHERE P_CODE_SEQ = #{pId}
+					P_CODE_SEQ = #{pId} ORDER BY BOOK_PAY_DATE DESC
 				</when>
 				<when test="uId != null">
-					WHERE U_ID = #{uId}					
+					U_ID = #{uId} ORDER BY BOOK_PAY_DATE DESC
 				</when>
 			</choose>		
+		</where>
 	</select>
 	
 	<delete id="deleteBook" parameterType="String">

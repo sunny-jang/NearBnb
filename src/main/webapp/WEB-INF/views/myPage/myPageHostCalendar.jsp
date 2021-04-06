@@ -10,7 +10,8 @@
 <script src='${context}/html/js/daygrid.js'></script>
 <script src='${context}/html/js/timegrid.js'></script>
 <script src='${context}/html/js/ko.js'></script>
-<script src="${context}/resources/html/js/dateController.js"></script>
+<script src="${context}/html/js/dateController.js"></script>
+ <script src="${context}/html/js/CalendarHandler.js"></script>
 <!--myPageHostCalendar-->
 <style>
 .book-list {
@@ -28,40 +29,16 @@
 </style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+	var cHand = new CalendarHandler();
+	
 	function numberWithCommas(x) {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
 	
 	var oDate = $("#openDate").val().substring(0,10);
 	var cDate = $("#closeDate").val().substring(0,10);
 	var calendarEl = document.getElementById('calendar');
+	var pId = '${place.placeId}';
 	
-	// 예약가능날짜 셋업
-	async function getFullEvents() {
-		var events_ = await getEventList();
-		events_.unshift(
-			{
-		          title: '예약 가능 날짜',
-		          start: oDate,
-		          end: cDate,
-		        }
-		)
-		return events_
-	}
-	
-	async function getEventList() {
-		var a = await fetch('bookList.do?pId=${place.placeId}').then(res=>res.json());
-		var result = a.map((item,i)=> {
-			return {
-				id: 'index-'+i,
-				title: '예약된 날짜',
-				start: item.start.substring(0,10),
-				end: item.end.substring(0,10),
-				color: 'red',
-			}
-		})
-		
-		return result;
-	}
 	
 	async function getEventEle() {
 		var bList = await fetch('bookList.do?pId=${place.placeId}').then(res=>res.json());
@@ -82,7 +59,7 @@
 	(async function() {
 		// 캘린더 객채 생성
 		// var date = new PlaceDate();
-		var events = await getFullEvents();
+		var events = await cHand.getFullEvents(oDate, cDate, pId);
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 		      locale:'ko',
 		      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
@@ -123,26 +100,7 @@
 	    	calendar.render();
     	}  	
     	
-    	// 예약된 날짜들 배열로 생성
-    	function getBookedDates (events) {
-			let eventArray = [];
-	    	for(let i = 1;i<events.length;i++) {
-	    		const es = new Date(events[i].start);
-	    		const ee = new Date(events[i].end);
-	    		const diffDate = date.getDateDiff(es, ee);
-	    		
-	    		for(let j=0;j<diffDate;j++) {
-	    			const es = new Date(events[i].start);
-	    			eventArray.push(new Date(es.setDate(es.getDate()+j)));
-	    		};
-	    	}
-	    	return eventArray;
-		}
-    	
     	$("#bookInfo").append(await getEventEle());
-    	
-    	console.log(await getEventEle());
-    	
 	})();
 });
   

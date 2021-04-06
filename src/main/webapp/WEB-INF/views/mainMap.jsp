@@ -71,7 +71,7 @@
 				url : "centerPoint.do",
 				data : { 'latitude' : lat ,'longitude' : lon},
 				error : function(error) {
-					alert("해당 주소에 등록된 숙소가 없습니다.");
+					alert("해당 주소에 등록된 숙소가 없습니다."); 
 					initLocation();
 				},
 				success : function(data) {

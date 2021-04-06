@@ -69,6 +69,7 @@ public class PlaceController {
 		if ((pointId == placeId) && (placeId == fileId)) {
 		modelAndView.addObject("epPlace", resultPlace);
 		modelAndView.addObject("epFile", resultFileOne);
+		modelAndView.addObject("pp", pp);
 		}else {System.out.println("파일오류");}
 		modelAndView.setViewName("/place/placeList");
 		return modelAndView;

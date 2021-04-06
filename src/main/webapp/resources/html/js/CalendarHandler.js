@@ -7,6 +7,7 @@ class CalendarHandler {
 	// 예약가능날짜와 모든 예약정보 리스트 생성
 	async getFullEvents(oDate, cDate, pId) {
 		var events_ = await this.getEventList(pId);
+		
 		events_.unshift(
 			{
 		          title: '예약 가능 날짜',
@@ -14,6 +15,7 @@ class CalendarHandler {
 		          end: cDate,
 		        }
 		)
+		
 		return events_;
 	}
 	
@@ -79,6 +81,7 @@ class CalendarHandler {
 	// 예약된 날짜들 배열로 생성
 	getBookedDates (events) {
 		let eventArray = [];
+		
 		for(let i = 1;i<events.length;i++) {
 			const es = new Date(events[i].start);
 			const ee = new Date(events[i].end);
@@ -96,6 +99,7 @@ class CalendarHandler {
 	isBookedDate(argS, argE, eventArray) {
 		var eventArray = eventArray ? eventArray : [];
 		var argE_ = this.cDate.addDays(new Date(argE),-1);
+		
 		for(let i=0; i<eventArray.length; i++) {
 			if(argS == this.cDate.getDateFormat(eventArray[i]) || argE_ == date.getDateFormat(eventArray[i])) {
 				alert("예약할 수 없는 날짜입니다. 다시 선택해주세요.");

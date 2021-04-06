@@ -82,8 +82,8 @@
 	
 	<!-- 마이페이지 용 숙소 코드로 조회 -->
 	<select id="selectPlaceForModal" resultMap="resultPlace" parameterType="Integer">
-		SELECT PLACE_NAME, PLACE_ADDRESS, PLACE_ADDRESS_DETAIL, PLACE_INFO, USER_PHONE FROM PLACE WHERE P_CODE_SEQ = #{pId} ORDER BY 
-	</select>	
+		SELECT PLACE_NAME, PLACE_ADDRESS, PLACE_ADDRESS_DETAIL, PLACE_INFO, USER_PHONE FROM PLACE WHERE P_CODE_SEQ = #{pId}
+	</select>
 
 	<!-- 숙소 등록 -->
 	<insert id="insertPlace" parameterType="Place">

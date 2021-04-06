@@ -71,13 +71,15 @@
 		        PLACE_KAKAO_LINK placeKakaoLink,
 		        PLACE_INFO placeDesc,
 		        PLACE_OPEN_DATE placeOpenDate,
-		        PLACE_CLOSE_DATE placeCloseDate
+		        PLACE_CLOSE_DATE placeCloseDate,
+		        PLACE_REGDATE placeRegDate
 		    FROM PLACE)A,
 		        (SELECT P_CODE_SEQ, COUNT(*) CNT FROM PLACE_THUMB GROUP BY P_CODE_SEQ) B
 		WHERE
 		    A.placeId = B.P_CODE_SEQ(+)
 		AND
 		    "uId" = #{uId}
+		ORDER BY placeRegDate DESC
 	</select>
 	
 	<!-- 마이페이지 용 숙소 코드로 조회 -->

@@ -63,6 +63,7 @@ $(function(){
 		if(check != "") {
 			num = 1;
 		}
+		console.log(num);
 		
 		// 확장자 검사
 		if(!checkFileType(file.name)) {
@@ -132,6 +133,7 @@ $(function(){
         </c:if>
         <!-- 로그인 상태 & 프로필 사진 없음 -->
         <c:if test="${userProfile eq 'N  '}">
+       	  <input type="hidden" value="${userProfile}" />
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>
@@ -160,6 +162,7 @@ $(function(){
         </c:if>
         <!-- 로그인 상태 & 프로필 사진 있음 -->
         <c:if test="${userProfile eq 'Y  '}">
+          <input type="hidden" value="${userProfile}" />
           <div class="d-flex justify-content-end right-menu">
               <button type="button" class="btn community" onclick="location.href='board.do'">커뮤니티</button>
               <button type="button" class="btn add_room" onclick="location.href='placeAdd.do'">내 숙소 등록하기</button>

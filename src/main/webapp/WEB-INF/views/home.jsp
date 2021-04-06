@@ -4,7 +4,7 @@
  <c:set var="context" value="${pageContext.request.contextPath}" />
 
 <%@ include file="include/header.jsp" %>
-
+ 
 <script>
   function getInstaFeed() {
     $.ajax({

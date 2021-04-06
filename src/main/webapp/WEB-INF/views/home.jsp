@@ -61,7 +61,7 @@ function placeList(data){
     <div class="group-place">
       <div class="d-flex justify-content-between">
         <h2><span id="centerAddr"></span></h2><!-- 주소표시 -->
-        <a  class="btn-more" style="cursor: pointer;">더보기 > </a>
+        <a  class="btn-more" onclick="placeList()" style="cursor: pointer;">더보기 > </a>
       </div>
       <div class="row">
       

@@ -24,7 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.on.nearbnb.board.model.vo.Board;
 import com.on.nearbnb.board.model.vo.BoardComment;
+import com.on.nearbnb.board.model.vo.BoardFile;
 import com.on.nearbnb.board.model.vo.BoardThumb;
+import com.on.nearbnb.board.service.BoardFileService;
 import com.on.nearbnb.board.service.BoardService;
 
 @Controller
@@ -33,6 +35,10 @@ public class BoardAjaxController {
 	// BoardService DI
 	@Autowired
 	BoardService boardService;
+	
+	// BoardFileService DI
+	@Autowired
+	BoardFileService boardFileService;
 	
 	// 게시글 추천
 	@RequestMapping(value = "boardAjaxThumbsUp.do", method = RequestMethod.GET)
@@ -88,6 +94,21 @@ public class BoardAjaxController {
 		}
 		
 		return fileName;
+	}
+	
+	// 게시글 파일 삭제
+	@RequestMapping(value = "boardAjaxFileDelete.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void delBoardFile(int boardCodeSeq, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		BoardFile boardFile = boardFileService.selectBoardFile(boardCodeSeq);
+		System.out.println("경로 : " + boardFile.getbFilePath());
+		System.out.println("바뀐 명 : " + boardFile.getbFileChangedName());
+		System.out.println("원본 명 : " + boardFile.getbFileOriginalName());
+		
+		boardFileService.deleteBoardFile(boardCodeSeq);
+
+		
 	}
 	
 	// 게시글 분류

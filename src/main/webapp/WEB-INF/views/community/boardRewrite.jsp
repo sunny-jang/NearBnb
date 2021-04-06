@@ -8,38 +8,30 @@
 <!-- SmartEditor2 라이브러리 --> 
 <script type="text/javascript" src="${context}/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
-<!-- 파일 업로드 -->
 <script>
-	$(function(){
-		$('#fileUpload').on('change', function(){
-			var boardForm = $('#frm')[0];
-			var formData = new FormData();
-			var file = $('#files')[0].files[0];
-
-			formData.append("file", file);
-			
-			$.ajax({
-				url : 'boardAjaxFileInsert.do',
-				method : 'POST',
-				data : formData,
-				processData : false,
-				contentType : false,
-				success : function(data){
-					var subData = data.substring(13, data.legnth);
-					$('#fileLabel').html(subData);
-					$('#fileBefore').css('display', 'none');
-					$('#fileAfter').css('display', 'inline');
-					
-					var i = document.createElement("input");
-					i.setAttribute("type","hidden");
-					i.setAttribute("name","changedFile");
-					i.setAttribute("value",data);
-					$("#frm").append(i);
-				}
-			});
+$(function(){
+	// 파일 삭제
+		$('#fileDelete').on('click', function(){
+		var boardCode = $('#boardCodeSeq').val();
+		$.ajax({
+			url : 'boardAjaxFileDelete.do',
+			method : 'POST',
+			data : {
+				boardCodeSeq: boardCode,
+			},
+			success : function(data){
+				$('#fileLabel').html('등록된 파일이 없습니다.');
+				$('#fileBefore').css('display', 'inline');
+				$('#fileAfter').css('display', 'none');
+			},
+			error: function(request, status, error){
+				alert("code : " + request.status + "\n"
+						+ "message : " + request.responseText + "\n"
+						+ "error : " + error);
+			}
 		});
-		
-	});
+	}); 
+});
 </script>
 
 <section class="pb-5">
@@ -98,8 +90,9 @@
 									<a href="#" id="fileUpload" style="margin-left: 20px; text-decoration: none;">
 										<i class="fas fa-file" id="fileAfter" style="font-size: 25px;"></i>
 										<label for="files" id="fileLabel">${boardFile.bFileOriginalName }</label>
-										<input type="file" class="opacity-0" id="files">
+										<input type="text" class="opacity-0" id="files" readonly>
 									</a>
+									<input type="button" id="fileDelete" value="x" style="border: none; background-color: white; color: lightgray;">
 								</td>
 							</c:when>
 						</c:choose>
@@ -107,7 +100,7 @@
 					<tr>
 						<td>글 내용</td>
 						<td colspan="2"><textarea id="smartEditor" name="boardContent">${board.boardContent }</textarea>
-							<input type="hidden" name="boardCodeSeq" value="${board.boardCodeSeq }" />
+							<input type="hidden" id="boardCodeSeq" name="boardCodeSeq" value="${board.boardCodeSeq }" />
 						</td>
 					</tr>
 				</table>

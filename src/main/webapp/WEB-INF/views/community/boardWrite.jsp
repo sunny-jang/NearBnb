@@ -18,25 +18,41 @@
 
 			formData.append("file", file);
 			
-			$.ajax({
-				url : 'boardAjaxFileInsert.do',
-				method : 'POST',
-				data : formData,
-				processData : false,
-				contentType : false,
-				success : function(data){
-					var subData = data.substring(13, data.legnth);
-					$('#fileLabel').html(subData);
-					$('#fileBefore').css('display', 'none');
-					$('#fileAfter').css('display', 'inline');
-					
-					var i = document.createElement("input");
-					i.setAttribute("type","hidden");
-					i.setAttribute("name","changedFile");
-					i.setAttribute("value",data);
-					$("#frm").append(i);
-				}
-			});
+			var storageRef = firebase.storage().ref();
+
+		    storageRef
+		    .child(`images/`+file.name)
+		    .put(file)
+		    .on('state_changed', snapshot => {
+		           console.log(snapshot)
+		       }, error => {
+		           console.log(error);
+		       }, (res) => {
+		           let storageUrl = 'images/'+file.name;
+		           
+		           storageRef.child(storageUrl).getDownloadURL().then(function(url) {
+			
+						$.ajax({
+							url : 'boardAjaxFileInsert.do',
+							method : 'POST',
+							data : formData,
+							processData : false,
+							contentType : false,
+							success : function(data){
+								var subData = data.substring(13, data.legnth);
+								$('#fileLabel').html(subData);
+								$('#fileBefore').css('display', 'none');
+								$('#fileAfter').css('display', 'inline');
+								
+								var i = document.createElement("input");
+								i.setAttribute("type","hidden");
+								i.setAttribute("name","changedFile");
+								i.setAttribute("value",data);
+								$("#frm").append(i);
+							}
+						});
+		           }).catch(function(error) {});
+		       });
 		});
 		
 	});

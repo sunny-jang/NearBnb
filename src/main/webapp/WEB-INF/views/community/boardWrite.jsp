@@ -18,7 +18,7 @@
 			var fileName = new Date().getTime() + file.name;
 
 			formData.append("file", file);
-			
+
 			var storageRef = firebase.storage().ref();
 
 		    storageRef
@@ -32,7 +32,7 @@
 		           let storageUrl = 'images/'+file.name;
 		           
 		           storageRef.child(storageUrl).getDownloadURL().then(function(url) {
-			
+
 						$.ajax({
 							url : 'boardAjaxFileInsert.do',
 							method : 'POST',
@@ -41,9 +41,7 @@
 							contentType : false,
 							success : function(data){
 								var subData = data.substring(13, data.legnth);
-								alert('subData : ' + subData);
-								alert('fileName : ' + fileName);
-								alert('url : ' + url);
+
 								$('#fileLabel').html(subData);
 								$('#fileBefore').css('display', 'none');
 								$('#fileAfter').css('display', 'inline');

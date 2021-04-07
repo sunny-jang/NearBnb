@@ -161,7 +161,38 @@ $(function(){
 		}
 	});
 	
+	$('#fileDownload').on('click', function(){
+        var storageRef = firebase.storage().ref();
+        var starsRef = storageRef.child('images/' + '${boardFile.bFileOriginalName}');
+        starsRef.getDownloadURL().then(function(url) {
+           var storage = firebase.storage();
+           var httpsReference = storage.refFromURL(url);
+           var xhr = new XMLHttpRequest();
+             xhr.responseType = 'blob';
+             xhr.onload = function(event) {
+               var blob = xhr.response;
+               
+               console.log(blob)
+               
+               const url = window.URL.createObjectURL(blob)
+               const a = document.createElement("a")
+               a.href = url
+               a.download = '${boardFile.bFileOriginalName}'
+               a.click()
+               a.remove()
+               window.URL.revokeObjectURL(url);
+             };
+             xhr.open('GET', url);
+             xhr.send();
+             
+             console.log(xhr);
+        }).catch(function(error) {
+             // Handle any errors
+             console.log(error)
+        });;
+    });
 });
+
 </script>
 <section class="pb-5">
 	<div class="total">
@@ -221,11 +252,11 @@ $(function(){
 							</c:when>
 							<c:when test="${boardFile.boardCodeSeq ne null }">
 								<td colspan="3" style="text-align: left;">
-									<a href="${boardFile.bFilePath} " style="margin-left: 20px;" type="media_type" download="${boardFile.bFileOriginalName }">
+									<button type="button" id="fileDownload">
 										<i class="fas fa-file" id="fileAfter"></i>
 										<label for="files" id="fileLabel">${boardFile.bFileOriginalName }</label>
 										<input type="text" class="opacity-0" id="files" readonly>
-									</a>
+									</button>
 								</td>
 							</c:when>
 						</c:choose>

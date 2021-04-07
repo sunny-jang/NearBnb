@@ -136,10 +136,6 @@ public class BoardController {
 			if(boardFile != null) {
 				modelAndView.addObject("boardFile", boardFile);
 			}
-
-
-			// 조회 수 증가
-			boardService.updateBoardCount(boardCodeSeq);
 			
 			if(userId == null) {
 				// 로그인 하지 않은 경우
@@ -147,9 +143,15 @@ public class BoardController {
 			}else if(boardService.selectBoardThumb(boardThumb) == null) {
 				// 해당 게시글을 추천하지 않은 경우
 				modelAndView.addObject("heart","notThumbsUp");
+				
+				// 조회 수 증가
+				boardService.updateBoardCount(boardCodeSeq);
 			}else {
 				// 해당 게시글을 이미 추천한 경우
 				modelAndView.addObject("heart","thumbsUp");
+				
+				// 조회 수 증가
+				boardService.updateBoardCount(boardCodeSeq);
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());

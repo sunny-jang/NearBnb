@@ -3,16 +3,18 @@
 <%@ include file="../include/header.jsp" %>
 <script>
 	$(function(){
+		var checkPw = false;
+		var checkPwCheck = false;
 		// 비밀번호 유효성 검사
 		$('#newPw').focusout(function(){
 			var newPw = $('#newPw').val();
 			var pwCheck = RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\,.<>\/?]).{8,20}$/);
 			if(pwCheck.test(newPw) == false) {
 				$('#alertPw').text('8~20자의 영문 대소문자와 숫자, 특수문자가 하나이상 포함되어야 합니다.').css('color','red');
-				
+				checkPw = false;
 			} else {
 				$('#alertPw').text('');
-				
+				checkPw = true;
 			}
 		});
 		// 비밀번호 중복 검사
@@ -21,14 +23,15 @@
 			var newPwCheck = $('#newPwCheck').val();
 			if(newPw.length != 0 && newPwCheck.length != 0) {
 				if(newPw != newPwCheck) {
-					$('#alertPwCheck').text('비밀번호를 다시 확인해주세요.').css('color','red');				
+					$('#alertPwCheck').text('비밀번호를 다시 확인해주세요.').css('color','red');
+					var checkPwCheck = false;
 				} else {
 					$('#alertPwCheck').text('비밀번호가 일치합니다.').css('color','green');
-					
+					var checkPwCheck = true;
 				}				
 			}
 		});
-		$('form').submit(function(){
+		$('form').submit(function(){			
 			var newPw = $('#newPw').val();
 			var newPwCheck = $('#newPwCheck').val();
 			if(newPw.length == 0) {
@@ -38,7 +41,15 @@
 			if(newPwCheck.length == 0) {
 				alert('비밀번호 확인을 해주세요.');
 				return false;
-			}			
+			}
+			if(checkPw == false) {
+				alert('비밀번호를 입력해주세요');
+				return false;
+			}
+			if(checkPwCheck == false) {
+				alert('비밀번호 확인을 해주세요.');
+				return false;
+			}
 		});
 	});
 </script>

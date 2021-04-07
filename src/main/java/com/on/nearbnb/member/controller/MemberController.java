@@ -184,7 +184,7 @@ public class MemberController {
 		System.out.println(m);
 		if(m != null) {
 			String authNum = memberService.authEmail(m.getUserEmail());
-			modelAndView.addObject("userId", m.getUserId());
+			modelAndView.addObject("memberId", m.getUserId());
 			modelAndView.addObject("authKey", authNum);
 			modelAndView.setViewName("member/findPasswordAuth");
 		} else {
@@ -195,7 +195,7 @@ public class MemberController {
 	
 	@RequestMapping(value = "/changePassword.do", method = RequestMethod.POST)
 	public ModelAndView findPasswordAuth(@RequestParam("userId") String userId, ModelAndView modelAndView) throws Exception {
-		modelAndView.addObject("userId", userId);
+		modelAndView.addObject("memberId", userId);
 		modelAndView.setViewName("member/changePassword");
 		return modelAndView;
 	}
@@ -215,7 +215,6 @@ public class MemberController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void insertProfile(MemberProfile memberProfile, HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();
-		System.out.println(memberProfile);
 		System.out.println("등록");
 		memberProfileService.insertMemberProfile(memberProfile);
 		memberService.updateMemberProfile(memberProfile.getUserId());
@@ -229,7 +228,6 @@ public class MemberController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateProfile(MemberProfile memberProfile, HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();
-		System.out.println(memberProfile);
 		System.out.println("수정");
 		memberProfileService.updateMemberProfile(memberProfile);
 		session.setAttribute("profileUrl", memberProfile.getProfilePath());

@@ -17,7 +17,7 @@
       </div>
   
       <div class="btn-group-vertical mt-3">
-        <button type="button" class="btn btn-third w-100" onclick="location.href='findId.do'">아이디 찾기</button>
+        <button type="button" class="btn btn-third w-100" onclick="location.href='signIn.do'">로그인</button>
       </div>
     </div>
     

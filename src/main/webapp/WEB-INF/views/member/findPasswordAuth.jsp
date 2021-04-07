@@ -25,7 +25,7 @@
       <h2 class="mb-5">인증번호 전송 완료</h2>
       <span>입력하신 이메일에서 인증번호를 확인하고 입력해주세요.</span><br>
       <input type="text" id="authNum" name="authNum" placeholder="인증번호" class="p-2" style="width: 300px;">
-  	  <input type="hidden" id="userId" name="userId" value="${userId }" />
+  	  <input type="hidden" id="userId" name="userId" value="${memberId }" />
       <div class="btn-group-vertical mt-3">
         <button type="submit" id="checkAuthNum" class="btn btn-third w-100">인증번호 확인</button>
       </div>

@@ -47,7 +47,7 @@
 	  <div class="row">
 	    <div class="col d-flex flex-column align-items-center justify-content-center">
 	      <h2 class="mb-5">비밀번호 변경</h2>
-	      <input type="hidden" id="userId" name="userId" value="${userId }" />
+	      <input type="hidden" id="userId" name="userId" value="${memberId }" />
 	      <input type="password" id="newPw" name="userPw" placeholder="새 비밀번호" class=" p-2" style="width: 300px;">
 	      <p class="mt-1 mb-0" id="alertPw"></p>
 	      <br>

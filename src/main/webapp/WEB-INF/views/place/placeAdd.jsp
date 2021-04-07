@@ -29,29 +29,30 @@ var date = new PlaceDate();
 		    	return;
 		    }
 		    
+		    // 파이어베이스 오픈 
 		    var storageRef = firebase.storage().ref();
-
+		    // 이미지 저장 위치
+		    let storageUrl = 'images/'+fileName;
+		    // 스토리지 지정 경로에 업로드
 		    storageRef
-		    .child(`images/`+fileName)
+		    .child(storageUrl)
 		    .put(file)
 		    .on('state_changed', snapshot => {
 		           console.log(snapshot)
 		       }, error => {
 		           console.log(error);
-		       }, (res) => {
-		           let storageUrl = 'images/'+fileName;
-		           
-		           storageRef.child(storageUrl).getDownloadURL().then(function(url) {   // 저장된 파일의 http url 주소 받아오기
-		            // 이미지 표시
+		       }, (res) => { // 업로드 성공
+		    	   
+		    											// 저장된 파일의 http url 주소 받아오기
+		           storageRef.child(storageUrl).getDownloadURL().then(function(url) {
+		            // 화면에 이미지 표시
 		        	   _this.closest("div").css("background-image", "url("+url+")");
 		           	$(".big-image").css("background-image", "url("+url+")");
 		           	
-		           	// input에 값 넣어서 form에 추가
-		           	
+		           	// 각 input에  val 입력
 					_this.siblings("input[name=imagePath]").val(url);
+					_this.siblings("input[name=changedImages]").val(fileName);
 		          }).catch(function(error) {});
-		           
-		           _this.siblings("input[name=changedImages]").val(fileName);
 		       }
 		    );
 		})

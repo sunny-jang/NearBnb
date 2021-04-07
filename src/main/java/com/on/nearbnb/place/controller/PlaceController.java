@@ -74,37 +74,52 @@ public class PlaceController {
 	}
 
 	@RequestMapping(value = "/placeDetail.do", method = RequestMethod.GET)
-	public ModelAndView placeDetail(@RequestParam(name="pId", defaultValue="1") Integer pId, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
+	public ModelAndView placeDetail(@RequestParam(name="pId") Integer pId, HttpServletRequest request, ModelAndView modelAndView) throws Exception {
+		// 숙소정보, 숙소이미지, 좌표값 조회
 		Place place= placeService.selectPlace(pId);
 		List<PlaceFile> files = placeFileService.selectFiles(pId);
 		PlacePoint pp = placeService.searchPlacePointOne(pId);
-		String hostProfile = memberProfileService.selectMemberProfile(place.getuId());
-		HttpSession session = request.getSession();
-		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
 		
-		int likes = placeService.placeThumbCount(pId);
+		// 숙소 정보 저장
 		modelAndView.addObject("place", place);
 		modelAndView.addObject("images", files);
+		modelAndView.addObject("pp", pp);
+		
+		// 호스트 이미지 조회
+		String hostProfile = memberProfileService.selectMemberProfile(place.getuId());
+		HttpSession session = request.getSession();
+		
+		// 호스트 이미지 저장
 		modelAndView.addObject("hostProfile", hostProfile);
 		
+		//로그인되어있지 않는 유저 noOne으로 초기화
+		String userId = ((String) session.getAttribute("userId") == null)? "noOne" : (String) session.getAttribute("userId");
+
+		// 총 숙소 좋아요 조회
+		int likes = placeService.placeThumbCount(pId);
 		PlaceThumb placeThumb = new PlaceThumb();
 		placeThumb.setPlaceId(pId);
 		placeThumb.setuId(userId);
 
 		try {
+			// 로그인정보 없으면 로그인 페이지로 이동	
 			if(userId.equals("noOne")) {
 				modelAndView.addObject("like", "login");
+			// 해당 아이디로 추천한 적 없을때 정보 저장
 			}else if(placeService.selectPlaceThumb(placeThumb) == null) {
 				modelAndView.addObject("like", "didnt");
+			// 이미 추천 한 숙소일 때 정보 저장
 			}else {
 				modelAndView.addObject("like", "did");
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
-			
+		
+		// 조회된 총 추천 개수 저장
 		modelAndView.addObject("likes",likes);
-		modelAndView.addObject("pp", pp);
+		
+		
 		
 		modelAndView.setViewName("/place/placeDetail");
 		return modelAndView;
@@ -203,8 +218,6 @@ public class PlaceController {
 	@RequestMapping(value = "/kakaoPay.do")
 	@ResponseBody
 	public String kakaoPayTest(String placeName, String totalPrice) throws Exception {		
-		System.out.println(placeName);
-		System.out.println(totalPrice);
 		return placeService.kakaoPay(placeName, totalPrice);
 	}
 	

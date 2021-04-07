@@ -7,15 +7,13 @@ class CalendarHandler {
 	// 예약가능날짜와 모든 예약정보 리스트 생성
 	async getFullEvents(oDate, cDate, pId) {
 		var events_ = await this.getEventList(pId);
-		
 		events_.unshift(
 			{
-		          title: '예약 가능 날짜',
-		          start: oDate,
-		          end: cDate,
-		        }
+	          title: '예약 가능 날짜',
+	          start: oDate,
+	          end: cDate,
+	        }
 		)
-		
 		return events_;
 	}
 	
@@ -35,7 +33,7 @@ class CalendarHandler {
 		return result;
 	}
 	
-	// 예약 가능날짜 사이에 있는지 여부
+	// 이미 예약된 날짜와 중복되는지 체크
 	checkDupEvent(newEvent, events) {
 		// 예약기간 구함
 		var dateDiff = this.cDate.getDateDiff(newEvent.start, newEvent.end);
@@ -55,7 +53,7 @@ class CalendarHandler {
 		
 		return false;
 	}
-	
+	// 예약가능 날짜 사이에 있는지 여부
 	isAvailable(newEvent, oDate, cDate) {
 		var argS = this.cDate.getDateFormat(newEvent.start);
 		var argE = this.cDate.getDateFormat(newEvent.end);
@@ -66,7 +64,7 @@ class CalendarHandler {
 			return false;
 		}
 	}
-	
+	// 이벤트 추가
 	addEvent(calendar, newEvent) {
 		//날짜 데이터를 스트링으로 변환
 		var argS = this.cDate.getDateFormat(newEvent.start);

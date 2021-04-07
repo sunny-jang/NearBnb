@@ -29,30 +29,21 @@
 	var cHand = new CalendarHandler();
 	
 	(async function() {
-		// 캘린더 객채 생성
-		
 		var date = new PlaceDate();
 		// 예약되어있는 정보들 불러옴
-		
 		var events = await cHand.getFullEvents(oDate,cDate,pId);
 		// fullCalendar 객체 생성
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 		      locale:'ko',
 		      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-		      header : {
-		          left : 'prev',
-		          center : 'title',
-		          right : 'next',
-		        },
+		      header : {left : 'prev', center : 'title', right : 'next'},
 		      selectable: true,
 		      select: function(arg) {
 		    	var newEvent = calendar.getEventById('newbook');
-		    	
 		    	// 이미 이벤트가 만들어져있으면 삭제(재 선택시 초기화)
 		    	if(newEvent) {
 		    		newEvent.remove();
 		    	}
-		    	
 		    	// 이벤트 셋업
 		    	newEvent = {
 				    id: 'newbook',

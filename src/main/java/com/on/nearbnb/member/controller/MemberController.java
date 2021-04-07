@@ -215,7 +215,6 @@ public class MemberController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void insertProfile(MemberProfile memberProfile, HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();
-		System.out.println(memberProfile);
 		System.out.println("등록");
 		memberProfileService.insertMemberProfile(memberProfile);
 		memberService.updateMemberProfile(memberProfile.getUserId());
@@ -229,7 +228,6 @@ public class MemberController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateProfile(MemberProfile memberProfile, HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();
-		System.out.println(memberProfile);
 		System.out.println("수정");
 		memberProfileService.updateMemberProfile(memberProfile);
 		session.setAttribute("profileUrl", memberProfile.getProfilePath());

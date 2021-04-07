@@ -41,7 +41,6 @@ public class placeServiceImpl implements PlaceService {
 	public int insertPlace(Place place, PlacePoint placePoint, List<PlaceFile> placeFile) {
 		// TODO Auto-generated method
 		pDao.insertPlace(place);
-		 
 		placePoint.setPlaceId(place.getPlaceId());
 		pPointDao.insertPlacePoint(placePoint);
 		pFileDao.insertPlaceFile(placeFile, place.getPlaceId());

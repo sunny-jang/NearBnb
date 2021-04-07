@@ -40,7 +40,6 @@ public class BookController {
 	public String insertBook(Book book, HttpServletResponse response) throws Exception {
 		response.setContentType("application/json; charset=utf-8");		
 		JSONObject sendJson = new JSONObject();
-		System.out.println(book);
 		int cnt = bookService.insertBook(book);		
 		if(cnt == 1) {
 			sendJson.put("ok", URLEncoder.encode("성공", "utf-8"));

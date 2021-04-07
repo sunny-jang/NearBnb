@@ -27,7 +27,6 @@
 	
 	// 커스텀 캘린더 헨들러 생성
 	var cHand = new CalendarHandler();
-	
 	(async function() {
 		var date = new PlaceDate();
 		// 예약되어있는 정보들 불러옴
@@ -56,10 +55,8 @@
 		    	
 		    	// 이벤트 날짜 겹치는지 체크
 		    	var checkDup = cHand.checkDupEvent(newEvent, events);
-		    	
 		    	// 오픈기간 내인지 체크
 		    	var isAvailable = cHand.isAvailable(newEvent, oDate, cDate);
-		    	
 		    	// 겹치는 이벤트가 없고, 오픈기간내에 있으면 실행
 		    	if(!checkDup && isAvailable) {
 		    		var result = cHand.addEvent(calendar, newEvent);

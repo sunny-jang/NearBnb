@@ -31,17 +31,7 @@
 				}				
 			}
 		});
-		$('form').submit(function(){			
-			var newPw = $('#newPw').val();
-			var newPwCheck = $('#newPwCheck').val();
-			if(newPw.length == 0) {
-				alert('새 비밀번호를 입력해주세요.');
-				return false;
-			}
-			if(newPwCheck.length == 0) {
-				alert('비밀번호 확인을 해주세요.');
-				return false;
-			}
+		$('form').submit(function(){
 			if(checkPw == false) {
 				alert('비밀번호를 입력해주세요');
 				return false;

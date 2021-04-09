@@ -30,6 +30,12 @@ public class HomeController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
+	public ModelAndView home2(ModelAndView modelAndView) {
+		modelAndView.setViewName("home");
+		return modelAndView;
+	}
+	
 	@RequestMapping(value = "/placeAdd.do", method = RequestMethod.GET)
 	public ModelAndView placeAdd(ModelAndView modelAndView) {
 		modelAndView.setViewName("/place/placeAdd");

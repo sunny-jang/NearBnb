@@ -161,6 +161,7 @@ $(function(){
 		}
 	});
 	
+	// 파일 다운로드
 	$('#fileDownload').on('click', function(){
         var storageRef = firebase.storage().ref();
         var starsRef = storageRef.child('images/' + '${boardFile.bFileOriginalName}');

@@ -31,6 +31,65 @@ $(function(){
 			}
 		});
 	}); 
+	
+	// 파일 업로드
+		$('#fileUpload').on('change', function(){
+			var boardForm = $('#frm')[0];
+			var formData = new FormData();
+			var file = $('#files')[0].files[0];
+			var fileName = new Date().getTime() + file.name;
+
+			formData.append("file", file);
+
+			var storageRef = firebase.storage().ref();
+
+		    storageRef
+		    .child(`images/`+file.name)
+		    .put(file)
+		    .on('state_changed', snapshot => {
+		           console.log(snapshot)
+		       }, error => {
+		           console.log(error);
+		       }, (res) => {
+		           let storageUrl = 'images/'+file.name;
+		           
+		           storageRef.child(storageUrl).getDownloadURL().then(function(url) {
+
+						$.ajax({
+							url : 'boardAjaxFileInsert.do',
+							method : 'POST',
+							data : formData,
+							processData : false,
+							contentType : false,
+							success : function(data){
+								var subData = data.substring(13, data.legnth);
+
+								$('#fileLabel').html(subData);
+								$('#fileBefore').css('display', 'none');
+								$('#fileAfter').css('display', 'inline');
+								
+								var i = document.createElement("input");
+								i.setAttribute("type","hidden");
+								i.setAttribute("name","bFileChangedName");
+								i.setAttribute("value",fileName);
+								$("#frm").append(i);
+								
+								var j = document.createElement("input");
+								j.setAttribute("type","hidden");
+								j.setAttribute("name","bFileOriginalName");
+								j.setAttribute("value",subData);
+								$("#frm").append(j);
+								
+								var k = document.createElement("input");
+								k.setAttribute("type","hidden");
+								k.setAttribute("name","bFilePath");
+								k.setAttribute("value",url);
+								$("#frm").append(k);
+							}
+						});
+		           }).catch(function(error) {});
+		       });
+		});
 });
 </script>
 
@@ -90,7 +149,7 @@ $(function(){
 									<a href="#" id="fileUpload" style="margin-left: 20px; text-decoration: none;">
 										<i class="fas fa-file" id="fileAfter" style="font-size: 25px;"></i>
 										<label for="files" id="fileLabel">${boardFile.bFileOriginalName }</label>
-										<input type="text" class="opacity-0" id="files" readonly>
+										<input type="file" class="opacity-0" id="files" readonly>
 									</a>
 									<input type="button" id="fileDelete" value="x" style="border: none; background-color: white; color: lightgray;">
 								</td>

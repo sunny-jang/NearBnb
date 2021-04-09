@@ -92,6 +92,7 @@ public class BoardController {
 			// 검색 결과
 			modelAndView.addObject("boardList", boardService.searchBoard(searchMap));
 			
+			// 정보를 가져갈 게시판
 			modelAndView.setViewName("community/board");
 			return modelAndView;
 		}catch(Exception e) {
@@ -170,8 +171,7 @@ public class BoardController {
 		HttpSession session = request.getSession();
 		board.setUserId((String) session.getAttribute("userId"));
 		
-		
-		if(files != null) {
+		if(files.getParameter("bFileChangedName") != null) {
 			// 바뀐 파일 명
 			String bFileChangedName = files.getParameter("bFileChangedName");
 	

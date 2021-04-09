@@ -132,7 +132,7 @@ public class PlaceController {
 		String[] changedImages = files.getParameterValues("changedImages");
 		String[] imagePath = files.getParameterValues("imagePath");
 		
-		
+		System.out.println(place);
 		System.out.println(changedImages.toString());
 		System.out.println(imagePath.toString());
 		List<HashMap<String, String>> imageInfo = new ArrayList<HashMap<String,String>>();

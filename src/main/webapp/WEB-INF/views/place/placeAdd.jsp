@@ -184,7 +184,7 @@ var date = new PlaceDate();
             <div>
               <i class="fa fa-chain pr-2" style="font-size:24px"></i>카카오톡
             </div>
-            <input type="text" placeholder="http://kakao" name="hostKakaoLink" class="w-50 p-2" id="kakao">
+            <input type="text" placeholder="http://kakao" name="placeKakaoLink" class="w-50 p-2" id="kakao">
           </div>
           <div class="d-flex justify-content-between mb-3 align-items-center">
             <div>

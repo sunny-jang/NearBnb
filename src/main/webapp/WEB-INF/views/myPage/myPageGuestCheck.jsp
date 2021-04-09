@@ -180,7 +180,7 @@ function modalValues(n) {
                   <div>
                     연락처
                     <h5>
-                      <i class="fa fa-phone" style="font-size:24px"></i> : <span id="modalPhone">010 - 1234 -1234</span> / <a id="kakaoLink" href="#"><i class="fa fa-comments-o" style="font-size:24px"></i><span id="modalKakao"></span></a>
+                      <i class="fa fa-phone" style="font-size:24px"></i> : <span id="modalPhone">010 - 1234 -1234</span> / <a id="kakaoLink" href="#"><i class="fa fa-comments-o" style="font-size:24px"></i>&nbsp;<span id="modalKakao"></span></a>
                     </h5>
                   </div>
                   <br>

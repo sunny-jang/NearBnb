@@ -11,6 +11,7 @@
 			var pwCheck = RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\,.<>\/?]).{8,20}$/);
 			if(pwCheck.test(newPw) == false) {
 				$('#alertPw').text('8~20자의 영문 대소문자와 숫자, 특수문자가 하나이상 포함되어야 합니다.').css('color','red');
+				$('#alertPwCheck').text('');
 				checkPw = false;
 			} else {
 				$('#alertPw').text('');

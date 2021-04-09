@@ -28,6 +28,7 @@ function modalValues(n) {
 	var modalAddressDetail = $('#pAddressDetail'+n).val();
 	var modalDesc = $('#pDesc'+n).val();
 	var modalPhone = phoneNumber($('#pPhone'+n).val());
+	var modalKakao = $('#pkakao'+n).val();
 	var modalPaydate = $('#bPaydate'+n).text();
 	var modalThumbnail = $('#pThumbnail'+n).val();
 	console.log(modalThumbnail);
@@ -41,6 +42,8 @@ function modalValues(n) {
 	$('#modalAddressDetail').text(modalAddressDetail);
 	$('#modalDesc').text(modalDesc);
 	$('#modalPhone').text(modalPhone);
+	$('#kakaoLink').prop('href', modalKakao);
+	$('#modalKakao').text(modalKakao);
 	$('#modalPaydate').text(modalPaydate);
 	$('#modalThumbnail').css('background-image', 'url('+modalThumbnail+')');
 }
@@ -77,7 +80,8 @@ function modalValues(n) {
 		<input type="hidden" id="pAddressDetail${status.index}" value="${pList[status.index].placeAddressDetail }" />
 		<input type="hidden" id="pDesc${status.index}" value="${pList[status.index].placeDesc }" />
 		<input type="hidden" id="pPhone${status.index}" value="${pList[status.index].hostPhone }" />
-		<input type="hidden" id="pThumbnail${status.index}" value="${thumbnail[status.index]}" />		
+		<input type="hidden" id="pkakao${status.index}" value="${pList[status.index].placeKakaoLink }" />		
+		<input type="hidden" id="pThumbnail${status.index}" value="${thumbnail[status.index]}" />
         <div class="card_content" onclick='modalValues(${status.index});'>
           <div class="place-li_je">
             <a class="row justify-content-center"  data-toggle="modal" data-target="#myModal">
@@ -176,7 +180,7 @@ function modalValues(n) {
                   <div>
                     연락처
                     <h5>
-                      <i class="fa fa-phone" style="font-size:24px"></i> : <span id="modalPhone">010 - 1234 -1234</span> / <a href="#"><i class="fa fa-comments-o" style="font-size:24px"></i> </a>
+                      <i class="fa fa-phone" style="font-size:24px"></i> : <span id="modalPhone">010 - 1234 -1234</span> / <a id="kakaoLink" href="#"><i class="fa fa-comments-o" style="font-size:24px"></i><span id="modalKakao"></span></a>
                     </h5>
                   </div>
                   <br>

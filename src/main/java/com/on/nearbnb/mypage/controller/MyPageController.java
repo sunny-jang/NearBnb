@@ -138,6 +138,7 @@ public class MyPageController {
 			place.add(p);
 			
 		}
+		System.out.println(place);
 		modelAndView.addObject("bList", bookList);
 		modelAndView.addObject("thumbnail", thumbnail);
 		modelAndView.addObject("pList", place);

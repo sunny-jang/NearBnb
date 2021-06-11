@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <title>Kakao map</title>
 <script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9072d526bef7d3c82b707cf7fe1c375f&libraries=LIBRARY,services"></script>
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c94691936a8b9eaab5061c790ac82c96&libraries=LIBRARY,services"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 	$(function() {

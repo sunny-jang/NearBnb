@@ -1,5 +1,6 @@
 package com.on.nearbnb.book.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -24,5 +25,9 @@ public class BookDao {
 	
 	public int deleteBook(String bookId) {
 		return sqlSession.delete("Book.deleteBook", bookId);
+	}
+	
+	public List<Book> selectRangedtBook(HashMap books) {
+		return sqlSession.selectList("selectRangedBook", books);
 	}
 }

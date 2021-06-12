@@ -223,10 +223,13 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/bookList.do")
 	@ResponseBody
-	public String makeBookJson(String pId) throws UnsupportedEncodingException {
-		Book book = new Book();
-		book.setpId(pId);
-		List<Book> bookList = bookService.selectBook(book);
+	public String makeBookJson(String pId, String dateRange) throws UnsupportedEncodingException {
+		HashMap books = new HashMap<String, String>();
+		
+		books.put("pId", pId);
+		books.put("dateRange", dateRange);
+		
+		List<Book> bookList = bookService.selectRangedBook(books);
 		JSONArray jsonArray = new JSONArray();
 		
 		for(Book book_: bookList) {

@@ -38,7 +38,7 @@
 	
 	<select id="selectRangedBook" parameterType="java.util.HashMap" resultMap="resultBook">
 		SELECT * FROM BOOK WHERE EXTRACT(YEAR FROM BOOK_CHECKIN) = SUBSTR(#{dateRange},1,4)
-			AND EXTRACT(MONTH FROM BOOK_CHECKIN) BETWEEN (SUBSTR(#{dateRange},6)+1) AND (SUBSTR(#{dateRange},6)-1)
+			AND EXTRACT(MONTH FROM BOOK_CHECKIN) BETWEEN (SUBSTR(#{dateRange},6)-1) AND (SUBSTR(#{dateRange},6)+1)
 			AND P_CODE_SEQ = #{pId}
 	</select>
 	

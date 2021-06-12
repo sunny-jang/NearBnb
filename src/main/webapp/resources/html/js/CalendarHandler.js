@@ -6,7 +6,10 @@ class CalendarHandler {
 
 	// 예약가능날짜와 모든 예약정보 리스트 생성
 	async getFullEvents(oDate, cDate, pId) {
-		var events_ = await this.getEventList(pId);
+		var today = new Date();
+		var dateRange = today.getFullYear() + '-'+ (today.getMonth()+1);
+		console.log(dateRange)
+		var events_ = await this.getEventList(pId, dateRange);
 		events_.unshift(
 			{
 	          title: '예약 가능 날짜',
@@ -18,8 +21,10 @@ class CalendarHandler {
 	}
 	
 	// pId를 파라미터로 받아 모든 예약정보 리스트 조회
-	async getEventList(pId) {
-		var eList = await fetch('bookList.do?pId='+pId).then(res=>res.json());
+	async getEventList(pId, dateRange) {
+		var eList = await fetch('bookList.do?pId='+pId+'&dateRange=' +dateRange).then(res=>res.json());
+		
+		console.log(eList);
 		var result = eList.map((item,i)=> {
 			return {
 				id: 'bookId-'+i,

@@ -75,7 +75,7 @@
 	 
 		function placePoint(lat, lon) {		
 			$.ajax({
-				type : "POST",
+				type : "GET",
 				url : "centerPoint.do",
 				data : { 'latitude' : lat ,'longitude' : lon},
 				error : function(error) {

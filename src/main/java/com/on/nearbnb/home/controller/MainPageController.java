@@ -33,7 +33,7 @@ public class MainPageController {
 	PlaceFileService placeFileService;
 
 	
-	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.POST, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/centerPoint.do", method = RequestMethod.GET, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String searchPlacePoint(@RequestParam("latitude") double latitude,
 			@RequestParam("longitude") double longitude, HttpServletRequest request) {
